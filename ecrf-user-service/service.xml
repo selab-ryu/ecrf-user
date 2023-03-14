@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.2.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_2_0.dtd">
 
-<service-builder dependency-injector="ds" package-path="ecrf.user">
+<service-builder dependency-injector="ds" package-path="ecrf.user" mvcc-enabled="true">
 	<namespace>EC</namespace>
 	<entity name="Researcher" local-service="true" uuid="true" remote-service="true">
 
