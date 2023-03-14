@@ -1,0 +1,113 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="ecrf.user.model.CRF">
+		<field name="uuid" type="String" />
+		<field name="crfId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="createUserId" type="long" />
+		<field name="createUserName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+		<field name="datatypeId" type="long" />
+		<field name="managerId" type="long" />
+		<field name="applyDate" type="Date" />
+		<field name="crfStatus" type="int" />
+	</model>
+	<model name="ecrf.user.model.CRFPatient">
+		<field name="uuid" type="String" />
+		<field name="crfPatientId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="createUserId" type="long" />
+		<field name="createUserName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="crfId" type="long" />
+		<field name="patientId" type="long" />
+	</model>
+	<model name="ecrf.user.model.CRFResearcher">
+		<field name="uuid" type="String" />
+		<field name="crfResearcherId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="createUserId" type="long" />
+		<field name="createUserName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="researcherId" type="long" />
+		<field name="crfId" type="long" />
+	</model>
+	<model name="ecrf.user.model.Patient">
+		<field name="uuid" type="String" />
+		<field name="patientId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="createUserId" type="long" />
+		<field name="createUserName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+		<field name="name" type="String" />
+		<field name="birth" type="Date" />
+		<field name="phone" type="String" />
+		<field name="position" type="String" />
+		<field name="gender" type="int" />
+		<field name="consentDate" type="Date" />
+		<field name="participationStartDate" type="Date" />
+		<field name="participationStatus" type="int" />
+		<field name="experimentalGroup" type="String" />
+		<field name="patientUserId" type="long" />
+	</model>
+	<model name="ecrf.user.model.Project">
+		<field name="uuid" type="String" />
+		<field name="projectId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="createUserId" type="long" />
+		<field name="createUserName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+		<field name="title" type="String" />
+		<field name="shortTitle" type="String" />
+		<field name="purpose" type="String" />
+		<field name="startDate" type="Date" />
+		<field name="endDate" type="Date" />
+		<field name="principalResearcherId" type="long" />
+		<field name="manageResearcherId" type="long" />
+	</model>
+	<model name="ecrf.user.model.Researcher">
+		<field name="uuid" type="String" />
+		<field name="researcherId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="createUserId" type="long" />
+		<field name="createUserName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+		<field name="name" type="String" />
+		<field name="birth" type="Date" />
+		<field name="phone" type="String" />
+		<field name="institution" type="String" />
+		<field name="officeContact" type="String" />
+		<field name="position" type="String" />
+		<field name="approveStatus" type="int" />
+		<field name="researcherUserId" type="long" />
+	</model>
+</model-hints>

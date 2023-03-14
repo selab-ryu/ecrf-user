@@ -2,49 +2,260 @@
 <!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.2.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_2_0.dtd">
 
 <service-builder dependency-injector="ds" package-path="ecrf.user">
-	<namespace>FOO</namespace>
-	<!--<entity data-source="sampleDataSource" local-service="true" name="Foo" remote-service="false" session-factory="sampleSessionFactory" table="foo" tx-manager="sampleTransactionManager uuid="true"">-->
-	<entity local-service="true" name="Foo" remote-service="true" uuid="true">
+	<namespace>EC</namespace>
+	<entity name="Researcher" local-service="true" uuid="true" remote-service="true">
 
 		<!-- PK fields -->
-
-		<column name="fooId" primary="true" type="long" />
+		<column name="researcherId" primary="true" type="long" />
 
 		<!-- Group instance -->
-
 		<column name="groupId" type="long" />
+		<column name="companyId" type="long" />
 
 		<!-- Audit fields -->
-
-		<column name="companyId" type="long" />
-		<column name="userId" type="long" />
-		<column name="userName" type="String" />
+		<column name="createUserId" type="long" />
+		<column name="createUserName" type="String" />
 		<column name="createDate" type="Date" />
 		<column name="modifiedDate" type="Date" />
 
+		<!-- Status fields -->
+		<column name="status" type="int" />
+		<column name="statusByUserId" type="long" />
+		<column name="statusByUserName" type="String" />
+		<column name="statusDate" type="Date" />
+		
 		<!-- Other fields -->
-
-		<column name="field1" type="String" />
-		<column name="field2" type="boolean" />
-		<column name="field3" type="int" />
-		<column name="field4" type="Date" />
-		<column name="field5" type="String" />
+		<column name="name" type="String" />
+		<column name="birth" type="Date" />
+		<column name="phone" type="String" />
+		<column name="institution" type="String" />
+		<column name="officeContact" type="String" />
+		<column name="position" type="String" />
+		<column name="approveStatus" type="int" />
+		<column name="researcherUserId" type="long" />
 
 		<!-- Order -->
-
-		<order by="asc">
-			<order-column name="field1" />
+		<order>
+			<order-column name="researcherId" order-by="asc" />
+			<order-column name="createDate" order-by="desc" />
 		</order>
 
 		<!-- Finder methods -->
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
 
-		<finder name="Field2" return-type="Collection">
-			<finder-column name="field2" />
+	</entity>
+	
+	<entity name="Patient" local-service="true" uuid="true" remote-service="true">
+		<!-- PK fields -->
+		<column name="patientId" primary="true" type="long" />
+
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+		<column name="companyId" type="long" />
+		
+		<!-- Audit fields -->
+		<column name="createUserId" type="long" />
+		<column name="createUserName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+		
+		<!-- Status fields -->
+		<column name="status" type="int" />
+		<column name="statusByUserId" type="long" />
+		<column name="statusByUserName" type="String" />
+		<column name="statusDate" type="Date" />
+		
+		<!-- Other fields -->
+		<column name="name" type="String" />
+		<column name="birth" type="Date" />
+		<column name="phone" type="String" />
+		<column name="position" type="String" />
+		<column name="gender" type="int" />
+		<column name="consentDate" type="Date" />
+		<column name="participationStartDate" type="Date" />
+		<column name="participationStatus" type="int" />
+		<column name="experimentalGroup" type="String" />
+		<column name="patientUserId" type="long" />
+		
+		<!-- Order -->
+		<order>
+			<order-column name="patientId" order-by="asc" />
+			<order-column name="createDate" order-by="desc" />
+		</order>
+
+		<!-- Finder methods -->
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
 		</finder>
 
 		<!-- References -->
+		
+	</entity>
+	
+	<entity name="Project" local-service="true" uuid="true" remote-service="true">
+		<!-- PK fields -->
+		<column name="projectId" primary="true" type="long" />
 
-		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
-		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+		<column name="companyId" type="long" />
+		
+		<!-- Audit fields -->
+		<column name="createUserId" type="long" />
+		<column name="createUserName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+		
+		<!-- Status fields -->
+		<column name="status" type="int" />
+		<column name="statusByUserId" type="long" />
+		<column name="statusByUserName" type="String" />
+		<column name="statusDate" type="Date" />
+			
+		<!-- Other fields -->
+		<column name="title" type="String" />
+		<column name="shortTitle" type="String" />
+		<column name="purpose" type="String" />
+		<column name="startDate" type="Date" />
+		<column name="endDate" type="Date" />
+		<column name="principalResearcherId" type="long" />
+        <column name="manageResearcherId" type="long" />
+        
+        <!-- Order -->
+		<order>
+			<order-column name="projectId" order-by="asc" />
+			<order-column name="createDate" order-by="desc" />
+		</order>
+
+		<!-- Finder methods -->
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
+
+		<!-- References -->
+	</entity>
+	
+	<entity name="CRF" local-service="true" uuid="true" remote-service="true">
+		<!-- PK fields -->
+		<column name="crfId" primary="true" type="long" />
+		
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+		<column name="companyId" type="long" />
+		
+		<!-- Audit fields -->
+		<column name="createUserId" type="long" />
+		<column name="createUserName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+		
+		<!-- Status fields -->
+		<column name="status" type="int" />
+		<column name="statusByUserId" type="long" />
+		<column name="statusByUserName" type="String" />
+		<column name="statusDate" type="Date" />
+		
+		<!-- Other fields -->
+		<column name="datatypeId" type="long" />
+		<column name="managerId" type="long" />
+		<column name="applyDate" type="Date" />
+		<column name="crfStatus" type="int" />
+        
+        <!-- Order -->
+		<order>
+			<order-column name="crfId" order-by="asc" />
+			<order-column name="createDate" order-by="desc" />
+		</order>
+
+		<!-- Finder methods -->
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
+		<finder name="G_M" return-type="Collection">
+			<finder-column name="groupId" />
+			<finder-column name="managerId" />
+		</finder>
+
+		<!-- References -->
+	</entity>
+	
+	<entity name="CRFResearcher" local-service="true" uuid="true" remote-service="true">
+		<column name="crfResearcherId" type="long" primary="true" />
+		
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+		<column name="companyId" type="long" />
+		
+		<!-- Audit fields -->
+		<column name="createUserId" type="long" />
+		<column name="createUserName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+		
+		<!-- Others fields -->
+        <column name="researcherId" type="long" />
+        <column name="crfId" type="long" />
+        
+        <!-- Order -->
+		<order>
+			<order-column name="crfId" order-by="asc" />
+			<order-column name="createDate" order-by="desc" />
+		</order>
+
+		<!-- Finder methods -->
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
+		<finder name="G_C" return-type="Collection">
+			<finder-column name="groupId" />
+			<finder-column name="crfId" />
+		</finder>
+		<finder name="G_R" return-type="Collection">
+			<finder-column name="groupId" />
+			<finder-column name="researcherId" />
+		</finder>
+
+		<!-- References -->
+	</entity>
+	
+	<entity name="CRFPatient" local-service="true" uuid="true" remote-service="true">
+        <column name="crfPatientId" type="long" primary="true" />
+        
+        <!-- Group instance -->
+		<column name="groupId" type="long" />
+		<column name="companyId" type="long" />
+		
+		<!-- Audit fields -->
+		<column name="createUserId" type="long" />
+		<column name="createUserName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+        
+        <!-- Others fields -->
+        <column name="crfId" type="long" />
+        <column name="patientId" type="long" />
+        
+        <!-- Order fields -->
+		<order>
+			<order-column name="crfId" order-by="asc" />
+			<order-column name="createDate" order-by="desc" />
+		</order>
+
+		<!-- Finder methods -->
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
+		<finder name="G_C" return-type="Collection">
+			<finder-column name="groupId" />
+			<finder-column name="crfId" />
+		</finder>
+		<finder name="G_PA" return-type="Collection">
+			<finder-column name="groupId" />
+			<finder-column name="patientId" />
+		</finder>
+
+		<!-- References -->
 	</entity>
 </service-builder>
