@@ -326,13 +326,11 @@ public class ResearcherLocalServiceWrapper
 	 *
 	 * @param researcherId the primary key of the researcher
 	 * @return the researcher
-	 * @throws NoSuchResearcherException
 	 * @throws PortalException if a researcher with the primary key could not be found
 	 */
 	@Override
 	public ecrf.user.model.Researcher getResearcher(long researcherId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			   ecrf.user.exception.NoSuchResearcherException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _researcherLocalService.getResearcher(researcherId);
 	}
@@ -367,14 +365,12 @@ public class ResearcherLocalServiceWrapper
 	 * @param uuid the researcher's UUID
 	 * @param groupId the primary key of the group
 	 * @return the matching researcher
-	 * @throws NoSuchResearcherException
 	 * @throws PortalException if a matching researcher could not be found
 	 */
 	@Override
 	public ecrf.user.model.Researcher getResearcherByUuidAndGroupId(
 			String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			   ecrf.user.exception.NoSuchResearcherException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _researcherLocalService.getResearcherByUuidAndGroupId(
 			uuid, groupId);

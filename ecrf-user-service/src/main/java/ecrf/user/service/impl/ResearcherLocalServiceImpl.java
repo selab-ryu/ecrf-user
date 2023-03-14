@@ -130,7 +130,7 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 		// calls to other liferay frameworks (workflow, asset, resource, ...)
 		
 		resourceLocalService.addResources(
-				researcher.getCompanyId(), researcher.getGroupId(), researcher.getCreateUserId(),
+				researcher.getCompanyId(), researcher.getGroupId(), creatorUserId,
 				Researcher.class.getName(), researcher.getResearcherId(),
 				false, true, true);
 		
@@ -179,7 +179,7 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 		// calls to other liferay frameworks (workflow, asset, resource, ...)
 		
 		resourceLocalService.addResources(
-				researcher.getCompanyId(), researcher.getGroupId(), researcher.getCreateUserId(),
+				researcher.getCompanyId(), researcher.getGroupId(), userId,
 				Researcher.class.getName(), researcher.getResearcherId(),
 				false, true, true);
 		
@@ -198,11 +198,17 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 		
 		Date birth = PortalUtil.getDate(birthMonth, birthDay, birthYear);
 		
+		long userId = sc.getUserId();
+		User user = super.userLocalService.getUser(userId);
+		
 		// set audit fields
 		researcher.setModifiedDate(sc.getModifiedDate());
 		researcher.setExpandoBridgeAttributes(sc);
 		
 		// set entity fields
+		researcher.setCreateUserId(userId);
+		researcher.setCreateUserName(user.getFullName());
+		researcher.setModifiedDate(sc.getModifiedDate());
 		researcher.setResearcherUserId(researcherUserId);
 		researcher.setBirth(birth);
 		researcher.setPhone(phone);
@@ -216,7 +222,7 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 		// calls to other liferay frameworks (workflow, asset, resource, ...)
 		
 		super.resourceLocalService.updateResources(
-				researcher.getCompanyId(), researcher.getGroupId(),
+				researcher.getCompanyId(), sc.getScopeGroupId(),
 				Researcher.class.getName(), researcher.getResearcherId(),
 				sc.getModelPermissions());
 		
@@ -242,7 +248,7 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 			
 			resourceLocalService.deleteResource(
 					researcher.getCompanyId(), Researcher.class.getName(),
-					ResourceConstants.SCOPE_INDIVIDUAL, researcherId);
+					ResourceConstants.SCOPE_INDIVIDUAL, researcher.getResearcherId());
 		}
 		
 		return researcher;
@@ -276,11 +282,7 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 		
 		return researcher;
 	}
-	
-	public Researcher getResearcher(long researcherId) throws NoSuchResearcherException {
-		return super.researcherPersistence.findByPrimaryKey(researcherId);
-	}
-	
+		
 	public List<Researcher> getResearcherByGroupId(long groupId) {
 		return super.researcherPersistence.findByGroupId(groupId);
 	}

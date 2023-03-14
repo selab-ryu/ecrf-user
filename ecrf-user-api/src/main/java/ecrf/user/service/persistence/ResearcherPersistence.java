@@ -517,6 +517,62 @@ public interface ResearcherPersistence extends BasePersistence<Researcher> {
 		throws NoSuchResearcherException;
 
 	/**
+	 * Returns all the researchers that the user has permission to view where groupId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @return the matching researchers that the user has permission to view
+	 */
+	public java.util.List<Researcher> filterFindByGroupId(long groupId);
+
+	/**
+	 * Returns a range of all the researchers that the user has permission to view where groupId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ResearcherModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param start the lower bound of the range of researchers
+	 * @param end the upper bound of the range of researchers (not inclusive)
+	 * @return the range of matching researchers that the user has permission to view
+	 */
+	public java.util.List<Researcher> filterFindByGroupId(
+		long groupId, int start, int end);
+
+	/**
+	 * Returns an ordered range of all the researchers that the user has permissions to view where groupId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ResearcherModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param start the lower bound of the range of researchers
+	 * @param end the upper bound of the range of researchers (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching researchers that the user has permission to view
+	 */
+	public java.util.List<Researcher> filterFindByGroupId(
+		long groupId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Researcher>
+			orderByComparator);
+
+	/**
+	 * Returns the researchers before and after the current researcher in the ordered set of researchers that the user has permission to view where groupId = &#63;.
+	 *
+	 * @param researcherId the primary key of the current researcher
+	 * @param groupId the group ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next researcher
+	 * @throws NoSuchResearcherException if a researcher with the primary key could not be found
+	 */
+	public Researcher[] filterFindByGroupId_PrevAndNext(
+			long researcherId, long groupId,
+			com.liferay.portal.kernel.util.OrderByComparator<Researcher>
+				orderByComparator)
+		throws NoSuchResearcherException;
+
+	/**
 	 * Removes all the researchers where groupId = &#63; from the database.
 	 *
 	 * @param groupId the group ID
@@ -530,6 +586,14 @@ public interface ResearcherPersistence extends BasePersistence<Researcher> {
 	 * @return the number of matching researchers
 	 */
 	public int countByGroupId(long groupId);
+
+	/**
+	 * Returns the number of researchers that the user has permission to view where groupId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @return the number of matching researchers that the user has permission to view
+	 */
+	public int filterCountByGroupId(long groupId);
 
 	/**
 	 * Caches the researcher in the entity cache if it is enabled.

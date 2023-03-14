@@ -33,7 +33,6 @@ import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
-import ecrf.user.exception.NoSuchResearcherException;
 import ecrf.user.model.Researcher;
 
 import java.io.Serializable;
@@ -258,12 +257,10 @@ public interface ResearcherLocalService
 	 *
 	 * @param researcherId the primary key of the researcher
 	 * @return the researcher
-	 * @throws NoSuchResearcherException
 	 * @throws PortalException if a researcher with the primary key could not be found
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public Researcher getResearcher(long researcherId)
-		throws NoSuchResearcherException, PortalException;
+	public Researcher getResearcher(long researcherId) throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Researcher> getResearcherByGroupId(long groupId);
@@ -282,12 +279,11 @@ public interface ResearcherLocalService
 	 * @param uuid the researcher's UUID
 	 * @param groupId the primary key of the group
 	 * @return the matching researcher
-	 * @throws NoSuchResearcherException
 	 * @throws PortalException if a matching researcher could not be found
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Researcher getResearcherByUuidAndGroupId(String uuid, long groupId)
-		throws NoSuchResearcherException, PortalException;
+		throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getResearcherCount(long groupId);

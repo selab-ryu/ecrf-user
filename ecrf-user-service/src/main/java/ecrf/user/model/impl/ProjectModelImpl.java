@@ -34,10 +34,17 @@ import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
+import ecrf.user.model.Project;
+import ecrf.user.model.ProjectModel;
+import ecrf.user.model.ProjectSoap;
+
 import java.io.Serializable;
+
 import java.lang.reflect.InvocationHandler;
+
 import java.sql.Blob;
 import java.sql.Types;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -47,10 +54,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
-
-import ecrf.user.model.Project;
-import ecrf.user.model.ProjectModel;
-import ecrf.user.model.ProjectSoap;
 
 /**
  * The base model implementation for the Project service. Represents a row in the &quot;EC_Project&quot; database table, with each column mapped to a property of this class.

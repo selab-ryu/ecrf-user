@@ -24,13 +24,6 @@ import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiServic
 import com.liferay.portal.kernel.service.BaseServiceImpl;
 import com.liferay.portal.kernel.util.PortalUtil;
 
-import java.lang.reflect.Field;
-
-import javax.sql.DataSource;
-
-import org.osgi.service.component.annotations.Deactivate;
-import org.osgi.service.component.annotations.Reference;
-
 import ecrf.user.model.CRFPatient;
 import ecrf.user.service.CRFPatientService;
 import ecrf.user.service.CRFPatientServiceUtil;
@@ -40,6 +33,13 @@ import ecrf.user.service.persistence.CRFResearcherPersistence;
 import ecrf.user.service.persistence.PatientPersistence;
 import ecrf.user.service.persistence.ProjectPersistence;
 import ecrf.user.service.persistence.ResearcherPersistence;
+
+import java.lang.reflect.Field;
+
+import javax.sql.DataSource;
+
+import org.osgi.service.component.annotations.Deactivate;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * Provides the base implementation for the crf patient remote service.

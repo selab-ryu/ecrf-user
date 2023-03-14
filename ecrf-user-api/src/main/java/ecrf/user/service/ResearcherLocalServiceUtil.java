@@ -301,11 +301,10 @@ public class ResearcherLocalServiceUtil {
 	 *
 	 * @param researcherId the primary key of the researcher
 	 * @return the researcher
-	 * @throws NoSuchResearcherException
 	 * @throws PortalException if a researcher with the primary key could not be found
 	 */
 	public static Researcher getResearcher(long researcherId)
-		throws ecrf.user.exception.NoSuchResearcherException, PortalException {
+		throws PortalException {
 
 		return getService().getResearcher(researcherId);
 	}
@@ -333,12 +332,11 @@ public class ResearcherLocalServiceUtil {
 	 * @param uuid the researcher's UUID
 	 * @param groupId the primary key of the group
 	 * @return the matching researcher
-	 * @throws NoSuchResearcherException
 	 * @throws PortalException if a matching researcher could not be found
 	 */
 	public static Researcher getResearcherByUuidAndGroupId(
 			String uuid, long groupId)
-		throws ecrf.user.exception.NoSuchResearcherException, PortalException {
+		throws PortalException {
 
 		return getService().getResearcherByUuidAndGroupId(uuid, groupId);
 	}
