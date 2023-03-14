@@ -32,6 +32,40 @@ public class ResearcherLocalServiceWrapper
 		_researcherLocalService = researcherLocalService;
 	}
 
+	@Override
+	public ecrf.user.model.Researcher addResarcherWithUser(
+			long companyId, long facebookId, String openId, String languageId,
+			boolean male, String jobTitle, long prefixId, long suffixId,
+			String emailAddress, String password1, String password2,
+			String screenName, String firstName, String lastName, int birthYear,
+			int birthMonth, int birthDay, String phone, String institution,
+			String officeContact, String position, int approveStatus,
+			com.liferay.portal.kernel.service.ServiceContext userServiceContext,
+			com.liferay.portal.kernel.service.ServiceContext
+				researcherServiceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _researcherLocalService.addResarcherWithUser(
+			companyId, facebookId, openId, languageId, male, jobTitle, prefixId,
+			suffixId, emailAddress, password1, password2, screenName, firstName,
+			lastName, birthYear, birthMonth, birthDay, phone, institution,
+			officeContact, position, approveStatus, userServiceContext,
+			researcherServiceContext);
+	}
+
+	@Override
+	public ecrf.user.model.Researcher addResearcher(
+			long researcherUserId, int birthYear, int birthMonth, int birthDay,
+			String phone, String institution, String officeContact,
+			String position, int approveStatus,
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _researcherLocalService.addResearcher(
+			researcherUserId, birthYear, birthMonth, birthDay, phone,
+			institution, officeContact, position, approveStatus, sc);
+	}
+
 	/**
 	 * Adds the researcher to the database. Also notifies the appropriate model listeners.
 	 *
@@ -47,6 +81,15 @@ public class ResearcherLocalServiceWrapper
 		ecrf.user.model.Researcher researcher) {
 
 		return _researcherLocalService.addResearcher(researcher);
+	}
+
+	@Override
+	public ecrf.user.model.Researcher changeApproveStatus(
+			long researcherId, int approveStatus)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _researcherLocalService.changeApproveStatus(
+			researcherId, approveStatus);
 	}
 
 	/**
@@ -89,6 +132,15 @@ public class ResearcherLocalServiceWrapper
 		return _researcherLocalService.deleteResearcher(researcherId);
 	}
 
+	@Override
+	public ecrf.user.model.Researcher deleteResearcher(
+			long researcherId,
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _researcherLocalService.deleteResearcher(researcherId, sc);
+	}
+
 	/**
 	 * Deletes the researcher from the database. Also notifies the appropriate model listeners.
 	 *
@@ -104,6 +156,14 @@ public class ResearcherLocalServiceWrapper
 		ecrf.user.model.Researcher researcher) {
 
 		return _researcherLocalService.deleteResearcher(researcher);
+	}
+
+	@Override
+	public ecrf.user.model.Researcher deleteResearcher(
+		ecrf.user.model.Researcher researcher,
+		com.liferay.portal.kernel.service.ServiceContext sc) {
+
+		return _researcherLocalService.deleteResearcher(researcher, sc);
 	}
 
 	@Override
@@ -266,13 +326,39 @@ public class ResearcherLocalServiceWrapper
 	 *
 	 * @param researcherId the primary key of the researcher
 	 * @return the researcher
+	 * @throws NoSuchResearcherException
 	 * @throws PortalException if a researcher with the primary key could not be found
 	 */
 	@Override
 	public ecrf.user.model.Researcher getResearcher(long researcherId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException,
+			   ecrf.user.exception.NoSuchResearcherException {
 
 		return _researcherLocalService.getResearcher(researcherId);
+	}
+
+	@Override
+	public java.util.List<ecrf.user.model.Researcher> getResearcherByGroupId(
+		long groupId) {
+
+		return _researcherLocalService.getResearcherByGroupId(groupId);
+	}
+
+	@Override
+	public java.util.List<ecrf.user.model.Researcher> getResearcherByGroupId(
+		long groupId, int start, int end) {
+
+		return _researcherLocalService.getResearcherByGroupId(
+			groupId, start, end);
+	}
+
+	@Override
+	public java.util.List<ecrf.user.model.Researcher> getResearcherByGroupId(
+		long groupId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator comparator) {
+
+		return _researcherLocalService.getResearcherByGroupId(
+			groupId, start, end, comparator);
 	}
 
 	/**
@@ -281,15 +367,22 @@ public class ResearcherLocalServiceWrapper
 	 * @param uuid the researcher's UUID
 	 * @param groupId the primary key of the group
 	 * @return the matching researcher
+	 * @throws NoSuchResearcherException
 	 * @throws PortalException if a matching researcher could not be found
 	 */
 	@Override
 	public ecrf.user.model.Researcher getResearcherByUuidAndGroupId(
 			String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException,
+			   ecrf.user.exception.NoSuchResearcherException {
 
 		return _researcherLocalService.getResearcherByUuidAndGroupId(
 			uuid, groupId);
+	}
+
+	@Override
+	public int getResearcherCount(long groupId) {
+		return _researcherLocalService.getResearcherCount(groupId);
 	}
 
 	/**
@@ -354,6 +447,19 @@ public class ResearcherLocalServiceWrapper
 	@Override
 	public int getResearchersCount() {
 		return _researcherLocalService.getResearchersCount();
+	}
+
+	@Override
+	public ecrf.user.model.Researcher updateResearcher(
+			long researcherId, long researcherUserId, int birthYear,
+			int birthMonth, int birthDay, String phone, String institution,
+			String officeContact, String position, int approveStatus,
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _researcherLocalService.updateResearcher(
+			researcherId, researcherUserId, birthYear, birthMonth, birthDay,
+			phone, institution, officeContact, position, approveStatus, sc);
 	}
 
 	/**

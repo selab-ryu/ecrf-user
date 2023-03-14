@@ -1,10 +1,11 @@
 Bundle-Name: ecrf-user-api
 Bundle-SymbolicName: ecrf.user.api
 Bundle-Version: 1.0.0
-Export-Package:\
+Export-Package: \
 	ecrf.user.exception,\
 	ecrf.user.model,\
 	ecrf.user.service,\
-	ecrf.user.service.persistence
+	ecrf.user.service.persistence,\
+	ecrf.user.constants
 -check: EXPORTS
 -includeresource: META-INF/service.xml=../ecrf-user-service/service.xml

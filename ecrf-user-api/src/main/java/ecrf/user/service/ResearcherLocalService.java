@@ -27,11 +27,13 @@ import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
+import ecrf.user.exception.NoSuchResearcherException;
 import ecrf.user.model.Researcher;
 
 import java.io.Serializable;
@@ -63,6 +65,22 @@ public interface ResearcherLocalService
 	 *
 	 * Never modify this interface directly. Add custom service methods to <code>ecrf.user.service.impl.ResearcherLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the researcher local service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link ResearcherLocalServiceUtil} if injection and service tracking are not available.
 	 */
+	public Researcher addResarcherWithUser(
+			long companyId, long facebookId, String openId, String languageId,
+			boolean male, String jobTitle, long prefixId, long suffixId,
+			String emailAddress, String password1, String password2,
+			String screenName, String firstName, String lastName, int birthYear,
+			int birthMonth, int birthDay, String phone, String institution,
+			String officeContact, String position, int approveStatus,
+			ServiceContext userServiceContext,
+			ServiceContext researcherServiceContext)
+		throws PortalException;
+
+	public Researcher addResearcher(
+			long researcherUserId, int birthYear, int birthMonth, int birthDay,
+			String phone, String institution, String officeContact,
+			String position, int approveStatus, ServiceContext sc)
+		throws PortalException;
 
 	/**
 	 * Adds the researcher to the database. Also notifies the appropriate model listeners.
@@ -76,6 +94,9 @@ public interface ResearcherLocalService
 	 */
 	@Indexable(type = IndexableType.REINDEX)
 	public Researcher addResearcher(Researcher researcher);
+
+	public Researcher changeApproveStatus(long researcherId, int approveStatus)
+		throws PortalException;
 
 	/**
 	 * Creates a new researcher with the primary key. Does not add the researcher to the database.
@@ -108,6 +129,9 @@ public interface ResearcherLocalService
 	public Researcher deleteResearcher(long researcherId)
 		throws PortalException;
 
+	public Researcher deleteResearcher(long researcherId, ServiceContext sc)
+		throws PortalException;
+
 	/**
 	 * Deletes the researcher from the database. Also notifies the appropriate model listeners.
 	 *
@@ -120,6 +144,9 @@ public interface ResearcherLocalService
 	 */
 	@Indexable(type = IndexableType.DELETE)
 	public Researcher deleteResearcher(Researcher researcher);
+
+	public Researcher deleteResearcher(
+		Researcher researcher, ServiceContext sc);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public DynamicQuery dynamicQuery();
@@ -231,10 +258,23 @@ public interface ResearcherLocalService
 	 *
 	 * @param researcherId the primary key of the researcher
 	 * @return the researcher
+	 * @throws NoSuchResearcherException
 	 * @throws PortalException if a researcher with the primary key could not be found
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public Researcher getResearcher(long researcherId) throws PortalException;
+	public Researcher getResearcher(long researcherId)
+		throws NoSuchResearcherException, PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Researcher> getResearcherByGroupId(long groupId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Researcher> getResearcherByGroupId(
+		long groupId, int start, int end);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Researcher> getResearcherByGroupId(
+		long groupId, int start, int end, OrderByComparator comparator);
 
 	/**
 	 * Returns the researcher matching the UUID and group.
@@ -242,11 +282,15 @@ public interface ResearcherLocalService
 	 * @param uuid the researcher's UUID
 	 * @param groupId the primary key of the group
 	 * @return the matching researcher
+	 * @throws NoSuchResearcherException
 	 * @throws PortalException if a matching researcher could not be found
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Researcher getResearcherByUuidAndGroupId(String uuid, long groupId)
-		throws PortalException;
+		throws NoSuchResearcherException, PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getResearcherCount(long groupId);
 
 	/**
 	 * Returns a range of all the researchers.
@@ -295,6 +339,13 @@ public interface ResearcherLocalService
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getResearchersCount();
+
+	public Researcher updateResearcher(
+			long researcherId, long researcherUserId, int birthYear,
+			int birthMonth, int birthDay, String phone, String institution,
+			String officeContact, String position, int approveStatus,
+			ServiceContext sc)
+		throws PortalException;
 
 	/**
 	 * Updates the researcher in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.

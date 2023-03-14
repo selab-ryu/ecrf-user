@@ -44,6 +44,15 @@ import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
 
+import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.util.List;
+
+import javax.sql.DataSource;
+
+import org.osgi.service.component.annotations.Deactivate;
+import org.osgi.service.component.annotations.Reference;
+
 import ecrf.user.model.CRFResearcher;
 import ecrf.user.service.CRFResearcherLocalService;
 import ecrf.user.service.CRFResearcherLocalServiceUtil;
@@ -53,17 +62,6 @@ import ecrf.user.service.persistence.CRFResearcherPersistence;
 import ecrf.user.service.persistence.PatientPersistence;
 import ecrf.user.service.persistence.ProjectPersistence;
 import ecrf.user.service.persistence.ResearcherPersistence;
-
-import java.io.Serializable;
-
-import java.lang.reflect.Field;
-
-import java.util.List;
-
-import javax.sql.DataSource;
-
-import org.osgi.service.component.annotations.Deactivate;
-import org.osgi.service.component.annotations.Reference;
 
 /**
  * Provides the base implementation for the crf researcher local service.

@@ -39,19 +39,9 @@ import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 
-import ecrf.user.exception.NoSuchPatientException;
-import ecrf.user.model.Patient;
-import ecrf.user.model.impl.PatientImpl;
-import ecrf.user.model.impl.PatientModelImpl;
-import ecrf.user.service.persistence.PatientPersistence;
-import ecrf.user.service.persistence.PatientUtil;
-import ecrf.user.service.persistence.impl.constants.ECPersistenceConstants;
-
 import java.io.Serializable;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -65,6 +55,14 @@ import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
+
+import ecrf.user.exception.NoSuchPatientException;
+import ecrf.user.model.Patient;
+import ecrf.user.model.impl.PatientImpl;
+import ecrf.user.model.impl.PatientModelImpl;
+import ecrf.user.service.persistence.PatientPersistence;
+import ecrf.user.service.persistence.PatientUtil;
+import ecrf.user.service.persistence.impl.constants.ECPersistenceConstants;
 
 /**
  * The persistence implementation for the patient service.

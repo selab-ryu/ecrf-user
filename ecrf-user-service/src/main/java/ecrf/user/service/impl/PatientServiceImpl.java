@@ -16,9 +16,9 @@ package ecrf.user.service.impl;
 
 import com.liferay.portal.aop.AopService;
 
-import ecrf.user.service.base.PatientServiceBaseImpl;
-
 import org.osgi.service.component.annotations.Component;
+
+import ecrf.user.service.base.PatientServiceBaseImpl;
 
 /**
  * @author Brian Wing Shun Chan

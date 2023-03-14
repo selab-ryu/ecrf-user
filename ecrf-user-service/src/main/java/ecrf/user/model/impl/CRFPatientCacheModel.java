@@ -19,14 +19,13 @@ import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.MVCCModel;
 
-import ecrf.user.model.CRFPatient;
-
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
-
 import java.util.Date;
+
+import ecrf.user.model.CRFPatient;
 
 /**
  * The cache model class for representing CRFPatient in entity cache.

@@ -52,6 +52,16 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
+import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.util.List;
+
+import javax.sql.DataSource;
+
+import org.osgi.service.component.annotations.Deactivate;
+import org.osgi.service.component.annotations.Reference;
+
+import ecrf.user.exception.NoSuchResearcherException;
 import ecrf.user.model.Researcher;
 import ecrf.user.service.ResearcherLocalService;
 import ecrf.user.service.ResearcherLocalServiceUtil;
@@ -61,17 +71,6 @@ import ecrf.user.service.persistence.CRFResearcherPersistence;
 import ecrf.user.service.persistence.PatientPersistence;
 import ecrf.user.service.persistence.ProjectPersistence;
 import ecrf.user.service.persistence.ResearcherPersistence;
-
-import java.io.Serializable;
-
-import java.lang.reflect.Field;
-
-import java.util.List;
-
-import javax.sql.DataSource;
-
-import org.osgi.service.component.annotations.Deactivate;
-import org.osgi.service.component.annotations.Reference;
 
 /**
  * Provides the base implementation for the researcher local service.
@@ -270,10 +269,13 @@ public abstract class ResearcherLocalServiceBaseImpl
 	 *
 	 * @param researcherId the primary key of the researcher
 	 * @return the researcher
+	 * @throws NoSuchResearcherException
 	 * @throws PortalException if a researcher with the primary key could not be found
 	 */
 	@Override
-	public Researcher getResearcher(long researcherId) throws PortalException {
+	public Researcher getResearcher(long researcherId)
+		throws NoSuchResearcherException, PortalException {
+
 		return researcherPersistence.findByPrimaryKey(researcherId);
 	}
 
@@ -484,11 +486,12 @@ public abstract class ResearcherLocalServiceBaseImpl
 	 * @param uuid the researcher's UUID
 	 * @param groupId the primary key of the group
 	 * @return the matching researcher
+	 * @throws NoSuchResearcherException
 	 * @throws PortalException if a matching researcher could not be found
 	 */
 	@Override
 	public Researcher getResearcherByUuidAndGroupId(String uuid, long groupId)
-		throws PortalException {
+		throws NoSuchResearcherException, PortalException {
 
 		return researcherPersistence.findByUUID_G(uuid, groupId);
 	}
