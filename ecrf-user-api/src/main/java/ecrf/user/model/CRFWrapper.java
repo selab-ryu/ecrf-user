@@ -27,7 +27,7 @@ import java.util.Map;
  * This class is a wrapper for {@link CRF}.
  * </p>
  *
- * @author Brian Wing Shun Chan
+ * @author Ryu W.C.
  * @see CRF
  * @generated
  */
@@ -42,6 +42,7 @@ public class CRFWrapper
 	public Map<String, Object> getModelAttributes() {
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
+		attributes.put("mvccVersion", getMvccVersion());
 		attributes.put("uuid", getUuid());
 		attributes.put("crfId", getCrfId());
 		attributes.put("groupId", getGroupId());
@@ -64,6 +65,12 @@ public class CRFWrapper
 
 	@Override
 	public void setModelAttributes(Map<String, Object> attributes) {
+		Long mvccVersion = (Long)attributes.get("mvccVersion");
+
+		if (mvccVersion != null) {
+			setMvccVersion(mvccVersion);
+		}
+
 		String uuid = (String)attributes.get("uuid");
 
 		if (uuid != null) {
@@ -279,6 +286,16 @@ public class CRFWrapper
 	@Override
 	public Date getModifiedDate() {
 		return model.getModifiedDate();
+	}
+
+	/**
+	 * Returns the mvcc version of this crf.
+	 *
+	 * @return the mvcc version of this crf
+	 */
+	@Override
+	public long getMvccVersion() {
+		return model.getMvccVersion();
 	}
 
 	/**
@@ -554,6 +571,16 @@ public class CRFWrapper
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		model.setModifiedDate(modifiedDate);
+	}
+
+	/**
+	 * Sets the mvcc version of this crf.
+	 *
+	 * @param mvccVersion the mvcc version of this crf
+	 */
+	@Override
+	public void setMvccVersion(long mvccVersion) {
+		model.setMvccVersion(mvccVersion);
 	}
 
 	/**

@@ -17,6 +17,7 @@ package ecrf.user.model.impl;
 import com.liferay.petra.lang.HashUtil;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.MVCCModel;
 
 import ecrf.user.model.CRFPatient;
 
@@ -30,11 +31,11 @@ import java.util.Date;
 /**
  * The cache model class for representing CRFPatient in entity cache.
  *
- * @author Brian Wing Shun Chan
+ * @author Ryu W.C.
  * @generated
  */
 public class CRFPatientCacheModel
-	implements CacheModel<CRFPatient>, Externalizable {
+	implements CacheModel<CRFPatient>, Externalizable, MVCCModel {
 
 	@Override
 	public boolean equals(Object object) {
@@ -49,7 +50,9 @@ public class CRFPatientCacheModel
 		CRFPatientCacheModel crfPatientCacheModel =
 			(CRFPatientCacheModel)object;
 
-		if (crfPatientId == crfPatientCacheModel.crfPatientId) {
+		if ((crfPatientId == crfPatientCacheModel.crfPatientId) &&
+			(mvccVersion == crfPatientCacheModel.mvccVersion)) {
+
 			return true;
 		}
 
@@ -58,14 +61,28 @@ public class CRFPatientCacheModel
 
 	@Override
 	public int hashCode() {
-		return HashUtil.hash(0, crfPatientId);
+		int hashCode = HashUtil.hash(0, crfPatientId);
+
+		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	@Override
+	public long getMvccVersion() {
+		return mvccVersion;
+	}
+
+	@Override
+	public void setMvccVersion(long mvccVersion) {
+		this.mvccVersion = mvccVersion;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(21);
+		StringBundler sb = new StringBundler(23);
 
-		sb.append("{uuid=");
+		sb.append("{mvccVersion=");
+		sb.append(mvccVersion);
+		sb.append(", uuid=");
 		sb.append(uuid);
 		sb.append(", crfPatientId=");
 		sb.append(crfPatientId);
@@ -93,6 +110,8 @@ public class CRFPatientCacheModel
 	@Override
 	public CRFPatient toEntityModel() {
 		CRFPatientImpl crfPatientImpl = new CRFPatientImpl();
+
+		crfPatientImpl.setMvccVersion(mvccVersion);
 
 		if (uuid == null) {
 			crfPatientImpl.setUuid("");
@@ -137,6 +156,7 @@ public class CRFPatientCacheModel
 
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
+		mvccVersion = objectInput.readLong();
 		uuid = objectInput.readUTF();
 
 		crfPatientId = objectInput.readLong();
@@ -157,6 +177,8 @@ public class CRFPatientCacheModel
 
 	@Override
 	public void writeExternal(ObjectOutput objectOutput) throws IOException {
+		objectOutput.writeLong(mvccVersion);
+
 		if (uuid == null) {
 			objectOutput.writeUTF("");
 		}
@@ -187,6 +209,7 @@ public class CRFPatientCacheModel
 		objectOutput.writeLong(patientId);
 	}
 
+	public long mvccVersion;
 	public String uuid;
 	public long crfPatientId;
 	public long groupId;

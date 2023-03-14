@@ -17,6 +17,7 @@ package ecrf.user.model.impl;
 import com.liferay.petra.lang.HashUtil;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.MVCCModel;
 
 import ecrf.user.model.Patient;
 
@@ -30,10 +31,11 @@ import java.util.Date;
 /**
  * The cache model class for representing Patient in entity cache.
  *
- * @author Brian Wing Shun Chan
+ * @author Ryu W.C.
  * @generated
  */
-public class PatientCacheModel implements CacheModel<Patient>, Externalizable {
+public class PatientCacheModel
+	implements CacheModel<Patient>, Externalizable, MVCCModel {
 
 	@Override
 	public boolean equals(Object object) {
@@ -47,7 +49,9 @@ public class PatientCacheModel implements CacheModel<Patient>, Externalizable {
 
 		PatientCacheModel patientCacheModel = (PatientCacheModel)object;
 
-		if (patientId == patientCacheModel.patientId) {
+		if ((patientId == patientCacheModel.patientId) &&
+			(mvccVersion == patientCacheModel.mvccVersion)) {
+
 			return true;
 		}
 
@@ -56,14 +60,28 @@ public class PatientCacheModel implements CacheModel<Patient>, Externalizable {
 
 	@Override
 	public int hashCode() {
-		return HashUtil.hash(0, patientId);
+		int hashCode = HashUtil.hash(0, patientId);
+
+		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	@Override
+	public long getMvccVersion() {
+		return mvccVersion;
+	}
+
+	@Override
+	public void setMvccVersion(long mvccVersion) {
+		this.mvccVersion = mvccVersion;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(45);
+		StringBundler sb = new StringBundler(47);
 
-		sb.append("{uuid=");
+		sb.append("{mvccVersion=");
+		sb.append(mvccVersion);
+		sb.append(", uuid=");
 		sb.append(uuid);
 		sb.append(", patientId=");
 		sb.append(patientId);
@@ -115,6 +133,8 @@ public class PatientCacheModel implements CacheModel<Patient>, Externalizable {
 	@Override
 	public Patient toEntityModel() {
 		PatientImpl patientImpl = new PatientImpl();
+
+		patientImpl.setMvccVersion(mvccVersion);
 
 		if (uuid == null) {
 			patientImpl.setUuid("");
@@ -229,6 +249,7 @@ public class PatientCacheModel implements CacheModel<Patient>, Externalizable {
 
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
+		mvccVersion = objectInput.readLong();
 		uuid = objectInput.readUTF();
 
 		patientId = objectInput.readLong();
@@ -264,6 +285,8 @@ public class PatientCacheModel implements CacheModel<Patient>, Externalizable {
 
 	@Override
 	public void writeExternal(ObjectOutput objectOutput) throws IOException {
+		objectOutput.writeLong(mvccVersion);
+
 		if (uuid == null) {
 			objectOutput.writeUTF("");
 		}
@@ -341,6 +364,7 @@ public class PatientCacheModel implements CacheModel<Patient>, Externalizable {
 		objectOutput.writeLong(patientUserId);
 	}
 
+	public long mvccVersion;
 	public String uuid;
 	public long patientId;
 	public long groupId;

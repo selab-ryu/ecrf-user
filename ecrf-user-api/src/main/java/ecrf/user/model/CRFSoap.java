@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * This class is used by SOAP remote services, specifically {@link ecrf.user.service.http.CRFServiceSoap}.
  *
- * @author Brian Wing Shun Chan
+ * @author Ryu W.C.
  * @generated
  */
 public class CRFSoap implements Serializable {
@@ -31,6 +31,7 @@ public class CRFSoap implements Serializable {
 	public static CRFSoap toSoapModel(CRF model) {
 		CRFSoap soapModel = new CRFSoap();
 
+		soapModel.setMvccVersion(model.getMvccVersion());
 		soapModel.setUuid(model.getUuid());
 		soapModel.setCrfId(model.getCrfId());
 		soapModel.setGroupId(model.getGroupId());
@@ -97,6 +98,14 @@ public class CRFSoap implements Serializable {
 
 	public void setPrimaryKey(long pk) {
 		setCrfId(pk);
+	}
+
+	public long getMvccVersion() {
+		return _mvccVersion;
+	}
+
+	public void setMvccVersion(long mvccVersion) {
+		_mvccVersion = mvccVersion;
 	}
 
 	public String getUuid() {
@@ -227,6 +236,7 @@ public class CRFSoap implements Serializable {
 		_crfStatus = crfStatus;
 	}
 
+	private long _mvccVersion;
 	private String _uuid;
 	private long _crfId;
 	private long _groupId;

@@ -17,6 +17,7 @@ package ecrf.user.model.impl;
 import com.liferay.petra.lang.HashUtil;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.MVCCModel;
 
 import ecrf.user.model.CRF;
 
@@ -30,10 +31,11 @@ import java.util.Date;
 /**
  * The cache model class for representing CRF in entity cache.
  *
- * @author Brian Wing Shun Chan
+ * @author Ryu W.C.
  * @generated
  */
-public class CRFCacheModel implements CacheModel<CRF>, Externalizable {
+public class CRFCacheModel
+	implements CacheModel<CRF>, Externalizable, MVCCModel {
 
 	@Override
 	public boolean equals(Object object) {
@@ -47,7 +49,9 @@ public class CRFCacheModel implements CacheModel<CRF>, Externalizable {
 
 		CRFCacheModel crfCacheModel = (CRFCacheModel)object;
 
-		if (crfId == crfCacheModel.crfId) {
+		if ((crfId == crfCacheModel.crfId) &&
+			(mvccVersion == crfCacheModel.mvccVersion)) {
+
 			return true;
 		}
 
@@ -56,14 +60,28 @@ public class CRFCacheModel implements CacheModel<CRF>, Externalizable {
 
 	@Override
 	public int hashCode() {
-		return HashUtil.hash(0, crfId);
+		int hashCode = HashUtil.hash(0, crfId);
+
+		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	@Override
+	public long getMvccVersion() {
+		return mvccVersion;
+	}
+
+	@Override
+	public void setMvccVersion(long mvccVersion) {
+		this.mvccVersion = mvccVersion;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(33);
+		StringBundler sb = new StringBundler(35);
 
-		sb.append("{uuid=");
+		sb.append("{mvccVersion=");
+		sb.append(mvccVersion);
+		sb.append(", uuid=");
 		sb.append(uuid);
 		sb.append(", crfId=");
 		sb.append(crfId);
@@ -103,6 +121,8 @@ public class CRFCacheModel implements CacheModel<CRF>, Externalizable {
 	@Override
 	public CRF toEntityModel() {
 		CRFImpl crfImpl = new CRFImpl();
+
+		crfImpl.setMvccVersion(mvccVersion);
 
 		if (uuid == null) {
 			crfImpl.setUuid("");
@@ -173,6 +193,7 @@ public class CRFCacheModel implements CacheModel<CRF>, Externalizable {
 
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
+		mvccVersion = objectInput.readLong();
 		uuid = objectInput.readUTF();
 
 		crfId = objectInput.readLong();
@@ -202,6 +223,8 @@ public class CRFCacheModel implements CacheModel<CRF>, Externalizable {
 
 	@Override
 	public void writeExternal(ObjectOutput objectOutput) throws IOException {
+		objectOutput.writeLong(mvccVersion);
+
 		if (uuid == null) {
 			objectOutput.writeUTF("");
 		}
@@ -248,6 +271,7 @@ public class CRFCacheModel implements CacheModel<CRF>, Externalizable {
 		objectOutput.writeInt(crfStatus);
 	}
 
+	public long mvccVersion;
 	public String uuid;
 	public long crfId;
 	public long groupId;

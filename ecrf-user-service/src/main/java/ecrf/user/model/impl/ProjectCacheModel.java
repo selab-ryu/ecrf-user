@@ -17,6 +17,7 @@ package ecrf.user.model.impl;
 import com.liferay.petra.lang.HashUtil;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.MVCCModel;
 
 import ecrf.user.model.Project;
 
@@ -30,10 +31,11 @@ import java.util.Date;
 /**
  * The cache model class for representing Project in entity cache.
  *
- * @author Brian Wing Shun Chan
+ * @author Ryu W.C.
  * @generated
  */
-public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
+public class ProjectCacheModel
+	implements CacheModel<Project>, Externalizable, MVCCModel {
 
 	@Override
 	public boolean equals(Object object) {
@@ -47,7 +49,9 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 
 		ProjectCacheModel projectCacheModel = (ProjectCacheModel)object;
 
-		if (projectId == projectCacheModel.projectId) {
+		if ((projectId == projectCacheModel.projectId) &&
+			(mvccVersion == projectCacheModel.mvccVersion)) {
+
 			return true;
 		}
 
@@ -56,14 +60,28 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 
 	@Override
 	public int hashCode() {
-		return HashUtil.hash(0, projectId);
+		int hashCode = HashUtil.hash(0, projectId);
+
+		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	@Override
+	public long getMvccVersion() {
+		return mvccVersion;
+	}
+
+	@Override
+	public void setMvccVersion(long mvccVersion) {
+		this.mvccVersion = mvccVersion;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(39);
+		StringBundler sb = new StringBundler(41);
 
-		sb.append("{uuid=");
+		sb.append("{mvccVersion=");
+		sb.append(mvccVersion);
+		sb.append(", uuid=");
 		sb.append(uuid);
 		sb.append(", projectId=");
 		sb.append(projectId);
@@ -109,6 +127,8 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 	@Override
 	public Project toEntityModel() {
 		ProjectImpl projectImpl = new ProjectImpl();
+
+		projectImpl.setMvccVersion(mvccVersion);
 
 		if (uuid == null) {
 			projectImpl.setUuid("");
@@ -205,6 +225,7 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
+		mvccVersion = objectInput.readLong();
 		uuid = objectInput.readUTF();
 
 		projectId = objectInput.readLong();
@@ -236,6 +257,8 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 
 	@Override
 	public void writeExternal(ObjectOutput objectOutput) throws IOException {
+		objectOutput.writeLong(mvccVersion);
+
 		if (uuid == null) {
 			objectOutput.writeUTF("");
 		}
@@ -303,6 +326,7 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 		objectOutput.writeLong(manageResearcherId);
 	}
 
+	public long mvccVersion;
 	public String uuid;
 	public long projectId;
 	public long groupId;

@@ -19,7 +19,7 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 /**
  * Provides a wrapper for {@link CRFResearcherService}.
  *
- * @author Brian Wing Shun Chan
+ * @author Ryu W.C.
  * @see CRFResearcherService
  * @generated
  */

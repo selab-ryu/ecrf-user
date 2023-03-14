@@ -27,7 +27,7 @@ import java.util.Map;
  * This class is a wrapper for {@link CRFResearcher}.
  * </p>
  *
- * @author Brian Wing Shun Chan
+ * @author Ryu W.C.
  * @see CRFResearcher
  * @generated
  */
@@ -43,6 +43,7 @@ public class CRFResearcherWrapper
 	public Map<String, Object> getModelAttributes() {
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
+		attributes.put("mvccVersion", getMvccVersion());
 		attributes.put("uuid", getUuid());
 		attributes.put("crfResearcherId", getCrfResearcherId());
 		attributes.put("groupId", getGroupId());
@@ -59,6 +60,12 @@ public class CRFResearcherWrapper
 
 	@Override
 	public void setModelAttributes(Map<String, Object> attributes) {
+		Long mvccVersion = (Long)attributes.get("mvccVersion");
+
+		if (mvccVersion != null) {
+			setMvccVersion(mvccVersion);
+		}
+
 		String uuid = (String)attributes.get("uuid");
 
 		if (uuid != null) {
@@ -211,6 +218,16 @@ public class CRFResearcherWrapper
 	}
 
 	/**
+	 * Returns the mvcc version of this crf researcher.
+	 *
+	 * @return the mvcc version of this crf researcher
+	 */
+	@Override
+	public long getMvccVersion() {
+		return model.getMvccVersion();
+	}
+
+	/**
 	 * Returns the primary key of this crf researcher.
 	 *
 	 * @return the primary key of this crf researcher
@@ -333,6 +350,16 @@ public class CRFResearcherWrapper
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		model.setModifiedDate(modifiedDate);
+	}
+
+	/**
+	 * Sets the mvcc version of this crf researcher.
+	 *
+	 * @param mvccVersion the mvcc version of this crf researcher
+	 */
+	@Override
+	public void setMvccVersion(long mvccVersion) {
+		model.setMvccVersion(mvccVersion);
 	}
 
 	/**

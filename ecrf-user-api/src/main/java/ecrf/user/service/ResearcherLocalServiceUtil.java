@@ -33,7 +33,7 @@ import java.util.List;
  * based on the propagated JAAS credentials because this service can only be
  * accessed from within the same VM.
  *
- * @author Brian Wing Shun Chan
+ * @author Ryu W.C.
  * @see ResearcherLocalService
  * @generated
  */

@@ -19,7 +19,7 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 /**
  * Provides a wrapper for {@link ResearcherLocalService}.
  *
- * @author Brian Wing Shun Chan
+ * @author Ryu W.C.
  * @see ResearcherLocalService
  * @generated
  */

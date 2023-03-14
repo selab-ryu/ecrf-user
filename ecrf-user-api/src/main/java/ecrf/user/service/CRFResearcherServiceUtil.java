@@ -22,7 +22,7 @@ package ecrf.user.service;
  * based on the propagated JAAS credentials because this service can be
  * accessed remotely.
  *
- * @author Brian Wing Shun Chan
+ * @author Ryu W.C.
  * @see CRFResearcherService
  * @generated
  */

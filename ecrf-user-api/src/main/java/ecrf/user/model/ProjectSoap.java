@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * This class is used by SOAP remote services, specifically {@link ecrf.user.service.http.ProjectServiceSoap}.
  *
- * @author Brian Wing Shun Chan
+ * @author Ryu W.C.
  * @generated
  */
 public class ProjectSoap implements Serializable {
@@ -31,6 +31,7 @@ public class ProjectSoap implements Serializable {
 	public static ProjectSoap toSoapModel(Project model) {
 		ProjectSoap soapModel = new ProjectSoap();
 
+		soapModel.setMvccVersion(model.getMvccVersion());
 		soapModel.setUuid(model.getUuid());
 		soapModel.setProjectId(model.getProjectId());
 		soapModel.setGroupId(model.getGroupId());
@@ -101,6 +102,14 @@ public class ProjectSoap implements Serializable {
 
 	public void setPrimaryKey(long pk) {
 		setProjectId(pk);
+	}
+
+	public long getMvccVersion() {
+		return _mvccVersion;
+	}
+
+	public void setMvccVersion(long mvccVersion) {
+		_mvccVersion = mvccVersion;
 	}
 
 	public String getUuid() {
@@ -255,6 +264,7 @@ public class ProjectSoap implements Serializable {
 		_manageResearcherId = manageResearcherId;
 	}
 
+	private long _mvccVersion;
 	private String _uuid;
 	private long _projectId;
 	private long _groupId;

@@ -1,4 +1,5 @@
 create table EC_CRF (
+	mvccVersion LONG default 0 not null,
 	uuid_ VARCHAR(75) null,
 	crfId LONG not null primary key,
 	groupId LONG,
@@ -18,6 +19,7 @@ create table EC_CRF (
 );
 
 create table EC_CRFPatient (
+	mvccVersion LONG default 0 not null,
 	uuid_ VARCHAR(75) null,
 	crfPatientId LONG not null primary key,
 	groupId LONG,
@@ -31,6 +33,7 @@ create table EC_CRFPatient (
 );
 
 create table EC_CRFResearcher (
+	mvccVersion LONG default 0 not null,
 	uuid_ VARCHAR(75) null,
 	crfResearcherId LONG not null primary key,
 	groupId LONG,
@@ -44,6 +47,7 @@ create table EC_CRFResearcher (
 );
 
 create table EC_Patient (
+	mvccVersion LONG default 0 not null,
 	uuid_ VARCHAR(75) null,
 	patientId LONG not null primary key,
 	groupId LONG,
@@ -69,6 +73,7 @@ create table EC_Patient (
 );
 
 create table EC_Project (
+	mvccVersion LONG default 0 not null,
 	uuid_ VARCHAR(75) null,
 	projectId LONG not null primary key,
 	groupId LONG,
@@ -91,6 +96,7 @@ create table EC_Project (
 );
 
 create table EC_Researcher (
+	mvccVersion LONG default 0 not null,
 	uuid_ VARCHAR(75) null,
 	researcherId LONG not null primary key,
 	groupId LONG,

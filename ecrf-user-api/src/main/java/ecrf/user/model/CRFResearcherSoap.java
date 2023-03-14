@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * This class is used by SOAP remote services, specifically {@link ecrf.user.service.http.CRFResearcherServiceSoap}.
  *
- * @author Brian Wing Shun Chan
+ * @author Ryu W.C.
  * @generated
  */
 public class CRFResearcherSoap implements Serializable {
@@ -31,6 +31,7 @@ public class CRFResearcherSoap implements Serializable {
 	public static CRFResearcherSoap toSoapModel(CRFResearcher model) {
 		CRFResearcherSoap soapModel = new CRFResearcherSoap();
 
+		soapModel.setMvccVersion(model.getMvccVersion());
 		soapModel.setUuid(model.getUuid());
 		soapModel.setCrfResearcherId(model.getCrfResearcherId());
 		soapModel.setGroupId(model.getGroupId());
@@ -92,6 +93,14 @@ public class CRFResearcherSoap implements Serializable {
 
 	public void setPrimaryKey(long pk) {
 		setCrfResearcherId(pk);
+	}
+
+	public long getMvccVersion() {
+		return _mvccVersion;
+	}
+
+	public void setMvccVersion(long mvccVersion) {
+		_mvccVersion = mvccVersion;
 	}
 
 	public String getUuid() {
@@ -174,6 +183,7 @@ public class CRFResearcherSoap implements Serializable {
 		_crfId = crfId;
 	}
 
+	private long _mvccVersion;
 	private String _uuid;
 	private long _crfResearcherId;
 	private long _groupId;

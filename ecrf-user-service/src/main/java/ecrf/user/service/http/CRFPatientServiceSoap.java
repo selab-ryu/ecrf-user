@@ -49,7 +49,7 @@ package ecrf.user.service.http;
  * The SOAP utility is only generated for remote services.
  * </p>
  *
- * @author Brian Wing Shun Chan
+ * @author Ryu W.C.
  * @see CRFPatientServiceHttp
  * @generated
  */

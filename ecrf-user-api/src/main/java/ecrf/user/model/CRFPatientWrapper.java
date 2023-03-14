@@ -27,7 +27,7 @@ import java.util.Map;
  * This class is a wrapper for {@link CRFPatient}.
  * </p>
  *
- * @author Brian Wing Shun Chan
+ * @author Ryu W.C.
  * @see CRFPatient
  * @generated
  */
@@ -43,6 +43,7 @@ public class CRFPatientWrapper
 	public Map<String, Object> getModelAttributes() {
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
+		attributes.put("mvccVersion", getMvccVersion());
 		attributes.put("uuid", getUuid());
 		attributes.put("crfPatientId", getCrfPatientId());
 		attributes.put("groupId", getGroupId());
@@ -59,6 +60,12 @@ public class CRFPatientWrapper
 
 	@Override
 	public void setModelAttributes(Map<String, Object> attributes) {
+		Long mvccVersion = (Long)attributes.get("mvccVersion");
+
+		if (mvccVersion != null) {
+			setMvccVersion(mvccVersion);
+		}
+
 		String uuid = (String)attributes.get("uuid");
 
 		if (uuid != null) {
@@ -211,6 +218,16 @@ public class CRFPatientWrapper
 	}
 
 	/**
+	 * Returns the mvcc version of this crf patient.
+	 *
+	 * @return the mvcc version of this crf patient
+	 */
+	@Override
+	public long getMvccVersion() {
+		return model.getMvccVersion();
+	}
+
+	/**
 	 * Returns the patient ID of this crf patient.
 	 *
 	 * @return the patient ID of this crf patient
@@ -333,6 +350,16 @@ public class CRFPatientWrapper
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		model.setModifiedDate(modifiedDate);
+	}
+
+	/**
+	 * Sets the mvcc version of this crf patient.
+	 *
+	 * @param mvccVersion the mvcc version of this crf patient
+	 */
+	@Override
+	public void setMvccVersion(long mvccVersion) {
+		model.setMvccVersion(mvccVersion);
 	}
 
 	/**

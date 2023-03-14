@@ -17,6 +17,7 @@ package ecrf.user.model.impl;
 import com.liferay.petra.lang.HashUtil;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.MVCCModel;
 
 import ecrf.user.model.CRFResearcher;
 
@@ -30,11 +31,11 @@ import java.util.Date;
 /**
  * The cache model class for representing CRFResearcher in entity cache.
  *
- * @author Brian Wing Shun Chan
+ * @author Ryu W.C.
  * @generated
  */
 public class CRFResearcherCacheModel
-	implements CacheModel<CRFResearcher>, Externalizable {
+	implements CacheModel<CRFResearcher>, Externalizable, MVCCModel {
 
 	@Override
 	public boolean equals(Object object) {
@@ -49,7 +50,9 @@ public class CRFResearcherCacheModel
 		CRFResearcherCacheModel crfResearcherCacheModel =
 			(CRFResearcherCacheModel)object;
 
-		if (crfResearcherId == crfResearcherCacheModel.crfResearcherId) {
+		if ((crfResearcherId == crfResearcherCacheModel.crfResearcherId) &&
+			(mvccVersion == crfResearcherCacheModel.mvccVersion)) {
+
 			return true;
 		}
 
@@ -58,14 +61,28 @@ public class CRFResearcherCacheModel
 
 	@Override
 	public int hashCode() {
-		return HashUtil.hash(0, crfResearcherId);
+		int hashCode = HashUtil.hash(0, crfResearcherId);
+
+		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	@Override
+	public long getMvccVersion() {
+		return mvccVersion;
+	}
+
+	@Override
+	public void setMvccVersion(long mvccVersion) {
+		this.mvccVersion = mvccVersion;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(21);
+		StringBundler sb = new StringBundler(23);
 
-		sb.append("{uuid=");
+		sb.append("{mvccVersion=");
+		sb.append(mvccVersion);
+		sb.append(", uuid=");
 		sb.append(uuid);
 		sb.append(", crfResearcherId=");
 		sb.append(crfResearcherId);
@@ -93,6 +110,8 @@ public class CRFResearcherCacheModel
 	@Override
 	public CRFResearcher toEntityModel() {
 		CRFResearcherImpl crfResearcherImpl = new CRFResearcherImpl();
+
+		crfResearcherImpl.setMvccVersion(mvccVersion);
 
 		if (uuid == null) {
 			crfResearcherImpl.setUuid("");
@@ -137,6 +156,7 @@ public class CRFResearcherCacheModel
 
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
+		mvccVersion = objectInput.readLong();
 		uuid = objectInput.readUTF();
 
 		crfResearcherId = objectInput.readLong();
@@ -157,6 +177,8 @@ public class CRFResearcherCacheModel
 
 	@Override
 	public void writeExternal(ObjectOutput objectOutput) throws IOException {
+		objectOutput.writeLong(mvccVersion);
+
 		if (uuid == null) {
 			objectOutput.writeUTF("");
 		}
@@ -187,6 +209,7 @@ public class CRFResearcherCacheModel
 		objectOutput.writeLong(crfId);
 	}
 
+	public long mvccVersion;
 	public String uuid;
 	public long crfResearcherId;
 	public long groupId;

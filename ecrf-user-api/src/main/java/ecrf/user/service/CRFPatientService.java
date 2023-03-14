@@ -29,7 +29,7 @@ import org.osgi.annotation.versioning.ProviderType;
  * service are expected to have security checks based on the propagated JAAS
  * credentials because this service can be accessed remotely.
  *
- * @author Brian Wing Shun Chan
+ * @author Ryu W.C.
  * @see CRFPatientServiceUtil
  * @generated
  */

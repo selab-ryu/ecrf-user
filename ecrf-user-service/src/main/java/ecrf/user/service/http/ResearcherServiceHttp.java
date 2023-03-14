@@ -37,7 +37,7 @@ package ecrf.user.service.http;
  * The HTTP utility is only generated for remote services.
  * </p>
  *
- * @author Brian Wing Shun Chan
+ * @author Ryu W.C.
  * @see ResearcherServiceSoap
  * @generated
  */

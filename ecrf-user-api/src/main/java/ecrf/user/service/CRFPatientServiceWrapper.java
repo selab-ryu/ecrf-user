@@ -19,7 +19,7 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 /**
  * Provides a wrapper for {@link CRFPatientService}.
  *
- * @author Brian Wing Shun Chan
+ * @author Ryu W.C.
  * @see CRFPatientService
  * @generated
  */

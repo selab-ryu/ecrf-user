@@ -23,7 +23,7 @@ import org.osgi.annotation.versioning.ProviderType;
 /**
  * The extended model interface for the CRF service. Represents a row in the &quot;EC_CRF&quot; database table, with each column mapped to a property of this class.
  *
- * @author Brian Wing Shun Chan
+ * @author Ryu W.C.
  * @see CRFModel
  * @generated
  */

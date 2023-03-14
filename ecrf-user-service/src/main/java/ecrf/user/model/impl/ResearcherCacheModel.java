@@ -17,6 +17,7 @@ package ecrf.user.model.impl;
 import com.liferay.petra.lang.HashUtil;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.MVCCModel;
 
 import ecrf.user.model.Researcher;
 
@@ -30,11 +31,11 @@ import java.util.Date;
 /**
  * The cache model class for representing Researcher in entity cache.
  *
- * @author Brian Wing Shun Chan
+ * @author Ryu W.C.
  * @generated
  */
 public class ResearcherCacheModel
-	implements CacheModel<Researcher>, Externalizable {
+	implements CacheModel<Researcher>, Externalizable, MVCCModel {
 
 	@Override
 	public boolean equals(Object object) {
@@ -49,7 +50,9 @@ public class ResearcherCacheModel
 		ResearcherCacheModel researcherCacheModel =
 			(ResearcherCacheModel)object;
 
-		if (researcherId == researcherCacheModel.researcherId) {
+		if ((researcherId == researcherCacheModel.researcherId) &&
+			(mvccVersion == researcherCacheModel.mvccVersion)) {
+
 			return true;
 		}
 
@@ -58,14 +61,28 @@ public class ResearcherCacheModel
 
 	@Override
 	public int hashCode() {
-		return HashUtil.hash(0, researcherId);
+		int hashCode = HashUtil.hash(0, researcherId);
+
+		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	@Override
+	public long getMvccVersion() {
+		return mvccVersion;
+	}
+
+	@Override
+	public void setMvccVersion(long mvccVersion) {
+		this.mvccVersion = mvccVersion;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(41);
+		StringBundler sb = new StringBundler(43);
 
-		sb.append("{uuid=");
+		sb.append("{mvccVersion=");
+		sb.append(mvccVersion);
+		sb.append(", uuid=");
 		sb.append(uuid);
 		sb.append(", researcherId=");
 		sb.append(researcherId);
@@ -113,6 +130,8 @@ public class ResearcherCacheModel
 	@Override
 	public Researcher toEntityModel() {
 		ResearcherImpl researcherImpl = new ResearcherImpl();
+
+		researcherImpl.setMvccVersion(mvccVersion);
 
 		if (uuid == null) {
 			researcherImpl.setUuid("");
@@ -216,6 +235,7 @@ public class ResearcherCacheModel
 
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
+		mvccVersion = objectInput.readLong();
 		uuid = objectInput.readUTF();
 
 		researcherId = objectInput.readLong();
@@ -248,6 +268,8 @@ public class ResearcherCacheModel
 
 	@Override
 	public void writeExternal(ObjectOutput objectOutput) throws IOException {
+		objectOutput.writeLong(mvccVersion);
+
 		if (uuid == null) {
 			objectOutput.writeUTF("");
 		}
@@ -328,6 +350,7 @@ public class ResearcherCacheModel
 		objectOutput.writeLong(researcherUserId);
 	}
 
+	public long mvccVersion;
 	public String uuid;
 	public long researcherId;
 	public long groupId;
