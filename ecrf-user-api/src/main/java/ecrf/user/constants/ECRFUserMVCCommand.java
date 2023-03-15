@@ -6,5 +6,7 @@ public class ECRFUserMVCCommand {
 	public static final String ACTION_DELETE_RESEARCHER = "/action/researcher/delete-researcher";
 	public static final String RENDER_VIEW_RESEARCHER = "/render/researcher/view-researcher";
 	public static final String RENDER_LIST_RESEARCHER = "/render/researcher/list-researcher";
+	public static final String RENDER_UPDATE_RESEARCHER = "/render/researcher/update-researcher";
+	public static final String RENDER_ADD_RESEARCHER = "/render/researcher/add-researcher";
 	
 }
