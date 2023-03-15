@@ -36,8 +36,8 @@ public class PatientSoap implements Serializable {
 		soapModel.setPatientId(model.getPatientId());
 		soapModel.setGroupId(model.getGroupId());
 		soapModel.setCompanyId(model.getCompanyId());
-		soapModel.setCreateUserId(model.getCreateUserId());
-		soapModel.setCreateUserName(model.getCreateUserName());
+		soapModel.setUserId(model.getUserId());
+		soapModel.setUserName(model.getUserName());
 		soapModel.setCreateDate(model.getCreateDate());
 		soapModel.setModifiedDate(model.getModifiedDate());
 		soapModel.setStatus(model.getStatus());
@@ -147,20 +147,20 @@ public class PatientSoap implements Serializable {
 		_companyId = companyId;
 	}
 
-	public long getCreateUserId() {
-		return _createUserId;
+	public long getUserId() {
+		return _userId;
 	}
 
-	public void setCreateUserId(long createUserId) {
-		_createUserId = createUserId;
+	public void setUserId(long userId) {
+		_userId = userId;
 	}
 
-	public String getCreateUserName() {
-		return _createUserName;
+	public String getUserName() {
+		return _userName;
 	}
 
-	public void setCreateUserName(String createUserName) {
-		_createUserName = createUserName;
+	public void setUserName(String userName) {
+		_userName = userName;
 	}
 
 	public Date getCreateDate() {
@@ -296,8 +296,8 @@ public class PatientSoap implements Serializable {
 	private long _patientId;
 	private long _groupId;
 	private long _companyId;
-	private long _createUserId;
-	private String _createUserName;
+	private long _userId;
+	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private int _status;

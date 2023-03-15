@@ -16,9 +16,10 @@ package ecrf.user.model;
 
 import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.model.BaseModel;
+import com.liferay.portal.kernel.model.GroupedModel;
 import com.liferay.portal.kernel.model.MVCCModel;
 import com.liferay.portal.kernel.model.ShardedModel;
-import com.liferay.portal.kernel.model.StagedModel;
+import com.liferay.portal.kernel.model.StagedAuditedModel;
 import com.liferay.portal.kernel.model.WorkflowedModel;
 
 import java.util.Date;
@@ -38,8 +39,8 @@ import org.osgi.annotation.versioning.ProviderType;
  */
 @ProviderType
 public interface PatientModel
-	extends BaseModel<Patient>, MVCCModel, ShardedModel, StagedModel,
-			WorkflowedModel {
+	extends BaseModel<Patient>, GroupedModel, MVCCModel, ShardedModel,
+			StagedAuditedModel, WorkflowedModel {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -113,6 +114,7 @@ public interface PatientModel
 	 *
 	 * @return the group ID of this patient
 	 */
+	@Override
 	public long getGroupId();
 
 	/**
@@ -120,6 +122,7 @@ public interface PatientModel
 	 *
 	 * @param groupId the group ID of this patient
 	 */
+	@Override
 	public void setGroupId(long groupId);
 
 	/**
@@ -139,47 +142,53 @@ public interface PatientModel
 	public void setCompanyId(long companyId);
 
 	/**
-	 * Returns the create user ID of this patient.
+	 * Returns the user ID of this patient.
 	 *
-	 * @return the create user ID of this patient
+	 * @return the user ID of this patient
 	 */
-	public long getCreateUserId();
+	@Override
+	public long getUserId();
 
 	/**
-	 * Sets the create user ID of this patient.
+	 * Sets the user ID of this patient.
 	 *
-	 * @param createUserId the create user ID of this patient
+	 * @param userId the user ID of this patient
 	 */
-	public void setCreateUserId(long createUserId);
+	@Override
+	public void setUserId(long userId);
 
 	/**
-	 * Returns the create user uuid of this patient.
+	 * Returns the user uuid of this patient.
 	 *
-	 * @return the create user uuid of this patient
+	 * @return the user uuid of this patient
 	 */
-	public String getCreateUserUuid();
+	@Override
+	public String getUserUuid();
 
 	/**
-	 * Sets the create user uuid of this patient.
+	 * Sets the user uuid of this patient.
 	 *
-	 * @param createUserUuid the create user uuid of this patient
+	 * @param userUuid the user uuid of this patient
 	 */
-	public void setCreateUserUuid(String createUserUuid);
+	@Override
+	public void setUserUuid(String userUuid);
 
 	/**
-	 * Returns the create user name of this patient.
+	 * Returns the user name of this patient.
 	 *
-	 * @return the create user name of this patient
+	 * @return the user name of this patient
 	 */
 	@AutoEscape
-	public String getCreateUserName();
+	@Override
+	public String getUserName();
 
 	/**
-	 * Sets the create user name of this patient.
+	 * Sets the user name of this patient.
 	 *
-	 * @param createUserName the create user name of this patient
+	 * @param userName the user name of this patient
 	 */
-	public void setCreateUserName(String createUserName);
+	@Override
+	public void setUserName(String userName);
 
 	/**
 	 * Returns the create date of this patient.

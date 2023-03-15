@@ -57,8 +57,8 @@
 		<column name="companyId" type="long" />
 		
 		<!-- Audit fields -->
-		<column name="createUserId" type="long" />
-		<column name="createUserName" type="String" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
 		<column name="createDate" type="Date" />
 		<column name="modifiedDate" type="Date" />
 		
@@ -104,8 +104,8 @@
 		<column name="companyId" type="long" />
 		
 		<!-- Audit fields -->
-		<column name="createUserId" type="long" />
-		<column name="createUserName" type="String" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
 		<column name="createDate" type="Date" />
 		<column name="modifiedDate" type="Date" />
 		
@@ -147,8 +147,8 @@
 		<column name="companyId" type="long" />
 		
 		<!-- Audit fields -->
-		<column name="createUserId" type="long" />
-		<column name="createUserName" type="String" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
 		<column name="createDate" type="Date" />
 		<column name="modifiedDate" type="Date" />
 		
@@ -190,8 +190,8 @@
 		<column name="companyId" type="long" />
 		
 		<!-- Audit fields -->
-		<column name="createUserId" type="long" />
-		<column name="createUserName" type="String" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
 		<column name="createDate" type="Date" />
 		<column name="modifiedDate" type="Date" />
 		
@@ -229,8 +229,8 @@
 		<column name="companyId" type="long" />
 		
 		<!-- Audit fields -->
-		<column name="createUserId" type="long" />
-		<column name="createUserName" type="String" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
 		<column name="createDate" type="Date" />
 		<column name="modifiedDate" type="Date" />
         

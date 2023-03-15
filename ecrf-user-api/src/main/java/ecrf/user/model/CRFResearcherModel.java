@@ -16,9 +16,10 @@ package ecrf.user.model;
 
 import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.model.BaseModel;
+import com.liferay.portal.kernel.model.GroupedModel;
 import com.liferay.portal.kernel.model.MVCCModel;
 import com.liferay.portal.kernel.model.ShardedModel;
-import com.liferay.portal.kernel.model.StagedModel;
+import com.liferay.portal.kernel.model.StagedAuditedModel;
 
 import java.util.Date;
 
@@ -37,7 +38,8 @@ import org.osgi.annotation.versioning.ProviderType;
  */
 @ProviderType
 public interface CRFResearcherModel
-	extends BaseModel<CRFResearcher>, MVCCModel, ShardedModel, StagedModel {
+	extends BaseModel<CRFResearcher>, GroupedModel, MVCCModel, ShardedModel,
+			StagedAuditedModel {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -111,6 +113,7 @@ public interface CRFResearcherModel
 	 *
 	 * @return the group ID of this crf researcher
 	 */
+	@Override
 	public long getGroupId();
 
 	/**
@@ -118,6 +121,7 @@ public interface CRFResearcherModel
 	 *
 	 * @param groupId the group ID of this crf researcher
 	 */
+	@Override
 	public void setGroupId(long groupId);
 
 	/**
@@ -137,47 +141,53 @@ public interface CRFResearcherModel
 	public void setCompanyId(long companyId);
 
 	/**
-	 * Returns the create user ID of this crf researcher.
+	 * Returns the user ID of this crf researcher.
 	 *
-	 * @return the create user ID of this crf researcher
+	 * @return the user ID of this crf researcher
 	 */
-	public long getCreateUserId();
+	@Override
+	public long getUserId();
 
 	/**
-	 * Sets the create user ID of this crf researcher.
+	 * Sets the user ID of this crf researcher.
 	 *
-	 * @param createUserId the create user ID of this crf researcher
+	 * @param userId the user ID of this crf researcher
 	 */
-	public void setCreateUserId(long createUserId);
+	@Override
+	public void setUserId(long userId);
 
 	/**
-	 * Returns the create user uuid of this crf researcher.
+	 * Returns the user uuid of this crf researcher.
 	 *
-	 * @return the create user uuid of this crf researcher
+	 * @return the user uuid of this crf researcher
 	 */
-	public String getCreateUserUuid();
+	@Override
+	public String getUserUuid();
 
 	/**
-	 * Sets the create user uuid of this crf researcher.
+	 * Sets the user uuid of this crf researcher.
 	 *
-	 * @param createUserUuid the create user uuid of this crf researcher
+	 * @param userUuid the user uuid of this crf researcher
 	 */
-	public void setCreateUserUuid(String createUserUuid);
+	@Override
+	public void setUserUuid(String userUuid);
 
 	/**
-	 * Returns the create user name of this crf researcher.
+	 * Returns the user name of this crf researcher.
 	 *
-	 * @return the create user name of this crf researcher
+	 * @return the user name of this crf researcher
 	 */
 	@AutoEscape
-	public String getCreateUserName();
+	@Override
+	public String getUserName();
 
 	/**
-	 * Sets the create user name of this crf researcher.
+	 * Sets the user name of this crf researcher.
 	 *
-	 * @param createUserName the create user name of this crf researcher
+	 * @param userName the user name of this crf researcher
 	 */
-	public void setCreateUserName(String createUserName);
+	@Override
+	public void setUserName(String userName);
 
 	/**
 	 * Returns the create date of this crf researcher.

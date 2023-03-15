@@ -7,8 +7,8 @@
 		<field name="crfId" type="long" />
 		<field name="groupId" type="long" />
 		<field name="companyId" type="long" />
-		<field name="createUserId" type="long" />
-		<field name="createUserName" type="String" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
 		<field name="createDate" type="Date" />
 		<field name="modifiedDate" type="Date" />
 		<field name="status" type="int" />
@@ -26,8 +26,8 @@
 		<field name="crfPatientId" type="long" />
 		<field name="groupId" type="long" />
 		<field name="companyId" type="long" />
-		<field name="createUserId" type="long" />
-		<field name="createUserName" type="String" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
 		<field name="createDate" type="Date" />
 		<field name="modifiedDate" type="Date" />
 		<field name="crfId" type="long" />
@@ -39,8 +39,8 @@
 		<field name="crfResearcherId" type="long" />
 		<field name="groupId" type="long" />
 		<field name="companyId" type="long" />
-		<field name="createUserId" type="long" />
-		<field name="createUserName" type="String" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
 		<field name="createDate" type="Date" />
 		<field name="modifiedDate" type="Date" />
 		<field name="researcherId" type="long" />
@@ -52,8 +52,8 @@
 		<field name="patientId" type="long" />
 		<field name="groupId" type="long" />
 		<field name="companyId" type="long" />
-		<field name="createUserId" type="long" />
-		<field name="createUserName" type="String" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
 		<field name="createDate" type="Date" />
 		<field name="modifiedDate" type="Date" />
 		<field name="status" type="int" />
@@ -77,8 +77,8 @@
 		<field name="projectId" type="long" />
 		<field name="groupId" type="long" />
 		<field name="companyId" type="long" />
-		<field name="createUserId" type="long" />
-		<field name="createUserName" type="String" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
 		<field name="createDate" type="Date" />
 		<field name="modifiedDate" type="Date" />
 		<field name="status" type="int" />

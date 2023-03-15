@@ -90,10 +90,10 @@ public class CRFResearcherCacheModel
 		sb.append(groupId);
 		sb.append(", companyId=");
 		sb.append(companyId);
-		sb.append(", createUserId=");
-		sb.append(createUserId);
-		sb.append(", createUserName=");
-		sb.append(createUserName);
+		sb.append(", userId=");
+		sb.append(userId);
+		sb.append(", userName=");
+		sb.append(userName);
 		sb.append(", createDate=");
 		sb.append(createDate);
 		sb.append(", modifiedDate=");
@@ -123,13 +123,13 @@ public class CRFResearcherCacheModel
 		crfResearcherImpl.setCrfResearcherId(crfResearcherId);
 		crfResearcherImpl.setGroupId(groupId);
 		crfResearcherImpl.setCompanyId(companyId);
-		crfResearcherImpl.setCreateUserId(createUserId);
+		crfResearcherImpl.setUserId(userId);
 
-		if (createUserName == null) {
-			crfResearcherImpl.setCreateUserName("");
+		if (userName == null) {
+			crfResearcherImpl.setUserName("");
 		}
 		else {
-			crfResearcherImpl.setCreateUserName(createUserName);
+			crfResearcherImpl.setUserName(userName);
 		}
 
 		if (createDate == Long.MIN_VALUE) {
@@ -165,8 +165,8 @@ public class CRFResearcherCacheModel
 
 		companyId = objectInput.readLong();
 
-		createUserId = objectInput.readLong();
-		createUserName = objectInput.readUTF();
+		userId = objectInput.readLong();
+		userName = objectInput.readUTF();
 		createDate = objectInput.readLong();
 		modifiedDate = objectInput.readLong();
 
@@ -192,13 +192,13 @@ public class CRFResearcherCacheModel
 
 		objectOutput.writeLong(companyId);
 
-		objectOutput.writeLong(createUserId);
+		objectOutput.writeLong(userId);
 
-		if (createUserName == null) {
+		if (userName == null) {
 			objectOutput.writeUTF("");
 		}
 		else {
-			objectOutput.writeUTF(createUserName);
+			objectOutput.writeUTF(userName);
 		}
 
 		objectOutput.writeLong(createDate);
@@ -214,8 +214,8 @@ public class CRFResearcherCacheModel
 	public long crfResearcherId;
 	public long groupId;
 	public long companyId;
-	public long createUserId;
-	public String createUserName;
+	public long userId;
+	public String userName;
 	public long createDate;
 	public long modifiedDate;
 	public long researcherId;

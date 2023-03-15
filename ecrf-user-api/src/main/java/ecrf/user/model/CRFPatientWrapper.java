@@ -48,8 +48,8 @@ public class CRFPatientWrapper
 		attributes.put("crfPatientId", getCrfPatientId());
 		attributes.put("groupId", getGroupId());
 		attributes.put("companyId", getCompanyId());
-		attributes.put("createUserId", getCreateUserId());
-		attributes.put("createUserName", getCreateUserName());
+		attributes.put("userId", getUserId());
+		attributes.put("userName", getUserName());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("modifiedDate", getModifiedDate());
 		attributes.put("crfId", getCrfId());
@@ -90,16 +90,16 @@ public class CRFPatientWrapper
 			setCompanyId(companyId);
 		}
 
-		Long createUserId = (Long)attributes.get("createUserId");
+		Long userId = (Long)attributes.get("userId");
 
-		if (createUserId != null) {
-			setCreateUserId(createUserId);
+		if (userId != null) {
+			setUserId(userId);
 		}
 
-		String createUserName = (String)attributes.get("createUserName");
+		String userName = (String)attributes.get("userName");
 
-		if (createUserName != null) {
-			setCreateUserName(createUserName);
+		if (userName != null) {
+			setUserName(userName);
 		}
 
 		Date createDate = (Date)attributes.get("createDate");
@@ -145,36 +145,6 @@ public class CRFPatientWrapper
 	@Override
 	public Date getCreateDate() {
 		return model.getCreateDate();
-	}
-
-	/**
-	 * Returns the create user ID of this crf patient.
-	 *
-	 * @return the create user ID of this crf patient
-	 */
-	@Override
-	public long getCreateUserId() {
-		return model.getCreateUserId();
-	}
-
-	/**
-	 * Returns the create user name of this crf patient.
-	 *
-	 * @return the create user name of this crf patient
-	 */
-	@Override
-	public String getCreateUserName() {
-		return model.getCreateUserName();
-	}
-
-	/**
-	 * Returns the create user uuid of this crf patient.
-	 *
-	 * @return the create user uuid of this crf patient
-	 */
-	@Override
-	public String getCreateUserUuid() {
-		return model.getCreateUserUuid();
 	}
 
 	/**
@@ -248,6 +218,36 @@ public class CRFPatientWrapper
 	}
 
 	/**
+	 * Returns the user ID of this crf patient.
+	 *
+	 * @return the user ID of this crf patient
+	 */
+	@Override
+	public long getUserId() {
+		return model.getUserId();
+	}
+
+	/**
+	 * Returns the user name of this crf patient.
+	 *
+	 * @return the user name of this crf patient
+	 */
+	@Override
+	public String getUserName() {
+		return model.getUserName();
+	}
+
+	/**
+	 * Returns the user uuid of this crf patient.
+	 *
+	 * @return the user uuid of this crf patient
+	 */
+	@Override
+	public String getUserUuid() {
+		return model.getUserUuid();
+	}
+
+	/**
 	 * Returns the uuid of this crf patient.
 	 *
 	 * @return the uuid of this crf patient
@@ -280,36 +280,6 @@ public class CRFPatientWrapper
 	@Override
 	public void setCreateDate(Date createDate) {
 		model.setCreateDate(createDate);
-	}
-
-	/**
-	 * Sets the create user ID of this crf patient.
-	 *
-	 * @param createUserId the create user ID of this crf patient
-	 */
-	@Override
-	public void setCreateUserId(long createUserId) {
-		model.setCreateUserId(createUserId);
-	}
-
-	/**
-	 * Sets the create user name of this crf patient.
-	 *
-	 * @param createUserName the create user name of this crf patient
-	 */
-	@Override
-	public void setCreateUserName(String createUserName) {
-		model.setCreateUserName(createUserName);
-	}
-
-	/**
-	 * Sets the create user uuid of this crf patient.
-	 *
-	 * @param createUserUuid the create user uuid of this crf patient
-	 */
-	@Override
-	public void setCreateUserUuid(String createUserUuid) {
-		model.setCreateUserUuid(createUserUuid);
 	}
 
 	/**
@@ -380,6 +350,36 @@ public class CRFPatientWrapper
 	@Override
 	public void setPrimaryKey(long primaryKey) {
 		model.setPrimaryKey(primaryKey);
+	}
+
+	/**
+	 * Sets the user ID of this crf patient.
+	 *
+	 * @param userId the user ID of this crf patient
+	 */
+	@Override
+	public void setUserId(long userId) {
+		model.setUserId(userId);
+	}
+
+	/**
+	 * Sets the user name of this crf patient.
+	 *
+	 * @param userName the user name of this crf patient
+	 */
+	@Override
+	public void setUserName(String userName) {
+		model.setUserName(userName);
+	}
+
+	/**
+	 * Sets the user uuid of this crf patient.
+	 *
+	 * @param userUuid the user uuid of this crf patient
+	 */
+	@Override
+	public void setUserUuid(String userUuid) {
+		model.setUserUuid(userUuid);
 	}
 
 	/**

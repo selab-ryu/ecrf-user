@@ -89,10 +89,10 @@ public class ProjectCacheModel
 		sb.append(groupId);
 		sb.append(", companyId=");
 		sb.append(companyId);
-		sb.append(", createUserId=");
-		sb.append(createUserId);
-		sb.append(", createUserName=");
-		sb.append(createUserName);
+		sb.append(", userId=");
+		sb.append(userId);
+		sb.append(", userName=");
+		sb.append(userName);
 		sb.append(", createDate=");
 		sb.append(createDate);
 		sb.append(", modifiedDate=");
@@ -140,13 +140,13 @@ public class ProjectCacheModel
 		projectImpl.setProjectId(projectId);
 		projectImpl.setGroupId(groupId);
 		projectImpl.setCompanyId(companyId);
-		projectImpl.setCreateUserId(createUserId);
+		projectImpl.setUserId(userId);
 
-		if (createUserName == null) {
-			projectImpl.setCreateUserName("");
+		if (userName == null) {
+			projectImpl.setUserName("");
 		}
 		else {
-			projectImpl.setCreateUserName(createUserName);
+			projectImpl.setUserName(userName);
 		}
 
 		if (createDate == Long.MIN_VALUE) {
@@ -234,8 +234,8 @@ public class ProjectCacheModel
 
 		companyId = objectInput.readLong();
 
-		createUserId = objectInput.readLong();
-		createUserName = objectInput.readUTF();
+		userId = objectInput.readLong();
+		userName = objectInput.readUTF();
 		createDate = objectInput.readLong();
 		modifiedDate = objectInput.readLong();
 
@@ -272,13 +272,13 @@ public class ProjectCacheModel
 
 		objectOutput.writeLong(companyId);
 
-		objectOutput.writeLong(createUserId);
+		objectOutput.writeLong(userId);
 
-		if (createUserName == null) {
+		if (userName == null) {
 			objectOutput.writeUTF("");
 		}
 		else {
-			objectOutput.writeUTF(createUserName);
+			objectOutput.writeUTF(userName);
 		}
 
 		objectOutput.writeLong(createDate);
@@ -331,8 +331,8 @@ public class ProjectCacheModel
 	public long projectId;
 	public long groupId;
 	public long companyId;
-	public long createUserId;
-	public String createUserName;
+	public long userId;
+	public String userName;
 	public long createDate;
 	public long modifiedDate;
 	public int status;

@@ -79,8 +79,8 @@ public class CRFPatientModelImpl
 	public static final Object[][] TABLE_COLUMNS = {
 		{"mvccVersion", Types.BIGINT}, {"uuid_", Types.VARCHAR},
 		{"crfPatientId", Types.BIGINT}, {"groupId", Types.BIGINT},
-		{"companyId", Types.BIGINT}, {"createUserId", Types.BIGINT},
-		{"createUserName", Types.VARCHAR}, {"createDate", Types.TIMESTAMP},
+		{"companyId", Types.BIGINT}, {"userId", Types.BIGINT},
+		{"userName", Types.VARCHAR}, {"createDate", Types.TIMESTAMP},
 		{"modifiedDate", Types.TIMESTAMP}, {"crfId", Types.BIGINT},
 		{"patientId", Types.BIGINT}
 	};
@@ -94,8 +94,8 @@ public class CRFPatientModelImpl
 		TABLE_COLUMNS_MAP.put("crfPatientId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("groupId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("companyId", Types.BIGINT);
-		TABLE_COLUMNS_MAP.put("createUserId", Types.BIGINT);
-		TABLE_COLUMNS_MAP.put("createUserName", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("userId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("userName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("crfId", Types.BIGINT);
@@ -103,7 +103,7 @@ public class CRFPatientModelImpl
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table EC_CRFPatient (mvccVersion LONG default 0 not null,uuid_ VARCHAR(75) null,crfPatientId LONG not null primary key,groupId LONG,companyId LONG,createUserId LONG,createUserName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,crfId LONG,patientId LONG)";
+		"create table EC_CRFPatient (mvccVersion LONG default 0 not null,uuid_ VARCHAR(75) null,crfPatientId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,crfId LONG,patientId LONG)";
 
 	public static final String TABLE_SQL_DROP = "drop table EC_CRFPatient";
 
@@ -157,8 +157,8 @@ public class CRFPatientModelImpl
 		model.setCrfPatientId(soapModel.getCrfPatientId());
 		model.setGroupId(soapModel.getGroupId());
 		model.setCompanyId(soapModel.getCompanyId());
-		model.setCreateUserId(soapModel.getCreateUserId());
-		model.setCreateUserName(soapModel.getCreateUserName());
+		model.setUserId(soapModel.getUserId());
+		model.setUserName(soapModel.getUserName());
 		model.setCreateDate(soapModel.getCreateDate());
 		model.setModifiedDate(soapModel.getModifiedDate());
 		model.setCrfId(soapModel.getCrfId());
@@ -304,16 +304,13 @@ public class CRFPatientModelImpl
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<CRFPatient, Long>)CRFPatient::setCompanyId);
-		attributeGetterFunctions.put(
-			"createUserId", CRFPatient::getCreateUserId);
+		attributeGetterFunctions.put("userId", CRFPatient::getUserId);
 		attributeSetterBiConsumers.put(
-			"createUserId",
-			(BiConsumer<CRFPatient, Long>)CRFPatient::setCreateUserId);
-		attributeGetterFunctions.put(
-			"createUserName", CRFPatient::getCreateUserName);
+			"userId", (BiConsumer<CRFPatient, Long>)CRFPatient::setUserId);
+		attributeGetterFunctions.put("userName", CRFPatient::getUserName);
 		attributeSetterBiConsumers.put(
-			"createUserName",
-			(BiConsumer<CRFPatient, String>)CRFPatient::setCreateUserName);
+			"userName",
+			(BiConsumer<CRFPatient, String>)CRFPatient::setUserName);
 		attributeGetterFunctions.put("createDate", CRFPatient::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
@@ -433,19 +430,19 @@ public class CRFPatientModelImpl
 
 	@JSON
 	@Override
-	public long getCreateUserId() {
-		return _createUserId;
+	public long getUserId() {
+		return _userId;
 	}
 
 	@Override
-	public void setCreateUserId(long createUserId) {
-		_createUserId = createUserId;
+	public void setUserId(long userId) {
+		_userId = userId;
 	}
 
 	@Override
-	public String getCreateUserUuid() {
+	public String getUserUuid() {
 		try {
-			User user = UserLocalServiceUtil.getUserById(getCreateUserId());
+			User user = UserLocalServiceUtil.getUserById(getUserId());
 
 			return user.getUuid();
 		}
@@ -455,23 +452,23 @@ public class CRFPatientModelImpl
 	}
 
 	@Override
-	public void setCreateUserUuid(String createUserUuid) {
+	public void setUserUuid(String userUuid) {
 	}
 
 	@JSON
 	@Override
-	public String getCreateUserName() {
-		if (_createUserName == null) {
+	public String getUserName() {
+		if (_userName == null) {
 			return "";
 		}
 		else {
-			return _createUserName;
+			return _userName;
 		}
 	}
 
 	@Override
-	public void setCreateUserName(String createUserName) {
-		_createUserName = createUserName;
+	public void setUserName(String userName) {
+		_userName = userName;
 	}
 
 	@JSON
@@ -597,8 +594,8 @@ public class CRFPatientModelImpl
 		crfPatientImpl.setCrfPatientId(getCrfPatientId());
 		crfPatientImpl.setGroupId(getGroupId());
 		crfPatientImpl.setCompanyId(getCompanyId());
-		crfPatientImpl.setCreateUserId(getCreateUserId());
-		crfPatientImpl.setCreateUserName(getCreateUserName());
+		crfPatientImpl.setUserId(getUserId());
+		crfPatientImpl.setUserName(getUserName());
 		crfPatientImpl.setCreateDate(getCreateDate());
 		crfPatientImpl.setModifiedDate(getModifiedDate());
 		crfPatientImpl.setCrfId(getCrfId());
@@ -719,14 +716,14 @@ public class CRFPatientModelImpl
 
 		crfPatientCacheModel.companyId = getCompanyId();
 
-		crfPatientCacheModel.createUserId = getCreateUserId();
+		crfPatientCacheModel.userId = getUserId();
 
-		crfPatientCacheModel.createUserName = getCreateUserName();
+		crfPatientCacheModel.userName = getUserName();
 
-		String createUserName = crfPatientCacheModel.createUserName;
+		String userName = crfPatientCacheModel.userName;
 
-		if ((createUserName != null) && (createUserName.length() == 0)) {
-			crfPatientCacheModel.createUserName = null;
+		if ((userName != null) && (userName.length() == 0)) {
+			crfPatientCacheModel.userName = null;
 		}
 
 		Date createDate = getCreateDate();
@@ -856,8 +853,8 @@ public class CRFPatientModelImpl
 	private long _companyId;
 	private long _originalCompanyId;
 	private boolean _setOriginalCompanyId;
-	private long _createUserId;
-	private String _createUserName;
+	private long _userId;
+	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;

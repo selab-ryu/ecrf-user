@@ -79,8 +79,8 @@ public class CRFModelImpl extends BaseModelImpl<CRF> implements CRFModel {
 	public static final Object[][] TABLE_COLUMNS = {
 		{"mvccVersion", Types.BIGINT}, {"uuid_", Types.VARCHAR},
 		{"crfId", Types.BIGINT}, {"groupId", Types.BIGINT},
-		{"companyId", Types.BIGINT}, {"createUserId", Types.BIGINT},
-		{"createUserName", Types.VARCHAR}, {"createDate", Types.TIMESTAMP},
+		{"companyId", Types.BIGINT}, {"userId", Types.BIGINT},
+		{"userName", Types.VARCHAR}, {"createDate", Types.TIMESTAMP},
 		{"modifiedDate", Types.TIMESTAMP}, {"status", Types.INTEGER},
 		{"statusByUserId", Types.BIGINT}, {"statusByUserName", Types.VARCHAR},
 		{"statusDate", Types.TIMESTAMP}, {"datatypeId", Types.BIGINT},
@@ -97,8 +97,8 @@ public class CRFModelImpl extends BaseModelImpl<CRF> implements CRFModel {
 		TABLE_COLUMNS_MAP.put("crfId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("groupId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("companyId", Types.BIGINT);
-		TABLE_COLUMNS_MAP.put("createUserId", Types.BIGINT);
-		TABLE_COLUMNS_MAP.put("createUserName", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("userId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("userName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("status", Types.INTEGER);
@@ -112,7 +112,7 @@ public class CRFModelImpl extends BaseModelImpl<CRF> implements CRFModel {
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table EC_CRF (mvccVersion LONG default 0 not null,uuid_ VARCHAR(75) null,crfId LONG not null primary key,groupId LONG,companyId LONG,createUserId LONG,createUserName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,datatypeId LONG,managerId LONG,applyDate DATE null,crfStatus INTEGER)";
+		"create table EC_CRF (mvccVersion LONG default 0 not null,uuid_ VARCHAR(75) null,crfId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,datatypeId LONG,managerId LONG,applyDate DATE null,crfStatus INTEGER)";
 
 	public static final String TABLE_SQL_DROP = "drop table EC_CRF";
 
@@ -166,8 +166,8 @@ public class CRFModelImpl extends BaseModelImpl<CRF> implements CRFModel {
 		model.setCrfId(soapModel.getCrfId());
 		model.setGroupId(soapModel.getGroupId());
 		model.setCompanyId(soapModel.getCompanyId());
-		model.setCreateUserId(soapModel.getCreateUserId());
-		model.setCreateUserName(soapModel.getCreateUserName());
+		model.setUserId(soapModel.getUserId());
+		model.setUserName(soapModel.getUserName());
 		model.setCreateDate(soapModel.getCreateDate());
 		model.setModifiedDate(soapModel.getModifiedDate());
 		model.setStatus(soapModel.getStatus());
@@ -311,12 +311,12 @@ public class CRFModelImpl extends BaseModelImpl<CRF> implements CRFModel {
 		attributeGetterFunctions.put("companyId", CRF::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId", (BiConsumer<CRF, Long>)CRF::setCompanyId);
-		attributeGetterFunctions.put("createUserId", CRF::getCreateUserId);
+		attributeGetterFunctions.put("userId", CRF::getUserId);
 		attributeSetterBiConsumers.put(
-			"createUserId", (BiConsumer<CRF, Long>)CRF::setCreateUserId);
-		attributeGetterFunctions.put("createUserName", CRF::getCreateUserName);
+			"userId", (BiConsumer<CRF, Long>)CRF::setUserId);
+		attributeGetterFunctions.put("userName", CRF::getUserName);
 		attributeSetterBiConsumers.put(
-			"createUserName", (BiConsumer<CRF, String>)CRF::setCreateUserName);
+			"userName", (BiConsumer<CRF, String>)CRF::setUserName);
 		attributeGetterFunctions.put("createDate", CRF::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate", (BiConsumer<CRF, Date>)CRF::setCreateDate);
@@ -454,19 +454,19 @@ public class CRFModelImpl extends BaseModelImpl<CRF> implements CRFModel {
 
 	@JSON
 	@Override
-	public long getCreateUserId() {
-		return _createUserId;
+	public long getUserId() {
+		return _userId;
 	}
 
 	@Override
-	public void setCreateUserId(long createUserId) {
-		_createUserId = createUserId;
+	public void setUserId(long userId) {
+		_userId = userId;
 	}
 
 	@Override
-	public String getCreateUserUuid() {
+	public String getUserUuid() {
 		try {
-			User user = UserLocalServiceUtil.getUserById(getCreateUserId());
+			User user = UserLocalServiceUtil.getUserById(getUserId());
 
 			return user.getUuid();
 		}
@@ -476,23 +476,23 @@ public class CRFModelImpl extends BaseModelImpl<CRF> implements CRFModel {
 	}
 
 	@Override
-	public void setCreateUserUuid(String createUserUuid) {
+	public void setUserUuid(String userUuid) {
 	}
 
 	@JSON
 	@Override
-	public String getCreateUserName() {
-		if (_createUserName == null) {
+	public String getUserName() {
+		if (_userName == null) {
 			return "";
 		}
 		else {
-			return _createUserName;
+			return _userName;
 		}
 	}
 
 	@Override
-	public void setCreateUserName(String createUserName) {
-		_createUserName = createUserName;
+	public void setUserName(String userName) {
+		_userName = userName;
 	}
 
 	@JSON
@@ -772,8 +772,8 @@ public class CRFModelImpl extends BaseModelImpl<CRF> implements CRFModel {
 		crfImpl.setCrfId(getCrfId());
 		crfImpl.setGroupId(getGroupId());
 		crfImpl.setCompanyId(getCompanyId());
-		crfImpl.setCreateUserId(getCreateUserId());
-		crfImpl.setCreateUserName(getCreateUserName());
+		crfImpl.setUserId(getUserId());
+		crfImpl.setUserName(getUserName());
 		crfImpl.setCreateDate(getCreateDate());
 		crfImpl.setModifiedDate(getModifiedDate());
 		crfImpl.setStatus(getStatus());
@@ -897,14 +897,14 @@ public class CRFModelImpl extends BaseModelImpl<CRF> implements CRFModel {
 
 		crfCacheModel.companyId = getCompanyId();
 
-		crfCacheModel.createUserId = getCreateUserId();
+		crfCacheModel.userId = getUserId();
 
-		crfCacheModel.createUserName = getCreateUserName();
+		crfCacheModel.userName = getUserName();
 
-		String createUserName = crfCacheModel.createUserName;
+		String userName = crfCacheModel.userName;
 
-		if ((createUserName != null) && (createUserName.length() == 0)) {
-			crfCacheModel.createUserName = null;
+		if ((userName != null) && (userName.length() == 0)) {
+			crfCacheModel.userName = null;
 		}
 
 		Date createDate = getCreateDate();
@@ -1064,8 +1064,8 @@ public class CRFModelImpl extends BaseModelImpl<CRF> implements CRFModel {
 	private long _companyId;
 	private long _originalCompanyId;
 	private boolean _setOriginalCompanyId;
-	private long _createUserId;
-	private String _createUserName;
+	private long _userId;
+	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;

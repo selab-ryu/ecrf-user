@@ -8,6 +8,7 @@
 	        <portlet-name>ecrf_user_researcher_ResearcherPortlet</portlet-name>
 	    </portlet-ref>
 	    <root>true</root>
+	    <weight>1</weight>
 	    <permissions>
 	        <supports>
 	            <action-key>ADD_RESEARCHER</action-key>
@@ -30,6 +31,7 @@
 	    <portlet-ref>
 	        <portlet-name>ecrf_user_researcher_ResearcherPortlet</portlet-name>
 	    </portlet-ref>
+	    <weight>2</weight>
 	    <permissions>
 	        <supports>
 	            <action-key>ADD_RESEARCHER</action-key>

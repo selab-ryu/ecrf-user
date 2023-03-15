@@ -48,8 +48,8 @@ public class ProjectWrapper
 		attributes.put("projectId", getProjectId());
 		attributes.put("groupId", getGroupId());
 		attributes.put("companyId", getCompanyId());
-		attributes.put("createUserId", getCreateUserId());
-		attributes.put("createUserName", getCreateUserName());
+		attributes.put("userId", getUserId());
+		attributes.put("userName", getUserName());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("modifiedDate", getModifiedDate());
 		attributes.put("status", getStatus());
@@ -99,16 +99,16 @@ public class ProjectWrapper
 			setCompanyId(companyId);
 		}
 
-		Long createUserId = (Long)attributes.get("createUserId");
+		Long userId = (Long)attributes.get("userId");
 
-		if (createUserId != null) {
-			setCreateUserId(createUserId);
+		if (userId != null) {
+			setUserId(userId);
 		}
 
-		String createUserName = (String)attributes.get("createUserName");
+		String userName = (String)attributes.get("userName");
 
-		if (createUserName != null) {
-			setCreateUserName(createUserName);
+		if (userName != null) {
+			setUserName(userName);
 		}
 
 		Date createDate = (Date)attributes.get("createDate");
@@ -209,36 +209,6 @@ public class ProjectWrapper
 	@Override
 	public Date getCreateDate() {
 		return model.getCreateDate();
-	}
-
-	/**
-	 * Returns the create user ID of this project.
-	 *
-	 * @return the create user ID of this project
-	 */
-	@Override
-	public long getCreateUserId() {
-		return model.getCreateUserId();
-	}
-
-	/**
-	 * Returns the create user name of this project.
-	 *
-	 * @return the create user name of this project
-	 */
-	@Override
-	public String getCreateUserName() {
-		return model.getCreateUserName();
-	}
-
-	/**
-	 * Returns the create user uuid of this project.
-	 *
-	 * @return the create user uuid of this project
-	 */
-	@Override
-	public String getCreateUserUuid() {
-		return model.getCreateUserUuid();
 	}
 
 	/**
@@ -412,6 +382,36 @@ public class ProjectWrapper
 	}
 
 	/**
+	 * Returns the user ID of this project.
+	 *
+	 * @return the user ID of this project
+	 */
+	@Override
+	public long getUserId() {
+		return model.getUserId();
+	}
+
+	/**
+	 * Returns the user name of this project.
+	 *
+	 * @return the user name of this project
+	 */
+	@Override
+	public String getUserName() {
+		return model.getUserName();
+	}
+
+	/**
+	 * Returns the user uuid of this project.
+	 *
+	 * @return the user uuid of this project
+	 */
+	@Override
+	public String getUserUuid() {
+		return model.getUserUuid();
+	}
+
+	/**
 	 * Returns the uuid of this project.
 	 *
 	 * @return the uuid of this project
@@ -524,36 +524,6 @@ public class ProjectWrapper
 	@Override
 	public void setCreateDate(Date createDate) {
 		model.setCreateDate(createDate);
-	}
-
-	/**
-	 * Sets the create user ID of this project.
-	 *
-	 * @param createUserId the create user ID of this project
-	 */
-	@Override
-	public void setCreateUserId(long createUserId) {
-		model.setCreateUserId(createUserId);
-	}
-
-	/**
-	 * Sets the create user name of this project.
-	 *
-	 * @param createUserName the create user name of this project
-	 */
-	@Override
-	public void setCreateUserName(String createUserName) {
-		model.setCreateUserName(createUserName);
-	}
-
-	/**
-	 * Sets the create user uuid of this project.
-	 *
-	 * @param createUserUuid the create user uuid of this project
-	 */
-	@Override
-	public void setCreateUserUuid(String createUserUuid) {
-		model.setCreateUserUuid(createUserUuid);
 	}
 
 	/**
@@ -724,6 +694,36 @@ public class ProjectWrapper
 	@Override
 	public void setTitle(String title) {
 		model.setTitle(title);
+	}
+
+	/**
+	 * Sets the user ID of this project.
+	 *
+	 * @param userId the user ID of this project
+	 */
+	@Override
+	public void setUserId(long userId) {
+		model.setUserId(userId);
+	}
+
+	/**
+	 * Sets the user name of this project.
+	 *
+	 * @param userName the user name of this project
+	 */
+	@Override
+	public void setUserName(String userName) {
+		model.setUserName(userName);
+	}
+
+	/**
+	 * Sets the user uuid of this project.
+	 *
+	 * @param userUuid the user uuid of this project
+	 */
+	@Override
+	public void setUserUuid(String userUuid) {
+		model.setUserUuid(userUuid);
 	}
 
 	/**

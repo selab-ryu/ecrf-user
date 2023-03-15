@@ -79,8 +79,8 @@ public class CRFResearcherModelImpl
 	public static final Object[][] TABLE_COLUMNS = {
 		{"mvccVersion", Types.BIGINT}, {"uuid_", Types.VARCHAR},
 		{"crfResearcherId", Types.BIGINT}, {"groupId", Types.BIGINT},
-		{"companyId", Types.BIGINT}, {"createUserId", Types.BIGINT},
-		{"createUserName", Types.VARCHAR}, {"createDate", Types.TIMESTAMP},
+		{"companyId", Types.BIGINT}, {"userId", Types.BIGINT},
+		{"userName", Types.VARCHAR}, {"createDate", Types.TIMESTAMP},
 		{"modifiedDate", Types.TIMESTAMP}, {"researcherId", Types.BIGINT},
 		{"crfId", Types.BIGINT}
 	};
@@ -94,8 +94,8 @@ public class CRFResearcherModelImpl
 		TABLE_COLUMNS_MAP.put("crfResearcherId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("groupId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("companyId", Types.BIGINT);
-		TABLE_COLUMNS_MAP.put("createUserId", Types.BIGINT);
-		TABLE_COLUMNS_MAP.put("createUserName", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("userId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("userName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("researcherId", Types.BIGINT);
@@ -103,7 +103,7 @@ public class CRFResearcherModelImpl
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table EC_CRFResearcher (mvccVersion LONG default 0 not null,uuid_ VARCHAR(75) null,crfResearcherId LONG not null primary key,groupId LONG,companyId LONG,createUserId LONG,createUserName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,researcherId LONG,crfId LONG)";
+		"create table EC_CRFResearcher (mvccVersion LONG default 0 not null,uuid_ VARCHAR(75) null,crfResearcherId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,researcherId LONG,crfId LONG)";
 
 	public static final String TABLE_SQL_DROP = "drop table EC_CRFResearcher";
 
@@ -157,8 +157,8 @@ public class CRFResearcherModelImpl
 		model.setCrfResearcherId(soapModel.getCrfResearcherId());
 		model.setGroupId(soapModel.getGroupId());
 		model.setCompanyId(soapModel.getCompanyId());
-		model.setCreateUserId(soapModel.getCreateUserId());
-		model.setCreateUserName(soapModel.getCreateUserName());
+		model.setUserId(soapModel.getUserId());
+		model.setUserName(soapModel.getUserName());
 		model.setCreateDate(soapModel.getCreateDate());
 		model.setModifiedDate(soapModel.getModifiedDate());
 		model.setResearcherId(soapModel.getResearcherId());
@@ -308,17 +308,14 @@ public class CRFResearcherModelImpl
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<CRFResearcher, Long>)CRFResearcher::setCompanyId);
-		attributeGetterFunctions.put(
-			"createUserId", CRFResearcher::getCreateUserId);
+		attributeGetterFunctions.put("userId", CRFResearcher::getUserId);
 		attributeSetterBiConsumers.put(
-			"createUserId",
-			(BiConsumer<CRFResearcher, Long>)CRFResearcher::setCreateUserId);
-		attributeGetterFunctions.put(
-			"createUserName", CRFResearcher::getCreateUserName);
+			"userId",
+			(BiConsumer<CRFResearcher, Long>)CRFResearcher::setUserId);
+		attributeGetterFunctions.put("userName", CRFResearcher::getUserName);
 		attributeSetterBiConsumers.put(
-			"createUserName",
-			(BiConsumer<CRFResearcher, String>)
-				CRFResearcher::setCreateUserName);
+			"userName",
+			(BiConsumer<CRFResearcher, String>)CRFResearcher::setUserName);
 		attributeGetterFunctions.put(
 			"createDate", CRFResearcher::getCreateDate);
 		attributeSetterBiConsumers.put(
@@ -440,19 +437,19 @@ public class CRFResearcherModelImpl
 
 	@JSON
 	@Override
-	public long getCreateUserId() {
-		return _createUserId;
+	public long getUserId() {
+		return _userId;
 	}
 
 	@Override
-	public void setCreateUserId(long createUserId) {
-		_createUserId = createUserId;
+	public void setUserId(long userId) {
+		_userId = userId;
 	}
 
 	@Override
-	public String getCreateUserUuid() {
+	public String getUserUuid() {
 		try {
-			User user = UserLocalServiceUtil.getUserById(getCreateUserId());
+			User user = UserLocalServiceUtil.getUserById(getUserId());
 
 			return user.getUuid();
 		}
@@ -462,23 +459,23 @@ public class CRFResearcherModelImpl
 	}
 
 	@Override
-	public void setCreateUserUuid(String createUserUuid) {
+	public void setUserUuid(String userUuid) {
 	}
 
 	@JSON
 	@Override
-	public String getCreateUserName() {
-		if (_createUserName == null) {
+	public String getUserName() {
+		if (_userName == null) {
 			return "";
 		}
 		else {
-			return _createUserName;
+			return _userName;
 		}
 	}
 
 	@Override
-	public void setCreateUserName(String createUserName) {
-		_createUserName = createUserName;
+	public void setUserName(String userName) {
+		_userName = userName;
 	}
 
 	@JSON
@@ -604,8 +601,8 @@ public class CRFResearcherModelImpl
 		crfResearcherImpl.setCrfResearcherId(getCrfResearcherId());
 		crfResearcherImpl.setGroupId(getGroupId());
 		crfResearcherImpl.setCompanyId(getCompanyId());
-		crfResearcherImpl.setCreateUserId(getCreateUserId());
-		crfResearcherImpl.setCreateUserName(getCreateUserName());
+		crfResearcherImpl.setUserId(getUserId());
+		crfResearcherImpl.setUserName(getUserName());
 		crfResearcherImpl.setCreateDate(getCreateDate());
 		crfResearcherImpl.setModifiedDate(getModifiedDate());
 		crfResearcherImpl.setResearcherId(getResearcherId());
@@ -728,14 +725,14 @@ public class CRFResearcherModelImpl
 
 		crfResearcherCacheModel.companyId = getCompanyId();
 
-		crfResearcherCacheModel.createUserId = getCreateUserId();
+		crfResearcherCacheModel.userId = getUserId();
 
-		crfResearcherCacheModel.createUserName = getCreateUserName();
+		crfResearcherCacheModel.userName = getUserName();
 
-		String createUserName = crfResearcherCacheModel.createUserName;
+		String userName = crfResearcherCacheModel.userName;
 
-		if ((createUserName != null) && (createUserName.length() == 0)) {
-			crfResearcherCacheModel.createUserName = null;
+		if ((userName != null) && (userName.length() == 0)) {
+			crfResearcherCacheModel.userName = null;
 		}
 
 		Date createDate = getCreateDate();
@@ -865,8 +862,8 @@ public class CRFResearcherModelImpl
 	private long _companyId;
 	private long _originalCompanyId;
 	private boolean _setOriginalCompanyId;
-	private long _createUserId;
-	private String _createUserName;
+	private long _userId;
+	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;

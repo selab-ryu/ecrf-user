@@ -47,8 +47,8 @@ public class CRFWrapper
 		attributes.put("crfId", getCrfId());
 		attributes.put("groupId", getGroupId());
 		attributes.put("companyId", getCompanyId());
-		attributes.put("createUserId", getCreateUserId());
-		attributes.put("createUserName", getCreateUserName());
+		attributes.put("userId", getUserId());
+		attributes.put("userName", getUserName());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("modifiedDate", getModifiedDate());
 		attributes.put("status", getStatus());
@@ -95,16 +95,16 @@ public class CRFWrapper
 			setCompanyId(companyId);
 		}
 
-		Long createUserId = (Long)attributes.get("createUserId");
+		Long userId = (Long)attributes.get("userId");
 
-		if (createUserId != null) {
-			setCreateUserId(createUserId);
+		if (userId != null) {
+			setUserId(userId);
 		}
 
-		String createUserName = (String)attributes.get("createUserName");
+		String userName = (String)attributes.get("userName");
 
-		if (createUserName != null) {
-			setCreateUserName(createUserName);
+		if (userName != null) {
+			setUserName(userName);
 		}
 
 		Date createDate = (Date)attributes.get("createDate");
@@ -196,36 +196,6 @@ public class CRFWrapper
 	@Override
 	public Date getCreateDate() {
 		return model.getCreateDate();
-	}
-
-	/**
-	 * Returns the create user ID of this crf.
-	 *
-	 * @return the create user ID of this crf
-	 */
-	@Override
-	public long getCreateUserId() {
-		return model.getCreateUserId();
-	}
-
-	/**
-	 * Returns the create user name of this crf.
-	 *
-	 * @return the create user name of this crf
-	 */
-	@Override
-	public String getCreateUserName() {
-		return model.getCreateUserName();
-	}
-
-	/**
-	 * Returns the create user uuid of this crf.
-	 *
-	 * @return the create user uuid of this crf
-	 */
-	@Override
-	public String getCreateUserUuid() {
-		return model.getCreateUserUuid();
 	}
 
 	/**
@@ -359,6 +329,36 @@ public class CRFWrapper
 	}
 
 	/**
+	 * Returns the user ID of this crf.
+	 *
+	 * @return the user ID of this crf
+	 */
+	@Override
+	public long getUserId() {
+		return model.getUserId();
+	}
+
+	/**
+	 * Returns the user name of this crf.
+	 *
+	 * @return the user name of this crf
+	 */
+	@Override
+	public String getUserName() {
+		return model.getUserName();
+	}
+
+	/**
+	 * Returns the user uuid of this crf.
+	 *
+	 * @return the user uuid of this crf
+	 */
+	@Override
+	public String getUserUuid() {
+		return model.getUserUuid();
+	}
+
+	/**
 	 * Returns the uuid of this crf.
 	 *
 	 * @return the uuid of this crf
@@ -481,36 +481,6 @@ public class CRFWrapper
 	@Override
 	public void setCreateDate(Date createDate) {
 		model.setCreateDate(createDate);
-	}
-
-	/**
-	 * Sets the create user ID of this crf.
-	 *
-	 * @param createUserId the create user ID of this crf
-	 */
-	@Override
-	public void setCreateUserId(long createUserId) {
-		model.setCreateUserId(createUserId);
-	}
-
-	/**
-	 * Sets the create user name of this crf.
-	 *
-	 * @param createUserName the create user name of this crf
-	 */
-	@Override
-	public void setCreateUserName(String createUserName) {
-		model.setCreateUserName(createUserName);
-	}
-
-	/**
-	 * Sets the create user uuid of this crf.
-	 *
-	 * @param createUserUuid the create user uuid of this crf
-	 */
-	@Override
-	public void setCreateUserUuid(String createUserUuid) {
-		model.setCreateUserUuid(createUserUuid);
 	}
 
 	/**
@@ -641,6 +611,36 @@ public class CRFWrapper
 	@Override
 	public void setStatusDate(Date statusDate) {
 		model.setStatusDate(statusDate);
+	}
+
+	/**
+	 * Sets the user ID of this crf.
+	 *
+	 * @param userId the user ID of this crf
+	 */
+	@Override
+	public void setUserId(long userId) {
+		model.setUserId(userId);
+	}
+
+	/**
+	 * Sets the user name of this crf.
+	 *
+	 * @param userName the user name of this crf
+	 */
+	@Override
+	public void setUserName(String userName) {
+		model.setUserName(userName);
+	}
+
+	/**
+	 * Sets the user uuid of this crf.
+	 *
+	 * @param userUuid the user uuid of this crf
+	 */
+	@Override
+	public void setUserUuid(String userUuid) {
+		model.setUserUuid(userUuid);
 	}
 
 	/**

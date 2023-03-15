@@ -89,10 +89,10 @@ public class CRFCacheModel
 		sb.append(groupId);
 		sb.append(", companyId=");
 		sb.append(companyId);
-		sb.append(", createUserId=");
-		sb.append(createUserId);
-		sb.append(", createUserName=");
-		sb.append(createUserName);
+		sb.append(", userId=");
+		sb.append(userId);
+		sb.append(", userName=");
+		sb.append(userName);
 		sb.append(", createDate=");
 		sb.append(createDate);
 		sb.append(", modifiedDate=");
@@ -134,13 +134,13 @@ public class CRFCacheModel
 		crfImpl.setCrfId(crfId);
 		crfImpl.setGroupId(groupId);
 		crfImpl.setCompanyId(companyId);
-		crfImpl.setCreateUserId(createUserId);
+		crfImpl.setUserId(userId);
 
-		if (createUserName == null) {
-			crfImpl.setCreateUserName("");
+		if (userName == null) {
+			crfImpl.setUserName("");
 		}
 		else {
-			crfImpl.setCreateUserName(createUserName);
+			crfImpl.setUserName(userName);
 		}
 
 		if (createDate == Long.MIN_VALUE) {
@@ -202,8 +202,8 @@ public class CRFCacheModel
 
 		companyId = objectInput.readLong();
 
-		createUserId = objectInput.readLong();
-		createUserName = objectInput.readUTF();
+		userId = objectInput.readLong();
+		userName = objectInput.readUTF();
 		createDate = objectInput.readLong();
 		modifiedDate = objectInput.readLong();
 
@@ -238,13 +238,13 @@ public class CRFCacheModel
 
 		objectOutput.writeLong(companyId);
 
-		objectOutput.writeLong(createUserId);
+		objectOutput.writeLong(userId);
 
-		if (createUserName == null) {
+		if (userName == null) {
 			objectOutput.writeUTF("");
 		}
 		else {
-			objectOutput.writeUTF(createUserName);
+			objectOutput.writeUTF(userName);
 		}
 
 		objectOutput.writeLong(createDate);
@@ -276,8 +276,8 @@ public class CRFCacheModel
 	public long crfId;
 	public long groupId;
 	public long companyId;
-	public long createUserId;
-	public String createUserName;
+	public long userId;
+	public String userName;
 	public long createDate;
 	public long modifiedDate;
 	public int status;
