@@ -32,27 +32,27 @@ public class ResearcherModelResourcePermissionRegistrar {
 
         properties.put("model.class.name", Researcher.class.getName());
 
-//        _serviceRegistration = bundleContext.registerService(
-//    		ModelResourcePermission.class,
-//    		ModelResourcePermissionFactory.create(
-//        		Researcher.class,
-//        		Researcher::getResearcherId,
-//        		_researcherLocalService::getResearcher,
-//        		_portletResourcePermission,
-//        		(modelResourcePermission, consumer) -> {
-//                    consumer.accept(
-//                        new StagedModelPermissionLogic<>(
-//                            _stagingPermission,
-//                            ECRFUserPortletKeys.RESEARCHER,
-//                            Researcher::getResearcherId));
-//                    consumer.accept(
-//                        new WorkflowedModelPermissionLogic<>(
-//                            _workflowPermission,
-//                            modelResourcePermission,
-//                            _groupLocalService, 
-//                            Researcher::getResearcherId));
-//                }),
-//    		properties);
+        _serviceRegistration = bundleContext.registerService(
+    		ModelResourcePermission.class,
+    		ModelResourcePermissionFactory.create(
+        		Researcher.class,
+        		Researcher::getResearcherId,
+        		_researcherLocalService::getResearcher,
+        		_portletResourcePermission,
+        		(modelResourcePermission, consumer) -> {
+                    consumer.accept(
+                        new StagedModelPermissionLogic<>(
+                            _stagingPermission,
+                            ECRFUserPortletKeys.RESEARCHER,
+                            Researcher::getResearcherId));
+                    consumer.accept(
+                        new WorkflowedModelPermissionLogic<>(
+                            _workflowPermission,
+                            modelResourcePermission,
+                            _groupLocalService, 
+                            Researcher::getResearcherId));
+                }),
+    		properties);
     }
 
     @Deactivate

@@ -16,9 +16,10 @@ package ecrf.user.model;
 
 import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.model.BaseModel;
+import com.liferay.portal.kernel.model.GroupedModel;
 import com.liferay.portal.kernel.model.MVCCModel;
 import com.liferay.portal.kernel.model.ShardedModel;
-import com.liferay.portal.kernel.model.StagedModel;
+import com.liferay.portal.kernel.model.StagedAuditedModel;
 import com.liferay.portal.kernel.model.WorkflowedModel;
 
 import java.util.Date;
@@ -38,8 +39,8 @@ import org.osgi.annotation.versioning.ProviderType;
  */
 @ProviderType
 public interface ResearcherModel
-	extends BaseModel<Researcher>, MVCCModel, ShardedModel, StagedModel,
-			WorkflowedModel {
+	extends BaseModel<Researcher>, GroupedModel, MVCCModel, ShardedModel,
+			StagedAuditedModel, WorkflowedModel {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -113,6 +114,7 @@ public interface ResearcherModel
 	 *
 	 * @return the group ID of this researcher
 	 */
+	@Override
 	public long getGroupId();
 
 	/**
@@ -120,6 +122,7 @@ public interface ResearcherModel
 	 *
 	 * @param groupId the group ID of this researcher
 	 */
+	@Override
 	public void setGroupId(long groupId);
 
 	/**
@@ -139,47 +142,53 @@ public interface ResearcherModel
 	public void setCompanyId(long companyId);
 
 	/**
-	 * Returns the create user ID of this researcher.
+	 * Returns the user ID of this researcher.
 	 *
-	 * @return the create user ID of this researcher
+	 * @return the user ID of this researcher
 	 */
-	public long getCreateUserId();
+	@Override
+	public long getUserId();
 
 	/**
-	 * Sets the create user ID of this researcher.
+	 * Sets the user ID of this researcher.
 	 *
-	 * @param createUserId the create user ID of this researcher
+	 * @param userId the user ID of this researcher
 	 */
-	public void setCreateUserId(long createUserId);
+	@Override
+	public void setUserId(long userId);
 
 	/**
-	 * Returns the create user uuid of this researcher.
+	 * Returns the user uuid of this researcher.
 	 *
-	 * @return the create user uuid of this researcher
+	 * @return the user uuid of this researcher
 	 */
-	public String getCreateUserUuid();
+	@Override
+	public String getUserUuid();
 
 	/**
-	 * Sets the create user uuid of this researcher.
+	 * Sets the user uuid of this researcher.
 	 *
-	 * @param createUserUuid the create user uuid of this researcher
+	 * @param userUuid the user uuid of this researcher
 	 */
-	public void setCreateUserUuid(String createUserUuid);
+	@Override
+	public void setUserUuid(String userUuid);
 
 	/**
-	 * Returns the create user name of this researcher.
+	 * Returns the user name of this researcher.
 	 *
-	 * @return the create user name of this researcher
+	 * @return the user name of this researcher
 	 */
 	@AutoEscape
-	public String getCreateUserName();
+	@Override
+	public String getUserName();
 
 	/**
-	 * Sets the create user name of this researcher.
+	 * Sets the user name of this researcher.
 	 *
-	 * @param createUserName the create user name of this researcher
+	 * @param userName the user name of this researcher
 	 */
-	public void setCreateUserName(String createUserName);
+	@Override
+	public void setUserName(String userName);
 
 	/**
 	 * Returns the create date of this researcher.

@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE resource-action-mapping PUBLIC "-//Liferay//DTD Resource Action Mapping 7.2.0//EN" "http://www.liferay.com/dtd/liferay-resource-action-mapping_7_2_0.dtd">
+
 <resource-action-mapping>
 	<model-resource>
 	    <model-name>ecrf.user</model-name>
@@ -23,6 +24,7 @@
 	        </guest-unsupported>
 	    </permissions>
 	</model-resource>
+	
 	<model-resource>
 	    <model-name>ecrf.user.model.Researcher</model-name>
 	    <portlet-ref>

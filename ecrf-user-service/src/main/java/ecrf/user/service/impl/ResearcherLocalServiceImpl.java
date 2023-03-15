@@ -106,10 +106,10 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 		Date birth = PortalUtil.getDate(birthMonth, birthDay, birthYear);
 		
 		// set audit fields
-		researcher.setCreateUserId(creatorUserId);
+		researcher.setUserId(creatorUserId);
 		researcher.setGroupId(groupId);
 		researcher.setCompanyId(companyId);
-		researcher.setCreateUserName(creatorUser.getFullName());
+		researcher.setUserName(creatorUser.getFullName());
 		researcher.setCreateDate(researcherServiceContext.getCreateDate());
 		researcher.setModifiedDate(researcherServiceContext.getModifiedDate());
 		researcher.setExpandoBridgeAttributes(researcherServiceContext);
@@ -157,10 +157,10 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 		Date birth = PortalUtil.getDate(birthMonth, birthDay, birthYear);
 		
 		// set audit fields
-		researcher.setCreateUserId(userId);
+		researcher.setUserId(userId);
 		researcher.setGroupId(groupId);
 		researcher.setCompanyId(user.getCompanyId());
-		researcher.setCreateUserName(user.getFullName());
+		researcher.setUserName(user.getFullName());
 		researcher.setCreateDate(sc.getCreateDate());
 		researcher.setModifiedDate(sc.getModifiedDate());
 		researcher.setExpandoBridgeAttributes(sc);
@@ -206,8 +206,8 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 		researcher.setExpandoBridgeAttributes(sc);
 		
 		// set entity fields
-		researcher.setCreateUserId(userId);
-		researcher.setCreateUserName(user.getFullName());
+		researcher.setUserId(userId);
+		researcher.setUserName(user.getFullName());
 		researcher.setModifiedDate(sc.getModifiedDate());
 		researcher.setResearcherUserId(researcherUserId);
 		researcher.setBirth(birth);

@@ -90,10 +90,10 @@ public class ResearcherCacheModel
 		sb.append(groupId);
 		sb.append(", companyId=");
 		sb.append(companyId);
-		sb.append(", createUserId=");
-		sb.append(createUserId);
-		sb.append(", createUserName=");
-		sb.append(createUserName);
+		sb.append(", userId=");
+		sb.append(userId);
+		sb.append(", userName=");
+		sb.append(userName);
 		sb.append(", createDate=");
 		sb.append(createDate);
 		sb.append(", modifiedDate=");
@@ -143,13 +143,13 @@ public class ResearcherCacheModel
 		researcherImpl.setResearcherId(researcherId);
 		researcherImpl.setGroupId(groupId);
 		researcherImpl.setCompanyId(companyId);
-		researcherImpl.setCreateUserId(createUserId);
+		researcherImpl.setUserId(userId);
 
-		if (createUserName == null) {
-			researcherImpl.setCreateUserName("");
+		if (userName == null) {
+			researcherImpl.setUserName("");
 		}
 		else {
-			researcherImpl.setCreateUserName(createUserName);
+			researcherImpl.setUserName(userName);
 		}
 
 		if (createDate == Long.MIN_VALUE) {
@@ -244,8 +244,8 @@ public class ResearcherCacheModel
 
 		companyId = objectInput.readLong();
 
-		createUserId = objectInput.readLong();
-		createUserName = objectInput.readUTF();
+		userId = objectInput.readLong();
+		userName = objectInput.readUTF();
 		createDate = objectInput.readLong();
 		modifiedDate = objectInput.readLong();
 
@@ -283,13 +283,13 @@ public class ResearcherCacheModel
 
 		objectOutput.writeLong(companyId);
 
-		objectOutput.writeLong(createUserId);
+		objectOutput.writeLong(userId);
 
-		if (createUserName == null) {
+		if (userName == null) {
 			objectOutput.writeUTF("");
 		}
 		else {
-			objectOutput.writeUTF(createUserName);
+			objectOutput.writeUTF(userName);
 		}
 
 		objectOutput.writeLong(createDate);
@@ -355,8 +355,8 @@ public class ResearcherCacheModel
 	public long researcherId;
 	public long groupId;
 	public long companyId;
-	public long createUserId;
-	public String createUserName;
+	public long userId;
+	public String userName;
 	public long createDate;
 	public long modifiedDate;
 	public int status;
