@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -76,6 +77,10 @@ public interface CRFPatientLocalService
 	 */
 	@Indexable(type = IndexableType.REINDEX)
 	public CRFPatient addCRFPatient(CRFPatient crfPatient);
+
+	public CRFPatient addCRFPatient(
+			long crfId, long patientId, ServiceContext sc)
+		throws PortalException;
 
 	/**
 	 * Creates a new crf patient with the primary key. Does not add the crf patient to the database.
@@ -214,6 +219,42 @@ public interface CRFPatientLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public CRFPatient getCRFPatient(long crfPatientId) throws PortalException;
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<CRFPatient> getCRFPatientByCRFId(long groupId, long crfId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<CRFPatient> getCRFPatientByCRFId(
+		long groupId, long crfId, int start, int end);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<CRFPatient> getCRFPatientByCRFId(
+		long groupId, long crfId, int start, int end,
+		OrderByComparator comparator);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<CRFPatient> getCRFPatientByGroupId(long groupId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<CRFPatient> getCRFPatientByGroupId(
+		long groupId, int start, int end);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<CRFPatient> getCRFPatientByGroupId(
+		long groupId, int start, int end, OrderByComparator comparator);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<CRFPatient> getCRFPatientByPatientId(
+		long groupId, long patientId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<CRFPatient> getCRFPatientByPatientId(
+		long groupId, long patientId, int start, int end);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<CRFPatient> getCRFPatientByPatientId(
+		long groupId, long patientId, int start, int end,
+		OrderByComparator comparator);
+
 	/**
 	 * Returns the crf patient matching the UUID and group.
 	 *
@@ -225,6 +266,15 @@ public interface CRFPatientLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public CRFPatient getCRFPatientByUuidAndGroupId(String uuid, long groupId)
 		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getCRFPatientCountByCRFId(long groupId, long crfId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getCRFPatientCountByGroupId(long groupId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getCRFPatientCountByPatientId(long groupId, long patientId);
 
 	/**
 	 * Returns a range of all the crf patients.

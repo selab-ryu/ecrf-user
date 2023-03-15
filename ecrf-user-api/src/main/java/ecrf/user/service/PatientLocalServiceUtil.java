@@ -44,6 +44,22 @@ public class PatientLocalServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to <code>ecrf.user.service.impl.PatientLocalServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static Patient addPatient(
+			long patientUserId, String name, int birthYear, int birthMonth,
+			int birthDay, String phone, String position, int gender,
+			int consentYear, int consentMonth, int consentDay,
+			int participationDateYear, int participationDateMonth,
+			int participationDateDay, int participationStatus,
+			String experimentalGroup,
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
+
+		return getService().addPatient(
+			patientUserId, name, birthYear, birthMonth, birthDay, phone,
+			position, gender, consentYear, consentMonth, consentDay,
+			participationDateYear, participationDateMonth, participationDateDay,
+			participationStatus, experimentalGroup, sc);
+	}
 
 	/**
 	 * Adds the patient to the database. Also notifies the appropriate model listeners.
@@ -84,6 +100,13 @@ public class PatientLocalServiceUtil {
 		return getService().deletePatient(patientId);
 	}
 
+	public static Patient deletePatient(
+			long patientId, com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
+
+		return getService().deletePatient(patientId, sc);
+	}
+
 	/**
 	 * Deletes the patient from the database. Also notifies the appropriate model listeners.
 	 *
@@ -96,6 +119,12 @@ public class PatientLocalServiceUtil {
 	 */
 	public static Patient deletePatient(Patient patient) {
 		return getService().deletePatient(patient);
+	}
+
+	public static Patient deletePatient(
+		Patient patient, com.liferay.portal.kernel.service.ServiceContext sc) {
+
+		return getService().deletePatient(patient, sc);
 	}
 
 	/**
@@ -243,6 +272,23 @@ public class PatientLocalServiceUtil {
 		return getService().getPatient(patientId);
 	}
 
+	public static List<Patient> getPatientByGroupId(long groupId) {
+		return getService().getPatientByGroupId(groupId);
+	}
+
+	public static List<Patient> getPatientByGroupId(
+		long groupId, int start, int end) {
+
+		return getService().getPatientByGroupId(groupId, start, end);
+	}
+
+	public static List<Patient> getPatientByGroupId(
+		long groupId, int start, int end, OrderByComparator comparator) {
+
+		return getService().getPatientByGroupId(
+			groupId, start, end, comparator);
+	}
+
 	/**
 	 * Returns the patient matching the UUID and group.
 	 *
@@ -255,6 +301,10 @@ public class PatientLocalServiceUtil {
 		throws PortalException {
 
 		return getService().getPatientByUuidAndGroupId(uuid, groupId);
+	}
+
+	public static int getPatientCount(long groupId) {
+		return getService().getPatientCount(groupId);
 	}
 
 	/**
@@ -319,6 +369,23 @@ public class PatientLocalServiceUtil {
 		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
+	}
+
+	public static Patient updatePatient(
+			long patientId, long patientUserId, String name, int birthYear,
+			int birthMonth, int birthDay, String phone, String position,
+			int gender, int consentYear, int consentMonth, int consentDay,
+			int participationDateYear, int participationDateMonth,
+			int participationDateDay, int participationStatus,
+			String experimentalGroup,
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
+
+		return getService().updatePatient(
+			patientId, patientUserId, name, birthYear, birthMonth, birthDay,
+			phone, position, gender, consentYear, consentMonth, consentDay,
+			participationDateYear, participationDateMonth, participationDateDay,
+			participationStatus, experimentalGroup, sc);
 	}
 
 	/**

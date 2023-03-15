@@ -59,6 +59,14 @@ public class CRFPatientLocalServiceUtil {
 		return getService().addCRFPatient(crfPatient);
 	}
 
+	public static CRFPatient addCRFPatient(
+			long crfId, long patientId,
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
+
+		return getService().addCRFPatient(crfId, patientId, sc);
+	}
+
 	/**
 	 * Creates a new crf patient with the primary key. Does not add the crf patient to the database.
 	 *
@@ -223,6 +231,64 @@ public class CRFPatientLocalServiceUtil {
 		return getService().getCRFPatient(crfPatientId);
 	}
 
+	public static List<CRFPatient> getCRFPatientByCRFId(
+		long groupId, long crfId) {
+
+		return getService().getCRFPatientByCRFId(groupId, crfId);
+	}
+
+	public static List<CRFPatient> getCRFPatientByCRFId(
+		long groupId, long crfId, int start, int end) {
+
+		return getService().getCRFPatientByCRFId(groupId, crfId, start, end);
+	}
+
+	public static List<CRFPatient> getCRFPatientByCRFId(
+		long groupId, long crfId, int start, int end,
+		OrderByComparator comparator) {
+
+		return getService().getCRFPatientByCRFId(
+			groupId, crfId, start, end, comparator);
+	}
+
+	public static List<CRFPatient> getCRFPatientByGroupId(long groupId) {
+		return getService().getCRFPatientByGroupId(groupId);
+	}
+
+	public static List<CRFPatient> getCRFPatientByGroupId(
+		long groupId, int start, int end) {
+
+		return getService().getCRFPatientByGroupId(groupId, start, end);
+	}
+
+	public static List<CRFPatient> getCRFPatientByGroupId(
+		long groupId, int start, int end, OrderByComparator comparator) {
+
+		return getService().getCRFPatientByGroupId(
+			groupId, start, end, comparator);
+	}
+
+	public static List<CRFPatient> getCRFPatientByPatientId(
+		long groupId, long patientId) {
+
+		return getService().getCRFPatientByPatientId(groupId, patientId);
+	}
+
+	public static List<CRFPatient> getCRFPatientByPatientId(
+		long groupId, long patientId, int start, int end) {
+
+		return getService().getCRFPatientByPatientId(
+			groupId, patientId, start, end);
+	}
+
+	public static List<CRFPatient> getCRFPatientByPatientId(
+		long groupId, long patientId, int start, int end,
+		OrderByComparator comparator) {
+
+		return getService().getCRFPatientByPatientId(
+			groupId, patientId, start, end, comparator);
+	}
+
 	/**
 	 * Returns the crf patient matching the UUID and group.
 	 *
@@ -236,6 +302,20 @@ public class CRFPatientLocalServiceUtil {
 		throws PortalException {
 
 		return getService().getCRFPatientByUuidAndGroupId(uuid, groupId);
+	}
+
+	public static int getCRFPatientCountByCRFId(long groupId, long crfId) {
+		return getService().getCRFPatientCountByCRFId(groupId, crfId);
+	}
+
+	public static int getCRFPatientCountByGroupId(long groupId) {
+		return getService().getCRFPatientCountByGroupId(groupId);
+	}
+
+	public static int getCRFPatientCountByPatientId(
+		long groupId, long patientId) {
+
+		return getService().getCRFPatientCountByPatientId(groupId, patientId);
 	}
 
 	/**

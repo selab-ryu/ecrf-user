@@ -59,6 +59,20 @@ public class ProjectLocalServiceUtil {
 		return getService().addProject(project);
 	}
 
+	public static Project addProject(
+			String title, String shortTitle, String purpose, int startDateYear,
+			int startDateMonth, int startDateDay, int endDateYear,
+			int endDateMonth, int endDateDay, long principleResearcherId,
+			long manageResearcherId,
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
+
+		return getService().addProject(
+			title, shortTitle, purpose, startDateYear, startDateMonth,
+			startDateDay, endDateYear, endDateMonth, endDateDay,
+			principleResearcherId, manageResearcherId, sc);
+	}
+
 	/**
 	 * Creates a new project with the primary key. Does not add the project to the database.
 	 *
@@ -252,6 +266,23 @@ public class ProjectLocalServiceUtil {
 		return getService().getProject(projectId);
 	}
 
+	public static List<Project> getProjectByGroupId(long groupId) {
+		return getService().getProjectByGroupId(groupId);
+	}
+
+	public static List<Project> getProjectByGroupId(
+		long groupId, int start, int end) {
+
+		return getService().getProjectByGroupId(groupId, start, end);
+	}
+
+	public static List<Project> getProjectByGroupId(
+		long groupId, int start, int end, OrderByComparator comparator) {
+
+		return getService().getProjectByGroupId(
+			groupId, start, end, comparator);
+	}
+
 	/**
 	 * Returns the project matching the UUID and group.
 	 *
@@ -264,6 +295,10 @@ public class ProjectLocalServiceUtil {
 		throws PortalException {
 
 		return getService().getProjectByUuidAndGroupId(uuid, groupId);
+	}
+
+	public static int getProjectCount(long groupId) {
+		return getService().getProjectCount(groupId);
 	}
 
 	/**
@@ -319,6 +354,20 @@ public class ProjectLocalServiceUtil {
 	 */
 	public static int getProjectsCount() {
 		return getService().getProjectsCount();
+	}
+
+	public static Project updateProject(
+			long projectId, String title, String shortTitle, String purpose,
+			int startDateYear, int startDateMonth, int startDateDay,
+			int endDateYear, int endDateMonth, int endDateDay,
+			long principleResearcherId, long manageResearcherId,
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
+
+		return getService().updateProject(
+			projectId, title, shortTitle, purpose, startDateYear,
+			startDateMonth, startDateDay, endDateYear, endDateMonth, endDateDay,
+			principleResearcherId, manageResearcherId, sc);
 	}
 
 	/**

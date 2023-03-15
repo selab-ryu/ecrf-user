@@ -59,6 +59,14 @@ public class CRFResearcherLocalServiceUtil {
 		return getService().addCRFResearcher(crfResearcher);
 	}
 
+	public static CRFResearcher addCRFResearcher(
+			long researcherId, long crfId,
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
+
+		return getService().addCRFResearcher(researcherId, crfId, sc);
+	}
+
 	/**
 	 * Creates a new crf researcher with the primary key. Does not add the crf researcher to the database.
 	 *
@@ -225,6 +233,65 @@ public class CRFResearcherLocalServiceUtil {
 		return getService().getCRFResearcher(crfResearcherId);
 	}
 
+	public static List<CRFResearcher> getCRFResearcherByCRFId(
+		long groupId, long crfId) {
+
+		return getService().getCRFResearcherByCRFId(groupId, crfId);
+	}
+
+	public static List<CRFResearcher> getCRFResearcherByCRFId(
+		long groupId, long crfId, int start, int end) {
+
+		return getService().getCRFResearcherByCRFId(groupId, crfId, start, end);
+	}
+
+	public static List<CRFResearcher> getCRFResearcherByCRFId(
+		long groupId, long crfId, int start, int end,
+		OrderByComparator comparator) {
+
+		return getService().getCRFResearcherByCRFId(
+			groupId, crfId, start, end, comparator);
+	}
+
+	public static List<CRFResearcher> getCRFResearcherByGroupId(long groupId) {
+		return getService().getCRFResearcherByGroupId(groupId);
+	}
+
+	public static List<CRFResearcher> getCRFResearcherByGroupId(
+		long groupId, int start, int end) {
+
+		return getService().getCRFResearcherByGroupId(groupId, start, end);
+	}
+
+	public static List<CRFResearcher> getCRFResearcherByGroupId(
+		long groupId, int start, int end, OrderByComparator comparator) {
+
+		return getService().getCRFResearcherByGroupId(
+			groupId, start, end, comparator);
+	}
+
+	public static List<CRFResearcher> getCRFResearcherByResearcherId(
+		long groupId, long researcherId) {
+
+		return getService().getCRFResearcherByResearcherId(
+			groupId, researcherId);
+	}
+
+	public static List<CRFResearcher> getCRFResearcherByResearcherId(
+		long groupId, long researcherId, int start, int end) {
+
+		return getService().getCRFResearcherByResearcherId(
+			groupId, researcherId, start, end);
+	}
+
+	public static List<CRFResearcher> getCRFResearcherByResearcherId(
+		long groupId, long researcherId, int start, int end,
+		OrderByComparator comparator) {
+
+		return getService().getCRFResearcherByResearcherId(
+			groupId, researcherId, start, end, comparator);
+	}
+
 	/**
 	 * Returns the crf researcher matching the UUID and group.
 	 *
@@ -238,6 +305,21 @@ public class CRFResearcherLocalServiceUtil {
 		throws PortalException {
 
 		return getService().getCRFResearcherByUuidAndGroupId(uuid, groupId);
+	}
+
+	public static int getCRFResearcherCount(long groupId) {
+		return getService().getCRFResearcherCount(groupId);
+	}
+
+	public static int getCRFResearcherCountByCRFId(long groupId, long crfId) {
+		return getService().getCRFResearcherCountByCRFId(groupId, crfId);
+	}
+
+	public static int getCRFResearcherCountByResearcherId(
+		long groupId, long researcherId) {
+
+		return getService().getCRFResearcherCountByResearcherId(
+			groupId, researcherId);
 	}
 
 	/**

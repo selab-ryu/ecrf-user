@@ -45,6 +45,21 @@ public class ProjectLocalServiceWrapper
 		return _projectLocalService.addProject(project);
 	}
 
+	@Override
+	public ecrf.user.model.Project addProject(
+			String title, String shortTitle, String purpose, int startDateYear,
+			int startDateMonth, int startDateDay, int endDateYear,
+			int endDateMonth, int endDateDay, long principleResearcherId,
+			long manageResearcherId,
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _projectLocalService.addProject(
+			title, shortTitle, purpose, startDateYear, startDateMonth,
+			startDateDay, endDateYear, endDateMonth, endDateDay,
+			principleResearcherId, manageResearcherId, sc);
+	}
+
 	/**
 	 * Creates a new project with the primary key. Does not add the project to the database.
 	 *
@@ -269,6 +284,29 @@ public class ProjectLocalServiceWrapper
 		return _projectLocalService.getProject(projectId);
 	}
 
+	@Override
+	public java.util.List<ecrf.user.model.Project> getProjectByGroupId(
+		long groupId) {
+
+		return _projectLocalService.getProjectByGroupId(groupId);
+	}
+
+	@Override
+	public java.util.List<ecrf.user.model.Project> getProjectByGroupId(
+		long groupId, int start, int end) {
+
+		return _projectLocalService.getProjectByGroupId(groupId, start, end);
+	}
+
+	@Override
+	public java.util.List<ecrf.user.model.Project> getProjectByGroupId(
+		long groupId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator comparator) {
+
+		return _projectLocalService.getProjectByGroupId(
+			groupId, start, end, comparator);
+	}
+
 	/**
 	 * Returns the project matching the UUID and group.
 	 *
@@ -283,6 +321,11 @@ public class ProjectLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _projectLocalService.getProjectByUuidAndGroupId(uuid, groupId);
+	}
+
+	@Override
+	public int getProjectCount(long groupId) {
+		return _projectLocalService.getProjectCount(groupId);
 	}
 
 	/**
@@ -347,6 +390,21 @@ public class ProjectLocalServiceWrapper
 	@Override
 	public int getProjectsCount() {
 		return _projectLocalService.getProjectsCount();
+	}
+
+	@Override
+	public ecrf.user.model.Project updateProject(
+			long projectId, String title, String shortTitle, String purpose,
+			int startDateYear, int startDateMonth, int startDateDay,
+			int endDateYear, int endDateMonth, int endDateDay,
+			long principleResearcherId, long manageResearcherId,
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _projectLocalService.updateProject(
+			projectId, title, shortTitle, purpose, startDateYear,
+			startDateMonth, startDateDay, endDateYear, endDateMonth, endDateDay,
+			principleResearcherId, manageResearcherId, sc);
 	}
 
 	/**

@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -77,6 +78,11 @@ public interface CRFLocalService
 	@Indexable(type = IndexableType.REINDEX)
 	public CRF addCRF(CRF crf);
 
+	public CRF addCRF(
+			String title, long managerId, int applyDateYear, int applyDateMonth,
+			int applyDateDay, int crfStatus, ServiceContext sc)
+		throws PortalException;
+
 	/**
 	 * Creates a new crf with the primary key. Does not add the crf to the database.
 	 *
@@ -99,6 +105,8 @@ public interface CRFLocalService
 	@Indexable(type = IndexableType.DELETE)
 	public CRF deleteCRF(CRF crf);
 
+	public CRF deleteCRF(CRF crf, ServiceContext sc);
+
 	/**
 	 * Deletes the crf with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
@@ -112,6 +120,8 @@ public interface CRFLocalService
 	 */
 	@Indexable(type = IndexableType.DELETE)
 	public CRF deleteCRF(long crfId) throws PortalException;
+
+	public CRF deleteCRF(long crfId, ServiceContext sc) throws PortalException;
 
 	/**
 	 * @throws PortalException
@@ -212,6 +222,28 @@ public interface CRFLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public CRF getCRF(long crfId) throws PortalException;
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<CRF> getCRFByGroupId(long groupId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<CRF> getCRFByGroupId(long groupId, int start, int end);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<CRF> getCRFByGroupId(
+		long groupId, int start, int end, OrderByComparator comparator);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<CRF> getCRFByManagerId(long groupId, long managerId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<CRF> getCRFByManagerId(
+		long groupId, long managerId, int start, int end);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<CRF> getCRFByManagerId(
+		long groupId, long managerId, int start, int end,
+		OrderByComparator comparator);
+
 	/**
 	 * Returns the crf matching the UUID and group.
 	 *
@@ -223,6 +255,12 @@ public interface CRFLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public CRF getCRFByUuidAndGroupId(String uuid, long groupId)
 		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getCRFCount(long groupId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getCRFCountByManagerId(long groupId, long managerId);
 
 	/**
 	 * Returns a range of all the crfs.
@@ -305,5 +343,14 @@ public interface CRFLocalService
 	 */
 	@Indexable(type = IndexableType.REINDEX)
 	public CRF updateCRF(CRF crf);
+
+	public CRF updateCRF(
+			long crfId, String title, long managerId, int applyDateYear,
+			int applyDateMonth, int applyDateDay, int crfStatus,
+			ServiceContext sc)
+		throws PortalException;
+
+	public CRF updateManager(long crfId, long managerId, ServiceContext sc)
+		throws PortalException;
 
 }

@@ -59,6 +59,17 @@ public class CRFLocalServiceUtil {
 		return getService().addCRF(crf);
 	}
 
+	public static CRF addCRF(
+			String title, long managerId, int applyDateYear, int applyDateMonth,
+			int applyDateDay, int crfStatus,
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
+
+		return getService().addCRF(
+			title, managerId, applyDateYear, applyDateMonth, applyDateDay,
+			crfStatus, sc);
+	}
+
 	/**
 	 * Creates a new crf with the primary key. Does not add the crf to the database.
 	 *
@@ -83,6 +94,12 @@ public class CRFLocalServiceUtil {
 		return getService().deleteCRF(crf);
 	}
 
+	public static CRF deleteCRF(
+		CRF crf, com.liferay.portal.kernel.service.ServiceContext sc) {
+
+		return getService().deleteCRF(crf, sc);
+	}
+
 	/**
 	 * Deletes the crf with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
@@ -96,6 +113,13 @@ public class CRFLocalServiceUtil {
 	 */
 	public static CRF deleteCRF(long crfId) throws PortalException {
 		return getService().deleteCRF(crfId);
+	}
+
+	public static CRF deleteCRF(
+			long crfId, com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
+
+		return getService().deleteCRF(crfId, sc);
 	}
 
 	/**
@@ -217,6 +241,38 @@ public class CRFLocalServiceUtil {
 		return getService().getCRF(crfId);
 	}
 
+	public static List<CRF> getCRFByGroupId(long groupId) {
+		return getService().getCRFByGroupId(groupId);
+	}
+
+	public static List<CRF> getCRFByGroupId(long groupId, int start, int end) {
+		return getService().getCRFByGroupId(groupId, start, end);
+	}
+
+	public static List<CRF> getCRFByGroupId(
+		long groupId, int start, int end, OrderByComparator comparator) {
+
+		return getService().getCRFByGroupId(groupId, start, end, comparator);
+	}
+
+	public static List<CRF> getCRFByManagerId(long groupId, long managerId) {
+		return getService().getCRFByManagerId(groupId, managerId);
+	}
+
+	public static List<CRF> getCRFByManagerId(
+		long groupId, long managerId, int start, int end) {
+
+		return getService().getCRFByManagerId(groupId, managerId, start, end);
+	}
+
+	public static List<CRF> getCRFByManagerId(
+		long groupId, long managerId, int start, int end,
+		OrderByComparator comparator) {
+
+		return getService().getCRFByManagerId(
+			groupId, managerId, start, end, comparator);
+	}
+
 	/**
 	 * Returns the crf matching the UUID and group.
 	 *
@@ -229,6 +285,14 @@ public class CRFLocalServiceUtil {
 		throws PortalException {
 
 		return getService().getCRFByUuidAndGroupId(uuid, groupId);
+	}
+
+	public static int getCRFCount(long groupId) {
+		return getService().getCRFCount(groupId);
+	}
+
+	public static int getCRFCountByManagerId(long groupId, long managerId) {
+		return getService().getCRFCountByManagerId(groupId, managerId);
 	}
 
 	/**
@@ -331,6 +395,25 @@ public class CRFLocalServiceUtil {
 	 */
 	public static CRF updateCRF(CRF crf) {
 		return getService().updateCRF(crf);
+	}
+
+	public static CRF updateCRF(
+			long crfId, String title, long managerId, int applyDateYear,
+			int applyDateMonth, int applyDateDay, int crfStatus,
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
+
+		return getService().updateCRF(
+			crfId, title, managerId, applyDateYear, applyDateMonth,
+			applyDateDay, crfStatus, sc);
+	}
+
+	public static CRF updateManager(
+			long crfId, long managerId,
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
+
+		return getService().updateManager(crfId, managerId, sc);
 	}
 
 	public static CRFLocalService getService() {

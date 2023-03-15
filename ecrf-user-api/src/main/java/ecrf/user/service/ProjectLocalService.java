@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -76,6 +77,13 @@ public interface ProjectLocalService
 	 */
 	@Indexable(type = IndexableType.REINDEX)
 	public Project addProject(Project project);
+
+	public Project addProject(
+			String title, String shortTitle, String purpose, int startDateYear,
+			int startDateMonth, int startDateDay, int endDateYear,
+			int endDateMonth, int endDateDay, long principleResearcherId,
+			long manageResearcherId, ServiceContext sc)
+		throws PortalException;
 
 	/**
 	 * Creates a new project with the primary key. Does not add the project to the database.
@@ -234,6 +242,16 @@ public interface ProjectLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Project getProject(long projectId) throws PortalException;
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Project> getProjectByGroupId(long groupId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Project> getProjectByGroupId(long groupId, int start, int end);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Project> getProjectByGroupId(
+		long groupId, int start, int end, OrderByComparator comparator);
+
 	/**
 	 * Returns the project matching the UUID and group.
 	 *
@@ -245,6 +263,9 @@ public interface ProjectLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Project getProjectByUuidAndGroupId(String uuid, long groupId)
 		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getProjectCount(long groupId);
 
 	/**
 	 * Returns a range of all the projects.
@@ -293,6 +314,14 @@ public interface ProjectLocalService
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getProjectsCount();
+
+	public Project updateProject(
+			long projectId, String title, String shortTitle, String purpose,
+			int startDateYear, int startDateMonth, int startDateDay,
+			int endDateYear, int endDateMonth, int endDateDay,
+			long principleResearcherId, long manageResearcherId,
+			ServiceContext sc)
+		throws PortalException;
 
 	/**
 	 * Updates the project in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.

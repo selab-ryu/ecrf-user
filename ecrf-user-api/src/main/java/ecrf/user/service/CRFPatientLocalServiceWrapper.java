@@ -49,6 +49,15 @@ public class CRFPatientLocalServiceWrapper
 		return _crfPatientLocalService.addCRFPatient(crfPatient);
 	}
 
+	@Override
+	public ecrf.user.model.CRFPatient addCRFPatient(
+			long crfId, long patientId,
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _crfPatientLocalService.addCRFPatient(crfId, patientId, sc);
+	}
+
 	/**
 	 * Creates a new crf patient with the primary key. Does not add the crf patient to the database.
 	 *
@@ -237,6 +246,79 @@ public class CRFPatientLocalServiceWrapper
 		return _crfPatientLocalService.getCRFPatient(crfPatientId);
 	}
 
+	@Override
+	public java.util.List<ecrf.user.model.CRFPatient> getCRFPatientByCRFId(
+		long groupId, long crfId) {
+
+		return _crfPatientLocalService.getCRFPatientByCRFId(groupId, crfId);
+	}
+
+	@Override
+	public java.util.List<ecrf.user.model.CRFPatient> getCRFPatientByCRFId(
+		long groupId, long crfId, int start, int end) {
+
+		return _crfPatientLocalService.getCRFPatientByCRFId(
+			groupId, crfId, start, end);
+	}
+
+	@Override
+	public java.util.List<ecrf.user.model.CRFPatient> getCRFPatientByCRFId(
+		long groupId, long crfId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator comparator) {
+
+		return _crfPatientLocalService.getCRFPatientByCRFId(
+			groupId, crfId, start, end, comparator);
+	}
+
+	@Override
+	public java.util.List<ecrf.user.model.CRFPatient> getCRFPatientByGroupId(
+		long groupId) {
+
+		return _crfPatientLocalService.getCRFPatientByGroupId(groupId);
+	}
+
+	@Override
+	public java.util.List<ecrf.user.model.CRFPatient> getCRFPatientByGroupId(
+		long groupId, int start, int end) {
+
+		return _crfPatientLocalService.getCRFPatientByGroupId(
+			groupId, start, end);
+	}
+
+	@Override
+	public java.util.List<ecrf.user.model.CRFPatient> getCRFPatientByGroupId(
+		long groupId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator comparator) {
+
+		return _crfPatientLocalService.getCRFPatientByGroupId(
+			groupId, start, end, comparator);
+	}
+
+	@Override
+	public java.util.List<ecrf.user.model.CRFPatient> getCRFPatientByPatientId(
+		long groupId, long patientId) {
+
+		return _crfPatientLocalService.getCRFPatientByPatientId(
+			groupId, patientId);
+	}
+
+	@Override
+	public java.util.List<ecrf.user.model.CRFPatient> getCRFPatientByPatientId(
+		long groupId, long patientId, int start, int end) {
+
+		return _crfPatientLocalService.getCRFPatientByPatientId(
+			groupId, patientId, start, end);
+	}
+
+	@Override
+	public java.util.List<ecrf.user.model.CRFPatient> getCRFPatientByPatientId(
+		long groupId, long patientId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator comparator) {
+
+		return _crfPatientLocalService.getCRFPatientByPatientId(
+			groupId, patientId, start, end, comparator);
+	}
+
 	/**
 	 * Returns the crf patient matching the UUID and group.
 	 *
@@ -252,6 +334,23 @@ public class CRFPatientLocalServiceWrapper
 
 		return _crfPatientLocalService.getCRFPatientByUuidAndGroupId(
 			uuid, groupId);
+	}
+
+	@Override
+	public int getCRFPatientCountByCRFId(long groupId, long crfId) {
+		return _crfPatientLocalService.getCRFPatientCountByCRFId(
+			groupId, crfId);
+	}
+
+	@Override
+	public int getCRFPatientCountByGroupId(long groupId) {
+		return _crfPatientLocalService.getCRFPatientCountByGroupId(groupId);
+	}
+
+	@Override
+	public int getCRFPatientCountByPatientId(long groupId, long patientId) {
+		return _crfPatientLocalService.getCRFPatientCountByPatientId(
+			groupId, patientId);
 	}
 
 	/**

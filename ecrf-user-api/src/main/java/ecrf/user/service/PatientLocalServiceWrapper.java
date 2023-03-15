@@ -30,6 +30,24 @@ public class PatientLocalServiceWrapper
 		_patientLocalService = patientLocalService;
 	}
 
+	@Override
+	public ecrf.user.model.Patient addPatient(
+			long patientUserId, String name, int birthYear, int birthMonth,
+			int birthDay, String phone, String position, int gender,
+			int consentYear, int consentMonth, int consentDay,
+			int participationDateYear, int participationDateMonth,
+			int participationDateDay, int participationStatus,
+			String experimentalGroup,
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _patientLocalService.addPatient(
+			patientUserId, name, birthYear, birthMonth, birthDay, phone,
+			position, gender, consentYear, consentMonth, consentDay,
+			participationDateYear, participationDateMonth, participationDateDay,
+			participationStatus, experimentalGroup, sc);
+	}
+
 	/**
 	 * Adds the patient to the database. Also notifies the appropriate model listeners.
 	 *
@@ -74,6 +92,14 @@ public class PatientLocalServiceWrapper
 		return _patientLocalService.deletePatient(patientId);
 	}
 
+	@Override
+	public ecrf.user.model.Patient deletePatient(
+			long patientId, com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _patientLocalService.deletePatient(patientId, sc);
+	}
+
 	/**
 	 * Deletes the patient from the database. Also notifies the appropriate model listeners.
 	 *
@@ -89,6 +115,14 @@ public class PatientLocalServiceWrapper
 		ecrf.user.model.Patient patient) {
 
 		return _patientLocalService.deletePatient(patient);
+	}
+
+	@Override
+	public ecrf.user.model.Patient deletePatient(
+		ecrf.user.model.Patient patient,
+		com.liferay.portal.kernel.service.ServiceContext sc) {
+
+		return _patientLocalService.deletePatient(patient, sc);
 	}
 
 	/**
@@ -258,6 +292,29 @@ public class PatientLocalServiceWrapper
 		return _patientLocalService.getPatient(patientId);
 	}
 
+	@Override
+	public java.util.List<ecrf.user.model.Patient> getPatientByGroupId(
+		long groupId) {
+
+		return _patientLocalService.getPatientByGroupId(groupId);
+	}
+
+	@Override
+	public java.util.List<ecrf.user.model.Patient> getPatientByGroupId(
+		long groupId, int start, int end) {
+
+		return _patientLocalService.getPatientByGroupId(groupId, start, end);
+	}
+
+	@Override
+	public java.util.List<ecrf.user.model.Patient> getPatientByGroupId(
+		long groupId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator comparator) {
+
+		return _patientLocalService.getPatientByGroupId(
+			groupId, start, end, comparator);
+	}
+
 	/**
 	 * Returns the patient matching the UUID and group.
 	 *
@@ -272,6 +329,11 @@ public class PatientLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _patientLocalService.getPatientByUuidAndGroupId(uuid, groupId);
+	}
+
+	@Override
+	public int getPatientCount(long groupId) {
+		return _patientLocalService.getPatientCount(groupId);
 	}
 
 	/**
@@ -347,6 +409,24 @@ public class PatientLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _patientLocalService.getPersistedModel(primaryKeyObj);
+	}
+
+	@Override
+	public ecrf.user.model.Patient updatePatient(
+			long patientId, long patientUserId, String name, int birthYear,
+			int birthMonth, int birthDay, String phone, String position,
+			int gender, int consentYear, int consentMonth, int consentDay,
+			int participationDateYear, int participationDateMonth,
+			int participationDateDay, int participationStatus,
+			String experimentalGroup,
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _patientLocalService.updatePatient(
+			patientId, patientUserId, name, birthYear, birthMonth, birthDay,
+			phone, position, gender, consentYear, consentMonth, consentDay,
+			participationDateYear, participationDateMonth, participationDateDay,
+			participationStatus, experimentalGroup, sc);
 	}
 
 	/**

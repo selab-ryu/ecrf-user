@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -63,6 +64,14 @@ public interface PatientLocalService
 	 *
 	 * Never modify this interface directly. Add custom service methods to <code>ecrf.user.service.impl.PatientLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the patient local service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link PatientLocalServiceUtil} if injection and service tracking are not available.
 	 */
+	public Patient addPatient(
+			long patientUserId, String name, int birthYear, int birthMonth,
+			int birthDay, String phone, String position, int gender,
+			int consentYear, int consentMonth, int consentDay,
+			int participationDateYear, int participationDateMonth,
+			int participationDateDay, int participationStatus,
+			String experimentalGroup, ServiceContext sc)
+		throws PortalException;
 
 	/**
 	 * Adds the patient to the database. Also notifies the appropriate model listeners.
@@ -100,6 +109,9 @@ public interface PatientLocalService
 	@Indexable(type = IndexableType.DELETE)
 	public Patient deletePatient(long patientId) throws PortalException;
 
+	public Patient deletePatient(long patientId, ServiceContext sc)
+		throws PortalException;
+
 	/**
 	 * Deletes the patient from the database. Also notifies the appropriate model listeners.
 	 *
@@ -112,6 +124,8 @@ public interface PatientLocalService
 	 */
 	@Indexable(type = IndexableType.DELETE)
 	public Patient deletePatient(Patient patient);
+
+	public Patient deletePatient(Patient patient, ServiceContext sc);
 
 	/**
 	 * @throws PortalException
@@ -226,6 +240,16 @@ public interface PatientLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Patient getPatient(long patientId) throws PortalException;
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Patient> getPatientByGroupId(long groupId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Patient> getPatientByGroupId(long groupId, int start, int end);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Patient> getPatientByGroupId(
+		long groupId, int start, int end, OrderByComparator comparator);
+
 	/**
 	 * Returns the patient matching the UUID and group.
 	 *
@@ -237,6 +261,9 @@ public interface PatientLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Patient getPatientByUuidAndGroupId(String uuid, long groupId)
 		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getPatientCount(long groupId);
 
 	/**
 	 * Returns a range of all the patients.
@@ -292,6 +319,15 @@ public interface PatientLocalService
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException;
+
+	public Patient updatePatient(
+			long patientId, long patientUserId, String name, int birthYear,
+			int birthMonth, int birthDay, String phone, String position,
+			int gender, int consentYear, int consentMonth, int consentDay,
+			int participationDateYear, int participationDateMonth,
+			int participationDateDay, int participationStatus,
+			String experimentalGroup, ServiceContext sc)
 		throws PortalException;
 
 	/**

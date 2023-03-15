@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -76,6 +77,10 @@ public interface CRFResearcherLocalService
 	 */
 	@Indexable(type = IndexableType.REINDEX)
 	public CRFResearcher addCRFResearcher(CRFResearcher crfResearcher);
+
+	public CRFResearcher addCRFResearcher(
+			long researcherId, long crfId, ServiceContext sc)
+		throws PortalException;
 
 	/**
 	 * Creates a new crf researcher with the primary key. Does not add the crf researcher to the database.
@@ -215,6 +220,43 @@ public interface CRFResearcherLocalService
 	public CRFResearcher getCRFResearcher(long crfResearcherId)
 		throws PortalException;
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<CRFResearcher> getCRFResearcherByCRFId(
+		long groupId, long crfId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<CRFResearcher> getCRFResearcherByCRFId(
+		long groupId, long crfId, int start, int end);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<CRFResearcher> getCRFResearcherByCRFId(
+		long groupId, long crfId, int start, int end,
+		OrderByComparator comparator);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<CRFResearcher> getCRFResearcherByGroupId(long groupId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<CRFResearcher> getCRFResearcherByGroupId(
+		long groupId, int start, int end);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<CRFResearcher> getCRFResearcherByGroupId(
+		long groupId, int start, int end, OrderByComparator comparator);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<CRFResearcher> getCRFResearcherByResearcherId(
+		long groupId, long researcherId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<CRFResearcher> getCRFResearcherByResearcherId(
+		long groupId, long researcherId, int start, int end);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<CRFResearcher> getCRFResearcherByResearcherId(
+		long groupId, long researcherId, int start, int end,
+		OrderByComparator comparator);
+
 	/**
 	 * Returns the crf researcher matching the UUID and group.
 	 *
@@ -227,6 +269,16 @@ public interface CRFResearcherLocalService
 	public CRFResearcher getCRFResearcherByUuidAndGroupId(
 			String uuid, long groupId)
 		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getCRFResearcherCount(long groupId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getCRFResearcherCountByCRFId(long groupId, long crfId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getCRFResearcherCountByResearcherId(
+		long groupId, long researcherId);
 
 	/**
 	 * Returns a range of all the crf researchers.

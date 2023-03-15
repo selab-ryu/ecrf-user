@@ -50,6 +50,16 @@ public class CRFResearcherLocalServiceWrapper
 		return _crfResearcherLocalService.addCRFResearcher(crfResearcher);
 	}
 
+	@Override
+	public ecrf.user.model.CRFResearcher addCRFResearcher(
+			long researcherId, long crfId,
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _crfResearcherLocalService.addCRFResearcher(
+			researcherId, crfId, sc);
+	}
+
 	/**
 	 * Creates a new crf researcher with the primary key. Does not add the crf researcher to the database.
 	 *
@@ -244,6 +254,84 @@ public class CRFResearcherLocalServiceWrapper
 		return _crfResearcherLocalService.getCRFResearcher(crfResearcherId);
 	}
 
+	@Override
+	public java.util.List<ecrf.user.model.CRFResearcher>
+		getCRFResearcherByCRFId(long groupId, long crfId) {
+
+		return _crfResearcherLocalService.getCRFResearcherByCRFId(
+			groupId, crfId);
+	}
+
+	@Override
+	public java.util.List<ecrf.user.model.CRFResearcher>
+		getCRFResearcherByCRFId(long groupId, long crfId, int start, int end) {
+
+		return _crfResearcherLocalService.getCRFResearcherByCRFId(
+			groupId, crfId, start, end);
+	}
+
+	@Override
+	public java.util.List<ecrf.user.model.CRFResearcher>
+		getCRFResearcherByCRFId(
+			long groupId, long crfId, int start, int end,
+			com.liferay.portal.kernel.util.OrderByComparator comparator) {
+
+		return _crfResearcherLocalService.getCRFResearcherByCRFId(
+			groupId, crfId, start, end, comparator);
+	}
+
+	@Override
+	public java.util.List<ecrf.user.model.CRFResearcher>
+		getCRFResearcherByGroupId(long groupId) {
+
+		return _crfResearcherLocalService.getCRFResearcherByGroupId(groupId);
+	}
+
+	@Override
+	public java.util.List<ecrf.user.model.CRFResearcher>
+		getCRFResearcherByGroupId(long groupId, int start, int end) {
+
+		return _crfResearcherLocalService.getCRFResearcherByGroupId(
+			groupId, start, end);
+	}
+
+	@Override
+	public java.util.List<ecrf.user.model.CRFResearcher>
+		getCRFResearcherByGroupId(
+			long groupId, int start, int end,
+			com.liferay.portal.kernel.util.OrderByComparator comparator) {
+
+		return _crfResearcherLocalService.getCRFResearcherByGroupId(
+			groupId, start, end, comparator);
+	}
+
+	@Override
+	public java.util.List<ecrf.user.model.CRFResearcher>
+		getCRFResearcherByResearcherId(long groupId, long researcherId) {
+
+		return _crfResearcherLocalService.getCRFResearcherByResearcherId(
+			groupId, researcherId);
+	}
+
+	@Override
+	public java.util.List<ecrf.user.model.CRFResearcher>
+		getCRFResearcherByResearcherId(
+			long groupId, long researcherId, int start, int end) {
+
+		return _crfResearcherLocalService.getCRFResearcherByResearcherId(
+			groupId, researcherId, start, end);
+	}
+
+	@Override
+	public java.util.List<ecrf.user.model.CRFResearcher>
+		getCRFResearcherByResearcherId(
+			long groupId, long researcherId, int start, int end,
+			com.liferay.portal.kernel.util.OrderByComparator comparator) {
+
+		return _crfResearcherLocalService.getCRFResearcherByResearcherId(
+			groupId, researcherId, start, end, comparator);
+	}
+
 	/**
 	 * Returns the crf researcher matching the UUID and group.
 	 *
@@ -259,6 +347,25 @@ public class CRFResearcherLocalServiceWrapper
 
 		return _crfResearcherLocalService.getCRFResearcherByUuidAndGroupId(
 			uuid, groupId);
+	}
+
+	@Override
+	public int getCRFResearcherCount(long groupId) {
+		return _crfResearcherLocalService.getCRFResearcherCount(groupId);
+	}
+
+	@Override
+	public int getCRFResearcherCountByCRFId(long groupId, long crfId) {
+		return _crfResearcherLocalService.getCRFResearcherCountByCRFId(
+			groupId, crfId);
+	}
+
+	@Override
+	public int getCRFResearcherCountByResearcherId(
+		long groupId, long researcherId) {
+
+		return _crfResearcherLocalService.getCRFResearcherCountByResearcherId(
+			groupId, researcherId);
 	}
 
 	/**

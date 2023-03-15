@@ -45,6 +45,18 @@ public class CRFLocalServiceWrapper
 		return _crfLocalService.addCRF(crf);
 	}
 
+	@Override
+	public ecrf.user.model.CRF addCRF(
+			String title, long managerId, int applyDateYear, int applyDateMonth,
+			int applyDateDay, int crfStatus,
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _crfLocalService.addCRF(
+			title, managerId, applyDateYear, applyDateMonth, applyDateDay,
+			crfStatus, sc);
+	}
+
 	/**
 	 * Creates a new crf with the primary key. Does not add the crf to the database.
 	 *
@@ -71,6 +83,14 @@ public class CRFLocalServiceWrapper
 		return _crfLocalService.deleteCRF(crf);
 	}
 
+	@Override
+	public ecrf.user.model.CRF deleteCRF(
+		ecrf.user.model.CRF crf,
+		com.liferay.portal.kernel.service.ServiceContext sc) {
+
+		return _crfLocalService.deleteCRF(crf, sc);
+	}
+
 	/**
 	 * Deletes the crf with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
@@ -87,6 +107,14 @@ public class CRFLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _crfLocalService.deleteCRF(crfId);
+	}
+
+	@Override
+	public ecrf.user.model.CRF deleteCRF(
+			long crfId, com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _crfLocalService.deleteCRF(crfId, sc);
 	}
 
 	/**
@@ -229,6 +257,51 @@ public class CRFLocalServiceWrapper
 		return _crfLocalService.getCRF(crfId);
 	}
 
+	@Override
+	public java.util.List<ecrf.user.model.CRF> getCRFByGroupId(long groupId) {
+		return _crfLocalService.getCRFByGroupId(groupId);
+	}
+
+	@Override
+	public java.util.List<ecrf.user.model.CRF> getCRFByGroupId(
+		long groupId, int start, int end) {
+
+		return _crfLocalService.getCRFByGroupId(groupId, start, end);
+	}
+
+	@Override
+	public java.util.List<ecrf.user.model.CRF> getCRFByGroupId(
+		long groupId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator comparator) {
+
+		return _crfLocalService.getCRFByGroupId(
+			groupId, start, end, comparator);
+	}
+
+	@Override
+	public java.util.List<ecrf.user.model.CRF> getCRFByManagerId(
+		long groupId, long managerId) {
+
+		return _crfLocalService.getCRFByManagerId(groupId, managerId);
+	}
+
+	@Override
+	public java.util.List<ecrf.user.model.CRF> getCRFByManagerId(
+		long groupId, long managerId, int start, int end) {
+
+		return _crfLocalService.getCRFByManagerId(
+			groupId, managerId, start, end);
+	}
+
+	@Override
+	public java.util.List<ecrf.user.model.CRF> getCRFByManagerId(
+		long groupId, long managerId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator comparator) {
+
+		return _crfLocalService.getCRFByManagerId(
+			groupId, managerId, start, end, comparator);
+	}
+
 	/**
 	 * Returns the crf matching the UUID and group.
 	 *
@@ -242,6 +315,16 @@ public class CRFLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _crfLocalService.getCRFByUuidAndGroupId(uuid, groupId);
+	}
+
+	@Override
+	public int getCRFCount(long groupId) {
+		return _crfLocalService.getCRFCount(groupId);
+	}
+
+	@Override
+	public int getCRFCountByManagerId(long groupId, long managerId) {
+		return _crfLocalService.getCRFCountByManagerId(groupId, managerId);
 	}
 
 	/**
@@ -355,6 +438,27 @@ public class CRFLocalServiceWrapper
 	@Override
 	public ecrf.user.model.CRF updateCRF(ecrf.user.model.CRF crf) {
 		return _crfLocalService.updateCRF(crf);
+	}
+
+	@Override
+	public ecrf.user.model.CRF updateCRF(
+			long crfId, String title, long managerId, int applyDateYear,
+			int applyDateMonth, int applyDateDay, int crfStatus,
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _crfLocalService.updateCRF(
+			crfId, title, managerId, applyDateYear, applyDateMonth,
+			applyDateDay, crfStatus, sc);
+	}
+
+	@Override
+	public ecrf.user.model.CRF updateManager(
+			long crfId, long managerId,
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _crfLocalService.updateManager(crfId, managerId, sc);
 	}
 
 	@Override
