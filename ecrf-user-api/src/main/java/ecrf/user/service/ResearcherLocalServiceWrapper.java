@@ -55,15 +55,17 @@ public class ResearcherLocalServiceWrapper
 
 	@Override
 	public ecrf.user.model.Researcher addResearcher(
-			long researcherUserId, int birthYear, int birthMonth, int birthDay,
-			String phone, String institution, String officeContact,
-			String position, int approveStatus,
+			long researcherUserId, String firstName, String lastName,
+			int birthYear, int birthMonth, int birthDay, String phone,
+			String institution, String officeContact, String position,
+			int approveStatus,
 			com.liferay.portal.kernel.service.ServiceContext sc)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _researcherLocalService.addResearcher(
-			researcherUserId, birthYear, birthMonth, birthDay, phone,
-			institution, officeContact, position, approveStatus, sc);
+			researcherUserId, firstName, lastName, birthYear, birthMonth,
+			birthDay, phone, institution, officeContact, position,
+			approveStatus, sc);
 	}
 
 	/**
@@ -447,15 +449,17 @@ public class ResearcherLocalServiceWrapper
 
 	@Override
 	public ecrf.user.model.Researcher updateResearcher(
-			long researcherId, long researcherUserId, int birthYear,
-			int birthMonth, int birthDay, String phone, String institution,
-			String officeContact, String position, int approveStatus,
+			long researcherId, long researcherUserId, String firstName,
+			String lastName, int birthYear, int birthMonth, int birthDay,
+			String phone, String institution, String officeContact,
+			String position, int approveStatus,
 			com.liferay.portal.kernel.service.ServiceContext sc)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _researcherLocalService.updateResearcher(
-			researcherId, researcherUserId, birthYear, birthMonth, birthDay,
-			phone, institution, officeContact, position, approveStatus, sc);
+			researcherId, researcherUserId, firstName, lastName, birthYear,
+			birthMonth, birthDay, phone, institution, officeContact, position,
+			approveStatus, sc);
 	}
 
 	/**

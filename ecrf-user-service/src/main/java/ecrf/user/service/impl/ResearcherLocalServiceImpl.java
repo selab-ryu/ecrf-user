@@ -14,10 +14,13 @@
 
 package ecrf.user.service.impl;
 
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.search.Indexable;
+import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
@@ -52,6 +55,7 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 	@Reference
 	private CRFLocalService _crfLocalService;
 	
+	@Indexable(type=IndexableType.REINDEX)
 	public Researcher addResarcherWithUser(
 			long companyId, long facebookId, String openId,
 			String languageId, boolean male, String jobTitle,
@@ -114,9 +118,11 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 		researcher.setModifiedDate(researcherServiceContext.getModifiedDate());
 		researcher.setExpandoBridgeAttributes(researcherServiceContext);
 		
+		String fullName = lastName + StringPool.SPACE + firstName;
+		
 		// set entity fields
 		researcher.setResearcherUserId(researcherUserId);
-		researcher.setName(screenName);
+		researcher.setName(fullName);
 		researcher.setBirth(birth);
 		researcher.setPhone(phone);
 		researcher.setInstitution(institution);
@@ -138,8 +144,10 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 		return researcher;
 	}
 	
+	@Indexable(type=IndexableType.REINDEX)
 	public Researcher addResearcher(
 			long researcherUserId,
+			String firstName, String lastName,
 			int birthYear, int birthMonth, int birthDay, String phone,
 			String institution, String officeContact, String position,
 			int approveStatus, ServiceContext sc) throws  PortalException {
@@ -165,8 +173,11 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 		researcher.setModifiedDate(sc.getModifiedDate());
 		researcher.setExpandoBridgeAttributes(sc);
 		
+		String fullName = lastName + StringPool.SPACE + firstName;
+		
 		// set entity fields
 		researcher.setResearcherUserId(researcherUserId);
+		researcher.setName(fullName);
 		researcher.setBirth(birth);
 		researcher.setPhone(phone);
 		researcher.setInstitution(institution);
@@ -186,8 +197,10 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 		return researcher;
 	}
 	
+	@Indexable(type=IndexableType.REINDEX)
 	public Researcher updateResearcher(
 			long researcherId, long researcherUserId, 
+			String firstName, String lastName,
 			int birthYear, int birthMonth, int birthDay, String phone,
 			String institution, String officeContact, String position,
 			int approveStatus, ServiceContext sc) throws  PortalException {
@@ -202,14 +215,16 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 		User user = super.userLocalService.getUser(userId);
 		
 		// set audit fields
-		researcher.setModifiedDate(sc.getModifiedDate());
-		researcher.setExpandoBridgeAttributes(sc);
-		
-		// set entity fields
 		researcher.setUserId(userId);
 		researcher.setUserName(user.getFullName());
 		researcher.setModifiedDate(sc.getModifiedDate());
+		researcher.setExpandoBridgeAttributes(sc);
+		
+		String fullName = lastName + StringPool.SPACE + firstName;
+		
+		// set entity fields	
 		researcher.setResearcherUserId(researcherUserId);
+		researcher.setName(fullName);
 		researcher.setBirth(birth);
 		researcher.setPhone(phone);
 		researcher.setInstitution(institution);
@@ -229,6 +244,7 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 		return researcher;
 	}
 	
+	@Indexable(type=IndexableType.DELETE)
 	public Researcher deleteResearcher(long researcherId, ServiceContext sc) throws PortalException {
 		Researcher researcher = null;
 		if(researcherId > 0) {
@@ -254,6 +270,7 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 		return researcher;
 	}
 	
+	@Indexable(type=IndexableType.DELETE)
 	public Researcher deleteResearcher(Researcher researcher, ServiceContext sc) {
 		super.researcherPersistence.remove(researcher);
 		

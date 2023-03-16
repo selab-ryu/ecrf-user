@@ -13,6 +13,9 @@ dependencies {
 	compileOnly group: "com.liferay", name: "com.liferay.petra.function"
 	compileOnly group: "com.liferay", name: "com.liferay.petra.model.adapter"
 	compileOnly group: "com.liferay", name: "com.liferay.petra.reflect"
+	
+	compileOnly group: "com.liferay", name: "com.liferay.portal.search.spi"
+	compileOnly group: "com.liferay", name: "com.liferay.portal.search.api"
 }
 
 buildService {

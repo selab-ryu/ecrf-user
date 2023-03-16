@@ -64,6 +64,7 @@ public interface ResearcherLocalService
 	 *
 	 * Never modify this interface directly. Add custom service methods to <code>ecrf.user.service.impl.ResearcherLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the researcher local service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link ResearcherLocalServiceUtil} if injection and service tracking are not available.
 	 */
+	@Indexable(type = IndexableType.REINDEX)
 	public Researcher addResarcherWithUser(
 			long companyId, long facebookId, String openId, String languageId,
 			boolean male, String jobTitle, long prefixId, long suffixId,
@@ -75,10 +76,12 @@ public interface ResearcherLocalService
 			ServiceContext researcherServiceContext)
 		throws PortalException;
 
+	@Indexable(type = IndexableType.REINDEX)
 	public Researcher addResearcher(
-			long researcherUserId, int birthYear, int birthMonth, int birthDay,
-			String phone, String institution, String officeContact,
-			String position, int approveStatus, ServiceContext sc)
+			long researcherUserId, String firstName, String lastName,
+			int birthYear, int birthMonth, int birthDay, String phone,
+			String institution, String officeContact, String position,
+			int approveStatus, ServiceContext sc)
 		throws PortalException;
 
 	/**
@@ -128,6 +131,7 @@ public interface ResearcherLocalService
 	public Researcher deleteResearcher(long researcherId)
 		throws PortalException;
 
+	@Indexable(type = IndexableType.DELETE)
 	public Researcher deleteResearcher(long researcherId, ServiceContext sc)
 		throws PortalException;
 
@@ -144,6 +148,7 @@ public interface ResearcherLocalService
 	@Indexable(type = IndexableType.DELETE)
 	public Researcher deleteResearcher(Researcher researcher);
 
+	@Indexable(type = IndexableType.DELETE)
 	public Researcher deleteResearcher(
 		Researcher researcher, ServiceContext sc);
 
@@ -336,11 +341,12 @@ public interface ResearcherLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getResearchersCount();
 
+	@Indexable(type = IndexableType.REINDEX)
 	public Researcher updateResearcher(
-			long researcherId, long researcherUserId, int birthYear,
-			int birthMonth, int birthDay, String phone, String institution,
-			String officeContact, String position, int approveStatus,
-			ServiceContext sc)
+			long researcherId, long researcherUserId, String firstName,
+			String lastName, int birthYear, int birthMonth, int birthDay,
+			String phone, String institution, String officeContact,
+			String position, int approveStatus, ServiceContext sc)
 		throws PortalException;
 
 	/**
