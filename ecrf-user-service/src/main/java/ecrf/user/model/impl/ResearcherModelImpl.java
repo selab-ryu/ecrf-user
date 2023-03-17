@@ -139,11 +139,13 @@ public class ResearcherModelImpl
 
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
 
-	public static final long UUID_COLUMN_BITMASK = 4L;
+	public static final long STATUS_COLUMN_BITMASK = 4L;
 
-	public static final long RESEARCHERID_COLUMN_BITMASK = 8L;
+	public static final long UUID_COLUMN_BITMASK = 8L;
 
-	public static final long CREATEDATE_COLUMN_BITMASK = 16L;
+	public static final long RESEARCHERID_COLUMN_BITMASK = 16L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 32L;
 
 	public static void setEntityCacheEnabled(boolean entityCacheEnabled) {
 		_entityCacheEnabled = entityCacheEnabled;
@@ -577,7 +579,19 @@ public class ResearcherModelImpl
 
 	@Override
 	public void setStatus(int status) {
+		_columnBitmask |= STATUS_COLUMN_BITMASK;
+
+		if (!_setOriginalStatus) {
+			_setOriginalStatus = true;
+
+			_originalStatus = _status;
+		}
+
 		_status = status;
+	}
+
+	public int getOriginalStatus() {
+		return _originalStatus;
 	}
 
 	@JSON
@@ -991,6 +1005,9 @@ public class ResearcherModelImpl
 		_setOriginalCompanyId = false;
 
 		_setModifiedDate = false;
+		_originalStatus = _status;
+
+		_setOriginalStatus = false;
 
 		_columnBitmask = 0;
 	}
@@ -1228,6 +1245,8 @@ public class ResearcherModelImpl
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private int _status;
+	private int _originalStatus;
+	private boolean _setOriginalStatus;
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;

@@ -140,6 +140,8 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 				Researcher.class.getName(), researcher.getResearcherId(),
 				false, true, true);
 		
+		
+		
 		_logger.info("Add Researcher With User End");
 		return researcher;
 	}

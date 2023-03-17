@@ -15,7 +15,7 @@ import org.osgi.service.component.annotations.Reference;
 
 import ecrf.user.model.Researcher;
 
-@Component (immediate=true)
+@Component (immediate=true, service = {})
 public class ResearcherSearchRegistrar {
 	@Activate
 	protected void activate(BundleContext bundleContext) {
@@ -24,6 +24,7 @@ public class ResearcherSearchRegistrar {
 		System.out.println("_modelSearchRegistrarHelper: "+ Validator.isNotNull(modelSearchRegistrarHelper));
 		System.out.println("_modelIndexWriterContributor: "+ Validator.isNotNull(modelIndexWriterContributor));
 		System.out.println("_modelSummaryContributor: "+ Validator.isNotNull(modelSummaryContributor));
+		
 		_serviceRegistration = modelSearchRegistrarHelper.register(
 				Researcher.class, bundleContext, 
 				modelSearchDefinition -> {
