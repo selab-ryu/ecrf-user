@@ -1,6 +1,7 @@
 package ecrf.user.search.researcher;
 
 import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.search.spi.model.index.contributor.ModelIndexerWriterContributor;
 import com.liferay.portal.search.spi.model.registrar.ModelSearchRegistrarHelper;
 import com.liferay.portal.search.spi.model.result.contributor.ModelSummaryContributor;
@@ -18,6 +19,11 @@ import ecrf.user.model.Researcher;
 public class ResearcherSearchRegistrar {
 	@Activate
 	protected void activate(BundleContext bundleContext) {
+		System.out.println("===== Begin " + this.getClass().getName()  + " activator() =====");
+		System.out.println("_serviceRegistration: "+ Validator.isNotNull(_serviceRegistration));
+		System.out.println("_modelSearchRegistrarHelper: "+ Validator.isNotNull(modelSearchRegistrarHelper));
+		System.out.println("_modelIndexWriterContributor: "+ Validator.isNotNull(modelIndexWriterContributor));
+		System.out.println("_modelSummaryContributor: "+ Validator.isNotNull(modelSummaryContributor));
 		_serviceRegistration = modelSearchRegistrarHelper.register(
 				Researcher.class, bundleContext, 
 				modelSearchDefinition -> {
