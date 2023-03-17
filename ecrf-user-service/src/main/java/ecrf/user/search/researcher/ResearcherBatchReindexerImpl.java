@@ -1,4 +1,4 @@
-package ecrf.user.search.researcher.impl;
+package ecrf.user.search.researcher;
 
 import com.liferay.portal.kernel.dao.orm.Property;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
@@ -11,7 +11,6 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 import ecrf.user.model.Researcher;
-import ecrf.user.search.researcher.ResearcherBatchReindexer;
 
 @Component(immediate = true, service = ResearcherBatchReindexer.class)
 public class ResearcherBatchReindexerImpl implements ResearcherBatchReindexer {
