@@ -27,6 +27,7 @@
 		
 		<!-- Other fields -->
 		<column name="name" type="String" />
+		<column name="email" type="String" />
 		<column name="birth" type="Date" />
 		<column name="phone" type="String" />
 		<column name="institution" type="String" />

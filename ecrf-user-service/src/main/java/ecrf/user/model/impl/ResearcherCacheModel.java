@@ -78,7 +78,7 @@ public class ResearcherCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(43);
+		StringBundler sb = new StringBundler(45);
 
 		sb.append("{mvccVersion=");
 		sb.append(mvccVersion);
@@ -108,6 +108,8 @@ public class ResearcherCacheModel
 		sb.append(statusDate);
 		sb.append(", name=");
 		sb.append(name);
+		sb.append(", email=");
+		sb.append(email);
 		sb.append(", birth=");
 		sb.append(birth);
 		sb.append(", phone=");
@@ -190,6 +192,13 @@ public class ResearcherCacheModel
 			researcherImpl.setName(name);
 		}
 
+		if (email == null) {
+			researcherImpl.setEmail("");
+		}
+		else {
+			researcherImpl.setEmail(email);
+		}
+
 		if (birth == Long.MIN_VALUE) {
 			researcherImpl.setBirth(null);
 		}
@@ -255,6 +264,7 @@ public class ResearcherCacheModel
 		statusByUserName = objectInput.readUTF();
 		statusDate = objectInput.readLong();
 		name = objectInput.readUTF();
+		email = objectInput.readUTF();
 		birth = objectInput.readLong();
 		phone = objectInput.readUTF();
 		institution = objectInput.readUTF();
@@ -315,6 +325,13 @@ public class ResearcherCacheModel
 			objectOutput.writeUTF(name);
 		}
 
+		if (email == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(email);
+		}
+
 		objectOutput.writeLong(birth);
 
 		if (phone == null) {
@@ -364,6 +381,7 @@ public class ResearcherCacheModel
 	public String statusByUserName;
 	public long statusDate;
 	public String name;
+	public String email;
 	public long birth;
 	public String phone;
 	public String institution;

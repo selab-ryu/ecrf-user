@@ -79,9 +79,9 @@ public interface ResearcherLocalService
 	@Indexable(type = IndexableType.REINDEX)
 	public Researcher addResearcher(
 			long researcherUserId, String firstName, String lastName,
-			int birthYear, int birthMonth, int birthDay, String phone,
-			String institution, String officeContact, String position,
-			int approveStatus, ServiceContext sc)
+			String emailAddress, int birthYear, int birthMonth, int birthDay,
+			String phone, String institution, String officeContact,
+			String position, int approveStatus, ServiceContext sc)
 		throws PortalException;
 
 	/**
@@ -344,9 +344,10 @@ public interface ResearcherLocalService
 	@Indexable(type = IndexableType.REINDEX)
 	public Researcher updateResearcher(
 			long researcherId, long researcherUserId, String firstName,
-			String lastName, int birthYear, int birthMonth, int birthDay,
-			String phone, String institution, String officeContact,
-			String position, int approveStatus, ServiceContext sc)
+			String lastName, String emailAddress, int birthYear, int birthMonth,
+			int birthDay, String phone, String institution,
+			String officeContact, String position, int approveStatus,
+			ServiceContext sc)
 		throws PortalException;
 
 	/**

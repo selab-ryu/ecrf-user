@@ -110,6 +110,7 @@ create table EC_Researcher (
 	statusByUserName VARCHAR(75) null,
 	statusDate DATE null,
 	name VARCHAR(75) null,
+	email VARCHAR(75) null,
 	birth DATE null,
 	phone VARCHAR(75) null,
 	institution VARCHAR(75) null,

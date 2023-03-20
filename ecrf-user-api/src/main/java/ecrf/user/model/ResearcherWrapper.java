@@ -57,6 +57,7 @@ public class ResearcherWrapper
 		attributes.put("statusByUserName", getStatusByUserName());
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("name", getName());
+		attributes.put("email", getEmail());
 		attributes.put("birth", getBirth());
 		attributes.put("phone", getPhone());
 		attributes.put("institution", getInstitution());
@@ -154,6 +155,12 @@ public class ResearcherWrapper
 			setName(name);
 		}
 
+		String email = (String)attributes.get("email");
+
+		if (email != null) {
+			setEmail(email);
+		}
+
 		Date birth = (Date)attributes.get("birth");
 
 		if (birth != null) {
@@ -235,6 +242,16 @@ public class ResearcherWrapper
 	@Override
 	public Date getCreateDate() {
 		return model.getCreateDate();
+	}
+
+	/**
+	 * Returns the email of this researcher.
+	 *
+	 * @return the email of this researcher
+	 */
+	@Override
+	public String getEmail() {
+		return model.getEmail();
 	}
 
 	/**
@@ -570,6 +587,16 @@ public class ResearcherWrapper
 	@Override
 	public void setCreateDate(Date createDate) {
 		model.setCreateDate(createDate);
+	}
+
+	/**
+	 * Sets the email of this researcher.
+	 *
+	 * @param email the email of this researcher
+	 */
+	@Override
+	public void setEmail(String email) {
+		model.setEmail(email);
 	}
 
 	/**

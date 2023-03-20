@@ -14,6 +14,7 @@
 
 package ecrf.user.service.impl;
 
+import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -22,6 +23,7 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
@@ -33,7 +35,6 @@ import java.util.logging.Logger;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
-import ecrf.user.exception.NoSuchResearcherException;
 import ecrf.user.model.Researcher;
 import ecrf.user.service.CRFLocalService;
 import ecrf.user.service.CRFResearcherLocalService;
@@ -123,6 +124,7 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 		// set entity fields
 		researcher.setResearcherUserId(researcherUserId);
 		researcher.setName(fullName);
+		researcher.setEmail(emailAddress);
 		researcher.setBirth(birth);
 		researcher.setPhone(phone);
 		researcher.setInstitution(institution);
@@ -140,7 +142,13 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 				Researcher.class.getName(), researcherId,
 				false, true, true);
 		
-		
+		super.assetEntryLocalService.updateEntry(
+				researcher.getUserId(), researcher.getGroupId(), researcher.getCreateDate(), researcher.getModifiedDate(),
+				Researcher.class.getName(), researcherId, researcher.getUuid(), 
+				0, researcherServiceContext.getAssetCategoryIds(), researcherServiceContext.getAssetTagNames(),
+				true, true, researcher.getCreateDate(), null, null, null,
+				ContentTypes.TEXT_HTML, researcher.getName(), null, null,
+				null, null, 0, 0, researcherServiceContext.getAssetPriority());
 		
 		_logger.info("Add Researcher With User End");
 		return researcher;
@@ -149,7 +157,7 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 	@Indexable(type=IndexableType.REINDEX)
 	public Researcher addResearcher(
 			long researcherUserId,
-			String firstName, String lastName,
+			String firstName, String lastName, String emailAddress,
 			int birthYear, int birthMonth, int birthDay, String phone,
 			String institution, String officeContact, String position,
 			int approveStatus, ServiceContext sc) throws  PortalException {
@@ -180,6 +188,7 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 		// set entity fields
 		researcher.setResearcherUserId(researcherUserId);
 		researcher.setName(fullName);
+		researcher.setEmail(emailAddress);
 		researcher.setBirth(birth);
 		researcher.setPhone(phone);
 		researcher.setInstitution(institution);
@@ -196,13 +205,21 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 				Researcher.class.getName(), researcherId,
 				false, true, true);
 		
+		super.assetEntryLocalService.updateEntry(
+				researcher.getUserId(), researcher.getGroupId(), researcher.getCreateDate(), researcher.getModifiedDate(),
+				Researcher.class.getName(), researcherId, researcher.getUuid(), 
+				0, sc.getAssetCategoryIds(), sc.getAssetTagNames(),
+				true, true, researcher.getCreateDate(), null, null, null,
+				ContentTypes.TEXT_HTML, researcher.getName(), null, null,
+				null, null, 0, 0, sc.getAssetPriority());
+		
 		return researcher;
 	}
 	
 	@Indexable(type=IndexableType.REINDEX)
 	public Researcher updateResearcher(
 			long researcherId, long researcherUserId, 
-			String firstName, String lastName,
+			String firstName, String lastName, String emailAddress,
 			int birthYear, int birthMonth, int birthDay, String phone,
 			String institution, String officeContact, String position,
 			int approveStatus, ServiceContext sc) throws  PortalException {
@@ -227,6 +244,7 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 		// set entity fields	
 		researcher.setResearcherUserId(researcherUserId);
 		researcher.setName(fullName);
+		researcher.setEmail(emailAddress);
 		researcher.setBirth(birth);
 		researcher.setPhone(phone);
 		researcher.setInstitution(institution);
@@ -242,6 +260,14 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 				researcher.getCompanyId(), sc.getScopeGroupId(),
 				Researcher.class.getName(), researcher.getResearcherId(),
 				sc.getModelPermissions());
+		
+		super.assetEntryLocalService.updateEntry(
+				researcher.getUserId(), researcher.getGroupId(), researcher.getCreateDate(), researcher.getModifiedDate(),
+				Researcher.class.getName(), researcherId, researcher.getUuid(), 
+				0, sc.getAssetCategoryIds(), sc.getAssetTagNames(),
+				true, true, researcher.getCreateDate(), null, null, null,
+				ContentTypes.TEXT_HTML, researcher.getName(), null, null,
+				null, null, 0, 0, sc.getAssetPriority());
 		
 		return researcher;
 	}
@@ -267,6 +293,10 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 			resourceLocalService.deleteResource(
 					researcher.getCompanyId(), Researcher.class.getName(),
 					ResourceConstants.SCOPE_INDIVIDUAL, researcher.getResearcherId());
+			
+			AssetEntry assetEntry = super.assetEntryLocalService.fetchEntry(Researcher.class.getName(), researcherId);
+			super.assetLinkLocalService.deleteLinks(assetEntry.getEntryId());
+			super.assetEntryLocalService.deleteEntry(assetEntry);
 		}
 		
 		return researcher;
@@ -290,15 +320,17 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 //				e.printStackTrace();
 //			}
 //		}
-		
 		try {
 			resourceLocalService.deleteResource(
 					researcher.getCompanyId(), Researcher.class.getName(),
 					ResourceConstants.SCOPE_INDIVIDUAL, researcher.getResearcherId());
-		} catch (PortalException e) {
-			e.printStackTrace();
+			
+			AssetEntry assetEntry = super.assetEntryLocalService.fetchEntry(Researcher.class.getName(), researcher.getResearcherId());
+			super.assetLinkLocalService.deleteLinks(assetEntry.getEntryId());
+			super.assetEntryLocalService.deleteEntry(assetEntry);
+		} catch(PortalException pe) {
+			pe.printStackTrace();
 		}
-		
 		return researcher;
 	}
 		

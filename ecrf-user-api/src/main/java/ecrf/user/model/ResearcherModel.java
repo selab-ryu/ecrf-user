@@ -319,6 +319,21 @@ public interface ResearcherModel
 	public void setName(String name);
 
 	/**
+	 * Returns the email of this researcher.
+	 *
+	 * @return the email of this researcher
+	 */
+	@AutoEscape
+	public String getEmail();
+
+	/**
+	 * Sets the email of this researcher.
+	 *
+	 * @param email the email of this researcher
+	 */
+	public void setEmail(String email);
+
+	/**
 	 * Returns the birth of this researcher.
 	 *
 	 * @return the birth of this researcher

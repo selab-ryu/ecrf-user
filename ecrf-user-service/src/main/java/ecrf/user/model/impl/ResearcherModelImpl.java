@@ -85,10 +85,10 @@ public class ResearcherModelImpl
 		{"modifiedDate", Types.TIMESTAMP}, {"status", Types.INTEGER},
 		{"statusByUserId", Types.BIGINT}, {"statusByUserName", Types.VARCHAR},
 		{"statusDate", Types.TIMESTAMP}, {"name", Types.VARCHAR},
-		{"birth", Types.TIMESTAMP}, {"phone", Types.VARCHAR},
-		{"institution", Types.VARCHAR}, {"officeContact", Types.VARCHAR},
-		{"position", Types.VARCHAR}, {"approveStatus", Types.INTEGER},
-		{"researcherUserId", Types.BIGINT}
+		{"email", Types.VARCHAR}, {"birth", Types.TIMESTAMP},
+		{"phone", Types.VARCHAR}, {"institution", Types.VARCHAR},
+		{"officeContact", Types.VARCHAR}, {"position", Types.VARCHAR},
+		{"approveStatus", Types.INTEGER}, {"researcherUserId", Types.BIGINT}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -109,6 +109,7 @@ public class ResearcherModelImpl
 		TABLE_COLUMNS_MAP.put("statusByUserName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("name", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("email", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("birth", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("phone", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("institution", Types.VARCHAR);
@@ -119,7 +120,7 @@ public class ResearcherModelImpl
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table EC_Researcher (mvccVersion LONG default 0 not null,uuid_ VARCHAR(75) null,researcherId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,name VARCHAR(75) null,birth DATE null,phone VARCHAR(75) null,institution VARCHAR(75) null,officeContact VARCHAR(75) null,position VARCHAR(75) null,approveStatus INTEGER,researcherUserId LONG)";
+		"create table EC_Researcher (mvccVersion LONG default 0 not null,uuid_ VARCHAR(75) null,researcherId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,name VARCHAR(75) null,email VARCHAR(75) null,birth DATE null,phone VARCHAR(75) null,institution VARCHAR(75) null,officeContact VARCHAR(75) null,position VARCHAR(75) null,approveStatus INTEGER,researcherUserId LONG)";
 
 	public static final String TABLE_SQL_DROP = "drop table EC_Researcher";
 
@@ -182,6 +183,7 @@ public class ResearcherModelImpl
 		model.setStatusByUserName(soapModel.getStatusByUserName());
 		model.setStatusDate(soapModel.getStatusDate());
 		model.setName(soapModel.getName());
+		model.setEmail(soapModel.getEmail());
 		model.setBirth(soapModel.getBirth());
 		model.setPhone(soapModel.getPhone());
 		model.setInstitution(soapModel.getInstitution());
@@ -366,6 +368,9 @@ public class ResearcherModelImpl
 		attributeGetterFunctions.put("name", Researcher::getName);
 		attributeSetterBiConsumers.put(
 			"name", (BiConsumer<Researcher, String>)Researcher::setName);
+		attributeGetterFunctions.put("email", Researcher::getEmail);
+		attributeSetterBiConsumers.put(
+			"email", (BiConsumer<Researcher, String>)Researcher::setEmail);
 		attributeGetterFunctions.put("birth", Researcher::getBirth);
 		attributeSetterBiConsumers.put(
 			"birth", (BiConsumer<Researcher, Date>)Researcher::setBirth);
@@ -666,6 +671,22 @@ public class ResearcherModelImpl
 
 	@JSON
 	@Override
+	public String getEmail() {
+		if (_email == null) {
+			return "";
+		}
+		else {
+			return _email;
+		}
+	}
+
+	@Override
+	public void setEmail(String email) {
+		_email = email;
+	}
+
+	@JSON
+	@Override
 	public Date getBirth() {
 		return _birth;
 	}
@@ -913,6 +934,7 @@ public class ResearcherModelImpl
 		researcherImpl.setStatusByUserName(getStatusByUserName());
 		researcherImpl.setStatusDate(getStatusDate());
 		researcherImpl.setName(getName());
+		researcherImpl.setEmail(getEmail());
 		researcherImpl.setBirth(getBirth());
 		researcherImpl.setPhone(getPhone());
 		researcherImpl.setInstitution(getInstitution());
@@ -1089,6 +1111,14 @@ public class ResearcherModelImpl
 			researcherCacheModel.name = null;
 		}
 
+		researcherCacheModel.email = getEmail();
+
+		String email = researcherCacheModel.email;
+
+		if ((email != null) && (email.length() == 0)) {
+			researcherCacheModel.email = null;
+		}
+
 		Date birth = getBirth();
 
 		if (birth != null) {
@@ -1251,6 +1281,7 @@ public class ResearcherModelImpl
 	private String _statusByUserName;
 	private Date _statusDate;
 	private String _name;
+	private String _email;
 	private Date _birth;
 	private String _phone;
 	private String _institution;

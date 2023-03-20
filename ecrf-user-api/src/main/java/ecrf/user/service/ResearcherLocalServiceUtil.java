@@ -66,15 +66,15 @@ public class ResearcherLocalServiceUtil {
 
 	public static Researcher addResearcher(
 			long researcherUserId, String firstName, String lastName,
-			int birthYear, int birthMonth, int birthDay, String phone,
-			String institution, String officeContact, String position,
-			int approveStatus,
+			String emailAddress, int birthYear, int birthMonth, int birthDay,
+			String phone, String institution, String officeContact,
+			String position, int approveStatus,
 			com.liferay.portal.kernel.service.ServiceContext sc)
 		throws PortalException {
 
 		return getService().addResearcher(
-			researcherUserId, firstName, lastName, birthYear, birthMonth,
-			birthDay, phone, institution, officeContact, position,
+			researcherUserId, firstName, lastName, emailAddress, birthYear,
+			birthMonth, birthDay, phone, institution, officeContact, position,
 			approveStatus, sc);
 	}
 
@@ -404,16 +404,16 @@ public class ResearcherLocalServiceUtil {
 
 	public static Researcher updateResearcher(
 			long researcherId, long researcherUserId, String firstName,
-			String lastName, int birthYear, int birthMonth, int birthDay,
-			String phone, String institution, String officeContact,
-			String position, int approveStatus,
+			String lastName, String emailAddress, int birthYear, int birthMonth,
+			int birthDay, String phone, String institution,
+			String officeContact, String position, int approveStatus,
 			com.liferay.portal.kernel.service.ServiceContext sc)
 		throws PortalException {
 
 		return getService().updateResearcher(
-			researcherId, researcherUserId, firstName, lastName, birthYear,
-			birthMonth, birthDay, phone, institution, officeContact, position,
-			approveStatus, sc);
+			researcherId, researcherUserId, firstName, lastName, emailAddress,
+			birthYear, birthMonth, birthDay, phone, institution, officeContact,
+			position, approveStatus, sc);
 	}
 
 	/**

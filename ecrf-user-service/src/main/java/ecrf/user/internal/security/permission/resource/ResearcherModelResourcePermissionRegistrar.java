@@ -29,7 +29,6 @@ public class ResearcherModelResourcePermissionRegistrar {
 	@Activate
     public void activate(BundleContext bundleContext) {
         Dictionary<String, Object> properties = new HashMapDictionary<>();
-        System.out.println("Researcher Model Permission Regist");
         properties.put("model.class.name", Researcher.class.getName());
 
         _serviceRegistration = bundleContext.registerService(
