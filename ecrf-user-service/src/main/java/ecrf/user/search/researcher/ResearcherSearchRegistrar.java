@@ -13,9 +13,10 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 
+import ecrf.user.constants.ECRFUserResearcherAttributes;
 import ecrf.user.model.Researcher;
 
-@Component (immediate=true, service = {})
+@Component (immediate=true)
 public class ResearcherSearchRegistrar {
 	@Activate
 	protected void activate(BundleContext bundleContext) {
@@ -29,12 +30,19 @@ public class ResearcherSearchRegistrar {
 				Researcher.class, bundleContext, 
 				modelSearchDefinition -> {
 					modelSearchDefinition.setDefaultSelectedFieldNames(
-						Field.ASSET_TAG_NAMES, Field.COMPANY_ID, Field.CONTENT,
-						Field.ENTRY_CLASS_NAME, Field.ENTRY_CLASS_PK,
-						Field.GROUP_ID, Field.MODIFIED_DATE, Field.SCOPE_GROUP_ID,
-	                    Field.TITLE, Field.UID);
+						Field.COMPANY_ID,
+						Field.GROUP_ID, 
+						Field.USER_ID,
+						Field.USER_NAME,
+						Field.CREATE_DATE,
+						Field.MODIFIED_DATE,
+						Field.UID,
+						ECRFUserResearcherAttributes.RESEARCHER_ID,
+						ECRFUserResearcherAttributes.NAME);
+					
 					modelSearchDefinition.setModelIndexWriteContributor(
 	                    modelIndexWriterContributor);
+					
 	                modelSearchDefinition.setModelSummaryContributor(
 	                    modelSummaryContributor);
 				}
@@ -46,13 +54,17 @@ public class ResearcherSearchRegistrar {
         _serviceRegistration.unregister();
     }
 	
-	@Reference(target = "(indexer.class.name=ecrf.user.model.Researcher)")
+	@Reference(
+		target = "(indexer.class.name=ecrf.user.model.Researcher)"
+	)
     protected ModelIndexerWriterContributor<Researcher> modelIndexWriterContributor;
 
     @Reference
     protected ModelSearchRegistrarHelper modelSearchRegistrarHelper;
 
-    @Reference(target = "(indexer.class.name=ecrf.user.model.Researcher)")
+    @Reference(
+		target = "(indexer.class.name=ecrf.user.model.Researcher)"
+	)
     protected ModelSummaryContributor modelSummaryContributor;
 
     private ServiceRegistration<?> _serviceRegistration;

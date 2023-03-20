@@ -5,6 +5,5 @@ Liferay-Require-SchemaVersion: 1.0.0
 Liferay-Service: true
 -dsannotations-options: inherit
 Export-Package: \
-	ecrf.user.internal.security.permission.resource,\
 	ecrf.user.search.researcher,\
-	ecrf.user.search.researcher.impl
+	ecrf.user.internal.security.permission.resource

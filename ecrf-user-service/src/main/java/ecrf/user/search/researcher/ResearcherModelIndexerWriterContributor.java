@@ -30,7 +30,8 @@ public class ResearcherModelIndexerWriterContributor implements ModelIndexerWrit
 
 	@Override
 	public BatchIndexingActionable getBatchIndexingActionable() {
-		return dynamicQueryBatchIndexingActionableFactory.getBatchIndexingActionable(researcherLocalService.getIndexableActionableDynamicQuery());
+		return dynamicQueryBatchIndexingActionableFactory.getBatchIndexingActionable(
+				researcherLocalService.getIndexableActionableDynamicQuery());
 	}
 
 	@Override
@@ -38,17 +39,8 @@ public class ResearcherModelIndexerWriterContributor implements ModelIndexerWrit
 		return researcher.getCompanyId();
 	}
 	
-	@Override
-    public void modelIndexed(Researcher researcher) {
-		researcherBatchReindexer.reindex(researcher.getResearcherId(), researcher.getCompanyId());
-    }
-	
 	@Reference
-    protected DynamicQueryBatchIndexingActionableFactory
-    dynamicQueryBatchIndexingActionableFactory;
-
-    @Reference
-    protected ResearcherBatchReindexer researcherBatchReindexer;
+    protected DynamicQueryBatchIndexingActionableFactory dynamicQueryBatchIndexingActionableFactory;
 
     @Reference
     protected ResearcherLocalService researcherLocalService;

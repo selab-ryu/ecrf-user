@@ -14,7 +14,6 @@ import ecrf.user.model.Researcher;
 
 @Component(immediate = true, service = ResearcherBatchReindexer.class)
 public class ResearcherBatchReindexerImpl implements ResearcherBatchReindexer {
-
 	@Override
 	public void reindex(long researcherId, long companyId) {
 		BatchIndexingActionable batchIndexingActionable = indexerWriter.getBatchIndexingActionable();
@@ -33,9 +32,13 @@ public class ResearcherBatchReindexerImpl implements ResearcherBatchReindexer {
 		batchIndexingActionable.performActions();
 	}
 	
-	@Reference(target = "(indexer.class.name=ecrf.user.model.Researcher)")
+	@Reference(
+		target = "(indexer.class.name=ecrf.user.model.Researcher)"
+	)
     protected IndexerDocumentBuilder indexerDocumentBuilder;
 
-    @Reference(target = "(indexer.class.name=ecrf.user.model.Researcher)")
+    @Reference(
+		target = "(indexer.class.name=ecrf.user.model.Researcher)"
+	)
     protected IndexerWriter<Researcher> indexerWriter;
 }

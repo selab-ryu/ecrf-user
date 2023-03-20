@@ -41,5 +41,4 @@ public class ResearcherModelDocumentContributor implements ModelDocumentContribu
 	}
 	
 	private static final Log _log = LogFactoryUtil.getLog(ResearcherModelDocumentContributor.class);
-
 }

@@ -137,7 +137,7 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 		
 		resourceLocalService.addResources(
 				researcher.getCompanyId(), researcher.getGroupId(), creatorUserId,
-				Researcher.class.getName(), researcher.getResearcherId(),
+				Researcher.class.getName(), researcherId,
 				false, true, true);
 		
 		
@@ -193,7 +193,7 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 		
 		resourceLocalService.addResources(
 				researcher.getCompanyId(), researcher.getGroupId(), userId,
-				Researcher.class.getName(), researcher.getResearcherId(),
+				Researcher.class.getName(), researcherId,
 				false, true, true);
 		
 		return researcher;
