@@ -24,6 +24,9 @@ public class ResearcherKeywordQueryContributor implements KeywordQueryContributo
 		
 		SearchContext searchContext = keywordQueryContributorHelper.getSearchContext();
 		queryHelper.addSearchTerm(booleanQuery, searchContext, ECRFUserResearcherAttributes.NAME, true);
+		queryHelper.addSearchTerm(booleanQuery, searchContext, ECRFUserResearcherAttributes.EMAIL, true);
+		queryHelper.addSearchTerm(booleanQuery, searchContext, ECRFUserResearcherAttributes.INSTITUTION, true);
+		queryHelper.addSearchTerm(booleanQuery, searchContext, ECRFUserResearcherAttributes.SCREEN_NAME, true);
 	}
 	
 	@Reference

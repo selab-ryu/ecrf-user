@@ -29,7 +29,11 @@ public class ResearcherModelSummaryContributor implements ModelSummaryContributo
 	private Summary createSummary(Document document) {
 		String prefix = Field.SNIPPET + StringPool.UNDERLINE;
 		String name = document.get(prefix+ECRFUserResearcherAttributes.NAME, ECRFUserResearcherAttributes.NAME);
-		
-		return new Summary(name, StringPool.BLANK);
+		String email = document.get(prefix+ECRFUserResearcherAttributes.EMAIL, ECRFUserResearcherAttributes.EMAIL);
+		String institution = document.get(prefix+ECRFUserResearcherAttributes.INSTITUTION, ECRFUserResearcherAttributes.INSTITUTION);
+				
+		String summaryTitle = name;
+		String summaryContent = email + StringPool.SLASH + institution;
+		return new Summary(summaryTitle, summaryContent);
 	}
 }

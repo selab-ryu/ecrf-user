@@ -18,6 +18,8 @@ import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.Indexable;
@@ -48,7 +50,7 @@ import ecrf.user.service.base.ResearcherLocalServiceBaseImpl;
 	service = AopService.class
 )
 public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
-	private Logger _logger;
+	private Log _log;
 	
 	@Reference
 	private CRFResearcherLocalService _crfResearcherLocalService;
@@ -67,8 +69,8 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 			String institution, String officeContact, String position,
 			int approveStatus, ServiceContext userServiceContext, ServiceContext researcherServiceContext
 			) throws PortalException {
-		_logger = Logger.getLogger(ResearcherLocalServiceImpl.class.getName());
-		_logger.info("Add Researcher With User Start");
+		_log = LogFactoryUtil.getLog(this.getClass().getName());
+		_log.info("Add Researcher With User Start");
 		
 		long creatorUserId = researcherServiceContext.getUserId();
 		User creatorUser = null;
@@ -88,7 +90,7 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 		long[] userGroupIds = null;
 		boolean sendEmail = true;
 		
-		_logger.info("Add User");
+		_log.info("Add User");
 		User user = null;
 		try {
 			user = userLocalService.addUserWithWorkflow(
@@ -103,7 +105,7 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 		
 		long researcherUserId = user.getUserId();
 		
-		_logger.info("Add Researcher");
+		_log.info("Add Researcher");
 		// add Researcher
 		long researcherId = super.counterLocalService.increment();
 		Researcher researcher = super.researcherLocalService.createResearcher(researcherId);
@@ -132,7 +134,7 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 		researcher.setPosition(position);
 		researcher.setApproveStatus(approveStatus);
 		
-		_logger.info("Update Researcher");
+		_log.info("Update Researcher");
 		super.researcherPersistence.update(researcher, researcherServiceContext);
 		
 		// calls to other liferay frameworks (workflow, asset, resource, ...)
@@ -150,7 +152,7 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 				ContentTypes.TEXT_HTML, researcher.getName(), null, null,
 				null, null, 0, 0, researcherServiceContext.getAssetPriority());
 		
-		_logger.info("Add Researcher With User End");
+		_log.info("Add Researcher With User End");
 		return researcher;
 	}
 	
@@ -161,8 +163,8 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 			int birthYear, int birthMonth, int birthDay, String phone,
 			String institution, String officeContact, String position,
 			int approveStatus, ServiceContext sc) throws  PortalException {
-		_logger = Logger.getLogger(ResearcherLocalServiceImpl.class.getName());
-		_logger.info("Add Researcher Start");
+		_log = LogFactoryUtil.getLog(this.getClass().getName());
+		_log.info("Add Researcher Start");
 		
 		long researcherId = super.counterLocalService.increment();
 		Researcher researcher = super.researcherLocalService.createResearcher(researcherId);
@@ -223,8 +225,8 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 			int birthYear, int birthMonth, int birthDay, String phone,
 			String institution, String officeContact, String position,
 			int approveStatus, ServiceContext sc) throws  PortalException {
-		_logger = Logger.getLogger(ResearcherLocalServiceImpl.class.getName());
-		_logger.info("Update Researcher");
+		_log = LogFactoryUtil.getLog(this.getClass().getName());
+		_log.info("Update Researcher");
 		
 		Researcher researcher = super.researcherLocalService.getResearcher(researcherId);
 		
@@ -348,8 +350,8 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 	}
 	
 	public Researcher changeApproveStatus(long researcherId, int approveStatus) throws PortalException {
-		_logger = Logger.getLogger(ResearcherLocalServiceImpl.class.getName());
-		_logger.info("Change Aprrove Status");
+		_log = LogFactoryUtil.getLog(this.getClass().getName());
+		_log.info("Change Aprrove Status");
 		
 		Researcher researcher = super.researcherLocalService.getResearcher(researcherId);
 		
