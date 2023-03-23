@@ -6,22 +6,38 @@
 	    <model-name>ecrf.user</model-name>
 	    <portlet-ref>
 	        <portlet-name>ecrf_user_researcher_ResearcherPortlet</portlet-name>
+   	        <portlet-name>ecrf_user_project_ProjectPortlet</portlet-name>
 	    </portlet-ref>
 	    <root>true</root>
 	    <weight>1</weight>
 	    <permissions>
 	        <supports>
 	            <action-key>ADD_RESEARCHER</action-key>
-	            <action-key>VIEW</action-key>
+	            <action-key>ADD_PROJECT</action-key>
+	            <action-key>ADD_PATIENT</action-key>
+	            <action-key>ADD_CRF</action-key>
+	            <action-key>ADD_CRF_RESEARCHER</action-key>
+	            <action-key>ADD_CRF_PATIENT</action-key>
+	            <action-key>PERMISSIONS</action-key>
 	        </supports>
 	        <site-member-defaults>
 	            <action-key>ADD_RESEARCHER</action-key>
+	            <action-key>ADD_PROJECT</action-key>
+	            <action-key>ADD_PATIENT</action-key>
+	            <action-key>ADD_CRF</action-key>
+	            <action-key>ADD_CRF_RESEARCHER</action-key>
+	            <action-key>ADD_CRF_PATIENT</action-key>
+	            <action-key>PERMISSIONS</action-key>
 	        </site-member-defaults>
-	        <guest-defaults>
-	            <action-key>VIEW</action-key>
-	        </guest-defaults>
+	        <guest-defaults/>
 	        <guest-unsupported>
 	            <action-key>ADD_RESEARCHER</action-key>
+	            <action-key>ADD_PROJECT</action-key>
+	            <action-key>ADD_PATIENT</action-key>
+	            <action-key>ADD_CRF</action-key>
+	            <action-key>ADD_CRF_RESEARCHER</action-key>
+	            <action-key>ADD_CRF_PATIENT</action-key>
+	            <action-key>PERMISSIONS</action-key>
 	        </guest-unsupported>
 	    </permissions>
 	</model-resource>
@@ -34,14 +50,12 @@
 	    <weight>2</weight>
 	    <permissions>
 	        <supports>
-	            <action-key>ADD_RESEARCHER</action-key>
-	            <action-key>DELETE</action-key>
 	            <action-key>PERMISSIONS</action-key>
 	            <action-key>UPDATE</action-key>
+	            <action-key>DELETE</action-key>
 	            <action-key>VIEW</action-key>
 	        </supports>
 	        <site-member-defaults>
-	        	<action-key>ADD_RESEARCHER</action-key>
 	            <action-key>UPDATE</action-key>
 	            <action-key>DELETE</action-key>
 	            <action-key>VIEW</action-key>
@@ -50,7 +64,6 @@
 	            <action-key>VIEW</action-key>
 	        </guest-defaults>
 	        <guest-unsupported>
-	        	<action-key>ADD_RESEARCHER</action-key>
 	            <action-key>UPDATE</action-key>
 	            <action-key>DELETE</action-key>
 	            <action-key>PERMISSIONS</action-key>
@@ -58,5 +71,30 @@
 	    </permissions>
 	</model-resource>
 	
+	<model-resource>
+	    <model-name>ecrf.user.model.Project</model-name>
+	    <portlet-ref>
+	        <portlet-name>ecrf_user_project_ProjectPortlet</portlet-name>
+	    </portlet-ref>
+	    <weight>2</weight>
+	    <permissions>
+	        <supports>
+	            <action-key>PERMISSIONS</action-key>
+	            <action-key>UPDATE</action-key>
+	            <action-key>VIEW</action-key>
+	        </supports>
+	        <site-member-defaults>
+	            <action-key>UPDATE</action-key>
+	            <action-key>VIEW</action-key>
+	        </site-member-defaults>
+	        <guest-defaults>
+	            <action-key>VIEW</action-key>
+	        </guest-defaults>
+	        <guest-unsupported>
+	            <action-key>UPDATE</action-key>
+	            <action-key>PERMISSIONS</action-key>
+	        </guest-unsupported>
+	    </permissions>
+	</model-resource>
 	
 </resource-action-mapping>

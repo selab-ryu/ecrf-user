@@ -1,4 +1,4 @@
-package ecrf.user.internal.security.permission.resource;
+package ecrf.user.internal.security.permission.resource.project;
 
 import com.liferay.exportimport.kernel.staging.permission.StagingPermission;
 import com.liferay.portal.kernel.security.permission.resource.PortletResourcePermission;
@@ -19,7 +19,7 @@ import ecrf.user.constants.ECRFUserConstants;
 import ecrf.user.constants.ECRFUserPortletKeys;
 
 @Component (immediate = true)
-public class ResearcherPortletResourcePermissionRegistrar {
+public class ProjectPortletResourcePermissionRegistrar {
 	@Activate
     public void activate(BundleContext bundleContext) {
         Dictionary<String, Object> properties = new HashMapDictionary<>();
@@ -31,7 +31,7 @@ public class ResearcherPortletResourcePermissionRegistrar {
             PortletResourcePermissionFactory.create(
             		ECRFUserConstants.RESOURCE_NAME,
                 new StagedPortletPermissionLogic(
-                    _stagingPermission, ECRFUserPortletKeys.RESEARCHER)),
+                    _stagingPermission, ECRFUserPortletKeys.PROJECT)),
             properties);
     }
 
@@ -44,5 +44,4 @@ public class ResearcherPortletResourcePermissionRegistrar {
 
     @Reference
     private StagingPermission _stagingPermission;
-
 }
