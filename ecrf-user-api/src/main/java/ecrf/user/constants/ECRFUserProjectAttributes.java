@@ -2,6 +2,7 @@ package ecrf.user.constants;
 
 public class ECRFUserProjectAttributes {
 	public static final String PROJECT = "project";
+	public static final String PROJECT_ID = "projectId";
 	public static final String TITLE = "title";
 	public static final String SHORT_TITLE = "shortTitle";
 	public static final String PURPOSE = "purpose";
