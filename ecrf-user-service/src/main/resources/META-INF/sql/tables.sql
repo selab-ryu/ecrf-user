@@ -88,7 +88,7 @@ create table EC_Project (
 	statusDate DATE null,
 	title VARCHAR(75) null,
 	shortTitle VARCHAR(75) null,
-	purpose VARCHAR(75) null,
+	purpose STRING null,
 	startDate DATE null,
 	endDate DATE null,
 	principalResearcherId LONG,
