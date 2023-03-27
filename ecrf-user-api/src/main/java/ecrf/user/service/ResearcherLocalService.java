@@ -268,6 +268,9 @@ public interface ResearcherLocalService
 	public Researcher getResearcher(long researcherId) throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Researcher> getResearcherByG_P(long groupId, String position);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Researcher> getResearcherByGroupId(long groupId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
@@ -292,6 +295,9 @@ public interface ResearcherLocalService
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getResearcherCount(long groupId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getResearcherCountByG_P(long groupId, String position);
 
 	/**
 	 * Returns a range of all the researchers.

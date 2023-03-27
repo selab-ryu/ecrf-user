@@ -338,6 +338,13 @@ public class ResearcherLocalServiceWrapper
 	}
 
 	@Override
+	public java.util.List<ecrf.user.model.Researcher> getResearcherByG_P(
+		long groupId, String position) {
+
+		return _researcherLocalService.getResearcherByG_P(groupId, position);
+	}
+
+	@Override
 	public java.util.List<ecrf.user.model.Researcher> getResearcherByGroupId(
 		long groupId) {
 
@@ -381,6 +388,12 @@ public class ResearcherLocalServiceWrapper
 	@Override
 	public int getResearcherCount(long groupId) {
 		return _researcherLocalService.getResearcherCount(groupId);
+	}
+
+	@Override
+	public int getResearcherCountByG_P(long groupId, String position) {
+		return _researcherLocalService.getResearcherCountByG_P(
+			groupId, position);
 	}
 
 	/**

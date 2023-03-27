@@ -140,13 +140,15 @@ public class ResearcherModelImpl
 
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
 
-	public static final long STATUS_COLUMN_BITMASK = 4L;
+	public static final long POSITION_COLUMN_BITMASK = 4L;
 
-	public static final long UUID_COLUMN_BITMASK = 8L;
+	public static final long STATUS_COLUMN_BITMASK = 8L;
 
-	public static final long RESEARCHERID_COLUMN_BITMASK = 16L;
+	public static final long UUID_COLUMN_BITMASK = 16L;
 
-	public static final long CREATEDATE_COLUMN_BITMASK = 32L;
+	public static final long RESEARCHERID_COLUMN_BITMASK = 32L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 64L;
 
 	public static void setEntityCacheEnabled(boolean entityCacheEnabled) {
 		_entityCacheEnabled = entityCacheEnabled;
@@ -757,7 +759,17 @@ public class ResearcherModelImpl
 
 	@Override
 	public void setPosition(String position) {
+		_columnBitmask |= POSITION_COLUMN_BITMASK;
+
+		if (_originalPosition == null) {
+			_originalPosition = _position;
+		}
+
 		_position = position;
+	}
+
+	public String getOriginalPosition() {
+		return GetterUtil.getString(_originalPosition);
 	}
 
 	@JSON
@@ -1031,6 +1043,8 @@ public class ResearcherModelImpl
 
 		_setOriginalStatus = false;
 
+		_originalPosition = _position;
+
 		_columnBitmask = 0;
 	}
 
@@ -1287,6 +1301,7 @@ public class ResearcherModelImpl
 	private String _institution;
 	private String _officeContact;
 	private String _position;
+	private String _originalPosition;
 	private int _approveStatus;
 	private long _researcherUserId;
 	private long _columnBitmask;

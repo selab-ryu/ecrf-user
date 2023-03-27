@@ -20,6 +20,7 @@ create index IX_F875944C on EC_Project (groupId);
 create index IX_D3B6D892 on EC_Project (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_83E05B94 on EC_Project (uuid_[$COLUMN_LENGTH:75$], groupId);
 
+create index IX_F4FF0E38 on EC_Researcher (groupId, position[$COLUMN_LENGTH:75$]);
 create index IX_F7209A01 on EC_Researcher (groupId, status);
 create index IX_6B1E9B55 on EC_Researcher (status);
 create index IX_8AC15FA3 on EC_Researcher (uuid_[$COLUMN_LENGTH:75$], companyId);

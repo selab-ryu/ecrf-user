@@ -335,7 +335,7 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 		}
 		return researcher;
 	}
-		
+	
 	public List<Researcher> getResearcherByGroupId(long groupId) {
 		return super.researcherPersistence.findByGroupId(groupId);
 	}
@@ -347,6 +347,13 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 	}
 	public int getResearcherCount(long groupId) {
 		return super.researcherPersistence.countByGroupId(groupId);
+	}
+	
+	public List<Researcher> getResearcherByG_P(long groupId, String position) {
+		return super.researcherPersistence.findByG_P(groupId, position);
+	}
+	public int getResearcherCountByG_P(long groupId, String position) {
+		return super.researcherPersistence.countByG_P(groupId, position);
 	}
 	
 	public Researcher changeApproveStatus(long researcherId, int approveStatus) throws PortalException {
