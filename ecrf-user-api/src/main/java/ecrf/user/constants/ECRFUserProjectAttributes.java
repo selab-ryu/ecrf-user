@@ -15,5 +15,7 @@ public class ECRFUserProjectAttributes {
 	public static final String END_DATE_MONTH = "endDateMonth";
 	public static final String END_DATE_DAY = "endDateDay";
 	public static final String PRINCIPAL_RESEARCHER_ID = "principalResearcherId";
+	public static final String PRINCIPAL_RESEARCHER = "principalResearcher";
 	public static final String MANAGE_RESEARCHER_ID = "ManageResearcherId";
+	public static final String MANAGE_RESEARCHER = "ManageResearcher";
 }
