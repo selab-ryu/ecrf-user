@@ -14,4 +14,5 @@ public class ECRFUserMVCCommand {
 	public static final String RENDER_UPDATE_PROJECT = "/render/project/update-project";
 	public static final String ACTION_ADD_PROJECT = "/action/project/add-project";
 	public static final String ACTION_UPDATE_PROJECT = "/action/project/update-project";
+	public static final String ACTION_DELETE_PROJECT = "/action/project/delete-project";
 }
