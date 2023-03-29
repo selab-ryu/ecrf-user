@@ -75,10 +75,8 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 		project.setStartDate(startDate);
 		project.setEndDate(endDate);
 		
-		if(principleResearcherId > 0) project.setPrincipalResearcherId(principleResearcherId);
-		if(manageResearcherId > 0) project.setManageResearcherId(manageResearcherId);
-		
-		// calls to other liferay frameworks (workflow, asset, resource, ...)
+		project.setPrincipalResearcherId(principleResearcherId);
+		project.setManageResearcherId(manageResearcherId);
 		
 		super.projectPersistence.update(project);
 		
@@ -95,7 +93,7 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 		_logger = Logger.getLogger(this.getClass().getName());
 		_logger.info("Update Project Start");
 		
-		Project project = super.projectLocalService.createProject(projectId);
+		Project project = super.projectLocalService.getProject(projectId);
 		
 		Date startDate = PortalUtil.getDate(startDateMonth, startDateDay, startDateYear);
 		Date endDate = PortalUtil.getDate(endDateMonth, endDateDay, endDateYear);
@@ -118,8 +116,6 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 		
 		if(principleResearcherId > 0) project.setPrincipalResearcherId(principleResearcherId);
 		if(manageResearcherId > 0) project.setManageResearcherId(manageResearcherId);
-		
-		// calls to other liferay frameworks (workflow, asset, resource, ...)
 		
 		super.projectPersistence.update(project);
 		

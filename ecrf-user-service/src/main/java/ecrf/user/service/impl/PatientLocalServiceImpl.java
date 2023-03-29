@@ -103,7 +103,7 @@ public class PatientLocalServiceImpl extends PatientLocalServiceBaseImpl {
 		_logger = Logger.getLogger(this.getClass().getName());
 		_logger.info("Update Patient Start");
 		
-		Patient patient = super.patientLocalService.createPatient(patientId);
+		Patient patient = super.patientLocalService.getPatient(patientId);
 		
 		Date birth = PortalUtil.getDate(birthMonth, birthDay, birthYear);
 		Date consentDate = PortalUtil.getDate(consentMonth, consentDay, consentYear);

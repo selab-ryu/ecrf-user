@@ -91,7 +91,7 @@ public class CRFLocalServiceImpl extends CRFLocalServiceBaseImpl {
 		_logger = Logger.getLogger(this.getClass().getName());
 		_logger.info("Add CRF Start");
 		
-		CRF crf = super.crfLocalService.createCRF(crfId);
+		CRF crf = super.crfLocalService.getCRF(crfId);
 		
 		Date applyDate = PortalUtil.getDate(applyDateMonth, applyDateDay, applyDateYear);
 		
