@@ -142,13 +142,15 @@ public class ResearcherModelImpl
 
 	public static final long POSITION_COLUMN_BITMASK = 4L;
 
-	public static final long STATUS_COLUMN_BITMASK = 8L;
+	public static final long RESEARCHERUSERID_COLUMN_BITMASK = 8L;
 
-	public static final long UUID_COLUMN_BITMASK = 16L;
+	public static final long STATUS_COLUMN_BITMASK = 16L;
 
-	public static final long RESEARCHERID_COLUMN_BITMASK = 32L;
+	public static final long UUID_COLUMN_BITMASK = 32L;
 
-	public static final long CREATEDATE_COLUMN_BITMASK = 64L;
+	public static final long RESEARCHERID_COLUMN_BITMASK = 64L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 128L;
 
 	public static void setEntityCacheEnabled(boolean entityCacheEnabled) {
 		_entityCacheEnabled = entityCacheEnabled;
@@ -791,6 +793,14 @@ public class ResearcherModelImpl
 
 	@Override
 	public void setResearcherUserId(long researcherUserId) {
+		_columnBitmask |= RESEARCHERUSERID_COLUMN_BITMASK;
+
+		if (!_setOriginalResearcherUserId) {
+			_setOriginalResearcherUserId = true;
+
+			_originalResearcherUserId = _researcherUserId;
+		}
+
 		_researcherUserId = researcherUserId;
 	}
 
@@ -808,6 +818,10 @@ public class ResearcherModelImpl
 
 	@Override
 	public void setResearcherUserUuid(String researcherUserUuid) {
+	}
+
+	public long getOriginalResearcherUserId() {
+		return _originalResearcherUserId;
 	}
 
 	@Override
@@ -1044,6 +1058,10 @@ public class ResearcherModelImpl
 		_setOriginalStatus = false;
 
 		_originalPosition = _position;
+
+		_originalResearcherUserId = _researcherUserId;
+
+		_setOriginalResearcherUserId = false;
 
 		_columnBitmask = 0;
 	}
@@ -1304,6 +1322,8 @@ public class ResearcherModelImpl
 	private String _originalPosition;
 	private int _approveStatus;
 	private long _researcherUserId;
+	private long _originalResearcherUserId;
+	private boolean _setOriginalResearcherUserId;
 	private long _columnBitmask;
 	private Researcher _escapedModel;
 

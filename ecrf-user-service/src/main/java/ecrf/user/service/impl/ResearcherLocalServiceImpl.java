@@ -356,6 +356,13 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 		return super.researcherPersistence.countByG_P(groupId, position);
 	}
 	
+	public List<Researcher> getResearcherByG_RU(long groupId, long researcherUserId) {
+		return super.researcherPersistence.findByG_RU(groupId, researcherUserId);
+	}
+	public int getResearcherCountByG_RU(long groupId, long researcherUserId) {
+		return super.researcherPersistence.countByG_RU(groupId, researcherUserId);
+	}
+	
 	public Researcher changeApproveStatus(long researcherId, int approveStatus) throws PortalException {
 		_log = LogFactoryUtil.getLog(this.getClass().getName());
 		_log.info("Change Aprrove Status");

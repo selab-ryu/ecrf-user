@@ -271,6 +271,10 @@ public interface ResearcherLocalService
 	public List<Researcher> getResearcherByG_P(long groupId, String position);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Researcher> getResearcherByG_RU(
+		long groupId, long researcherUserId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Researcher> getResearcherByGroupId(long groupId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
@@ -298,6 +302,9 @@ public interface ResearcherLocalService
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getResearcherCountByG_P(long groupId, String position);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getResearcherCountByG_RU(long groupId, long researcherUserId);
 
 	/**
 	 * Returns a range of all the researchers.

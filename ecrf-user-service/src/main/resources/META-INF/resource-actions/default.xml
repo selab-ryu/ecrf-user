@@ -7,6 +7,7 @@
 	    <portlet-ref>
 	        <portlet-name>ecrf_user_researcher_ResearcherPortlet</portlet-name>
    	        <portlet-name>ecrf_user_project_ProjectPortlet</portlet-name>
+   	        <portlet-name>ecrf_user_approve_ApprovePortlet</portlet-name>
 	    </portlet-ref>
 	    <root>true</root>
 	    <weight>1</weight>
@@ -18,16 +19,10 @@
 	            <action-key>ADD_CRF</action-key>
 	            <action-key>ADD_CRF_RESEARCHER</action-key>
 	            <action-key>ADD_CRF_PATIENT</action-key>
+	            <action-key>APPROVE_MEMBERSHIP</action-key>
 	            <action-key>PERMISSIONS</action-key>
 	        </supports>
 	        <site-member-defaults>
-	            <action-key>ADD_RESEARCHER</action-key>
-	            <action-key>ADD_PROJECT</action-key>
-	            <action-key>ADD_PATIENT</action-key>
-	            <action-key>ADD_CRF</action-key>
-	            <action-key>ADD_CRF_RESEARCHER</action-key>
-	            <action-key>ADD_CRF_PATIENT</action-key>
-	            <action-key>PERMISSIONS</action-key>
 	        </site-member-defaults>
 	        <guest-defaults/>
 	        <guest-unsupported>
@@ -37,6 +32,7 @@
 	            <action-key>ADD_CRF</action-key>
 	            <action-key>ADD_CRF_RESEARCHER</action-key>
 	            <action-key>ADD_CRF_PATIENT</action-key>
+	            <action-key>APPROVE_MEMBERSHIP</action-key>
 	            <action-key>PERMISSIONS</action-key>
 	        </guest-unsupported>
 	    </permissions>

@@ -317,6 +317,12 @@ public class ResearcherLocalServiceUtil {
 		return getService().getResearcherByG_P(groupId, position);
 	}
 
+	public static List<Researcher> getResearcherByG_RU(
+		long groupId, long researcherUserId) {
+
+		return getService().getResearcherByG_RU(groupId, researcherUserId);
+	}
+
 	public static List<Researcher> getResearcherByGroupId(long groupId) {
 		return getService().getResearcherByGroupId(groupId);
 	}
@@ -355,6 +361,12 @@ public class ResearcherLocalServiceUtil {
 
 	public static int getResearcherCountByG_P(long groupId, String position) {
 		return getService().getResearcherCountByG_P(groupId, position);
+	}
+
+	public static int getResearcherCountByG_RU(
+		long groupId, long researcherUserId) {
+
+		return getService().getResearcherCountByG_RU(groupId, researcherUserId);
 	}
 
 	/**

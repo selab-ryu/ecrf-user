@@ -57,6 +57,10 @@
 			<finder-column name="groupId" />
 			<finder-column name="position" />
 		</finder>
+		<finder name="G_RU" return-type="Collection">
+			<finder-column name="groupId" />
+			<finder-column name="researcherUserId" />
+		</finder>
 		
 		<reference package-path="com.liferay.portlet.asset" entity="AssetEntry" />
 		<reference package-path="com.liferay.portlet.asset" entity="AssetLink" />

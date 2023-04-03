@@ -1472,6 +1472,279 @@ public class ResearcherUtil {
 	}
 
 	/**
+	 * Returns all the researchers where groupId = &#63; and researcherUserId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param researcherUserId the researcher user ID
+	 * @return the matching researchers
+	 */
+	public static List<Researcher> findByG_RU(
+		long groupId, long researcherUserId) {
+
+		return getPersistence().findByG_RU(groupId, researcherUserId);
+	}
+
+	/**
+	 * Returns a range of all the researchers where groupId = &#63; and researcherUserId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ResearcherModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param researcherUserId the researcher user ID
+	 * @param start the lower bound of the range of researchers
+	 * @param end the upper bound of the range of researchers (not inclusive)
+	 * @return the range of matching researchers
+	 */
+	public static List<Researcher> findByG_RU(
+		long groupId, long researcherUserId, int start, int end) {
+
+		return getPersistence().findByG_RU(
+			groupId, researcherUserId, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the researchers where groupId = &#63; and researcherUserId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ResearcherModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param researcherUserId the researcher user ID
+	 * @param start the lower bound of the range of researchers
+	 * @param end the upper bound of the range of researchers (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching researchers
+	 */
+	public static List<Researcher> findByG_RU(
+		long groupId, long researcherUserId, int start, int end,
+		OrderByComparator<Researcher> orderByComparator) {
+
+		return getPersistence().findByG_RU(
+			groupId, researcherUserId, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns an ordered range of all the researchers where groupId = &#63; and researcherUserId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ResearcherModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param researcherUserId the researcher user ID
+	 * @param start the lower bound of the range of researchers
+	 * @param end the upper bound of the range of researchers (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching researchers
+	 */
+	public static List<Researcher> findByG_RU(
+		long groupId, long researcherUserId, int start, int end,
+		OrderByComparator<Researcher> orderByComparator,
+		boolean useFinderCache) {
+
+		return getPersistence().findByG_RU(
+			groupId, researcherUserId, start, end, orderByComparator,
+			useFinderCache);
+	}
+
+	/**
+	 * Returns the first researcher in the ordered set where groupId = &#63; and researcherUserId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param researcherUserId the researcher user ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching researcher
+	 * @throws NoSuchResearcherException if a matching researcher could not be found
+	 */
+	public static Researcher findByG_RU_First(
+			long groupId, long researcherUserId,
+			OrderByComparator<Researcher> orderByComparator)
+		throws ecrf.user.exception.NoSuchResearcherException {
+
+		return getPersistence().findByG_RU_First(
+			groupId, researcherUserId, orderByComparator);
+	}
+
+	/**
+	 * Returns the first researcher in the ordered set where groupId = &#63; and researcherUserId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param researcherUserId the researcher user ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching researcher, or <code>null</code> if a matching researcher could not be found
+	 */
+	public static Researcher fetchByG_RU_First(
+		long groupId, long researcherUserId,
+		OrderByComparator<Researcher> orderByComparator) {
+
+		return getPersistence().fetchByG_RU_First(
+			groupId, researcherUserId, orderByComparator);
+	}
+
+	/**
+	 * Returns the last researcher in the ordered set where groupId = &#63; and researcherUserId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param researcherUserId the researcher user ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching researcher
+	 * @throws NoSuchResearcherException if a matching researcher could not be found
+	 */
+	public static Researcher findByG_RU_Last(
+			long groupId, long researcherUserId,
+			OrderByComparator<Researcher> orderByComparator)
+		throws ecrf.user.exception.NoSuchResearcherException {
+
+		return getPersistence().findByG_RU_Last(
+			groupId, researcherUserId, orderByComparator);
+	}
+
+	/**
+	 * Returns the last researcher in the ordered set where groupId = &#63; and researcherUserId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param researcherUserId the researcher user ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching researcher, or <code>null</code> if a matching researcher could not be found
+	 */
+	public static Researcher fetchByG_RU_Last(
+		long groupId, long researcherUserId,
+		OrderByComparator<Researcher> orderByComparator) {
+
+		return getPersistence().fetchByG_RU_Last(
+			groupId, researcherUserId, orderByComparator);
+	}
+
+	/**
+	 * Returns the researchers before and after the current researcher in the ordered set where groupId = &#63; and researcherUserId = &#63;.
+	 *
+	 * @param researcherId the primary key of the current researcher
+	 * @param groupId the group ID
+	 * @param researcherUserId the researcher user ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next researcher
+	 * @throws NoSuchResearcherException if a researcher with the primary key could not be found
+	 */
+	public static Researcher[] findByG_RU_PrevAndNext(
+			long researcherId, long groupId, long researcherUserId,
+			OrderByComparator<Researcher> orderByComparator)
+		throws ecrf.user.exception.NoSuchResearcherException {
+
+		return getPersistence().findByG_RU_PrevAndNext(
+			researcherId, groupId, researcherUserId, orderByComparator);
+	}
+
+	/**
+	 * Returns all the researchers that the user has permission to view where groupId = &#63; and researcherUserId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param researcherUserId the researcher user ID
+	 * @return the matching researchers that the user has permission to view
+	 */
+	public static List<Researcher> filterFindByG_RU(
+		long groupId, long researcherUserId) {
+
+		return getPersistence().filterFindByG_RU(groupId, researcherUserId);
+	}
+
+	/**
+	 * Returns a range of all the researchers that the user has permission to view where groupId = &#63; and researcherUserId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ResearcherModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param researcherUserId the researcher user ID
+	 * @param start the lower bound of the range of researchers
+	 * @param end the upper bound of the range of researchers (not inclusive)
+	 * @return the range of matching researchers that the user has permission to view
+	 */
+	public static List<Researcher> filterFindByG_RU(
+		long groupId, long researcherUserId, int start, int end) {
+
+		return getPersistence().filterFindByG_RU(
+			groupId, researcherUserId, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the researchers that the user has permissions to view where groupId = &#63; and researcherUserId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ResearcherModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param researcherUserId the researcher user ID
+	 * @param start the lower bound of the range of researchers
+	 * @param end the upper bound of the range of researchers (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching researchers that the user has permission to view
+	 */
+	public static List<Researcher> filterFindByG_RU(
+		long groupId, long researcherUserId, int start, int end,
+		OrderByComparator<Researcher> orderByComparator) {
+
+		return getPersistence().filterFindByG_RU(
+			groupId, researcherUserId, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns the researchers before and after the current researcher in the ordered set of researchers that the user has permission to view where groupId = &#63; and researcherUserId = &#63;.
+	 *
+	 * @param researcherId the primary key of the current researcher
+	 * @param groupId the group ID
+	 * @param researcherUserId the researcher user ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next researcher
+	 * @throws NoSuchResearcherException if a researcher with the primary key could not be found
+	 */
+	public static Researcher[] filterFindByG_RU_PrevAndNext(
+			long researcherId, long groupId, long researcherUserId,
+			OrderByComparator<Researcher> orderByComparator)
+		throws ecrf.user.exception.NoSuchResearcherException {
+
+		return getPersistence().filterFindByG_RU_PrevAndNext(
+			researcherId, groupId, researcherUserId, orderByComparator);
+	}
+
+	/**
+	 * Removes all the researchers where groupId = &#63; and researcherUserId = &#63; from the database.
+	 *
+	 * @param groupId the group ID
+	 * @param researcherUserId the researcher user ID
+	 */
+	public static void removeByG_RU(long groupId, long researcherUserId) {
+		getPersistence().removeByG_RU(groupId, researcherUserId);
+	}
+
+	/**
+	 * Returns the number of researchers where groupId = &#63; and researcherUserId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param researcherUserId the researcher user ID
+	 * @return the number of matching researchers
+	 */
+	public static int countByG_RU(long groupId, long researcherUserId) {
+		return getPersistence().countByG_RU(groupId, researcherUserId);
+	}
+
+	/**
+	 * Returns the number of researchers that the user has permission to view where groupId = &#63; and researcherUserId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param researcherUserId the researcher user ID
+	 * @return the number of matching researchers that the user has permission to view
+	 */
+	public static int filterCountByG_RU(long groupId, long researcherUserId) {
+		return getPersistence().filterCountByG_RU(groupId, researcherUserId);
+	}
+
+	/**
 	 * Caches the researcher in the entity cache if it is enabled.
 	 *
 	 * @param researcher the researcher
