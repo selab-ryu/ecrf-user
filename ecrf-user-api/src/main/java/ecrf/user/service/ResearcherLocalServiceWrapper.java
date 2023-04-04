@@ -353,6 +353,14 @@ public class ResearcherLocalServiceWrapper
 	}
 
 	@Override
+	public ecrf.user.model.Researcher getResearcherByG_RU_First(
+		long groupId, long researcherUserId) {
+
+		return _researcherLocalService.getResearcherByG_RU_First(
+			groupId, researcherUserId);
+	}
+
+	@Override
 	public java.util.List<ecrf.user.model.Researcher> getResearcherByGroupId(
 		long groupId) {
 

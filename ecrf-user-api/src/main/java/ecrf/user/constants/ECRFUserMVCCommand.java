@@ -15,4 +15,9 @@ public class ECRFUserMVCCommand {
 	public static final String ACTION_ADD_PROJECT = "/action/project/add-project";
 	public static final String ACTION_UPDATE_PROJECT = "/action/project/update-project";
 	public static final String ACTION_DELETE_PROJECT = "/action/project/delete-project";
+	
+	public static final String RENDER_VIEW_MEMBERSHIP = "/render/approve/view-membership";
+	public static final String RENDER_APPROVE_MEMBERSHIP = "/render/approve/approve-membership";
+	public static final String ACTION_APPROVE_MEMBERSHIP = "/action/approve/approve-membership";
+	public static final String ACTION_REJECT_MEMBERSHIP = "/action/approve/reject-membership";
 }

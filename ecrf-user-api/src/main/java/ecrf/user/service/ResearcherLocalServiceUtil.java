@@ -323,6 +323,13 @@ public class ResearcherLocalServiceUtil {
 		return getService().getResearcherByG_RU(groupId, researcherUserId);
 	}
 
+	public static Researcher getResearcherByG_RU_First(
+		long groupId, long researcherUserId) {
+
+		return getService().getResearcherByG_RU_First(
+			groupId, researcherUserId);
+	}
+
 	public static List<Researcher> getResearcherByGroupId(long groupId) {
 		return getService().getResearcherByGroupId(groupId);
 	}

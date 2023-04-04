@@ -275,6 +275,10 @@ public interface ResearcherLocalService
 		long groupId, long researcherUserId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Researcher getResearcherByG_RU_First(
+		long groupId, long researcherUserId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Researcher> getResearcherByGroupId(long groupId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
