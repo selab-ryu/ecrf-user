@@ -21,4 +21,7 @@ public class ECRFUserMVCCommand {
 	public static final String ACTION_REVIEW_MEMBERSHIP_REQUEST = "/action/approve/review-membership-request";
 	public static final String ACTION_APPROVE_MEMBERSHIP = "/action/approve/approve-membership";
 	public static final String ACTION_REJECT_MEMBERSHIP = "/action/approve/reject-membership";
+	
+	public static final String RENDER_VIEW_SITE = "/render/main/view-site";
+	public static final String ACTION_REQUEST_MEMBERSHIP = "/action/main/request-membership";
 }

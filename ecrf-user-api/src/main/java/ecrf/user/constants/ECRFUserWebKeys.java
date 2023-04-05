@@ -9,4 +9,8 @@ public class ECRFUserWebKeys {
 	public static final String CMD = "cmd";
 	public static final String ITERATOR_URL = "iteratorURL";
 	public static final String PAGE = "page";
+	
+	public static final String DISPLAY_STYLE = "displayStyle";
+	public static final String ORDER_BY_COL = "orderByCol";
+	public static final String ORDER_BY_TYPE = "orderByType"; 
 }
