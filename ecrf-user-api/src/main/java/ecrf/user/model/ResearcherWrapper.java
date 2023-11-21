@@ -46,7 +46,6 @@ public class ResearcherWrapper
 		attributes.put("mvccVersion", getMvccVersion());
 		attributes.put("uuid", getUuid());
 		attributes.put("researcherId", getResearcherId());
-		attributes.put("groupId", getGroupId());
 		attributes.put("companyId", getCompanyId());
 		attributes.put("userId", getUserId());
 		attributes.put("userName", getUserName());
@@ -87,12 +86,6 @@ public class ResearcherWrapper
 
 		if (researcherId != null) {
 			setResearcherId(researcherId);
-		}
-
-		Long groupId = (Long)attributes.get("groupId");
-
-		if (groupId != null) {
-			setGroupId(groupId);
 		}
 
 		Long companyId = (Long)attributes.get("companyId");
@@ -252,16 +245,6 @@ public class ResearcherWrapper
 	@Override
 	public String getEmail() {
 		return model.getEmail();
-	}
-
-	/**
-	 * Returns the group ID of this researcher.
-	 *
-	 * @return the group ID of this researcher
-	 */
-	@Override
-	public long getGroupId() {
-		return model.getGroupId();
 	}
 
 	/**
@@ -597,16 +580,6 @@ public class ResearcherWrapper
 	@Override
 	public void setEmail(String email) {
 		model.setEmail(email);
-	}
-
-	/**
-	 * Sets the group ID of this researcher.
-	 *
-	 * @param groupId the group ID of this researcher
-	 */
-	@Override
-	public void setGroupId(long groupId) {
-		model.setGroupId(groupId);
 	}
 
 	/**

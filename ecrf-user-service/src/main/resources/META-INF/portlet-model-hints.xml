@@ -35,19 +35,6 @@
 		<field name="applyDate" type="Date" />
 		<field name="crfStatus" type="int" />
 	</model>
-	<model name="ecrf.user.model.CRFPatient">
-		<field name="mvccVersion" type="long" />
-		<field name="uuid" type="String" />
-		<field name="crfPatientId" type="long" />
-		<field name="groupId" type="long" />
-		<field name="companyId" type="long" />
-		<field name="userId" type="long" />
-		<field name="userName" type="String" />
-		<field name="createDate" type="Date" />
-		<field name="modifiedDate" type="Date" />
-		<field name="crfId" type="long" />
-		<field name="patientId" type="long" />
-	</model>
 	<model name="ecrf.user.model.CRFResearcher">
 		<field name="mvccVersion" type="long" />
 		<field name="uuid" type="String" />
@@ -61,30 +48,18 @@
 		<field name="researcherId" type="long" />
 		<field name="crfId" type="long" />
 	</model>
-	<model name="ecrf.user.model.Patient">
+	<model name="ecrf.user.model.CRFSubject">
 		<field name="mvccVersion" type="long" />
 		<field name="uuid" type="String" />
-		<field name="patientId" type="long" />
+		<field name="crfSubjectId" type="long" />
 		<field name="groupId" type="long" />
 		<field name="companyId" type="long" />
 		<field name="userId" type="long" />
 		<field name="userName" type="String" />
 		<field name="createDate" type="Date" />
 		<field name="modifiedDate" type="Date" />
-		<field name="status" type="int" />
-		<field name="statusByUserId" type="long" />
-		<field name="statusByUserName" type="String" />
-		<field name="statusDate" type="Date" />
-		<field name="name" type="String" />
-		<field name="birth" type="Date" />
-		<field name="phone" type="String" />
-		<field name="position" type="String" />
-		<field name="gender" type="int" />
-		<field name="consentDate" type="Date" />
-		<field name="participationStartDate" type="Date" />
-		<field name="participationStatus" type="int" />
-		<field name="experimentalGroup" type="String" />
-		<field name="patientUserId" type="long" />
+		<field name="crfId" type="long" />
+		<field name="subjectId" type="long" />
 	</model>
 	<model name="ecrf.user.model.Project">
 		<field name="mvccVersion" type="long" />
@@ -118,7 +93,6 @@
 		<field name="mvccVersion" type="long" />
 		<field name="uuid" type="String" />
 		<field name="researcherId" type="long" />
-		<field name="groupId" type="long" />
 		<field name="companyId" type="long" />
 		<field name="userId" type="long" />
 		<field name="userName" type="String" />
@@ -137,5 +111,36 @@
 		<field name="position" type="String" />
 		<field name="approveStatus" type="int" />
 		<field name="researcherUserId" type="long" />
+	</model>
+	<model name="ecrf.user.model.Subject">
+		<field name="mvccVersion" type="long" />
+		<field name="uuid" type="String" />
+		<field name="subjectId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+		<field name="name" type="String" />
+		<field name="birth" type="Date" />
+		<field name="gender" type="int" />
+		<field name="phone" type="String" />
+		<field name="phone2" type="String" />
+		<field name="address" type="String" />
+		<field name="serialId" type="String" />
+		<field name="hospitalCode" type="int" />
+		<field name="visitDate" type="Date" />
+		<field name="consentDate" type="Date" />
+		<field name="participationStartDate" type="Date" />
+		<field name="participationStatus" type="int" />
+		<field name="experimentalGroup" type="String" />
+		<field name="hasCRF" type="Boolean" />
+		<field name="hasCohortStudy" type="Boolean" />
+		<field name="hasMRIStudy" type="Boolean" />
 	</model>
 </model-hints>

@@ -47,14 +47,19 @@ public class CRFLocalServiceWrapper
 
 	@Override
 	public ecrf.user.model.CRF addCRF(
-			String title, long managerId, int applyDateYear, int applyDateMonth,
+			String crfName, String crfVersion,
+			java.util.Map<java.util.Locale, String> titleMap,
+			java.util.Map<java.util.Locale, String> descriptionMap,
+			long managerId, int applyDateYear, int applyDateMonth,
 			int applyDateDay, int crfStatus,
-			com.liferay.portal.kernel.service.ServiceContext sc)
+			com.liferay.portal.kernel.service.ServiceContext crfsc,
+			com.liferay.portal.kernel.service.ServiceContext dtsc)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _crfLocalService.addCRF(
-			title, managerId, applyDateYear, applyDateMonth, applyDateDay,
-			crfStatus, sc);
+			crfName, crfVersion, titleMap, descriptionMap, managerId,
+			applyDateYear, applyDateMonth, applyDateDay, crfStatus, crfsc,
+			dtsc);
 	}
 
 	/**
@@ -442,14 +447,19 @@ public class CRFLocalServiceWrapper
 
 	@Override
 	public ecrf.user.model.CRF updateCRF(
-			long crfId, String title, long managerId, int applyDateYear,
-			int applyDateMonth, int applyDateDay, int crfStatus,
-			com.liferay.portal.kernel.service.ServiceContext sc)
+			long crfId, String crfName, String crfVersion,
+			java.util.Map<java.util.Locale, String> titleMap,
+			java.util.Map<java.util.Locale, String> descriptionMap,
+			long managerId, int applyDateYear, int applyDateMonth,
+			int applyDateDay, int crfStatus,
+			com.liferay.portal.kernel.service.ServiceContext crfsc,
+			com.liferay.portal.kernel.service.ServiceContext dtsc)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _crfLocalService.updateCRF(
-			crfId, title, managerId, applyDateYear, applyDateMonth,
-			applyDateDay, crfStatus, sc);
+			crfId, crfName, crfVersion, titleMap, descriptionMap, managerId,
+			applyDateYear, applyDateMonth, applyDateDay, crfStatus, crfsc,
+			dtsc);
 	}
 
 	@Override

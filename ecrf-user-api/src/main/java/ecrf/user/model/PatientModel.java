@@ -110,22 +110,6 @@ public interface PatientModel
 	public void setPatientId(long patientId);
 
 	/**
-	 * Returns the group ID of this patient.
-	 *
-	 * @return the group ID of this patient
-	 */
-	@Override
-	public long getGroupId();
-
-	/**
-	 * Sets the group ID of this patient.
-	 *
-	 * @param groupId the group ID of this patient
-	 */
-	@Override
-	public void setGroupId(long groupId);
-
-	/**
 	 * Returns the company ID of this patient.
 	 *
 	 * @return the company ID of this patient
@@ -140,6 +124,22 @@ public interface PatientModel
 	 */
 	@Override
 	public void setCompanyId(long companyId);
+
+	/**
+	 * Returns the group ID of this patient.
+	 *
+	 * @return the group ID of this patient
+	 */
+	@Override
+	public long getGroupId();
+
+	/**
+	 * Sets the group ID of this patient.
+	 *
+	 * @param groupId the group ID of this patient
+	 */
+	@Override
+	public void setGroupId(long groupId);
 
 	/**
 	 * Returns the user ID of this patient.
@@ -333,21 +333,6 @@ public interface PatientModel
 	public void setBirth(Date birth);
 
 	/**
-	 * Returns the phone of this patient.
-	 *
-	 * @return the phone of this patient
-	 */
-	@AutoEscape
-	public String getPhone();
-
-	/**
-	 * Sets the phone of this patient.
-	 *
-	 * @param phone the phone of this patient
-	 */
-	public void setPhone(String phone);
-
-	/**
 	 * Returns the position of this patient.
 	 *
 	 * @return the position of this patient
@@ -375,6 +360,79 @@ public interface PatientModel
 	 * @param gender the gender of this patient
 	 */
 	public void setGender(int gender);
+
+	/**
+	 * Returns the phone of this patient.
+	 *
+	 * @return the phone of this patient
+	 */
+	@AutoEscape
+	public String getPhone();
+
+	/**
+	 * Sets the phone of this patient.
+	 *
+	 * @param phone the phone of this patient
+	 */
+	public void setPhone(String phone);
+
+	/**
+	 * Returns the phone2 of this patient.
+	 *
+	 * @return the phone2 of this patient
+	 */
+	@AutoEscape
+	public String getPhone2();
+
+	/**
+	 * Sets the phone2 of this patient.
+	 *
+	 * @param phone2 the phone2 of this patient
+	 */
+	public void setPhone2(String phone2);
+
+	/**
+	 * Returns the serial ID of this patient.
+	 *
+	 * @return the serial ID of this patient
+	 */
+	@AutoEscape
+	public String getSerialId();
+
+	/**
+	 * Sets the serial ID of this patient.
+	 *
+	 * @param serialId the serial ID of this patient
+	 */
+	public void setSerialId(String serialId);
+
+	/**
+	 * Returns the hospital code of this patient.
+	 *
+	 * @return the hospital code of this patient
+	 */
+	public int getHospitalCode();
+
+	/**
+	 * Sets the hospital code of this patient.
+	 *
+	 * @param hospitalCode the hospital code of this patient
+	 */
+	public void setHospitalCode(int hospitalCode);
+
+	/**
+	 * Returns the visit date of this patient.
+	 *
+	 * @return the visit date of this patient
+	 */
+	public Date getVisitDate();
+
+	/**
+	 * Sets the visit date of this patient.
+	 *
+	 * @param visitDate the visit date of this patient
+	 */
+	public void setVisitDate(Date visitDate);
 
 	/**
 	 * Returns the consent date of this patient.
@@ -434,32 +492,46 @@ public interface PatientModel
 	public void setExperimentalGroup(String experimentalGroup);
 
 	/**
-	 * Returns the patient user ID of this patient.
+	 * Returns the has crf of this patient.
 	 *
-	 * @return the patient user ID of this patient
+	 * @return the has crf of this patient
 	 */
-	public long getPatientUserId();
+	public Boolean getHasCRF();
 
 	/**
-	 * Sets the patient user ID of this patient.
+	 * Sets the has crf of this patient.
 	 *
-	 * @param patientUserId the patient user ID of this patient
+	 * @param hasCRF the has crf of this patient
 	 */
-	public void setPatientUserId(long patientUserId);
+	public void setHasCRF(Boolean hasCRF);
 
 	/**
-	 * Returns the patient user uuid of this patient.
+	 * Returns the has cohort study of this patient.
 	 *
-	 * @return the patient user uuid of this patient
+	 * @return the has cohort study of this patient
 	 */
-	public String getPatientUserUuid();
+	public Boolean getHasCohortStudy();
 
 	/**
-	 * Sets the patient user uuid of this patient.
+	 * Sets the has cohort study of this patient.
 	 *
-	 * @param patientUserUuid the patient user uuid of this patient
+	 * @param hasCohortStudy the has cohort study of this patient
 	 */
-	public void setPatientUserUuid(String patientUserUuid);
+	public void setHasCohortStudy(Boolean hasCohortStudy);
+
+	/**
+	 * Returns the has mri study of this patient.
+	 *
+	 * @return the has mri study of this patient
+	 */
+	public Boolean getHasMRIStudy();
+
+	/**
+	 * Sets the has mri study of this patient.
+	 *
+	 * @param hasMRIStudy the has mri study of this patient
+	 */
+	public void setHasMRIStudy(Boolean hasMRIStudy);
 
 	/**
 	 * Returns <code>true</code> if this patient is approved.

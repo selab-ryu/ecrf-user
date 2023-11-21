@@ -13,4 +13,6 @@ public class ECRFUserConstants {
 	public static final String CRF_LOCAL_SERVICE = "crfLocalService";
 	public static final String CRF_RESEARCHER_LOCAL_SERVICE = "crfResearcherLocalService";
 	public static final String CRF_PATIENT_LOCAL_SERVICE = "crfPatientLocalService";
+	public static final String SUBJECT_LOCAL_SERVICE = "subjectLocalService";
+	public static final String CRF_SUBJECT_LOCAL_SERVICE = "crfSubjectLocalService";
 }

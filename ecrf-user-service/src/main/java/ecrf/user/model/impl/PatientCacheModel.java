@@ -77,7 +77,7 @@ public class PatientCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(47);
+		StringBundler sb = new StringBundler(59);
 
 		sb.append("{mvccVersion=");
 		sb.append(mvccVersion);
@@ -85,10 +85,10 @@ public class PatientCacheModel
 		sb.append(uuid);
 		sb.append(", patientId=");
 		sb.append(patientId);
-		sb.append(", groupId=");
-		sb.append(groupId);
 		sb.append(", companyId=");
 		sb.append(companyId);
+		sb.append(", groupId=");
+		sb.append(groupId);
 		sb.append(", userId=");
 		sb.append(userId);
 		sb.append(", userName=");
@@ -109,12 +109,20 @@ public class PatientCacheModel
 		sb.append(name);
 		sb.append(", birth=");
 		sb.append(birth);
-		sb.append(", phone=");
-		sb.append(phone);
 		sb.append(", position=");
 		sb.append(position);
 		sb.append(", gender=");
 		sb.append(gender);
+		sb.append(", phone=");
+		sb.append(phone);
+		sb.append(", phone2=");
+		sb.append(phone2);
+		sb.append(", serialId=");
+		sb.append(serialId);
+		sb.append(", hospitalCode=");
+		sb.append(hospitalCode);
+		sb.append(", visitDate=");
+		sb.append(visitDate);
 		sb.append(", consentDate=");
 		sb.append(consentDate);
 		sb.append(", participationStartDate=");
@@ -123,8 +131,12 @@ public class PatientCacheModel
 		sb.append(participationStatus);
 		sb.append(", experimentalGroup=");
 		sb.append(experimentalGroup);
-		sb.append(", patientUserId=");
-		sb.append(patientUserId);
+		sb.append(", hasCRF=");
+		sb.append(hasCRF);
+		sb.append(", hasCohortStudy=");
+		sb.append(hasCohortStudy);
+		sb.append(", hasMRIStudy=");
+		sb.append(hasMRIStudy);
 		sb.append("}");
 
 		return sb.toString();
@@ -144,8 +156,8 @@ public class PatientCacheModel
 		}
 
 		patientImpl.setPatientId(patientId);
-		patientImpl.setGroupId(groupId);
 		patientImpl.setCompanyId(companyId);
+		patientImpl.setGroupId(groupId);
 		patientImpl.setUserId(userId);
 
 		if (userName == null) {
@@ -200,13 +212,6 @@ public class PatientCacheModel
 			patientImpl.setBirth(new Date(birth));
 		}
 
-		if (phone == null) {
-			patientImpl.setPhone("");
-		}
-		else {
-			patientImpl.setPhone(phone);
-		}
-
 		if (position == null) {
 			patientImpl.setPosition("");
 		}
@@ -215,6 +220,36 @@ public class PatientCacheModel
 		}
 
 		patientImpl.setGender(gender);
+
+		if (phone == null) {
+			patientImpl.setPhone("");
+		}
+		else {
+			patientImpl.setPhone(phone);
+		}
+
+		if (phone2 == null) {
+			patientImpl.setPhone2("");
+		}
+		else {
+			patientImpl.setPhone2(phone2);
+		}
+
+		if (serialId == null) {
+			patientImpl.setSerialId("");
+		}
+		else {
+			patientImpl.setSerialId(serialId);
+		}
+
+		patientImpl.setHospitalCode(hospitalCode);
+
+		if (visitDate == Long.MIN_VALUE) {
+			patientImpl.setVisitDate(null);
+		}
+		else {
+			patientImpl.setVisitDate(new Date(visitDate));
+		}
 
 		if (consentDate == Long.MIN_VALUE) {
 			patientImpl.setConsentDate(null);
@@ -240,7 +275,9 @@ public class PatientCacheModel
 			patientImpl.setExperimentalGroup(experimentalGroup);
 		}
 
-		patientImpl.setPatientUserId(patientUserId);
+		patientImpl.setHasCRF(hasCRF);
+		patientImpl.setHasCohortStudy(hasCohortStudy);
+		patientImpl.setHasMRIStudy(hasMRIStudy);
 
 		patientImpl.resetOriginalValues();
 
@@ -254,9 +291,9 @@ public class PatientCacheModel
 
 		patientId = objectInput.readLong();
 
-		groupId = objectInput.readLong();
-
 		companyId = objectInput.readLong();
+
+		groupId = objectInput.readLong();
 
 		userId = objectInput.readLong();
 		userName = objectInput.readUTF();
@@ -270,17 +307,26 @@ public class PatientCacheModel
 		statusDate = objectInput.readLong();
 		name = objectInput.readUTF();
 		birth = objectInput.readLong();
-		phone = objectInput.readUTF();
 		position = objectInput.readUTF();
 
 		gender = objectInput.readInt();
+		phone = objectInput.readUTF();
+		phone2 = objectInput.readUTF();
+		serialId = objectInput.readUTF();
+
+		hospitalCode = objectInput.readInt();
+		visitDate = objectInput.readLong();
 		consentDate = objectInput.readLong();
 		participationStartDate = objectInput.readLong();
 
 		participationStatus = objectInput.readInt();
 		experimentalGroup = objectInput.readUTF();
 
-		patientUserId = objectInput.readLong();
+		hasCRF = objectInput.readBoolean();
+
+		hasCohortStudy = objectInput.readBoolean();
+
+		hasMRIStudy = objectInput.readBoolean();
 	}
 
 	@Override
@@ -296,9 +342,9 @@ public class PatientCacheModel
 
 		objectOutput.writeLong(patientId);
 
-		objectOutput.writeLong(groupId);
-
 		objectOutput.writeLong(companyId);
+
+		objectOutput.writeLong(groupId);
 
 		objectOutput.writeLong(userId);
 
@@ -334,13 +380,6 @@ public class PatientCacheModel
 
 		objectOutput.writeLong(birth);
 
-		if (phone == null) {
-			objectOutput.writeUTF("");
-		}
-		else {
-			objectOutput.writeUTF(phone);
-		}
-
 		if (position == null) {
 			objectOutput.writeUTF("");
 		}
@@ -349,6 +388,30 @@ public class PatientCacheModel
 		}
 
 		objectOutput.writeInt(gender);
+
+		if (phone == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(phone);
+		}
+
+		if (phone2 == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(phone2);
+		}
+
+		if (serialId == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(serialId);
+		}
+
+		objectOutput.writeInt(hospitalCode);
+		objectOutput.writeLong(visitDate);
 		objectOutput.writeLong(consentDate);
 		objectOutput.writeLong(participationStartDate);
 
@@ -361,14 +424,18 @@ public class PatientCacheModel
 			objectOutput.writeUTF(experimentalGroup);
 		}
 
-		objectOutput.writeLong(patientUserId);
+		objectOutput.writeBoolean(hasCRF);
+
+		objectOutput.writeBoolean(hasCohortStudy);
+
+		objectOutput.writeBoolean(hasMRIStudy);
 	}
 
 	public long mvccVersion;
 	public String uuid;
 	public long patientId;
-	public long groupId;
 	public long companyId;
+	public long groupId;
 	public long userId;
 	public String userName;
 	public long createDate;
@@ -379,13 +446,19 @@ public class PatientCacheModel
 	public long statusDate;
 	public String name;
 	public long birth;
-	public String phone;
 	public String position;
 	public int gender;
+	public String phone;
+	public String phone2;
+	public String serialId;
+	public int hospitalCode;
+	public long visitDate;
 	public long consentDate;
 	public long participationStartDate;
 	public int participationStatus;
 	public String experimentalGroup;
-	public long patientUserId;
+	public boolean hasCRF;
+	public boolean hasCohortStudy;
+	public boolean hasMRIStudy;
 
 }

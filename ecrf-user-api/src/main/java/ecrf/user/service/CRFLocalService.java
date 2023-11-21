@@ -38,6 +38,8 @@ import ecrf.user.model.CRF;
 import java.io.Serializable;
 
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import org.osgi.annotation.versioning.ProviderType;
 
@@ -79,8 +81,10 @@ public interface CRFLocalService
 	public CRF addCRF(CRF crf);
 
 	public CRF addCRF(
-			String title, long managerId, int applyDateYear, int applyDateMonth,
-			int applyDateDay, int crfStatus, ServiceContext sc)
+			String crfName, String crfVersion, Map<Locale, String> titleMap,
+			Map<Locale, String> descriptionMap, long managerId,
+			int applyDateYear, int applyDateMonth, int applyDateDay,
+			int crfStatus, ServiceContext crfsc, ServiceContext dtsc)
 		throws PortalException;
 
 	/**
@@ -345,9 +349,11 @@ public interface CRFLocalService
 	public CRF updateCRF(CRF crf);
 
 	public CRF updateCRF(
-			long crfId, String title, long managerId, int applyDateYear,
-			int applyDateMonth, int applyDateDay, int crfStatus,
-			ServiceContext sc)
+			long crfId, String crfName, String crfVersion,
+			Map<Locale, String> titleMap, Map<Locale, String> descriptionMap,
+			long managerId, int applyDateYear, int applyDateMonth,
+			int applyDateDay, int crfStatus, ServiceContext crfsc,
+			ServiceContext dtsc)
 		throws PortalException;
 
 	public CRF updateManager(long crfId, long managerId, ServiceContext sc)

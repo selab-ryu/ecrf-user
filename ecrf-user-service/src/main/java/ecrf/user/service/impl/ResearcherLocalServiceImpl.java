@@ -17,14 +17,17 @@ package ecrf.user.service.impl;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.aop.AopService;
+import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.persistence.CompanyPersistence;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
@@ -32,11 +35,11 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Logger;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
+import ecrf.user.exception.NoSuchResearcherException;
 import ecrf.user.model.Researcher;
 import ecrf.user.service.CRFLocalService;
 import ecrf.user.service.CRFResearcherLocalService;
@@ -57,6 +60,9 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 	
 	@Reference
 	private CRFLocalService _crfLocalService;
+	
+	@BeanReference(type = CompanyPersistence.class)
+	private CompanyPersistence _companyPersistence;
 	
 	@Indexable(type=IndexableType.REINDEX)
 	public Researcher addResarcherWithUser(
@@ -79,7 +85,6 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 		} catch (PortalException e) {
 			e.printStackTrace();
 		}
-		long groupId = researcherServiceContext.getScopeGroupId();
 		
 		// add user
 		boolean autoPassword = false;
@@ -114,7 +119,6 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 		
 		// set audit fields
 		researcher.setUserId(creatorUserId);
-		researcher.setGroupId(groupId);
 		researcher.setCompanyId(companyId);
 		researcher.setUserName(creatorUser.getFullName());
 		researcher.setCreateDate(researcherServiceContext.getCreateDate());
@@ -140,17 +144,19 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 		// calls to other liferay frameworks (workflow, asset, resource, ...)
 		
 		resourceLocalService.addResources(
-				researcher.getCompanyId(), researcher.getGroupId(), creatorUserId,
+				researcher.getCompanyId(), 0, creatorUserId,
 				Researcher.class.getName(), researcherId,
 				false, true, true);
 		
-		super.assetEntryLocalService.updateEntry(
-				researcher.getUserId(), researcher.getGroupId(), researcher.getCreateDate(), researcher.getModifiedDate(),
-				Researcher.class.getName(), researcherId, researcher.getUuid(), 
-				0, researcherServiceContext.getAssetCategoryIds(), researcherServiceContext.getAssetTagNames(),
-				true, true, researcher.getCreateDate(), null, null, null,
-				ContentTypes.TEXT_HTML, researcher.getName(), null, null,
-				null, null, 0, 0, researcherServiceContext.getAssetPriority());
+		Company company = _companyPersistence.fetchByPrimaryKey(companyId);
+		
+//		super.assetEntryLocalService.updateEntry(
+//				researcher.getUserId(), company.getGroupId(), researcher.getCreateDate(), researcher.getModifiedDate(),
+//				Researcher.class.getName(), researcherId, researcher.getUuid(), 
+//				0, researcherServiceContext.getAssetCategoryIds(), researcherServiceContext.getAssetTagNames(),
+//				true, true, researcher.getCreateDate(), null, null, null,
+//				ContentTypes.TEXT_HTML, researcher.getName(), null, null,
+//				null, null, 0, 0, researcherServiceContext.getAssetPriority());
 		
 		_log.info("Add Researcher With User End");
 		return researcher;
@@ -172,13 +178,11 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 		// get metadata
 		long userId = sc.getUserId();
 		User user = super.userLocalService.getUser(userId);
-		long groupId = sc.getScopeGroupId();
 		
 		Date birth = PortalUtil.getDate(birthMonth, birthDay, birthYear);
 		
 		// set audit fields
 		researcher.setUserId(userId);
-		researcher.setGroupId(groupId);
 		researcher.setCompanyId(user.getCompanyId());
 		researcher.setUserName(user.getFullName());
 		researcher.setCreateDate(sc.getCreateDate());
@@ -203,17 +207,19 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 		// calls to other liferay frameworks (workflow, asset, resource, ...)
 		
 		resourceLocalService.addResources(
-				researcher.getCompanyId(), researcher.getGroupId(), userId,
+				researcher.getCompanyId(), 0, userId,
 				Researcher.class.getName(), researcherId,
 				false, true, true);
 		
-		super.assetEntryLocalService.updateEntry(
-				researcher.getUserId(), researcher.getGroupId(), researcher.getCreateDate(), researcher.getModifiedDate(),
-				Researcher.class.getName(), researcherId, researcher.getUuid(), 
-				0, sc.getAssetCategoryIds(), sc.getAssetTagNames(),
-				true, true, researcher.getCreateDate(), null, null, null,
-				ContentTypes.TEXT_HTML, researcher.getName(), null, null,
-				null, null, 0, 0, sc.getAssetPriority());
+		Company company = _companyPersistence.fetchByPrimaryKey(user.getCompanyId());
+		
+//		super.assetEntryLocalService.updateEntry(
+//				researcher.getUserId(), company.getGroupId(), researcher.getCreateDate(), researcher.getModifiedDate(),
+//				Researcher.class.getName(), researcherId, researcher.getUuid(), 
+//				0, sc.getAssetCategoryIds(), sc.getAssetTagNames(),
+//				true, true, researcher.getCreateDate(), null, null, null,
+//				ContentTypes.TEXT_HTML, researcher.getName(), null, null,
+//				null, null, 0, 0, sc.getAssetPriority());
 		
 		return researcher;
 	}
@@ -259,17 +265,19 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 		// calls to other liferay frameworks (workflow, asset, resource, ...)
 		
 		super.resourceLocalService.updateResources(
-				researcher.getCompanyId(), sc.getScopeGroupId(),
+				researcher.getCompanyId(), 0,
 				Researcher.class.getName(), researcher.getResearcherId(),
 				sc.getModelPermissions());
 		
-		super.assetEntryLocalService.updateEntry(
-				researcher.getUserId(), researcher.getGroupId(), researcher.getCreateDate(), researcher.getModifiedDate(),
-				Researcher.class.getName(), researcherId, researcher.getUuid(), 
-				0, sc.getAssetCategoryIds(), sc.getAssetTagNames(),
-				true, true, researcher.getCreateDate(), null, null, null,
-				ContentTypes.TEXT_HTML, researcher.getName(), null, null,
-				null, null, 0, 0, sc.getAssetPriority());
+		Company company = _companyPersistence.fetchByPrimaryKey(user.getCompanyId());
+		
+//		super.assetEntryLocalService.updateEntry(
+//				researcher.getUserId(), company.getGroupId(), researcher.getCreateDate(), researcher.getModifiedDate(),
+//				Researcher.class.getName(), researcherId, researcher.getUuid(), 
+//				0, sc.getAssetCategoryIds(), sc.getAssetTagNames(),
+//				true, true, researcher.getCreateDate(), null, null, null,
+//				ContentTypes.TEXT_HTML, researcher.getName(), null, null,
+//				null, null, 0, 0, sc.getAssetPriority());
 		
 		return researcher;
 	}
@@ -295,10 +303,6 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 			resourceLocalService.deleteResource(
 					researcher.getCompanyId(), Researcher.class.getName(),
 					ResourceConstants.SCOPE_INDIVIDUAL, researcher.getResearcherId());
-			
-			AssetEntry assetEntry = super.assetEntryLocalService.fetchEntry(Researcher.class.getName(), researcherId);
-			super.assetLinkLocalService.deleteLinks(assetEntry.getEntryId());
-			super.assetEntryLocalService.deleteEntry(assetEntry);
 		}
 		
 		return researcher;
@@ -326,46 +330,11 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 			resourceLocalService.deleteResource(
 					researcher.getCompanyId(), Researcher.class.getName(),
 					ResourceConstants.SCOPE_INDIVIDUAL, researcher.getResearcherId());
-			
-			AssetEntry assetEntry = super.assetEntryLocalService.fetchEntry(Researcher.class.getName(), researcher.getResearcherId());
-			super.assetLinkLocalService.deleteLinks(assetEntry.getEntryId());
-			super.assetEntryLocalService.deleteEntry(assetEntry);
 		} catch(PortalException pe) {
 			pe.printStackTrace();
 		}
 		return researcher;
-	}
-	
-	public List<Researcher> getResearcherByGroupId(long groupId) {
-		return super.researcherPersistence.findByGroupId(groupId);
-	}
-	public List<Researcher> getResearcherByGroupId(long groupId, int start, int end) {
-		return super.researcherPersistence.findByGroupId(groupId, start, end);
-	}
-	public List<Researcher> getResearcherByGroupId(long groupId, int start, int end, OrderByComparator comparator) {
-		return super.researcherPersistence.findByGroupId(groupId, start, end, comparator);
-	}
-	public int getResearcherCount(long groupId) {
-		return super.researcherPersistence.countByGroupId(groupId);
-	}
-	
-	public List<Researcher> getResearcherByG_P(long groupId, String position) {
-		return super.researcherPersistence.findByG_P(groupId, position);
-	}
-	public int getResearcherCountByG_P(long groupId, String position) {
-		return super.researcherPersistence.countByG_P(groupId, position);
-	}
-	
-	public List<Researcher> getResearcherByG_RU(long groupId, long researcherUserId) {
-		return super.researcherPersistence.findByG_RU(groupId, researcherUserId);
-	}
-	public Researcher getResearcherByG_RU_First(long groupId, long researcherUserId) {
-		return super.researcherPersistence.fetchByG_RU_First(groupId, researcherUserId, null);
-	}
-	public int getResearcherCountByG_RU(long groupId, long researcherUserId) {
-		return super.researcherPersistence.countByG_RU(groupId, researcherUserId);
-	}
-	
+	}	
 	
 	public Researcher changeApproveStatus(long researcherId, int approveStatus) throws PortalException {
 		_log = LogFactoryUtil.getLog(this.getClass().getName());
@@ -378,5 +347,9 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 		super.researcherPersistence.update(researcher);
 		
 		return researcher;
+	}
+	
+	public Researcher getResearcherByUserId(long userId) throws NoSuchResearcherException {
+		return super.researcherPersistence.findByResearcherUserId(userId);
 	}
 }

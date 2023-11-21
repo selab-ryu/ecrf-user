@@ -16,13 +16,20 @@ package ecrf.user.service.impl;
 
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import com.sx.icecap.model.DataType;
+import com.sx.icecap.service.DataTypeLocalService;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import org.osgi.service.component.annotations.Component;
@@ -44,20 +51,30 @@ import ecrf.user.service.base.CRFLocalServiceBaseImpl;
 )
 public class CRFLocalServiceImpl extends CRFLocalServiceBaseImpl {
 	public CRF addCRF(
-			String title, long managerId,
+			String crfName,
+			String crfVersion,
+			Map<Locale, String> titleMap,
+			Map<Locale, String> descriptionMap,
+			long managerId,
 			int applyDateYear, int applyDateMonth, int applyDateDay,
 			int crfStatus,
-			ServiceContext sc) throws PortalException {
-		_logger = Logger.getLogger(this.getClass().getName());
-		_logger.info("Add CRF Start");
+			ServiceContext crfsc, ServiceContext dtsc) throws PortalException {
+		_log = LogFactoryUtil.getLog(this.getClass().getName());
+		_log.info("Add CRF Start");
+		
+		_log.info("create datatype");
+		
+		String extension = "docx";
+		int status = WorkflowConstants.STATUS_DRAFT;
+		DataType datatype = _dataTypeLocalService.addDataType(crfName, crfVersion, extension, titleMap, descriptionMap, null, status, dtsc);
 		
 		long crfId = super.counterLocalService.increment();
 		CRF crf = super.crfLocalService.createCRF(crfId);
-		
+				
 		// get metadata
-		long userId = sc.getUserId();
+		long userId = crfsc.getUserId();
 		User user = super.userLocalService.getUser(userId);
-		long groupId = sc.getScopeGroupId();
+		long groupId = crfsc.getScopeGroupId();
 		
 		Date applyDate = PortalUtil.getDate(applyDateMonth, applyDateDay, applyDateYear);
 		
@@ -66,12 +83,12 @@ public class CRFLocalServiceImpl extends CRFLocalServiceBaseImpl {
 		crf.setUserId(userId);
 		crf.setUserName(user.getFullName());
 		crf.setCompanyId(user.getCompanyId());
-		crf.setCreateDate(sc.getCreateDate());
-		crf.setModifiedDate(sc.getModifiedDate());
-		crf.setExpandoBridgeAttributes(sc);
+		crf.setCreateDate(crfsc.getCreateDate());
+		crf.setModifiedDate(crfsc.getModifiedDate());
+		crf.setExpandoBridgeAttributes(crfsc);
 		
 		// set entity fields
-		//crf.setDatatypeId(datatypeId);
+		crf.setDatatypeId(datatype.getDataTypeId());
 		crf.setManagerId(managerId);
 		crf.setApplyDate(applyDate);
 		crf.setCrfStatus(crfStatus);
@@ -84,20 +101,34 @@ public class CRFLocalServiceImpl extends CRFLocalServiceBaseImpl {
 	}
 	
 	public CRF updateCRF(
-			long crfId, String title, long managerId,
+			long crfId,
+			String crfName,
+			String crfVersion,
+			Map<Locale, String> titleMap,
+			Map<Locale, String> descriptionMap,
+			long managerId,
 			int applyDateYear, int applyDateMonth, int applyDateDay,
 			int crfStatus,
-			ServiceContext sc) throws PortalException {
-		_logger = Logger.getLogger(this.getClass().getName());
-		_logger.info("Add CRF Start");
+			ServiceContext crfsc, ServiceContext dtsc) throws PortalException {
+		_log = LogFactoryUtil.getLog(this.getClass().getName());
+		_log.info("Add CRF Start");
 		
 		CRF crf = super.crfLocalService.getCRF(crfId);
+		
+		long dataTypeId = crf.getDatatypeId();
+		
+		_log.info("update DataType");
+		
+		String extension = "docx";
+		int status = WorkflowConstants.STATUS_DRAFT;
+		
+		DataType dataType = _dataTypeLocalService.updateDataType(dataTypeId, crfName, crfVersion, extension, titleMap, descriptionMap, null, status, dtsc);
 		
 		Date applyDate = PortalUtil.getDate(applyDateMonth, applyDateDay, applyDateYear);
 		
 		// set audit fields
-		crf.setModifiedDate(sc.getModifiedDate());
-		crf.setExpandoBridgeAttributes(sc);
+		crf.setModifiedDate(crfsc.getModifiedDate());
+		crf.setExpandoBridgeAttributes(crfsc);
 		
 		// set entity fields
 		crf.setManagerId(managerId);
@@ -127,6 +158,12 @@ public class CRFLocalServiceImpl extends CRFLocalServiceBaseImpl {
 			for (CRFPatient crfPatient : crfPatientList) {
 				_crfPatientLocalService.deleteCRFPatient(crfPatient);
 			}
+			
+			long dataTypeId = 0;
+			dataTypeId = crf.getDatatypeId();
+			if(dataTypeId > 0) {
+				_dataTypeLocalService.deleteDataType(dataTypeId);
+			}
 		}
 		
 		return crf;
@@ -143,6 +180,16 @@ public class CRFLocalServiceImpl extends CRFLocalServiceBaseImpl {
 		List<CRFPatient> crfPatientList = _crfPatientLocalService.getCRFPatientByCRFId(sc.getScopeGroupId(), crf.getCrfId());
 		for (CRFPatient crfPatient : crfPatientList) {
 			_crfPatientLocalService.deleteCRFPatient(crfPatient);
+		}
+		
+		long dataTypeId = 0;
+		dataTypeId = crf.getDatatypeId();
+		if(dataTypeId > 0) {
+			try {
+				_dataTypeLocalService.deleteDataType(dataTypeId);
+			} catch (PortalException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return crf;
@@ -175,8 +222,8 @@ public class CRFLocalServiceImpl extends CRFLocalServiceBaseImpl {
 	}
 	
 	public CRF updateManager(long crfId, long managerId, ServiceContext sc) throws PortalException {
-		_logger = Logger.getLogger(this.getClass().getName());
-		_logger.info("Update Manager ID Start");
+		_log = LogFactoryUtil.getLog(this.getClass().getName());
+		_log.info("Update Manager ID Start");
 		
 		CRF crf = super.crfLocalService.getCRF(crfId);
 		
@@ -200,5 +247,8 @@ public class CRFLocalServiceImpl extends CRFLocalServiceBaseImpl {
 	@Reference
 	private CRFResearcherLocalService _crfResearcherLocalService;
 	
-	private Logger _logger;
+	@Reference
+	private DataTypeLocalService _dataTypeLocalService;
+	
+	private Log _log;
 }

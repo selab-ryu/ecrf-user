@@ -46,8 +46,8 @@ public class PatientWrapper
 		attributes.put("mvccVersion", getMvccVersion());
 		attributes.put("uuid", getUuid());
 		attributes.put("patientId", getPatientId());
-		attributes.put("groupId", getGroupId());
 		attributes.put("companyId", getCompanyId());
+		attributes.put("groupId", getGroupId());
 		attributes.put("userId", getUserId());
 		attributes.put("userName", getUserName());
 		attributes.put("createDate", getCreateDate());
@@ -58,14 +58,20 @@ public class PatientWrapper
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("name", getName());
 		attributes.put("birth", getBirth());
-		attributes.put("phone", getPhone());
 		attributes.put("position", getPosition());
 		attributes.put("gender", getGender());
+		attributes.put("phone", getPhone());
+		attributes.put("phone2", getPhone2());
+		attributes.put("serialId", getSerialId());
+		attributes.put("hospitalCode", getHospitalCode());
+		attributes.put("visitDate", getVisitDate());
 		attributes.put("consentDate", getConsentDate());
 		attributes.put("participationStartDate", getParticipationStartDate());
 		attributes.put("participationStatus", getParticipationStatus());
 		attributes.put("experimentalGroup", getExperimentalGroup());
-		attributes.put("patientUserId", getPatientUserId());
+		attributes.put("hasCRF", getHasCRF());
+		attributes.put("hasCohortStudy", getHasCohortStudy());
+		attributes.put("hasMRIStudy", getHasMRIStudy());
 
 		return attributes;
 	}
@@ -90,16 +96,16 @@ public class PatientWrapper
 			setPatientId(patientId);
 		}
 
-		Long groupId = (Long)attributes.get("groupId");
-
-		if (groupId != null) {
-			setGroupId(groupId);
-		}
-
 		Long companyId = (Long)attributes.get("companyId");
 
 		if (companyId != null) {
 			setCompanyId(companyId);
+		}
+
+		Long groupId = (Long)attributes.get("groupId");
+
+		if (groupId != null) {
+			setGroupId(groupId);
 		}
 
 		Long userId = (Long)attributes.get("userId");
@@ -162,12 +168,6 @@ public class PatientWrapper
 			setBirth(birth);
 		}
 
-		String phone = (String)attributes.get("phone");
-
-		if (phone != null) {
-			setPhone(phone);
-		}
-
 		String position = (String)attributes.get("position");
 
 		if (position != null) {
@@ -178,6 +178,36 @@ public class PatientWrapper
 
 		if (gender != null) {
 			setGender(gender);
+		}
+
+		String phone = (String)attributes.get("phone");
+
+		if (phone != null) {
+			setPhone(phone);
+		}
+
+		String phone2 = (String)attributes.get("phone2");
+
+		if (phone2 != null) {
+			setPhone2(phone2);
+		}
+
+		String serialId = (String)attributes.get("serialId");
+
+		if (serialId != null) {
+			setSerialId(serialId);
+		}
+
+		Integer hospitalCode = (Integer)attributes.get("hospitalCode");
+
+		if (hospitalCode != null) {
+			setHospitalCode(hospitalCode);
+		}
+
+		Date visitDate = (Date)attributes.get("visitDate");
+
+		if (visitDate != null) {
+			setVisitDate(visitDate);
 		}
 
 		Date consentDate = (Date)attributes.get("consentDate");
@@ -206,10 +236,22 @@ public class PatientWrapper
 			setExperimentalGroup(experimentalGroup);
 		}
 
-		Long patientUserId = (Long)attributes.get("patientUserId");
+		Boolean hasCRF = (Boolean)attributes.get("hasCRF");
 
-		if (patientUserId != null) {
-			setPatientUserId(patientUserId);
+		if (hasCRF != null) {
+			setHasCRF(hasCRF);
+		}
+
+		Boolean hasCohortStudy = (Boolean)attributes.get("hasCohortStudy");
+
+		if (hasCohortStudy != null) {
+			setHasCohortStudy(hasCohortStudy);
+		}
+
+		Boolean hasMRIStudy = (Boolean)attributes.get("hasMRIStudy");
+
+		if (hasMRIStudy != null) {
+			setHasMRIStudy(hasMRIStudy);
 		}
 	}
 
@@ -284,6 +326,46 @@ public class PatientWrapper
 	}
 
 	/**
+	 * Returns the has cohort study of this patient.
+	 *
+	 * @return the has cohort study of this patient
+	 */
+	@Override
+	public Boolean getHasCohortStudy() {
+		return model.getHasCohortStudy();
+	}
+
+	/**
+	 * Returns the has crf of this patient.
+	 *
+	 * @return the has crf of this patient
+	 */
+	@Override
+	public Boolean getHasCRF() {
+		return model.getHasCRF();
+	}
+
+	/**
+	 * Returns the has mri study of this patient.
+	 *
+	 * @return the has mri study of this patient
+	 */
+	@Override
+	public Boolean getHasMRIStudy() {
+		return model.getHasMRIStudy();
+	}
+
+	/**
+	 * Returns the hospital code of this patient.
+	 *
+	 * @return the hospital code of this patient
+	 */
+	@Override
+	public int getHospitalCode() {
+		return model.getHospitalCode();
+	}
+
+	/**
 	 * Returns the modified date of this patient.
 	 *
 	 * @return the modified date of this patient
@@ -344,26 +426,6 @@ public class PatientWrapper
 	}
 
 	/**
-	 * Returns the patient user ID of this patient.
-	 *
-	 * @return the patient user ID of this patient
-	 */
-	@Override
-	public long getPatientUserId() {
-		return model.getPatientUserId();
-	}
-
-	/**
-	 * Returns the patient user uuid of this patient.
-	 *
-	 * @return the patient user uuid of this patient
-	 */
-	@Override
-	public String getPatientUserUuid() {
-		return model.getPatientUserUuid();
-	}
-
-	/**
 	 * Returns the phone of this patient.
 	 *
 	 * @return the phone of this patient
@@ -371,6 +433,16 @@ public class PatientWrapper
 	@Override
 	public String getPhone() {
 		return model.getPhone();
+	}
+
+	/**
+	 * Returns the phone2 of this patient.
+	 *
+	 * @return the phone2 of this patient
+	 */
+	@Override
+	public String getPhone2() {
+		return model.getPhone2();
 	}
 
 	/**
@@ -391,6 +463,16 @@ public class PatientWrapper
 	@Override
 	public long getPrimaryKey() {
 		return model.getPrimaryKey();
+	}
+
+	/**
+	 * Returns the serial ID of this patient.
+	 *
+	 * @return the serial ID of this patient
+	 */
+	@Override
+	public String getSerialId() {
+		return model.getSerialId();
 	}
 
 	/**
@@ -481,6 +563,16 @@ public class PatientWrapper
 	@Override
 	public String getUuid() {
 		return model.getUuid();
+	}
+
+	/**
+	 * Returns the visit date of this patient.
+	 *
+	 * @return the visit date of this patient
+	 */
+	@Override
+	public Date getVisitDate() {
+		return model.getVisitDate();
 	}
 
 	/**
@@ -639,6 +731,46 @@ public class PatientWrapper
 	}
 
 	/**
+	 * Sets the has cohort study of this patient.
+	 *
+	 * @param hasCohortStudy the has cohort study of this patient
+	 */
+	@Override
+	public void setHasCohortStudy(Boolean hasCohortStudy) {
+		model.setHasCohortStudy(hasCohortStudy);
+	}
+
+	/**
+	 * Sets the has crf of this patient.
+	 *
+	 * @param hasCRF the has crf of this patient
+	 */
+	@Override
+	public void setHasCRF(Boolean hasCRF) {
+		model.setHasCRF(hasCRF);
+	}
+
+	/**
+	 * Sets the has mri study of this patient.
+	 *
+	 * @param hasMRIStudy the has mri study of this patient
+	 */
+	@Override
+	public void setHasMRIStudy(Boolean hasMRIStudy) {
+		model.setHasMRIStudy(hasMRIStudy);
+	}
+
+	/**
+	 * Sets the hospital code of this patient.
+	 *
+	 * @param hospitalCode the hospital code of this patient
+	 */
+	@Override
+	public void setHospitalCode(int hospitalCode) {
+		model.setHospitalCode(hospitalCode);
+	}
+
+	/**
 	 * Sets the modified date of this patient.
 	 *
 	 * @param modifiedDate the modified date of this patient
@@ -699,26 +831,6 @@ public class PatientWrapper
 	}
 
 	/**
-	 * Sets the patient user ID of this patient.
-	 *
-	 * @param patientUserId the patient user ID of this patient
-	 */
-	@Override
-	public void setPatientUserId(long patientUserId) {
-		model.setPatientUserId(patientUserId);
-	}
-
-	/**
-	 * Sets the patient user uuid of this patient.
-	 *
-	 * @param patientUserUuid the patient user uuid of this patient
-	 */
-	@Override
-	public void setPatientUserUuid(String patientUserUuid) {
-		model.setPatientUserUuid(patientUserUuid);
-	}
-
-	/**
 	 * Sets the phone of this patient.
 	 *
 	 * @param phone the phone of this patient
@@ -726,6 +838,16 @@ public class PatientWrapper
 	@Override
 	public void setPhone(String phone) {
 		model.setPhone(phone);
+	}
+
+	/**
+	 * Sets the phone2 of this patient.
+	 *
+	 * @param phone2 the phone2 of this patient
+	 */
+	@Override
+	public void setPhone2(String phone2) {
+		model.setPhone2(phone2);
 	}
 
 	/**
@@ -746,6 +868,16 @@ public class PatientWrapper
 	@Override
 	public void setPrimaryKey(long primaryKey) {
 		model.setPrimaryKey(primaryKey);
+	}
+
+	/**
+	 * Sets the serial ID of this patient.
+	 *
+	 * @param serialId the serial ID of this patient
+	 */
+	@Override
+	public void setSerialId(String serialId) {
+		model.setSerialId(serialId);
 	}
 
 	/**
@@ -836,6 +968,16 @@ public class PatientWrapper
 	@Override
 	public void setUuid(String uuid) {
 		model.setUuid(uuid);
+	}
+
+	/**
+	 * Sets the visit date of this patient.
+	 *
+	 * @param visitDate the visit date of this patient
+	 */
+	@Override
+	public void setVisitDate(Date visitDate) {
+		model.setVisitDate(visitDate);
 	}
 
 	@Override

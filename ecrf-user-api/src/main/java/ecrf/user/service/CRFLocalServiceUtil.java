@@ -24,6 +24,7 @@ import ecrf.user.model.CRF;
 import java.io.Serializable;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service utility for CRF. This utility wraps
@@ -60,14 +61,19 @@ public class CRFLocalServiceUtil {
 	}
 
 	public static CRF addCRF(
-			String title, long managerId, int applyDateYear, int applyDateMonth,
-			int applyDateDay, int crfStatus,
-			com.liferay.portal.kernel.service.ServiceContext sc)
+			String crfName, String crfVersion,
+			Map<java.util.Locale, String> titleMap,
+			Map<java.util.Locale, String> descriptionMap, long managerId,
+			int applyDateYear, int applyDateMonth, int applyDateDay,
+			int crfStatus,
+			com.liferay.portal.kernel.service.ServiceContext crfsc,
+			com.liferay.portal.kernel.service.ServiceContext dtsc)
 		throws PortalException {
 
 		return getService().addCRF(
-			title, managerId, applyDateYear, applyDateMonth, applyDateDay,
-			crfStatus, sc);
+			crfName, crfVersion, titleMap, descriptionMap, managerId,
+			applyDateYear, applyDateMonth, applyDateDay, crfStatus, crfsc,
+			dtsc);
 	}
 
 	/**
@@ -398,14 +404,19 @@ public class CRFLocalServiceUtil {
 	}
 
 	public static CRF updateCRF(
-			long crfId, String title, long managerId, int applyDateYear,
-			int applyDateMonth, int applyDateDay, int crfStatus,
-			com.liferay.portal.kernel.service.ServiceContext sc)
+			long crfId, String crfName, String crfVersion,
+			Map<java.util.Locale, String> titleMap,
+			Map<java.util.Locale, String> descriptionMap, long managerId,
+			int applyDateYear, int applyDateMonth, int applyDateDay,
+			int crfStatus,
+			com.liferay.portal.kernel.service.ServiceContext crfsc,
+			com.liferay.portal.kernel.service.ServiceContext dtsc)
 		throws PortalException {
 
 		return getService().updateCRF(
-			crfId, title, managerId, applyDateYear, applyDateMonth,
-			applyDateDay, crfStatus, sc);
+			crfId, crfName, crfVersion, titleMap, descriptionMap, managerId,
+			applyDateYear, applyDateMonth, applyDateDay, crfStatus, crfsc,
+			dtsc);
 	}
 
 	public static CRF updateManager(

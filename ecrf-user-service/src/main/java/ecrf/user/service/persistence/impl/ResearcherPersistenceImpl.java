@@ -551,6 +551,354 @@ public class ResearcherPersistenceImpl
 	}
 
 	/**
+	 * Returns all the researchers that the user has permission to view where uuid = &#63;.
+	 *
+	 * @param uuid the uuid
+	 * @return the matching researchers that the user has permission to view
+	 */
+	@Override
+	public List<Researcher> filterFindByUuid(String uuid) {
+		return filterFindByUuid(
+			uuid, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the researchers that the user has permission to view where uuid = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ResearcherModelImpl</code>.
+	 * </p>
+	 *
+	 * @param uuid the uuid
+	 * @param start the lower bound of the range of researchers
+	 * @param end the upper bound of the range of researchers (not inclusive)
+	 * @return the range of matching researchers that the user has permission to view
+	 */
+	@Override
+	public List<Researcher> filterFindByUuid(String uuid, int start, int end) {
+		return filterFindByUuid(uuid, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the researchers that the user has permissions to view where uuid = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ResearcherModelImpl</code>.
+	 * </p>
+	 *
+	 * @param uuid the uuid
+	 * @param start the lower bound of the range of researchers
+	 * @param end the upper bound of the range of researchers (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching researchers that the user has permission to view
+	 */
+	@Override
+	public List<Researcher> filterFindByUuid(
+		String uuid, int start, int end,
+		OrderByComparator<Researcher> orderByComparator) {
+
+		if (!InlineSQLHelperUtil.isEnabled()) {
+			return findByUuid(uuid, start, end, orderByComparator);
+		}
+
+		uuid = Objects.toString(uuid, "");
+
+		StringBundler sb = null;
+
+		if (orderByComparator != null) {
+			sb = new StringBundler(
+				3 + (orderByComparator.getOrderByFields().length * 2));
+		}
+		else {
+			sb = new StringBundler(4);
+		}
+
+		if (getDB().isSupportsInlineDistinct()) {
+			sb.append(_FILTER_SQL_SELECT_RESEARCHER_WHERE);
+		}
+		else {
+			sb.append(_FILTER_SQL_SELECT_RESEARCHER_NO_INLINE_DISTINCT_WHERE_1);
+		}
+
+		boolean bindUuid = false;
+
+		if (uuid.isEmpty()) {
+			sb.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
+		}
+		else {
+			bindUuid = true;
+
+			sb.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
+		}
+
+		if (!getDB().isSupportsInlineDistinct()) {
+			sb.append(_FILTER_SQL_SELECT_RESEARCHER_NO_INLINE_DISTINCT_WHERE_2);
+		}
+
+		if (orderByComparator != null) {
+			if (getDB().isSupportsInlineDistinct()) {
+				appendOrderByComparator(
+					sb, _ORDER_BY_ENTITY_ALIAS, orderByComparator, true);
+			}
+			else {
+				appendOrderByComparator(
+					sb, _ORDER_BY_ENTITY_TABLE, orderByComparator, true);
+			}
+		}
+		else {
+			if (getDB().isSupportsInlineDistinct()) {
+				sb.append(ResearcherModelImpl.ORDER_BY_JPQL);
+			}
+			else {
+				sb.append(ResearcherModelImpl.ORDER_BY_SQL);
+			}
+		}
+
+		String sql = InlineSQLHelperUtil.replacePermissionCheck(
+			sb.toString(), Researcher.class.getName(),
+			_FILTER_ENTITY_TABLE_FILTER_PK_COLUMN);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			SQLQuery sqlQuery = session.createSynchronizedSQLQuery(sql);
+
+			if (getDB().isSupportsInlineDistinct()) {
+				sqlQuery.addEntity(_FILTER_ENTITY_ALIAS, ResearcherImpl.class);
+			}
+			else {
+				sqlQuery.addEntity(_FILTER_ENTITY_TABLE, ResearcherImpl.class);
+			}
+
+			QueryPos queryPos = QueryPos.getInstance(sqlQuery);
+
+			if (bindUuid) {
+				queryPos.add(uuid);
+			}
+
+			return (List<Researcher>)QueryUtil.list(
+				sqlQuery, getDialect(), start, end);
+		}
+		catch (Exception exception) {
+			throw processException(exception);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	/**
+	 * Returns the researchers before and after the current researcher in the ordered set of researchers that the user has permission to view where uuid = &#63;.
+	 *
+	 * @param researcherId the primary key of the current researcher
+	 * @param uuid the uuid
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next researcher
+	 * @throws NoSuchResearcherException if a researcher with the primary key could not be found
+	 */
+	@Override
+	public Researcher[] filterFindByUuid_PrevAndNext(
+			long researcherId, String uuid,
+			OrderByComparator<Researcher> orderByComparator)
+		throws NoSuchResearcherException {
+
+		if (!InlineSQLHelperUtil.isEnabled()) {
+			return findByUuid_PrevAndNext(
+				researcherId, uuid, orderByComparator);
+		}
+
+		uuid = Objects.toString(uuid, "");
+
+		Researcher researcher = findByPrimaryKey(researcherId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Researcher[] array = new ResearcherImpl[3];
+
+			array[0] = filterGetByUuid_PrevAndNext(
+				session, researcher, uuid, orderByComparator, true);
+
+			array[1] = researcher;
+
+			array[2] = filterGetByUuid_PrevAndNext(
+				session, researcher, uuid, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception exception) {
+			throw processException(exception);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Researcher filterGetByUuid_PrevAndNext(
+		Session session, Researcher researcher, String uuid,
+		OrderByComparator<Researcher> orderByComparator, boolean previous) {
+
+		StringBundler sb = null;
+
+		if (orderByComparator != null) {
+			sb = new StringBundler(
+				5 + (orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			sb = new StringBundler(4);
+		}
+
+		if (getDB().isSupportsInlineDistinct()) {
+			sb.append(_FILTER_SQL_SELECT_RESEARCHER_WHERE);
+		}
+		else {
+			sb.append(_FILTER_SQL_SELECT_RESEARCHER_NO_INLINE_DISTINCT_WHERE_1);
+		}
+
+		boolean bindUuid = false;
+
+		if (uuid.isEmpty()) {
+			sb.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
+		}
+		else {
+			bindUuid = true;
+
+			sb.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
+		}
+
+		if (!getDB().isSupportsInlineDistinct()) {
+			sb.append(_FILTER_SQL_SELECT_RESEARCHER_NO_INLINE_DISTINCT_WHERE_2);
+		}
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				sb.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				if (getDB().isSupportsInlineDistinct()) {
+					sb.append(
+						getColumnName(
+							_ORDER_BY_ENTITY_ALIAS, orderByConditionFields[i],
+							true));
+				}
+				else {
+					sb.append(
+						getColumnName(
+							_ORDER_BY_ENTITY_TABLE, orderByConditionFields[i],
+							true));
+				}
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						sb.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(WHERE_GREATER_THAN);
+					}
+					else {
+						sb.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			sb.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				if (getDB().isSupportsInlineDistinct()) {
+					sb.append(
+						getColumnName(
+							_ORDER_BY_ENTITY_ALIAS, orderByFields[i], true));
+				}
+				else {
+					sb.append(
+						getColumnName(
+							_ORDER_BY_ENTITY_TABLE, orderByFields[i], true));
+				}
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						sb.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(ORDER_BY_ASC);
+					}
+					else {
+						sb.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			if (getDB().isSupportsInlineDistinct()) {
+				sb.append(ResearcherModelImpl.ORDER_BY_JPQL);
+			}
+			else {
+				sb.append(ResearcherModelImpl.ORDER_BY_SQL);
+			}
+		}
+
+		String sql = InlineSQLHelperUtil.replacePermissionCheck(
+			sb.toString(), Researcher.class.getName(),
+			_FILTER_ENTITY_TABLE_FILTER_PK_COLUMN);
+
+		SQLQuery sqlQuery = session.createSynchronizedSQLQuery(sql);
+
+		sqlQuery.setFirstResult(0);
+		sqlQuery.setMaxResults(2);
+
+		if (getDB().isSupportsInlineDistinct()) {
+			sqlQuery.addEntity(_FILTER_ENTITY_ALIAS, ResearcherImpl.class);
+		}
+		else {
+			sqlQuery.addEntity(_FILTER_ENTITY_TABLE, ResearcherImpl.class);
+		}
+
+		QueryPos queryPos = QueryPos.getInstance(sqlQuery);
+
+		if (bindUuid) {
+			queryPos.add(uuid);
+		}
+
+		if (orderByComparator != null) {
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(researcher)) {
+
+				queryPos.add(orderByConditionValue);
+			}
+		}
+
+		List<Researcher> list = sqlQuery.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
 	 * Removes all the researchers where uuid = &#63; from the database.
 	 *
 	 * @param uuid the uuid
@@ -628,266 +976,78 @@ public class ResearcherPersistenceImpl
 		return count.intValue();
 	}
 
+	/**
+	 * Returns the number of researchers that the user has permission to view where uuid = &#63;.
+	 *
+	 * @param uuid the uuid
+	 * @return the number of matching researchers that the user has permission to view
+	 */
+	@Override
+	public int filterCountByUuid(String uuid) {
+		if (!InlineSQLHelperUtil.isEnabled()) {
+			return countByUuid(uuid);
+		}
+
+		uuid = Objects.toString(uuid, "");
+
+		StringBundler sb = new StringBundler(2);
+
+		sb.append(_FILTER_SQL_COUNT_RESEARCHER_WHERE);
+
+		boolean bindUuid = false;
+
+		if (uuid.isEmpty()) {
+			sb.append(_FINDER_COLUMN_UUID_UUID_3_SQL);
+		}
+		else {
+			bindUuid = true;
+
+			sb.append(_FINDER_COLUMN_UUID_UUID_2_SQL);
+		}
+
+		String sql = InlineSQLHelperUtil.replacePermissionCheck(
+			sb.toString(), Researcher.class.getName(),
+			_FILTER_ENTITY_TABLE_FILTER_PK_COLUMN);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			SQLQuery sqlQuery = session.createSynchronizedSQLQuery(sql);
+
+			sqlQuery.addScalar(
+				COUNT_COLUMN_NAME, com.liferay.portal.kernel.dao.orm.Type.LONG);
+
+			QueryPos queryPos = QueryPos.getInstance(sqlQuery);
+
+			if (bindUuid) {
+				queryPos.add(uuid);
+			}
+
+			Long count = (Long)sqlQuery.uniqueResult();
+
+			return count.intValue();
+		}
+		catch (Exception exception) {
+			throw processException(exception);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
 	private static final String _FINDER_COLUMN_UUID_UUID_2 =
 		"researcher.uuid = ?";
 
 	private static final String _FINDER_COLUMN_UUID_UUID_3 =
 		"(researcher.uuid IS NULL OR researcher.uuid = '')";
 
-	private FinderPath _finderPathFetchByUUID_G;
-	private FinderPath _finderPathCountByUUID_G;
-
-	/**
-	 * Returns the researcher where uuid = &#63; and groupId = &#63; or throws a <code>NoSuchResearcherException</code> if it could not be found.
-	 *
-	 * @param uuid the uuid
-	 * @param groupId the group ID
-	 * @return the matching researcher
-	 * @throws NoSuchResearcherException if a matching researcher could not be found
-	 */
-	@Override
-	public Researcher findByUUID_G(String uuid, long groupId)
-		throws NoSuchResearcherException {
-
-		Researcher researcher = fetchByUUID_G(uuid, groupId);
-
-		if (researcher == null) {
-			StringBundler sb = new StringBundler(6);
-
-			sb.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-			sb.append("uuid=");
-			sb.append(uuid);
-
-			sb.append(", groupId=");
-			sb.append(groupId);
-
-			sb.append("}");
-
-			if (_log.isDebugEnabled()) {
-				_log.debug(sb.toString());
-			}
-
-			throw new NoSuchResearcherException(sb.toString());
-		}
-
-		return researcher;
-	}
-
-	/**
-	 * Returns the researcher where uuid = &#63; and groupId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
-	 *
-	 * @param uuid the uuid
-	 * @param groupId the group ID
-	 * @return the matching researcher, or <code>null</code> if a matching researcher could not be found
-	 */
-	@Override
-	public Researcher fetchByUUID_G(String uuid, long groupId) {
-		return fetchByUUID_G(uuid, groupId, true);
-	}
-
-	/**
-	 * Returns the researcher where uuid = &#63; and groupId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
-	 *
-	 * @param uuid the uuid
-	 * @param groupId the group ID
-	 * @param useFinderCache whether to use the finder cache
-	 * @return the matching researcher, or <code>null</code> if a matching researcher could not be found
-	 */
-	@Override
-	public Researcher fetchByUUID_G(
-		String uuid, long groupId, boolean useFinderCache) {
-
-		uuid = Objects.toString(uuid, "");
-
-		Object[] finderArgs = null;
-
-		if (useFinderCache) {
-			finderArgs = new Object[] {uuid, groupId};
-		}
-
-		Object result = null;
-
-		if (useFinderCache) {
-			result = finderCache.getResult(
-				_finderPathFetchByUUID_G, finderArgs, this);
-		}
-
-		if (result instanceof Researcher) {
-			Researcher researcher = (Researcher)result;
-
-			if (!Objects.equals(uuid, researcher.getUuid()) ||
-				(groupId != researcher.getGroupId())) {
-
-				result = null;
-			}
-		}
-
-		if (result == null) {
-			StringBundler sb = new StringBundler(4);
-
-			sb.append(_SQL_SELECT_RESEARCHER_WHERE);
-
-			boolean bindUuid = false;
-
-			if (uuid.isEmpty()) {
-				sb.append(_FINDER_COLUMN_UUID_G_UUID_3);
-			}
-			else {
-				bindUuid = true;
-
-				sb.append(_FINDER_COLUMN_UUID_G_UUID_2);
-			}
-
-			sb.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
-
-			String sql = sb.toString();
-
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				Query query = session.createQuery(sql);
-
-				QueryPos queryPos = QueryPos.getInstance(query);
-
-				if (bindUuid) {
-					queryPos.add(uuid);
-				}
-
-				queryPos.add(groupId);
-
-				List<Researcher> list = query.list();
-
-				if (list.isEmpty()) {
-					if (useFinderCache) {
-						finderCache.putResult(
-							_finderPathFetchByUUID_G, finderArgs, list);
-					}
-				}
-				else {
-					Researcher researcher = list.get(0);
-
-					result = researcher;
-
-					cacheResult(researcher);
-				}
-			}
-			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(
-						_finderPathFetchByUUID_G, finderArgs);
-				}
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		if (result instanceof List<?>) {
-			return null;
-		}
-		else {
-			return (Researcher)result;
-		}
-	}
-
-	/**
-	 * Removes the researcher where uuid = &#63; and groupId = &#63; from the database.
-	 *
-	 * @param uuid the uuid
-	 * @param groupId the group ID
-	 * @return the researcher that was removed
-	 */
-	@Override
-	public Researcher removeByUUID_G(String uuid, long groupId)
-		throws NoSuchResearcherException {
-
-		Researcher researcher = findByUUID_G(uuid, groupId);
-
-		return remove(researcher);
-	}
-
-	/**
-	 * Returns the number of researchers where uuid = &#63; and groupId = &#63;.
-	 *
-	 * @param uuid the uuid
-	 * @param groupId the group ID
-	 * @return the number of matching researchers
-	 */
-	@Override
-	public int countByUUID_G(String uuid, long groupId) {
-		uuid = Objects.toString(uuid, "");
-
-		FinderPath finderPath = _finderPathCountByUUID_G;
-
-		Object[] finderArgs = new Object[] {uuid, groupId};
-
-		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
-
-		if (count == null) {
-			StringBundler sb = new StringBundler(3);
-
-			sb.append(_SQL_COUNT_RESEARCHER_WHERE);
-
-			boolean bindUuid = false;
-
-			if (uuid.isEmpty()) {
-				sb.append(_FINDER_COLUMN_UUID_G_UUID_3);
-			}
-			else {
-				bindUuid = true;
-
-				sb.append(_FINDER_COLUMN_UUID_G_UUID_2);
-			}
-
-			sb.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
-
-			String sql = sb.toString();
-
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				Query query = session.createQuery(sql);
-
-				QueryPos queryPos = QueryPos.getInstance(query);
-
-				if (bindUuid) {
-					queryPos.add(uuid);
-				}
-
-				queryPos.add(groupId);
-
-				count = (Long)query.uniqueResult();
-
-				finderCache.putResult(finderPath, finderArgs, count);
-			}
-			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return count.intValue();
-	}
-
-	private static final String _FINDER_COLUMN_UUID_G_UUID_2 =
-		"researcher.uuid = ? AND ";
-
-	private static final String _FINDER_COLUMN_UUID_G_UUID_3 =
-		"(researcher.uuid IS NULL OR researcher.uuid = '') AND ";
-
-	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 =
-		"researcher.groupId = ?";
+	private static final String _FINDER_COLUMN_UUID_UUID_2_SQL =
+		"researcher.uuid_ = ?";
+
+	private static final String _FINDER_COLUMN_UUID_UUID_3_SQL =
+		"(researcher.uuid_ IS NULL OR researcher.uuid_ = '')";
 
 	private FinderPath _finderPathWithPaginationFindByUuid_C;
 	private FinderPath _finderPathWithoutPaginationFindByUuid_C;
@@ -1379,588 +1539,71 @@ public class ResearcherPersistenceImpl
 	}
 
 	/**
-	 * Removes all the researchers where uuid = &#63; and companyId = &#63; from the database.
+	 * Returns all the researchers that the user has permission to view where uuid = &#63; and companyId = &#63;.
 	 *
 	 * @param uuid the uuid
 	 * @param companyId the company ID
-	 */
-	@Override
-	public void removeByUuid_C(String uuid, long companyId) {
-		for (Researcher researcher :
-				findByUuid_C(
-					uuid, companyId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
-					null)) {
-
-			remove(researcher);
-		}
-	}
-
-	/**
-	 * Returns the number of researchers where uuid = &#63; and companyId = &#63;.
-	 *
-	 * @param uuid the uuid
-	 * @param companyId the company ID
-	 * @return the number of matching researchers
-	 */
-	@Override
-	public int countByUuid_C(String uuid, long companyId) {
-		uuid = Objects.toString(uuid, "");
-
-		FinderPath finderPath = _finderPathCountByUuid_C;
-
-		Object[] finderArgs = new Object[] {uuid, companyId};
-
-		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
-
-		if (count == null) {
-			StringBundler sb = new StringBundler(3);
-
-			sb.append(_SQL_COUNT_RESEARCHER_WHERE);
-
-			boolean bindUuid = false;
-
-			if (uuid.isEmpty()) {
-				sb.append(_FINDER_COLUMN_UUID_C_UUID_3);
-			}
-			else {
-				bindUuid = true;
-
-				sb.append(_FINDER_COLUMN_UUID_C_UUID_2);
-			}
-
-			sb.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
-
-			String sql = sb.toString();
-
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				Query query = session.createQuery(sql);
-
-				QueryPos queryPos = QueryPos.getInstance(query);
-
-				if (bindUuid) {
-					queryPos.add(uuid);
-				}
-
-				queryPos.add(companyId);
-
-				count = (Long)query.uniqueResult();
-
-				finderCache.putResult(finderPath, finderArgs, count);
-			}
-			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return count.intValue();
-	}
-
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 =
-		"researcher.uuid = ? AND ";
-
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 =
-		"(researcher.uuid IS NULL OR researcher.uuid = '') AND ";
-
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 =
-		"researcher.companyId = ?";
-
-	private FinderPath _finderPathWithPaginationFindByGroupId;
-	private FinderPath _finderPathWithoutPaginationFindByGroupId;
-	private FinderPath _finderPathCountByGroupId;
-
-	/**
-	 * Returns all the researchers where groupId = &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @return the matching researchers
-	 */
-	@Override
-	public List<Researcher> findByGroupId(long groupId) {
-		return findByGroupId(
-			groupId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
-	}
-
-	/**
-	 * Returns a range of all the researchers where groupId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ResearcherModelImpl</code>.
-	 * </p>
-	 *
-	 * @param groupId the group ID
-	 * @param start the lower bound of the range of researchers
-	 * @param end the upper bound of the range of researchers (not inclusive)
-	 * @return the range of matching researchers
-	 */
-	@Override
-	public List<Researcher> findByGroupId(long groupId, int start, int end) {
-		return findByGroupId(groupId, start, end, null);
-	}
-
-	/**
-	 * Returns an ordered range of all the researchers where groupId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ResearcherModelImpl</code>.
-	 * </p>
-	 *
-	 * @param groupId the group ID
-	 * @param start the lower bound of the range of researchers
-	 * @param end the upper bound of the range of researchers (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching researchers
-	 */
-	@Override
-	public List<Researcher> findByGroupId(
-		long groupId, int start, int end,
-		OrderByComparator<Researcher> orderByComparator) {
-
-		return findByGroupId(groupId, start, end, orderByComparator, true);
-	}
-
-	/**
-	 * Returns an ordered range of all the researchers where groupId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ResearcherModelImpl</code>.
-	 * </p>
-	 *
-	 * @param groupId the group ID
-	 * @param start the lower bound of the range of researchers
-	 * @param end the upper bound of the range of researchers (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @param useFinderCache whether to use the finder cache
-	 * @return the ordered range of matching researchers
-	 */
-	@Override
-	public List<Researcher> findByGroupId(
-		long groupId, int start, int end,
-		OrderByComparator<Researcher> orderByComparator,
-		boolean useFinderCache) {
-
-		FinderPath finderPath = null;
-		Object[] finderArgs = null;
-
-		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-			(orderByComparator == null)) {
-
-			if (useFinderCache) {
-				finderPath = _finderPathWithoutPaginationFindByGroupId;
-				finderArgs = new Object[] {groupId};
-			}
-		}
-		else if (useFinderCache) {
-			finderPath = _finderPathWithPaginationFindByGroupId;
-			finderArgs = new Object[] {groupId, start, end, orderByComparator};
-		}
-
-		List<Researcher> list = null;
-
-		if (useFinderCache) {
-			list = (List<Researcher>)finderCache.getResult(
-				finderPath, finderArgs, this);
-
-			if ((list != null) && !list.isEmpty()) {
-				for (Researcher researcher : list) {
-					if (groupId != researcher.getGroupId()) {
-						list = null;
-
-						break;
-					}
-				}
-			}
-		}
-
-		if (list == null) {
-			StringBundler sb = null;
-
-			if (orderByComparator != null) {
-				sb = new StringBundler(
-					3 + (orderByComparator.getOrderByFields().length * 2));
-			}
-			else {
-				sb = new StringBundler(3);
-			}
-
-			sb.append(_SQL_SELECT_RESEARCHER_WHERE);
-
-			sb.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
-
-			if (orderByComparator != null) {
-				appendOrderByComparator(
-					sb, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
-			}
-			else {
-				sb.append(ResearcherModelImpl.ORDER_BY_JPQL);
-			}
-
-			String sql = sb.toString();
-
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				Query query = session.createQuery(sql);
-
-				QueryPos queryPos = QueryPos.getInstance(query);
-
-				queryPos.add(groupId);
-
-				list = (List<Researcher>)QueryUtil.list(
-					query, getDialect(), start, end);
-
-				cacheResult(list);
-
-				if (useFinderCache) {
-					finderCache.putResult(finderPath, finderArgs, list);
-				}
-			}
-			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return list;
-	}
-
-	/**
-	 * Returns the first researcher in the ordered set where groupId = &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching researcher
-	 * @throws NoSuchResearcherException if a matching researcher could not be found
-	 */
-	@Override
-	public Researcher findByGroupId_First(
-			long groupId, OrderByComparator<Researcher> orderByComparator)
-		throws NoSuchResearcherException {
-
-		Researcher researcher = fetchByGroupId_First(
-			groupId, orderByComparator);
-
-		if (researcher != null) {
-			return researcher;
-		}
-
-		StringBundler sb = new StringBundler(4);
-
-		sb.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-		sb.append("groupId=");
-		sb.append(groupId);
-
-		sb.append("}");
-
-		throw new NoSuchResearcherException(sb.toString());
-	}
-
-	/**
-	 * Returns the first researcher in the ordered set where groupId = &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching researcher, or <code>null</code> if a matching researcher could not be found
-	 */
-	@Override
-	public Researcher fetchByGroupId_First(
-		long groupId, OrderByComparator<Researcher> orderByComparator) {
-
-		List<Researcher> list = findByGroupId(groupId, 0, 1, orderByComparator);
-
-		if (!list.isEmpty()) {
-			return list.get(0);
-		}
-
-		return null;
-	}
-
-	/**
-	 * Returns the last researcher in the ordered set where groupId = &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching researcher
-	 * @throws NoSuchResearcherException if a matching researcher could not be found
-	 */
-	@Override
-	public Researcher findByGroupId_Last(
-			long groupId, OrderByComparator<Researcher> orderByComparator)
-		throws NoSuchResearcherException {
-
-		Researcher researcher = fetchByGroupId_Last(groupId, orderByComparator);
-
-		if (researcher != null) {
-			return researcher;
-		}
-
-		StringBundler sb = new StringBundler(4);
-
-		sb.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-		sb.append("groupId=");
-		sb.append(groupId);
-
-		sb.append("}");
-
-		throw new NoSuchResearcherException(sb.toString());
-	}
-
-	/**
-	 * Returns the last researcher in the ordered set where groupId = &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching researcher, or <code>null</code> if a matching researcher could not be found
-	 */
-	@Override
-	public Researcher fetchByGroupId_Last(
-		long groupId, OrderByComparator<Researcher> orderByComparator) {
-
-		int count = countByGroupId(groupId);
-
-		if (count == 0) {
-			return null;
-		}
-
-		List<Researcher> list = findByGroupId(
-			groupId, count - 1, count, orderByComparator);
-
-		if (!list.isEmpty()) {
-			return list.get(0);
-		}
-
-		return null;
-	}
-
-	/**
-	 * Returns the researchers before and after the current researcher in the ordered set where groupId = &#63;.
-	 *
-	 * @param researcherId the primary key of the current researcher
-	 * @param groupId the group ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the previous, current, and next researcher
-	 * @throws NoSuchResearcherException if a researcher with the primary key could not be found
-	 */
-	@Override
-	public Researcher[] findByGroupId_PrevAndNext(
-			long researcherId, long groupId,
-			OrderByComparator<Researcher> orderByComparator)
-		throws NoSuchResearcherException {
-
-		Researcher researcher = findByPrimaryKey(researcherId);
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Researcher[] array = new ResearcherImpl[3];
-
-			array[0] = getByGroupId_PrevAndNext(
-				session, researcher, groupId, orderByComparator, true);
-
-			array[1] = researcher;
-
-			array[2] = getByGroupId_PrevAndNext(
-				session, researcher, groupId, orderByComparator, false);
-
-			return array;
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-	}
-
-	protected Researcher getByGroupId_PrevAndNext(
-		Session session, Researcher researcher, long groupId,
-		OrderByComparator<Researcher> orderByComparator, boolean previous) {
-
-		StringBundler sb = null;
-
-		if (orderByComparator != null) {
-			sb = new StringBundler(
-				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
-					(orderByComparator.getOrderByFields().length * 3));
-		}
-		else {
-			sb = new StringBundler(3);
-		}
-
-		sb.append(_SQL_SELECT_RESEARCHER_WHERE);
-
-		sb.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
-
-		if (orderByComparator != null) {
-			String[] orderByConditionFields =
-				orderByComparator.getOrderByConditionFields();
-
-			if (orderByConditionFields.length > 0) {
-				sb.append(WHERE_AND);
-			}
-
-			for (int i = 0; i < orderByConditionFields.length; i++) {
-				sb.append(_ORDER_BY_ENTITY_ALIAS);
-				sb.append(orderByConditionFields[i]);
-
-				if ((i + 1) < orderByConditionFields.length) {
-					if (orderByComparator.isAscending() ^ previous) {
-						sb.append(WHERE_GREATER_THAN_HAS_NEXT);
-					}
-					else {
-						sb.append(WHERE_LESSER_THAN_HAS_NEXT);
-					}
-				}
-				else {
-					if (orderByComparator.isAscending() ^ previous) {
-						sb.append(WHERE_GREATER_THAN);
-					}
-					else {
-						sb.append(WHERE_LESSER_THAN);
-					}
-				}
-			}
-
-			sb.append(ORDER_BY_CLAUSE);
-
-			String[] orderByFields = orderByComparator.getOrderByFields();
-
-			for (int i = 0; i < orderByFields.length; i++) {
-				sb.append(_ORDER_BY_ENTITY_ALIAS);
-				sb.append(orderByFields[i]);
-
-				if ((i + 1) < orderByFields.length) {
-					if (orderByComparator.isAscending() ^ previous) {
-						sb.append(ORDER_BY_ASC_HAS_NEXT);
-					}
-					else {
-						sb.append(ORDER_BY_DESC_HAS_NEXT);
-					}
-				}
-				else {
-					if (orderByComparator.isAscending() ^ previous) {
-						sb.append(ORDER_BY_ASC);
-					}
-					else {
-						sb.append(ORDER_BY_DESC);
-					}
-				}
-			}
-		}
-		else {
-			sb.append(ResearcherModelImpl.ORDER_BY_JPQL);
-		}
-
-		String sql = sb.toString();
-
-		Query query = session.createQuery(sql);
-
-		query.setFirstResult(0);
-		query.setMaxResults(2);
-
-		QueryPos queryPos = QueryPos.getInstance(query);
-
-		queryPos.add(groupId);
-
-		if (orderByComparator != null) {
-			for (Object orderByConditionValue :
-					orderByComparator.getOrderByConditionValues(researcher)) {
-
-				queryPos.add(orderByConditionValue);
-			}
-		}
-
-		List<Researcher> list = query.list();
-
-		if (list.size() == 2) {
-			return list.get(1);
-		}
-		else {
-			return null;
-		}
-	}
-
-	/**
-	 * Returns all the researchers that the user has permission to view where groupId = &#63;.
-	 *
-	 * @param groupId the group ID
 	 * @return the matching researchers that the user has permission to view
 	 */
 	@Override
-	public List<Researcher> filterFindByGroupId(long groupId) {
-		return filterFindByGroupId(
-			groupId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	public List<Researcher> filterFindByUuid_C(String uuid, long companyId) {
+		return filterFindByUuid_C(
+			uuid, companyId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
-	 * Returns a range of all the researchers that the user has permission to view where groupId = &#63;.
+	 * Returns a range of all the researchers that the user has permission to view where uuid = &#63; and companyId = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ResearcherModelImpl</code>.
 	 * </p>
 	 *
-	 * @param groupId the group ID
+	 * @param uuid the uuid
+	 * @param companyId the company ID
 	 * @param start the lower bound of the range of researchers
 	 * @param end the upper bound of the range of researchers (not inclusive)
 	 * @return the range of matching researchers that the user has permission to view
 	 */
 	@Override
-	public List<Researcher> filterFindByGroupId(
-		long groupId, int start, int end) {
+	public List<Researcher> filterFindByUuid_C(
+		String uuid, long companyId, int start, int end) {
 
-		return filterFindByGroupId(groupId, start, end, null);
+		return filterFindByUuid_C(uuid, companyId, start, end, null);
 	}
 
 	/**
-	 * Returns an ordered range of all the researchers that the user has permissions to view where groupId = &#63;.
+	 * Returns an ordered range of all the researchers that the user has permissions to view where uuid = &#63; and companyId = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ResearcherModelImpl</code>.
 	 * </p>
 	 *
-	 * @param groupId the group ID
+	 * @param uuid the uuid
+	 * @param companyId the company ID
 	 * @param start the lower bound of the range of researchers
 	 * @param end the upper bound of the range of researchers (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching researchers that the user has permission to view
 	 */
 	@Override
-	public List<Researcher> filterFindByGroupId(
-		long groupId, int start, int end,
+	public List<Researcher> filterFindByUuid_C(
+		String uuid, long companyId, int start, int end,
 		OrderByComparator<Researcher> orderByComparator) {
 
-		if (!InlineSQLHelperUtil.isEnabled(groupId)) {
-			return findByGroupId(groupId, start, end, orderByComparator);
+		if (!InlineSQLHelperUtil.isEnabled(companyId, 0)) {
+			return findByUuid_C(uuid, companyId, start, end, orderByComparator);
 		}
+
+		uuid = Objects.toString(uuid, "");
 
 		StringBundler sb = null;
 
 		if (orderByComparator != null) {
 			sb = new StringBundler(
-				3 + (orderByComparator.getOrderByFields().length * 2));
+				4 + (orderByComparator.getOrderByFields().length * 2));
 		}
 		else {
-			sb = new StringBundler(4);
+			sb = new StringBundler(5);
 		}
 
 		if (getDB().isSupportsInlineDistinct()) {
@@ -1970,7 +1613,18 @@ public class ResearcherPersistenceImpl
 			sb.append(_FILTER_SQL_SELECT_RESEARCHER_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		sb.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		boolean bindUuid = false;
+
+		if (uuid.isEmpty()) {
+			sb.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
+		}
+		else {
+			bindUuid = true;
+
+			sb.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
+		}
+
+		sb.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			sb.append(_FILTER_SQL_SELECT_RESEARCHER_NO_INLINE_DISTINCT_WHERE_2);
@@ -1997,7 +1651,7 @@ public class ResearcherPersistenceImpl
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(
 			sb.toString(), Researcher.class.getName(),
-			_FILTER_ENTITY_TABLE_FILTER_PK_COLUMN, groupId);
+			_FILTER_ENTITY_TABLE_FILTER_PK_COLUMN);
 
 		Session session = null;
 
@@ -2015,7 +1669,11 @@ public class ResearcherPersistenceImpl
 
 			QueryPos queryPos = QueryPos.getInstance(sqlQuery);
 
-			queryPos.add(groupId);
+			if (bindUuid) {
+				queryPos.add(uuid);
+			}
+
+			queryPos.add(companyId);
 
 			return (List<Researcher>)QueryUtil.list(
 				sqlQuery, getDialect(), start, end);
@@ -2029,24 +1687,27 @@ public class ResearcherPersistenceImpl
 	}
 
 	/**
-	 * Returns the researchers before and after the current researcher in the ordered set of researchers that the user has permission to view where groupId = &#63;.
+	 * Returns the researchers before and after the current researcher in the ordered set of researchers that the user has permission to view where uuid = &#63; and companyId = &#63;.
 	 *
 	 * @param researcherId the primary key of the current researcher
-	 * @param groupId the group ID
+	 * @param uuid the uuid
+	 * @param companyId the company ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next researcher
 	 * @throws NoSuchResearcherException if a researcher with the primary key could not be found
 	 */
 	@Override
-	public Researcher[] filterFindByGroupId_PrevAndNext(
-			long researcherId, long groupId,
+	public Researcher[] filterFindByUuid_C_PrevAndNext(
+			long researcherId, String uuid, long companyId,
 			OrderByComparator<Researcher> orderByComparator)
 		throws NoSuchResearcherException {
 
-		if (!InlineSQLHelperUtil.isEnabled(groupId)) {
-			return findByGroupId_PrevAndNext(
-				researcherId, groupId, orderByComparator);
+		if (!InlineSQLHelperUtil.isEnabled(companyId, 0)) {
+			return findByUuid_C_PrevAndNext(
+				researcherId, uuid, companyId, orderByComparator);
 		}
+
+		uuid = Objects.toString(uuid, "");
 
 		Researcher researcher = findByPrimaryKey(researcherId);
 
@@ -2057,13 +1718,13 @@ public class ResearcherPersistenceImpl
 
 			Researcher[] array = new ResearcherImpl[3];
 
-			array[0] = filterGetByGroupId_PrevAndNext(
-				session, researcher, groupId, orderByComparator, true);
+			array[0] = filterGetByUuid_C_PrevAndNext(
+				session, researcher, uuid, companyId, orderByComparator, true);
 
 			array[1] = researcher;
 
-			array[2] = filterGetByGroupId_PrevAndNext(
-				session, researcher, groupId, orderByComparator, false);
+			array[2] = filterGetByUuid_C_PrevAndNext(
+				session, researcher, uuid, companyId, orderByComparator, false);
 
 			return array;
 		}
@@ -2075,19 +1736,19 @@ public class ResearcherPersistenceImpl
 		}
 	}
 
-	protected Researcher filterGetByGroupId_PrevAndNext(
-		Session session, Researcher researcher, long groupId,
+	protected Researcher filterGetByUuid_C_PrevAndNext(
+		Session session, Researcher researcher, String uuid, long companyId,
 		OrderByComparator<Researcher> orderByComparator, boolean previous) {
 
 		StringBundler sb = null;
 
 		if (orderByComparator != null) {
 			sb = new StringBundler(
-				5 + (orderByComparator.getOrderByConditionFields().length * 3) +
+				6 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
-			sb = new StringBundler(4);
+			sb = new StringBundler(5);
 		}
 
 		if (getDB().isSupportsInlineDistinct()) {
@@ -2097,7 +1758,18 @@ public class ResearcherPersistenceImpl
 			sb.append(_FILTER_SQL_SELECT_RESEARCHER_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		sb.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		boolean bindUuid = false;
+
+		if (uuid.isEmpty()) {
+			sb.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
+		}
+		else {
+			bindUuid = true;
+
+			sb.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
+		}
+
+		sb.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			sb.append(_FILTER_SQL_SELECT_RESEARCHER_NO_INLINE_DISTINCT_WHERE_2);
@@ -2188,7 +1860,7 @@ public class ResearcherPersistenceImpl
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(
 			sb.toString(), Researcher.class.getName(),
-			_FILTER_ENTITY_TABLE_FILTER_PK_COLUMN, groupId);
+			_FILTER_ENTITY_TABLE_FILTER_PK_COLUMN);
 
 		SQLQuery sqlQuery = session.createSynchronizedSQLQuery(sql);
 
@@ -2204,7 +1876,11 @@ public class ResearcherPersistenceImpl
 
 		QueryPos queryPos = QueryPos.getInstance(sqlQuery);
 
-		queryPos.add(groupId);
+		if (bindUuid) {
+			queryPos.add(uuid);
+		}
+
+		queryPos.add(companyId);
 
 		if (orderByComparator != null) {
 			for (Object orderByConditionValue :
@@ -2225,40 +1901,56 @@ public class ResearcherPersistenceImpl
 	}
 
 	/**
-	 * Removes all the researchers where groupId = &#63; from the database.
+	 * Removes all the researchers where uuid = &#63; and companyId = &#63; from the database.
 	 *
-	 * @param groupId the group ID
+	 * @param uuid the uuid
+	 * @param companyId the company ID
 	 */
 	@Override
-	public void removeByGroupId(long groupId) {
+	public void removeByUuid_C(String uuid, long companyId) {
 		for (Researcher researcher :
-				findByGroupId(
-					groupId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+				findByUuid_C(
+					uuid, companyId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+					null)) {
 
 			remove(researcher);
 		}
 	}
 
 	/**
-	 * Returns the number of researchers where groupId = &#63;.
+	 * Returns the number of researchers where uuid = &#63; and companyId = &#63;.
 	 *
-	 * @param groupId the group ID
+	 * @param uuid the uuid
+	 * @param companyId the company ID
 	 * @return the number of matching researchers
 	 */
 	@Override
-	public int countByGroupId(long groupId) {
-		FinderPath finderPath = _finderPathCountByGroupId;
+	public int countByUuid_C(String uuid, long companyId) {
+		uuid = Objects.toString(uuid, "");
 
-		Object[] finderArgs = new Object[] {groupId};
+		FinderPath finderPath = _finderPathCountByUuid_C;
+
+		Object[] finderArgs = new Object[] {uuid, companyId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
 		if (count == null) {
-			StringBundler sb = new StringBundler(2);
+			StringBundler sb = new StringBundler(3);
 
 			sb.append(_SQL_COUNT_RESEARCHER_WHERE);
 
-			sb.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			boolean bindUuid = false;
+
+			if (uuid.isEmpty()) {
+				sb.append(_FINDER_COLUMN_UUID_C_UUID_3);
+			}
+			else {
+				bindUuid = true;
+
+				sb.append(_FINDER_COLUMN_UUID_C_UUID_2);
+			}
+
+			sb.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
 
 			String sql = sb.toString();
 
@@ -2271,7 +1963,11 @@ public class ResearcherPersistenceImpl
 
 				QueryPos queryPos = QueryPos.getInstance(query);
 
-				queryPos.add(groupId);
+				if (bindUuid) {
+					queryPos.add(uuid);
+				}
+
+				queryPos.add(companyId);
 
 				count = (Long)query.uniqueResult();
 
@@ -2291,26 +1987,40 @@ public class ResearcherPersistenceImpl
 	}
 
 	/**
-	 * Returns the number of researchers that the user has permission to view where groupId = &#63;.
+	 * Returns the number of researchers that the user has permission to view where uuid = &#63; and companyId = &#63;.
 	 *
-	 * @param groupId the group ID
+	 * @param uuid the uuid
+	 * @param companyId the company ID
 	 * @return the number of matching researchers that the user has permission to view
 	 */
 	@Override
-	public int filterCountByGroupId(long groupId) {
-		if (!InlineSQLHelperUtil.isEnabled(groupId)) {
-			return countByGroupId(groupId);
+	public int filterCountByUuid_C(String uuid, long companyId) {
+		if (!InlineSQLHelperUtil.isEnabled(companyId, 0)) {
+			return countByUuid_C(uuid, companyId);
 		}
 
-		StringBundler sb = new StringBundler(2);
+		uuid = Objects.toString(uuid, "");
+
+		StringBundler sb = new StringBundler(3);
 
 		sb.append(_FILTER_SQL_COUNT_RESEARCHER_WHERE);
 
-		sb.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		boolean bindUuid = false;
+
+		if (uuid.isEmpty()) {
+			sb.append(_FINDER_COLUMN_UUID_C_UUID_3_SQL);
+		}
+		else {
+			bindUuid = true;
+
+			sb.append(_FINDER_COLUMN_UUID_C_UUID_2_SQL);
+		}
+
+		sb.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(
 			sb.toString(), Researcher.class.getName(),
-			_FILTER_ENTITY_TABLE_FILTER_PK_COLUMN, groupId);
+			_FILTER_ENTITY_TABLE_FILTER_PK_COLUMN);
 
 		Session session = null;
 
@@ -2324,7 +2034,11 @@ public class ResearcherPersistenceImpl
 
 			QueryPos queryPos = QueryPos.getInstance(sqlQuery);
 
-			queryPos.add(groupId);
+			if (bindUuid) {
+				queryPos.add(uuid);
+			}
+
+			queryPos.add(companyId);
 
 			Long count = (Long)sqlQuery.uniqueResult();
 
@@ -2338,8 +2052,892 @@ public class ResearcherPersistenceImpl
 		}
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 =
-		"researcher.groupId = ?";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_2 =
+		"researcher.uuid = ? AND ";
+
+	private static final String _FINDER_COLUMN_UUID_C_UUID_3 =
+		"(researcher.uuid IS NULL OR researcher.uuid = '') AND ";
+
+	private static final String _FINDER_COLUMN_UUID_C_UUID_2_SQL =
+		"researcher.uuid_ = ? AND ";
+
+	private static final String _FINDER_COLUMN_UUID_C_UUID_3_SQL =
+		"(researcher.uuid_ IS NULL OR researcher.uuid_ = '') AND ";
+
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 =
+		"researcher.companyId = ?";
+
+	private FinderPath _finderPathWithPaginationFindByCompany;
+	private FinderPath _finderPathWithoutPaginationFindByCompany;
+	private FinderPath _finderPathCountByCompany;
+
+	/**
+	 * Returns all the researchers where companyId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @return the matching researchers
+	 */
+	@Override
+	public List<Researcher> findByCompany(long companyId) {
+		return findByCompany(
+			companyId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the researchers where companyId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ResearcherModelImpl</code>.
+	 * </p>
+	 *
+	 * @param companyId the company ID
+	 * @param start the lower bound of the range of researchers
+	 * @param end the upper bound of the range of researchers (not inclusive)
+	 * @return the range of matching researchers
+	 */
+	@Override
+	public List<Researcher> findByCompany(long companyId, int start, int end) {
+		return findByCompany(companyId, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the researchers where companyId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ResearcherModelImpl</code>.
+	 * </p>
+	 *
+	 * @param companyId the company ID
+	 * @param start the lower bound of the range of researchers
+	 * @param end the upper bound of the range of researchers (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching researchers
+	 */
+	@Override
+	public List<Researcher> findByCompany(
+		long companyId, int start, int end,
+		OrderByComparator<Researcher> orderByComparator) {
+
+		return findByCompany(companyId, start, end, orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the researchers where companyId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ResearcherModelImpl</code>.
+	 * </p>
+	 *
+	 * @param companyId the company ID
+	 * @param start the lower bound of the range of researchers
+	 * @param end the upper bound of the range of researchers (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching researchers
+	 */
+	@Override
+	public List<Researcher> findByCompany(
+		long companyId, int start, int end,
+		OrderByComparator<Researcher> orderByComparator,
+		boolean useFinderCache) {
+
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+			(orderByComparator == null)) {
+
+			if (useFinderCache) {
+				finderPath = _finderPathWithoutPaginationFindByCompany;
+				finderArgs = new Object[] {companyId};
+			}
+		}
+		else if (useFinderCache) {
+			finderPath = _finderPathWithPaginationFindByCompany;
+			finderArgs = new Object[] {
+				companyId, start, end, orderByComparator
+			};
+		}
+
+		List<Researcher> list = null;
+
+		if (useFinderCache) {
+			list = (List<Researcher>)finderCache.getResult(
+				finderPath, finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (Researcher researcher : list) {
+					if (companyId != researcher.getCompanyId()) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler sb = null;
+
+			if (orderByComparator != null) {
+				sb = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				sb = new StringBundler(3);
+			}
+
+			sb.append(_SQL_SELECT_RESEARCHER_WHERE);
+
+			sb.append(_FINDER_COLUMN_COMPANY_COMPANYID_2);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(
+					sb, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
+			}
+			else {
+				sb.append(ResearcherModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				queryPos.add(companyId);
+
+				list = (List<Researcher>)QueryUtil.list(
+					query, getDialect(), start, end);
+
+				cacheResult(list);
+
+				if (useFinderCache) {
+					finderCache.putResult(finderPath, finderArgs, list);
+				}
+			}
+			catch (Exception exception) {
+				if (useFinderCache) {
+					finderCache.removeResult(finderPath, finderArgs);
+				}
+
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first researcher in the ordered set where companyId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching researcher
+	 * @throws NoSuchResearcherException if a matching researcher could not be found
+	 */
+	@Override
+	public Researcher findByCompany_First(
+			long companyId, OrderByComparator<Researcher> orderByComparator)
+		throws NoSuchResearcherException {
+
+		Researcher researcher = fetchByCompany_First(
+			companyId, orderByComparator);
+
+		if (researcher != null) {
+			return researcher;
+		}
+
+		StringBundler sb = new StringBundler(4);
+
+		sb.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		sb.append("companyId=");
+		sb.append(companyId);
+
+		sb.append("}");
+
+		throw new NoSuchResearcherException(sb.toString());
+	}
+
+	/**
+	 * Returns the first researcher in the ordered set where companyId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching researcher, or <code>null</code> if a matching researcher could not be found
+	 */
+	@Override
+	public Researcher fetchByCompany_First(
+		long companyId, OrderByComparator<Researcher> orderByComparator) {
+
+		List<Researcher> list = findByCompany(
+			companyId, 0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last researcher in the ordered set where companyId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching researcher
+	 * @throws NoSuchResearcherException if a matching researcher could not be found
+	 */
+	@Override
+	public Researcher findByCompany_Last(
+			long companyId, OrderByComparator<Researcher> orderByComparator)
+		throws NoSuchResearcherException {
+
+		Researcher researcher = fetchByCompany_Last(
+			companyId, orderByComparator);
+
+		if (researcher != null) {
+			return researcher;
+		}
+
+		StringBundler sb = new StringBundler(4);
+
+		sb.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		sb.append("companyId=");
+		sb.append(companyId);
+
+		sb.append("}");
+
+		throw new NoSuchResearcherException(sb.toString());
+	}
+
+	/**
+	 * Returns the last researcher in the ordered set where companyId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching researcher, or <code>null</code> if a matching researcher could not be found
+	 */
+	@Override
+	public Researcher fetchByCompany_Last(
+		long companyId, OrderByComparator<Researcher> orderByComparator) {
+
+		int count = countByCompany(companyId);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<Researcher> list = findByCompany(
+			companyId, count - 1, count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the researchers before and after the current researcher in the ordered set where companyId = &#63;.
+	 *
+	 * @param researcherId the primary key of the current researcher
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next researcher
+	 * @throws NoSuchResearcherException if a researcher with the primary key could not be found
+	 */
+	@Override
+	public Researcher[] findByCompany_PrevAndNext(
+			long researcherId, long companyId,
+			OrderByComparator<Researcher> orderByComparator)
+		throws NoSuchResearcherException {
+
+		Researcher researcher = findByPrimaryKey(researcherId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Researcher[] array = new ResearcherImpl[3];
+
+			array[0] = getByCompany_PrevAndNext(
+				session, researcher, companyId, orderByComparator, true);
+
+			array[1] = researcher;
+
+			array[2] = getByCompany_PrevAndNext(
+				session, researcher, companyId, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception exception) {
+			throw processException(exception);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Researcher getByCompany_PrevAndNext(
+		Session session, Researcher researcher, long companyId,
+		OrderByComparator<Researcher> orderByComparator, boolean previous) {
+
+		StringBundler sb = null;
+
+		if (orderByComparator != null) {
+			sb = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			sb = new StringBundler(3);
+		}
+
+		sb.append(_SQL_SELECT_RESEARCHER_WHERE);
+
+		sb.append(_FINDER_COLUMN_COMPANY_COMPANYID_2);
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				sb.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				sb.append(_ORDER_BY_ENTITY_ALIAS);
+				sb.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						sb.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(WHERE_GREATER_THAN);
+					}
+					else {
+						sb.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			sb.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				sb.append(_ORDER_BY_ENTITY_ALIAS);
+				sb.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						sb.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(ORDER_BY_ASC);
+					}
+					else {
+						sb.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			sb.append(ResearcherModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = sb.toString();
+
+		Query query = session.createQuery(sql);
+
+		query.setFirstResult(0);
+		query.setMaxResults(2);
+
+		QueryPos queryPos = QueryPos.getInstance(query);
+
+		queryPos.add(companyId);
+
+		if (orderByComparator != null) {
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(researcher)) {
+
+				queryPos.add(orderByConditionValue);
+			}
+		}
+
+		List<Researcher> list = query.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Returns all the researchers that the user has permission to view where companyId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @return the matching researchers that the user has permission to view
+	 */
+	@Override
+	public List<Researcher> filterFindByCompany(long companyId) {
+		return filterFindByCompany(
+			companyId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the researchers that the user has permission to view where companyId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ResearcherModelImpl</code>.
+	 * </p>
+	 *
+	 * @param companyId the company ID
+	 * @param start the lower bound of the range of researchers
+	 * @param end the upper bound of the range of researchers (not inclusive)
+	 * @return the range of matching researchers that the user has permission to view
+	 */
+	@Override
+	public List<Researcher> filterFindByCompany(
+		long companyId, int start, int end) {
+
+		return filterFindByCompany(companyId, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the researchers that the user has permissions to view where companyId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ResearcherModelImpl</code>.
+	 * </p>
+	 *
+	 * @param companyId the company ID
+	 * @param start the lower bound of the range of researchers
+	 * @param end the upper bound of the range of researchers (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching researchers that the user has permission to view
+	 */
+	@Override
+	public List<Researcher> filterFindByCompany(
+		long companyId, int start, int end,
+		OrderByComparator<Researcher> orderByComparator) {
+
+		if (!InlineSQLHelperUtil.isEnabled(companyId, 0)) {
+			return findByCompany(companyId, start, end, orderByComparator);
+		}
+
+		StringBundler sb = null;
+
+		if (orderByComparator != null) {
+			sb = new StringBundler(
+				3 + (orderByComparator.getOrderByFields().length * 2));
+		}
+		else {
+			sb = new StringBundler(4);
+		}
+
+		if (getDB().isSupportsInlineDistinct()) {
+			sb.append(_FILTER_SQL_SELECT_RESEARCHER_WHERE);
+		}
+		else {
+			sb.append(_FILTER_SQL_SELECT_RESEARCHER_NO_INLINE_DISTINCT_WHERE_1);
+		}
+
+		sb.append(_FINDER_COLUMN_COMPANY_COMPANYID_2);
+
+		if (!getDB().isSupportsInlineDistinct()) {
+			sb.append(_FILTER_SQL_SELECT_RESEARCHER_NO_INLINE_DISTINCT_WHERE_2);
+		}
+
+		if (orderByComparator != null) {
+			if (getDB().isSupportsInlineDistinct()) {
+				appendOrderByComparator(
+					sb, _ORDER_BY_ENTITY_ALIAS, orderByComparator, true);
+			}
+			else {
+				appendOrderByComparator(
+					sb, _ORDER_BY_ENTITY_TABLE, orderByComparator, true);
+			}
+		}
+		else {
+			if (getDB().isSupportsInlineDistinct()) {
+				sb.append(ResearcherModelImpl.ORDER_BY_JPQL);
+			}
+			else {
+				sb.append(ResearcherModelImpl.ORDER_BY_SQL);
+			}
+		}
+
+		String sql = InlineSQLHelperUtil.replacePermissionCheck(
+			sb.toString(), Researcher.class.getName(),
+			_FILTER_ENTITY_TABLE_FILTER_PK_COLUMN);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			SQLQuery sqlQuery = session.createSynchronizedSQLQuery(sql);
+
+			if (getDB().isSupportsInlineDistinct()) {
+				sqlQuery.addEntity(_FILTER_ENTITY_ALIAS, ResearcherImpl.class);
+			}
+			else {
+				sqlQuery.addEntity(_FILTER_ENTITY_TABLE, ResearcherImpl.class);
+			}
+
+			QueryPos queryPos = QueryPos.getInstance(sqlQuery);
+
+			queryPos.add(companyId);
+
+			return (List<Researcher>)QueryUtil.list(
+				sqlQuery, getDialect(), start, end);
+		}
+		catch (Exception exception) {
+			throw processException(exception);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	/**
+	 * Returns the researchers before and after the current researcher in the ordered set of researchers that the user has permission to view where companyId = &#63;.
+	 *
+	 * @param researcherId the primary key of the current researcher
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next researcher
+	 * @throws NoSuchResearcherException if a researcher with the primary key could not be found
+	 */
+	@Override
+	public Researcher[] filterFindByCompany_PrevAndNext(
+			long researcherId, long companyId,
+			OrderByComparator<Researcher> orderByComparator)
+		throws NoSuchResearcherException {
+
+		if (!InlineSQLHelperUtil.isEnabled(companyId, 0)) {
+			return findByCompany_PrevAndNext(
+				researcherId, companyId, orderByComparator);
+		}
+
+		Researcher researcher = findByPrimaryKey(researcherId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Researcher[] array = new ResearcherImpl[3];
+
+			array[0] = filterGetByCompany_PrevAndNext(
+				session, researcher, companyId, orderByComparator, true);
+
+			array[1] = researcher;
+
+			array[2] = filterGetByCompany_PrevAndNext(
+				session, researcher, companyId, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception exception) {
+			throw processException(exception);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Researcher filterGetByCompany_PrevAndNext(
+		Session session, Researcher researcher, long companyId,
+		OrderByComparator<Researcher> orderByComparator, boolean previous) {
+
+		StringBundler sb = null;
+
+		if (orderByComparator != null) {
+			sb = new StringBundler(
+				5 + (orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			sb = new StringBundler(4);
+		}
+
+		if (getDB().isSupportsInlineDistinct()) {
+			sb.append(_FILTER_SQL_SELECT_RESEARCHER_WHERE);
+		}
+		else {
+			sb.append(_FILTER_SQL_SELECT_RESEARCHER_NO_INLINE_DISTINCT_WHERE_1);
+		}
+
+		sb.append(_FINDER_COLUMN_COMPANY_COMPANYID_2);
+
+		if (!getDB().isSupportsInlineDistinct()) {
+			sb.append(_FILTER_SQL_SELECT_RESEARCHER_NO_INLINE_DISTINCT_WHERE_2);
+		}
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				sb.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				if (getDB().isSupportsInlineDistinct()) {
+					sb.append(
+						getColumnName(
+							_ORDER_BY_ENTITY_ALIAS, orderByConditionFields[i],
+							true));
+				}
+				else {
+					sb.append(
+						getColumnName(
+							_ORDER_BY_ENTITY_TABLE, orderByConditionFields[i],
+							true));
+				}
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						sb.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(WHERE_GREATER_THAN);
+					}
+					else {
+						sb.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			sb.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				if (getDB().isSupportsInlineDistinct()) {
+					sb.append(
+						getColumnName(
+							_ORDER_BY_ENTITY_ALIAS, orderByFields[i], true));
+				}
+				else {
+					sb.append(
+						getColumnName(
+							_ORDER_BY_ENTITY_TABLE, orderByFields[i], true));
+				}
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						sb.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(ORDER_BY_ASC);
+					}
+					else {
+						sb.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			if (getDB().isSupportsInlineDistinct()) {
+				sb.append(ResearcherModelImpl.ORDER_BY_JPQL);
+			}
+			else {
+				sb.append(ResearcherModelImpl.ORDER_BY_SQL);
+			}
+		}
+
+		String sql = InlineSQLHelperUtil.replacePermissionCheck(
+			sb.toString(), Researcher.class.getName(),
+			_FILTER_ENTITY_TABLE_FILTER_PK_COLUMN);
+
+		SQLQuery sqlQuery = session.createSynchronizedSQLQuery(sql);
+
+		sqlQuery.setFirstResult(0);
+		sqlQuery.setMaxResults(2);
+
+		if (getDB().isSupportsInlineDistinct()) {
+			sqlQuery.addEntity(_FILTER_ENTITY_ALIAS, ResearcherImpl.class);
+		}
+		else {
+			sqlQuery.addEntity(_FILTER_ENTITY_TABLE, ResearcherImpl.class);
+		}
+
+		QueryPos queryPos = QueryPos.getInstance(sqlQuery);
+
+		queryPos.add(companyId);
+
+		if (orderByComparator != null) {
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(researcher)) {
+
+				queryPos.add(orderByConditionValue);
+			}
+		}
+
+		List<Researcher> list = sqlQuery.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the researchers where companyId = &#63; from the database.
+	 *
+	 * @param companyId the company ID
+	 */
+	@Override
+	public void removeByCompany(long companyId) {
+		for (Researcher researcher :
+				findByCompany(
+					companyId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
+			remove(researcher);
+		}
+	}
+
+	/**
+	 * Returns the number of researchers where companyId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @return the number of matching researchers
+	 */
+	@Override
+	public int countByCompany(long companyId) {
+		FinderPath finderPath = _finderPathCountByCompany;
+
+		Object[] finderArgs = new Object[] {companyId};
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler sb = new StringBundler(2);
+
+			sb.append(_SQL_COUNT_RESEARCHER_WHERE);
+
+			sb.append(_FINDER_COLUMN_COMPANY_COMPANYID_2);
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				queryPos.add(companyId);
+
+				count = (Long)query.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception exception) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	/**
+	 * Returns the number of researchers that the user has permission to view where companyId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @return the number of matching researchers that the user has permission to view
+	 */
+	@Override
+	public int filterCountByCompany(long companyId) {
+		if (!InlineSQLHelperUtil.isEnabled(companyId, 0)) {
+			return countByCompany(companyId);
+		}
+
+		StringBundler sb = new StringBundler(2);
+
+		sb.append(_FILTER_SQL_COUNT_RESEARCHER_WHERE);
+
+		sb.append(_FINDER_COLUMN_COMPANY_COMPANYID_2);
+
+		String sql = InlineSQLHelperUtil.replacePermissionCheck(
+			sb.toString(), Researcher.class.getName(),
+			_FILTER_ENTITY_TABLE_FILTER_PK_COLUMN);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			SQLQuery sqlQuery = session.createSynchronizedSQLQuery(sql);
+
+			sqlQuery.addScalar(
+				COUNT_COLUMN_NAME, com.liferay.portal.kernel.dao.orm.Type.LONG);
+
+			QueryPos queryPos = QueryPos.getInstance(sqlQuery);
+
+			queryPos.add(companyId);
+
+			Long count = (Long)sqlQuery.uniqueResult();
+
+			return count.intValue();
+		}
+		catch (Exception exception) {
+			throw processException(exception);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	private static final String _FINDER_COLUMN_COMPANY_COMPANYID_2 =
+		"researcher.companyId = ?";
 
 	private FinderPath _finderPathWithPaginationFindByStatus;
 	private FinderPath _finderPathWithoutPaginationFindByStatus;
@@ -2767,6 +3365,328 @@ public class ResearcherPersistenceImpl
 	}
 
 	/**
+	 * Returns all the researchers that the user has permission to view where status = &#63;.
+	 *
+	 * @param status the status
+	 * @return the matching researchers that the user has permission to view
+	 */
+	@Override
+	public List<Researcher> filterFindByStatus(int status) {
+		return filterFindByStatus(
+			status, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the researchers that the user has permission to view where status = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ResearcherModelImpl</code>.
+	 * </p>
+	 *
+	 * @param status the status
+	 * @param start the lower bound of the range of researchers
+	 * @param end the upper bound of the range of researchers (not inclusive)
+	 * @return the range of matching researchers that the user has permission to view
+	 */
+	@Override
+	public List<Researcher> filterFindByStatus(int status, int start, int end) {
+		return filterFindByStatus(status, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the researchers that the user has permissions to view where status = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ResearcherModelImpl</code>.
+	 * </p>
+	 *
+	 * @param status the status
+	 * @param start the lower bound of the range of researchers
+	 * @param end the upper bound of the range of researchers (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching researchers that the user has permission to view
+	 */
+	@Override
+	public List<Researcher> filterFindByStatus(
+		int status, int start, int end,
+		OrderByComparator<Researcher> orderByComparator) {
+
+		if (!InlineSQLHelperUtil.isEnabled()) {
+			return findByStatus(status, start, end, orderByComparator);
+		}
+
+		StringBundler sb = null;
+
+		if (orderByComparator != null) {
+			sb = new StringBundler(
+				3 + (orderByComparator.getOrderByFields().length * 2));
+		}
+		else {
+			sb = new StringBundler(4);
+		}
+
+		if (getDB().isSupportsInlineDistinct()) {
+			sb.append(_FILTER_SQL_SELECT_RESEARCHER_WHERE);
+		}
+		else {
+			sb.append(_FILTER_SQL_SELECT_RESEARCHER_NO_INLINE_DISTINCT_WHERE_1);
+		}
+
+		sb.append(_FINDER_COLUMN_STATUS_STATUS_2);
+
+		if (!getDB().isSupportsInlineDistinct()) {
+			sb.append(_FILTER_SQL_SELECT_RESEARCHER_NO_INLINE_DISTINCT_WHERE_2);
+		}
+
+		if (orderByComparator != null) {
+			if (getDB().isSupportsInlineDistinct()) {
+				appendOrderByComparator(
+					sb, _ORDER_BY_ENTITY_ALIAS, orderByComparator, true);
+			}
+			else {
+				appendOrderByComparator(
+					sb, _ORDER_BY_ENTITY_TABLE, orderByComparator, true);
+			}
+		}
+		else {
+			if (getDB().isSupportsInlineDistinct()) {
+				sb.append(ResearcherModelImpl.ORDER_BY_JPQL);
+			}
+			else {
+				sb.append(ResearcherModelImpl.ORDER_BY_SQL);
+			}
+		}
+
+		String sql = InlineSQLHelperUtil.replacePermissionCheck(
+			sb.toString(), Researcher.class.getName(),
+			_FILTER_ENTITY_TABLE_FILTER_PK_COLUMN);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			SQLQuery sqlQuery = session.createSynchronizedSQLQuery(sql);
+
+			if (getDB().isSupportsInlineDistinct()) {
+				sqlQuery.addEntity(_FILTER_ENTITY_ALIAS, ResearcherImpl.class);
+			}
+			else {
+				sqlQuery.addEntity(_FILTER_ENTITY_TABLE, ResearcherImpl.class);
+			}
+
+			QueryPos queryPos = QueryPos.getInstance(sqlQuery);
+
+			queryPos.add(status);
+
+			return (List<Researcher>)QueryUtil.list(
+				sqlQuery, getDialect(), start, end);
+		}
+		catch (Exception exception) {
+			throw processException(exception);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	/**
+	 * Returns the researchers before and after the current researcher in the ordered set of researchers that the user has permission to view where status = &#63;.
+	 *
+	 * @param researcherId the primary key of the current researcher
+	 * @param status the status
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next researcher
+	 * @throws NoSuchResearcherException if a researcher with the primary key could not be found
+	 */
+	@Override
+	public Researcher[] filterFindByStatus_PrevAndNext(
+			long researcherId, int status,
+			OrderByComparator<Researcher> orderByComparator)
+		throws NoSuchResearcherException {
+
+		if (!InlineSQLHelperUtil.isEnabled()) {
+			return findByStatus_PrevAndNext(
+				researcherId, status, orderByComparator);
+		}
+
+		Researcher researcher = findByPrimaryKey(researcherId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Researcher[] array = new ResearcherImpl[3];
+
+			array[0] = filterGetByStatus_PrevAndNext(
+				session, researcher, status, orderByComparator, true);
+
+			array[1] = researcher;
+
+			array[2] = filterGetByStatus_PrevAndNext(
+				session, researcher, status, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception exception) {
+			throw processException(exception);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Researcher filterGetByStatus_PrevAndNext(
+		Session session, Researcher researcher, int status,
+		OrderByComparator<Researcher> orderByComparator, boolean previous) {
+
+		StringBundler sb = null;
+
+		if (orderByComparator != null) {
+			sb = new StringBundler(
+				5 + (orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			sb = new StringBundler(4);
+		}
+
+		if (getDB().isSupportsInlineDistinct()) {
+			sb.append(_FILTER_SQL_SELECT_RESEARCHER_WHERE);
+		}
+		else {
+			sb.append(_FILTER_SQL_SELECT_RESEARCHER_NO_INLINE_DISTINCT_WHERE_1);
+		}
+
+		sb.append(_FINDER_COLUMN_STATUS_STATUS_2);
+
+		if (!getDB().isSupportsInlineDistinct()) {
+			sb.append(_FILTER_SQL_SELECT_RESEARCHER_NO_INLINE_DISTINCT_WHERE_2);
+		}
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				sb.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				if (getDB().isSupportsInlineDistinct()) {
+					sb.append(
+						getColumnName(
+							_ORDER_BY_ENTITY_ALIAS, orderByConditionFields[i],
+							true));
+				}
+				else {
+					sb.append(
+						getColumnName(
+							_ORDER_BY_ENTITY_TABLE, orderByConditionFields[i],
+							true));
+				}
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						sb.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(WHERE_GREATER_THAN);
+					}
+					else {
+						sb.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			sb.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				if (getDB().isSupportsInlineDistinct()) {
+					sb.append(
+						getColumnName(
+							_ORDER_BY_ENTITY_ALIAS, orderByFields[i], true));
+				}
+				else {
+					sb.append(
+						getColumnName(
+							_ORDER_BY_ENTITY_TABLE, orderByFields[i], true));
+				}
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						sb.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(ORDER_BY_ASC);
+					}
+					else {
+						sb.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			if (getDB().isSupportsInlineDistinct()) {
+				sb.append(ResearcherModelImpl.ORDER_BY_JPQL);
+			}
+			else {
+				sb.append(ResearcherModelImpl.ORDER_BY_SQL);
+			}
+		}
+
+		String sql = InlineSQLHelperUtil.replacePermissionCheck(
+			sb.toString(), Researcher.class.getName(),
+			_FILTER_ENTITY_TABLE_FILTER_PK_COLUMN);
+
+		SQLQuery sqlQuery = session.createSynchronizedSQLQuery(sql);
+
+		sqlQuery.setFirstResult(0);
+		sqlQuery.setMaxResults(2);
+
+		if (getDB().isSupportsInlineDistinct()) {
+			sqlQuery.addEntity(_FILTER_ENTITY_ALIAS, ResearcherImpl.class);
+		}
+		else {
+			sqlQuery.addEntity(_FILTER_ENTITY_TABLE, ResearcherImpl.class);
+		}
+
+		QueryPos queryPos = QueryPos.getInstance(sqlQuery);
+
+		queryPos.add(status);
+
+		if (orderByComparator != null) {
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(researcher)) {
+
+				queryPos.add(orderByConditionValue);
+			}
+		}
+
+		List<Researcher> list = sqlQuery.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
 	 * Removes all the researchers where status = &#63; from the database.
 	 *
 	 * @param status the status
@@ -2832,984 +3752,99 @@ public class ResearcherPersistenceImpl
 		return count.intValue();
 	}
 
+	/**
+	 * Returns the number of researchers that the user has permission to view where status = &#63;.
+	 *
+	 * @param status the status
+	 * @return the number of matching researchers that the user has permission to view
+	 */
+	@Override
+	public int filterCountByStatus(int status) {
+		if (!InlineSQLHelperUtil.isEnabled()) {
+			return countByStatus(status);
+		}
+
+		StringBundler sb = new StringBundler(2);
+
+		sb.append(_FILTER_SQL_COUNT_RESEARCHER_WHERE);
+
+		sb.append(_FINDER_COLUMN_STATUS_STATUS_2);
+
+		String sql = InlineSQLHelperUtil.replacePermissionCheck(
+			sb.toString(), Researcher.class.getName(),
+			_FILTER_ENTITY_TABLE_FILTER_PK_COLUMN);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			SQLQuery sqlQuery = session.createSynchronizedSQLQuery(sql);
+
+			sqlQuery.addScalar(
+				COUNT_COLUMN_NAME, com.liferay.portal.kernel.dao.orm.Type.LONG);
+
+			QueryPos queryPos = QueryPos.getInstance(sqlQuery);
+
+			queryPos.add(status);
+
+			Long count = (Long)sqlQuery.uniqueResult();
+
+			return count.intValue();
+		}
+		catch (Exception exception) {
+			throw processException(exception);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
 	private static final String _FINDER_COLUMN_STATUS_STATUS_2 =
 		"researcher.status = ?";
 
-	private FinderPath _finderPathWithPaginationFindByG_S;
-	private FinderPath _finderPathWithoutPaginationFindByG_S;
-	private FinderPath _finderPathCountByG_S;
+	private FinderPath _finderPathWithPaginationFindByPosition;
+	private FinderPath _finderPathWithoutPaginationFindByPosition;
+	private FinderPath _finderPathCountByPosition;
 
 	/**
-	 * Returns all the researchers where groupId = &#63; and status = &#63;.
+	 * Returns all the researchers where position = &#63;.
 	 *
-	 * @param groupId the group ID
-	 * @param status the status
-	 * @return the matching researchers
-	 */
-	@Override
-	public List<Researcher> findByG_S(long groupId, int status) {
-		return findByG_S(
-			groupId, status, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
-	}
-
-	/**
-	 * Returns a range of all the researchers where groupId = &#63; and status = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ResearcherModelImpl</code>.
-	 * </p>
-	 *
-	 * @param groupId the group ID
-	 * @param status the status
-	 * @param start the lower bound of the range of researchers
-	 * @param end the upper bound of the range of researchers (not inclusive)
-	 * @return the range of matching researchers
-	 */
-	@Override
-	public List<Researcher> findByG_S(
-		long groupId, int status, int start, int end) {
-
-		return findByG_S(groupId, status, start, end, null);
-	}
-
-	/**
-	 * Returns an ordered range of all the researchers where groupId = &#63; and status = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ResearcherModelImpl</code>.
-	 * </p>
-	 *
-	 * @param groupId the group ID
-	 * @param status the status
-	 * @param start the lower bound of the range of researchers
-	 * @param end the upper bound of the range of researchers (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching researchers
-	 */
-	@Override
-	public List<Researcher> findByG_S(
-		long groupId, int status, int start, int end,
-		OrderByComparator<Researcher> orderByComparator) {
-
-		return findByG_S(groupId, status, start, end, orderByComparator, true);
-	}
-
-	/**
-	 * Returns an ordered range of all the researchers where groupId = &#63; and status = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ResearcherModelImpl</code>.
-	 * </p>
-	 *
-	 * @param groupId the group ID
-	 * @param status the status
-	 * @param start the lower bound of the range of researchers
-	 * @param end the upper bound of the range of researchers (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @param useFinderCache whether to use the finder cache
-	 * @return the ordered range of matching researchers
-	 */
-	@Override
-	public List<Researcher> findByG_S(
-		long groupId, int status, int start, int end,
-		OrderByComparator<Researcher> orderByComparator,
-		boolean useFinderCache) {
-
-		FinderPath finderPath = null;
-		Object[] finderArgs = null;
-
-		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-			(orderByComparator == null)) {
-
-			if (useFinderCache) {
-				finderPath = _finderPathWithoutPaginationFindByG_S;
-				finderArgs = new Object[] {groupId, status};
-			}
-		}
-		else if (useFinderCache) {
-			finderPath = _finderPathWithPaginationFindByG_S;
-			finderArgs = new Object[] {
-				groupId, status, start, end, orderByComparator
-			};
-		}
-
-		List<Researcher> list = null;
-
-		if (useFinderCache) {
-			list = (List<Researcher>)finderCache.getResult(
-				finderPath, finderArgs, this);
-
-			if ((list != null) && !list.isEmpty()) {
-				for (Researcher researcher : list) {
-					if ((groupId != researcher.getGroupId()) ||
-						(status != researcher.getStatus())) {
-
-						list = null;
-
-						break;
-					}
-				}
-			}
-		}
-
-		if (list == null) {
-			StringBundler sb = null;
-
-			if (orderByComparator != null) {
-				sb = new StringBundler(
-					4 + (orderByComparator.getOrderByFields().length * 2));
-			}
-			else {
-				sb = new StringBundler(4);
-			}
-
-			sb.append(_SQL_SELECT_RESEARCHER_WHERE);
-
-			sb.append(_FINDER_COLUMN_G_S_GROUPID_2);
-
-			sb.append(_FINDER_COLUMN_G_S_STATUS_2);
-
-			if (orderByComparator != null) {
-				appendOrderByComparator(
-					sb, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
-			}
-			else {
-				sb.append(ResearcherModelImpl.ORDER_BY_JPQL);
-			}
-
-			String sql = sb.toString();
-
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				Query query = session.createQuery(sql);
-
-				QueryPos queryPos = QueryPos.getInstance(query);
-
-				queryPos.add(groupId);
-
-				queryPos.add(status);
-
-				list = (List<Researcher>)QueryUtil.list(
-					query, getDialect(), start, end);
-
-				cacheResult(list);
-
-				if (useFinderCache) {
-					finderCache.putResult(finderPath, finderArgs, list);
-				}
-			}
-			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return list;
-	}
-
-	/**
-	 * Returns the first researcher in the ordered set where groupId = &#63; and status = &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @param status the status
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching researcher
-	 * @throws NoSuchResearcherException if a matching researcher could not be found
-	 */
-	@Override
-	public Researcher findByG_S_First(
-			long groupId, int status,
-			OrderByComparator<Researcher> orderByComparator)
-		throws NoSuchResearcherException {
-
-		Researcher researcher = fetchByG_S_First(
-			groupId, status, orderByComparator);
-
-		if (researcher != null) {
-			return researcher;
-		}
-
-		StringBundler sb = new StringBundler(6);
-
-		sb.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-		sb.append("groupId=");
-		sb.append(groupId);
-
-		sb.append(", status=");
-		sb.append(status);
-
-		sb.append("}");
-
-		throw new NoSuchResearcherException(sb.toString());
-	}
-
-	/**
-	 * Returns the first researcher in the ordered set where groupId = &#63; and status = &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @param status the status
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching researcher, or <code>null</code> if a matching researcher could not be found
-	 */
-	@Override
-	public Researcher fetchByG_S_First(
-		long groupId, int status,
-		OrderByComparator<Researcher> orderByComparator) {
-
-		List<Researcher> list = findByG_S(
-			groupId, status, 0, 1, orderByComparator);
-
-		if (!list.isEmpty()) {
-			return list.get(0);
-		}
-
-		return null;
-	}
-
-	/**
-	 * Returns the last researcher in the ordered set where groupId = &#63; and status = &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @param status the status
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching researcher
-	 * @throws NoSuchResearcherException if a matching researcher could not be found
-	 */
-	@Override
-	public Researcher findByG_S_Last(
-			long groupId, int status,
-			OrderByComparator<Researcher> orderByComparator)
-		throws NoSuchResearcherException {
-
-		Researcher researcher = fetchByG_S_Last(
-			groupId, status, orderByComparator);
-
-		if (researcher != null) {
-			return researcher;
-		}
-
-		StringBundler sb = new StringBundler(6);
-
-		sb.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-		sb.append("groupId=");
-		sb.append(groupId);
-
-		sb.append(", status=");
-		sb.append(status);
-
-		sb.append("}");
-
-		throw new NoSuchResearcherException(sb.toString());
-	}
-
-	/**
-	 * Returns the last researcher in the ordered set where groupId = &#63; and status = &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @param status the status
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching researcher, or <code>null</code> if a matching researcher could not be found
-	 */
-	@Override
-	public Researcher fetchByG_S_Last(
-		long groupId, int status,
-		OrderByComparator<Researcher> orderByComparator) {
-
-		int count = countByG_S(groupId, status);
-
-		if (count == 0) {
-			return null;
-		}
-
-		List<Researcher> list = findByG_S(
-			groupId, status, count - 1, count, orderByComparator);
-
-		if (!list.isEmpty()) {
-			return list.get(0);
-		}
-
-		return null;
-	}
-
-	/**
-	 * Returns the researchers before and after the current researcher in the ordered set where groupId = &#63; and status = &#63;.
-	 *
-	 * @param researcherId the primary key of the current researcher
-	 * @param groupId the group ID
-	 * @param status the status
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the previous, current, and next researcher
-	 * @throws NoSuchResearcherException if a researcher with the primary key could not be found
-	 */
-	@Override
-	public Researcher[] findByG_S_PrevAndNext(
-			long researcherId, long groupId, int status,
-			OrderByComparator<Researcher> orderByComparator)
-		throws NoSuchResearcherException {
-
-		Researcher researcher = findByPrimaryKey(researcherId);
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Researcher[] array = new ResearcherImpl[3];
-
-			array[0] = getByG_S_PrevAndNext(
-				session, researcher, groupId, status, orderByComparator, true);
-
-			array[1] = researcher;
-
-			array[2] = getByG_S_PrevAndNext(
-				session, researcher, groupId, status, orderByComparator, false);
-
-			return array;
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-	}
-
-	protected Researcher getByG_S_PrevAndNext(
-		Session session, Researcher researcher, long groupId, int status,
-		OrderByComparator<Researcher> orderByComparator, boolean previous) {
-
-		StringBundler sb = null;
-
-		if (orderByComparator != null) {
-			sb = new StringBundler(
-				5 + (orderByComparator.getOrderByConditionFields().length * 3) +
-					(orderByComparator.getOrderByFields().length * 3));
-		}
-		else {
-			sb = new StringBundler(4);
-		}
-
-		sb.append(_SQL_SELECT_RESEARCHER_WHERE);
-
-		sb.append(_FINDER_COLUMN_G_S_GROUPID_2);
-
-		sb.append(_FINDER_COLUMN_G_S_STATUS_2);
-
-		if (orderByComparator != null) {
-			String[] orderByConditionFields =
-				orderByComparator.getOrderByConditionFields();
-
-			if (orderByConditionFields.length > 0) {
-				sb.append(WHERE_AND);
-			}
-
-			for (int i = 0; i < orderByConditionFields.length; i++) {
-				sb.append(_ORDER_BY_ENTITY_ALIAS);
-				sb.append(orderByConditionFields[i]);
-
-				if ((i + 1) < orderByConditionFields.length) {
-					if (orderByComparator.isAscending() ^ previous) {
-						sb.append(WHERE_GREATER_THAN_HAS_NEXT);
-					}
-					else {
-						sb.append(WHERE_LESSER_THAN_HAS_NEXT);
-					}
-				}
-				else {
-					if (orderByComparator.isAscending() ^ previous) {
-						sb.append(WHERE_GREATER_THAN);
-					}
-					else {
-						sb.append(WHERE_LESSER_THAN);
-					}
-				}
-			}
-
-			sb.append(ORDER_BY_CLAUSE);
-
-			String[] orderByFields = orderByComparator.getOrderByFields();
-
-			for (int i = 0; i < orderByFields.length; i++) {
-				sb.append(_ORDER_BY_ENTITY_ALIAS);
-				sb.append(orderByFields[i]);
-
-				if ((i + 1) < orderByFields.length) {
-					if (orderByComparator.isAscending() ^ previous) {
-						sb.append(ORDER_BY_ASC_HAS_NEXT);
-					}
-					else {
-						sb.append(ORDER_BY_DESC_HAS_NEXT);
-					}
-				}
-				else {
-					if (orderByComparator.isAscending() ^ previous) {
-						sb.append(ORDER_BY_ASC);
-					}
-					else {
-						sb.append(ORDER_BY_DESC);
-					}
-				}
-			}
-		}
-		else {
-			sb.append(ResearcherModelImpl.ORDER_BY_JPQL);
-		}
-
-		String sql = sb.toString();
-
-		Query query = session.createQuery(sql);
-
-		query.setFirstResult(0);
-		query.setMaxResults(2);
-
-		QueryPos queryPos = QueryPos.getInstance(query);
-
-		queryPos.add(groupId);
-
-		queryPos.add(status);
-
-		if (orderByComparator != null) {
-			for (Object orderByConditionValue :
-					orderByComparator.getOrderByConditionValues(researcher)) {
-
-				queryPos.add(orderByConditionValue);
-			}
-		}
-
-		List<Researcher> list = query.list();
-
-		if (list.size() == 2) {
-			return list.get(1);
-		}
-		else {
-			return null;
-		}
-	}
-
-	/**
-	 * Returns all the researchers that the user has permission to view where groupId = &#63; and status = &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @param status the status
-	 * @return the matching researchers that the user has permission to view
-	 */
-	@Override
-	public List<Researcher> filterFindByG_S(long groupId, int status) {
-		return filterFindByG_S(
-			groupId, status, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
-	}
-
-	/**
-	 * Returns a range of all the researchers that the user has permission to view where groupId = &#63; and status = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ResearcherModelImpl</code>.
-	 * </p>
-	 *
-	 * @param groupId the group ID
-	 * @param status the status
-	 * @param start the lower bound of the range of researchers
-	 * @param end the upper bound of the range of researchers (not inclusive)
-	 * @return the range of matching researchers that the user has permission to view
-	 */
-	@Override
-	public List<Researcher> filterFindByG_S(
-		long groupId, int status, int start, int end) {
-
-		return filterFindByG_S(groupId, status, start, end, null);
-	}
-
-	/**
-	 * Returns an ordered range of all the researchers that the user has permissions to view where groupId = &#63; and status = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ResearcherModelImpl</code>.
-	 * </p>
-	 *
-	 * @param groupId the group ID
-	 * @param status the status
-	 * @param start the lower bound of the range of researchers
-	 * @param end the upper bound of the range of researchers (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching researchers that the user has permission to view
-	 */
-	@Override
-	public List<Researcher> filterFindByG_S(
-		long groupId, int status, int start, int end,
-		OrderByComparator<Researcher> orderByComparator) {
-
-		if (!InlineSQLHelperUtil.isEnabled(groupId)) {
-			return findByG_S(groupId, status, start, end, orderByComparator);
-		}
-
-		StringBundler sb = null;
-
-		if (orderByComparator != null) {
-			sb = new StringBundler(
-				4 + (orderByComparator.getOrderByFields().length * 2));
-		}
-		else {
-			sb = new StringBundler(5);
-		}
-
-		if (getDB().isSupportsInlineDistinct()) {
-			sb.append(_FILTER_SQL_SELECT_RESEARCHER_WHERE);
-		}
-		else {
-			sb.append(_FILTER_SQL_SELECT_RESEARCHER_NO_INLINE_DISTINCT_WHERE_1);
-		}
-
-		sb.append(_FINDER_COLUMN_G_S_GROUPID_2);
-
-		sb.append(_FINDER_COLUMN_G_S_STATUS_2);
-
-		if (!getDB().isSupportsInlineDistinct()) {
-			sb.append(_FILTER_SQL_SELECT_RESEARCHER_NO_INLINE_DISTINCT_WHERE_2);
-		}
-
-		if (orderByComparator != null) {
-			if (getDB().isSupportsInlineDistinct()) {
-				appendOrderByComparator(
-					sb, _ORDER_BY_ENTITY_ALIAS, orderByComparator, true);
-			}
-			else {
-				appendOrderByComparator(
-					sb, _ORDER_BY_ENTITY_TABLE, orderByComparator, true);
-			}
-		}
-		else {
-			if (getDB().isSupportsInlineDistinct()) {
-				sb.append(ResearcherModelImpl.ORDER_BY_JPQL);
-			}
-			else {
-				sb.append(ResearcherModelImpl.ORDER_BY_SQL);
-			}
-		}
-
-		String sql = InlineSQLHelperUtil.replacePermissionCheck(
-			sb.toString(), Researcher.class.getName(),
-			_FILTER_ENTITY_TABLE_FILTER_PK_COLUMN, groupId);
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			SQLQuery sqlQuery = session.createSynchronizedSQLQuery(sql);
-
-			if (getDB().isSupportsInlineDistinct()) {
-				sqlQuery.addEntity(_FILTER_ENTITY_ALIAS, ResearcherImpl.class);
-			}
-			else {
-				sqlQuery.addEntity(_FILTER_ENTITY_TABLE, ResearcherImpl.class);
-			}
-
-			QueryPos queryPos = QueryPos.getInstance(sqlQuery);
-
-			queryPos.add(groupId);
-
-			queryPos.add(status);
-
-			return (List<Researcher>)QueryUtil.list(
-				sqlQuery, getDialect(), start, end);
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-	}
-
-	/**
-	 * Returns the researchers before and after the current researcher in the ordered set of researchers that the user has permission to view where groupId = &#63; and status = &#63;.
-	 *
-	 * @param researcherId the primary key of the current researcher
-	 * @param groupId the group ID
-	 * @param status the status
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the previous, current, and next researcher
-	 * @throws NoSuchResearcherException if a researcher with the primary key could not be found
-	 */
-	@Override
-	public Researcher[] filterFindByG_S_PrevAndNext(
-			long researcherId, long groupId, int status,
-			OrderByComparator<Researcher> orderByComparator)
-		throws NoSuchResearcherException {
-
-		if (!InlineSQLHelperUtil.isEnabled(groupId)) {
-			return findByG_S_PrevAndNext(
-				researcherId, groupId, status, orderByComparator);
-		}
-
-		Researcher researcher = findByPrimaryKey(researcherId);
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Researcher[] array = new ResearcherImpl[3];
-
-			array[0] = filterGetByG_S_PrevAndNext(
-				session, researcher, groupId, status, orderByComparator, true);
-
-			array[1] = researcher;
-
-			array[2] = filterGetByG_S_PrevAndNext(
-				session, researcher, groupId, status, orderByComparator, false);
-
-			return array;
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-	}
-
-	protected Researcher filterGetByG_S_PrevAndNext(
-		Session session, Researcher researcher, long groupId, int status,
-		OrderByComparator<Researcher> orderByComparator, boolean previous) {
-
-		StringBundler sb = null;
-
-		if (orderByComparator != null) {
-			sb = new StringBundler(
-				6 + (orderByComparator.getOrderByConditionFields().length * 3) +
-					(orderByComparator.getOrderByFields().length * 3));
-		}
-		else {
-			sb = new StringBundler(5);
-		}
-
-		if (getDB().isSupportsInlineDistinct()) {
-			sb.append(_FILTER_SQL_SELECT_RESEARCHER_WHERE);
-		}
-		else {
-			sb.append(_FILTER_SQL_SELECT_RESEARCHER_NO_INLINE_DISTINCT_WHERE_1);
-		}
-
-		sb.append(_FINDER_COLUMN_G_S_GROUPID_2);
-
-		sb.append(_FINDER_COLUMN_G_S_STATUS_2);
-
-		if (!getDB().isSupportsInlineDistinct()) {
-			sb.append(_FILTER_SQL_SELECT_RESEARCHER_NO_INLINE_DISTINCT_WHERE_2);
-		}
-
-		if (orderByComparator != null) {
-			String[] orderByConditionFields =
-				orderByComparator.getOrderByConditionFields();
-
-			if (orderByConditionFields.length > 0) {
-				sb.append(WHERE_AND);
-			}
-
-			for (int i = 0; i < orderByConditionFields.length; i++) {
-				if (getDB().isSupportsInlineDistinct()) {
-					sb.append(
-						getColumnName(
-							_ORDER_BY_ENTITY_ALIAS, orderByConditionFields[i],
-							true));
-				}
-				else {
-					sb.append(
-						getColumnName(
-							_ORDER_BY_ENTITY_TABLE, orderByConditionFields[i],
-							true));
-				}
-
-				if ((i + 1) < orderByConditionFields.length) {
-					if (orderByComparator.isAscending() ^ previous) {
-						sb.append(WHERE_GREATER_THAN_HAS_NEXT);
-					}
-					else {
-						sb.append(WHERE_LESSER_THAN_HAS_NEXT);
-					}
-				}
-				else {
-					if (orderByComparator.isAscending() ^ previous) {
-						sb.append(WHERE_GREATER_THAN);
-					}
-					else {
-						sb.append(WHERE_LESSER_THAN);
-					}
-				}
-			}
-
-			sb.append(ORDER_BY_CLAUSE);
-
-			String[] orderByFields = orderByComparator.getOrderByFields();
-
-			for (int i = 0; i < orderByFields.length; i++) {
-				if (getDB().isSupportsInlineDistinct()) {
-					sb.append(
-						getColumnName(
-							_ORDER_BY_ENTITY_ALIAS, orderByFields[i], true));
-				}
-				else {
-					sb.append(
-						getColumnName(
-							_ORDER_BY_ENTITY_TABLE, orderByFields[i], true));
-				}
-
-				if ((i + 1) < orderByFields.length) {
-					if (orderByComparator.isAscending() ^ previous) {
-						sb.append(ORDER_BY_ASC_HAS_NEXT);
-					}
-					else {
-						sb.append(ORDER_BY_DESC_HAS_NEXT);
-					}
-				}
-				else {
-					if (orderByComparator.isAscending() ^ previous) {
-						sb.append(ORDER_BY_ASC);
-					}
-					else {
-						sb.append(ORDER_BY_DESC);
-					}
-				}
-			}
-		}
-		else {
-			if (getDB().isSupportsInlineDistinct()) {
-				sb.append(ResearcherModelImpl.ORDER_BY_JPQL);
-			}
-			else {
-				sb.append(ResearcherModelImpl.ORDER_BY_SQL);
-			}
-		}
-
-		String sql = InlineSQLHelperUtil.replacePermissionCheck(
-			sb.toString(), Researcher.class.getName(),
-			_FILTER_ENTITY_TABLE_FILTER_PK_COLUMN, groupId);
-
-		SQLQuery sqlQuery = session.createSynchronizedSQLQuery(sql);
-
-		sqlQuery.setFirstResult(0);
-		sqlQuery.setMaxResults(2);
-
-		if (getDB().isSupportsInlineDistinct()) {
-			sqlQuery.addEntity(_FILTER_ENTITY_ALIAS, ResearcherImpl.class);
-		}
-		else {
-			sqlQuery.addEntity(_FILTER_ENTITY_TABLE, ResearcherImpl.class);
-		}
-
-		QueryPos queryPos = QueryPos.getInstance(sqlQuery);
-
-		queryPos.add(groupId);
-
-		queryPos.add(status);
-
-		if (orderByComparator != null) {
-			for (Object orderByConditionValue :
-					orderByComparator.getOrderByConditionValues(researcher)) {
-
-				queryPos.add(orderByConditionValue);
-			}
-		}
-
-		List<Researcher> list = sqlQuery.list();
-
-		if (list.size() == 2) {
-			return list.get(1);
-		}
-		else {
-			return null;
-		}
-	}
-
-	/**
-	 * Removes all the researchers where groupId = &#63; and status = &#63; from the database.
-	 *
-	 * @param groupId the group ID
-	 * @param status the status
-	 */
-	@Override
-	public void removeByG_S(long groupId, int status) {
-		for (Researcher researcher :
-				findByG_S(
-					groupId, status, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
-					null)) {
-
-			remove(researcher);
-		}
-	}
-
-	/**
-	 * Returns the number of researchers where groupId = &#63; and status = &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @param status the status
-	 * @return the number of matching researchers
-	 */
-	@Override
-	public int countByG_S(long groupId, int status) {
-		FinderPath finderPath = _finderPathCountByG_S;
-
-		Object[] finderArgs = new Object[] {groupId, status};
-
-		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
-
-		if (count == null) {
-			StringBundler sb = new StringBundler(3);
-
-			sb.append(_SQL_COUNT_RESEARCHER_WHERE);
-
-			sb.append(_FINDER_COLUMN_G_S_GROUPID_2);
-
-			sb.append(_FINDER_COLUMN_G_S_STATUS_2);
-
-			String sql = sb.toString();
-
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				Query query = session.createQuery(sql);
-
-				QueryPos queryPos = QueryPos.getInstance(query);
-
-				queryPos.add(groupId);
-
-				queryPos.add(status);
-
-				count = (Long)query.uniqueResult();
-
-				finderCache.putResult(finderPath, finderArgs, count);
-			}
-			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return count.intValue();
-	}
-
-	/**
-	 * Returns the number of researchers that the user has permission to view where groupId = &#63; and status = &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @param status the status
-	 * @return the number of matching researchers that the user has permission to view
-	 */
-	@Override
-	public int filterCountByG_S(long groupId, int status) {
-		if (!InlineSQLHelperUtil.isEnabled(groupId)) {
-			return countByG_S(groupId, status);
-		}
-
-		StringBundler sb = new StringBundler(3);
-
-		sb.append(_FILTER_SQL_COUNT_RESEARCHER_WHERE);
-
-		sb.append(_FINDER_COLUMN_G_S_GROUPID_2);
-
-		sb.append(_FINDER_COLUMN_G_S_STATUS_2);
-
-		String sql = InlineSQLHelperUtil.replacePermissionCheck(
-			sb.toString(), Researcher.class.getName(),
-			_FILTER_ENTITY_TABLE_FILTER_PK_COLUMN, groupId);
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			SQLQuery sqlQuery = session.createSynchronizedSQLQuery(sql);
-
-			sqlQuery.addScalar(
-				COUNT_COLUMN_NAME, com.liferay.portal.kernel.dao.orm.Type.LONG);
-
-			QueryPos queryPos = QueryPos.getInstance(sqlQuery);
-
-			queryPos.add(groupId);
-
-			queryPos.add(status);
-
-			Long count = (Long)sqlQuery.uniqueResult();
-
-			return count.intValue();
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-	}
-
-	private static final String _FINDER_COLUMN_G_S_GROUPID_2 =
-		"researcher.groupId = ? AND ";
-
-	private static final String _FINDER_COLUMN_G_S_STATUS_2 =
-		"researcher.status = ?";
-
-	private FinderPath _finderPathWithPaginationFindByG_P;
-	private FinderPath _finderPathWithoutPaginationFindByG_P;
-	private FinderPath _finderPathCountByG_P;
-
-	/**
-	 * Returns all the researchers where groupId = &#63; and position = &#63;.
-	 *
-	 * @param groupId the group ID
 	 * @param position the position
 	 * @return the matching researchers
 	 */
 	@Override
-	public List<Researcher> findByG_P(long groupId, String position) {
-		return findByG_P(
-			groupId, position, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	public List<Researcher> findByPosition(String position) {
+		return findByPosition(
+			position, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
-	 * Returns a range of all the researchers where groupId = &#63; and position = &#63;.
+	 * Returns a range of all the researchers where position = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ResearcherModelImpl</code>.
 	 * </p>
 	 *
-	 * @param groupId the group ID
 	 * @param position the position
 	 * @param start the lower bound of the range of researchers
 	 * @param end the upper bound of the range of researchers (not inclusive)
 	 * @return the range of matching researchers
 	 */
 	@Override
-	public List<Researcher> findByG_P(
-		long groupId, String position, int start, int end) {
+	public List<Researcher> findByPosition(
+		String position, int start, int end) {
 
-		return findByG_P(groupId, position, start, end, null);
+		return findByPosition(position, start, end, null);
 	}
 
 	/**
-	 * Returns an ordered range of all the researchers where groupId = &#63; and position = &#63;.
+	 * Returns an ordered range of all the researchers where position = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ResearcherModelImpl</code>.
 	 * </p>
 	 *
-	 * @param groupId the group ID
 	 * @param position the position
 	 * @param start the lower bound of the range of researchers
 	 * @param end the upper bound of the range of researchers (not inclusive)
@@ -3817,22 +3852,20 @@ public class ResearcherPersistenceImpl
 	 * @return the ordered range of matching researchers
 	 */
 	@Override
-	public List<Researcher> findByG_P(
-		long groupId, String position, int start, int end,
+	public List<Researcher> findByPosition(
+		String position, int start, int end,
 		OrderByComparator<Researcher> orderByComparator) {
 
-		return findByG_P(
-			groupId, position, start, end, orderByComparator, true);
+		return findByPosition(position, start, end, orderByComparator, true);
 	}
 
 	/**
-	 * Returns an ordered range of all the researchers where groupId = &#63; and position = &#63;.
+	 * Returns an ordered range of all the researchers where position = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ResearcherModelImpl</code>.
 	 * </p>
 	 *
-	 * @param groupId the group ID
 	 * @param position the position
 	 * @param start the lower bound of the range of researchers
 	 * @param end the upper bound of the range of researchers (not inclusive)
@@ -3841,8 +3874,8 @@ public class ResearcherPersistenceImpl
 	 * @return the ordered range of matching researchers
 	 */
 	@Override
-	public List<Researcher> findByG_P(
-		long groupId, String position, int start, int end,
+	public List<Researcher> findByPosition(
+		String position, int start, int end,
 		OrderByComparator<Researcher> orderByComparator,
 		boolean useFinderCache) {
 
@@ -3855,15 +3888,13 @@ public class ResearcherPersistenceImpl
 			(orderByComparator == null)) {
 
 			if (useFinderCache) {
-				finderPath = _finderPathWithoutPaginationFindByG_P;
-				finderArgs = new Object[] {groupId, position};
+				finderPath = _finderPathWithoutPaginationFindByPosition;
+				finderArgs = new Object[] {position};
 			}
 		}
 		else if (useFinderCache) {
-			finderPath = _finderPathWithPaginationFindByG_P;
-			finderArgs = new Object[] {
-				groupId, position, start, end, orderByComparator
-			};
+			finderPath = _finderPathWithPaginationFindByPosition;
+			finderArgs = new Object[] {position, start, end, orderByComparator};
 		}
 
 		List<Researcher> list = null;
@@ -3874,9 +3905,7 @@ public class ResearcherPersistenceImpl
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Researcher researcher : list) {
-					if ((groupId != researcher.getGroupId()) ||
-						!position.equals(researcher.getPosition())) {
-
+					if (!position.equals(researcher.getPosition())) {
 						list = null;
 
 						break;
@@ -3890,25 +3919,23 @@ public class ResearcherPersistenceImpl
 
 			if (orderByComparator != null) {
 				sb = new StringBundler(
-					4 + (orderByComparator.getOrderByFields().length * 2));
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
-				sb = new StringBundler(4);
+				sb = new StringBundler(3);
 			}
 
 			sb.append(_SQL_SELECT_RESEARCHER_WHERE);
 
-			sb.append(_FINDER_COLUMN_G_P_GROUPID_2);
-
 			boolean bindPosition = false;
 
 			if (position.isEmpty()) {
-				sb.append(_FINDER_COLUMN_G_P_POSITION_3);
+				sb.append(_FINDER_COLUMN_POSITION_POSITION_3);
 			}
 			else {
 				bindPosition = true;
 
-				sb.append(_FINDER_COLUMN_G_P_POSITION_2);
+				sb.append(_FINDER_COLUMN_POSITION_POSITION_2);
 			}
 
 			if (orderByComparator != null) {
@@ -3929,8 +3956,6 @@ public class ResearcherPersistenceImpl
 				Query query = session.createQuery(sql);
 
 				QueryPos queryPos = QueryPos.getInstance(query);
-
-				queryPos.add(groupId);
 
 				if (bindPosition) {
 					queryPos.add(position);
@@ -3961,35 +3986,30 @@ public class ResearcherPersistenceImpl
 	}
 
 	/**
-	 * Returns the first researcher in the ordered set where groupId = &#63; and position = &#63;.
+	 * Returns the first researcher in the ordered set where position = &#63;.
 	 *
-	 * @param groupId the group ID
 	 * @param position the position
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching researcher
 	 * @throws NoSuchResearcherException if a matching researcher could not be found
 	 */
 	@Override
-	public Researcher findByG_P_First(
-			long groupId, String position,
-			OrderByComparator<Researcher> orderByComparator)
+	public Researcher findByPosition_First(
+			String position, OrderByComparator<Researcher> orderByComparator)
 		throws NoSuchResearcherException {
 
-		Researcher researcher = fetchByG_P_First(
-			groupId, position, orderByComparator);
+		Researcher researcher = fetchByPosition_First(
+			position, orderByComparator);
 
 		if (researcher != null) {
 			return researcher;
 		}
 
-		StringBundler sb = new StringBundler(6);
+		StringBundler sb = new StringBundler(4);
 
 		sb.append(_NO_SUCH_ENTITY_WITH_KEY);
 
-		sb.append("groupId=");
-		sb.append(groupId);
-
-		sb.append(", position=");
+		sb.append("position=");
 		sb.append(position);
 
 		sb.append("}");
@@ -3998,20 +4018,18 @@ public class ResearcherPersistenceImpl
 	}
 
 	/**
-	 * Returns the first researcher in the ordered set where groupId = &#63; and position = &#63;.
+	 * Returns the first researcher in the ordered set where position = &#63;.
 	 *
-	 * @param groupId the group ID
 	 * @param position the position
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching researcher, or <code>null</code> if a matching researcher could not be found
 	 */
 	@Override
-	public Researcher fetchByG_P_First(
-		long groupId, String position,
-		OrderByComparator<Researcher> orderByComparator) {
+	public Researcher fetchByPosition_First(
+		String position, OrderByComparator<Researcher> orderByComparator) {
 
-		List<Researcher> list = findByG_P(
-			groupId, position, 0, 1, orderByComparator);
+		List<Researcher> list = findByPosition(
+			position, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -4021,35 +4039,30 @@ public class ResearcherPersistenceImpl
 	}
 
 	/**
-	 * Returns the last researcher in the ordered set where groupId = &#63; and position = &#63;.
+	 * Returns the last researcher in the ordered set where position = &#63;.
 	 *
-	 * @param groupId the group ID
 	 * @param position the position
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching researcher
 	 * @throws NoSuchResearcherException if a matching researcher could not be found
 	 */
 	@Override
-	public Researcher findByG_P_Last(
-			long groupId, String position,
-			OrderByComparator<Researcher> orderByComparator)
+	public Researcher findByPosition_Last(
+			String position, OrderByComparator<Researcher> orderByComparator)
 		throws NoSuchResearcherException {
 
-		Researcher researcher = fetchByG_P_Last(
-			groupId, position, orderByComparator);
+		Researcher researcher = fetchByPosition_Last(
+			position, orderByComparator);
 
 		if (researcher != null) {
 			return researcher;
 		}
 
-		StringBundler sb = new StringBundler(6);
+		StringBundler sb = new StringBundler(4);
 
 		sb.append(_NO_SUCH_ENTITY_WITH_KEY);
 
-		sb.append("groupId=");
-		sb.append(groupId);
-
-		sb.append(", position=");
+		sb.append("position=");
 		sb.append(position);
 
 		sb.append("}");
@@ -4058,26 +4071,24 @@ public class ResearcherPersistenceImpl
 	}
 
 	/**
-	 * Returns the last researcher in the ordered set where groupId = &#63; and position = &#63;.
+	 * Returns the last researcher in the ordered set where position = &#63;.
 	 *
-	 * @param groupId the group ID
 	 * @param position the position
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching researcher, or <code>null</code> if a matching researcher could not be found
 	 */
 	@Override
-	public Researcher fetchByG_P_Last(
-		long groupId, String position,
-		OrderByComparator<Researcher> orderByComparator) {
+	public Researcher fetchByPosition_Last(
+		String position, OrderByComparator<Researcher> orderByComparator) {
 
-		int count = countByG_P(groupId, position);
+		int count = countByPosition(position);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<Researcher> list = findByG_P(
-			groupId, position, count - 1, count, orderByComparator);
+		List<Researcher> list = findByPosition(
+			position, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -4087,18 +4098,17 @@ public class ResearcherPersistenceImpl
 	}
 
 	/**
-	 * Returns the researchers before and after the current researcher in the ordered set where groupId = &#63; and position = &#63;.
+	 * Returns the researchers before and after the current researcher in the ordered set where position = &#63;.
 	 *
 	 * @param researcherId the primary key of the current researcher
-	 * @param groupId the group ID
 	 * @param position the position
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next researcher
 	 * @throws NoSuchResearcherException if a researcher with the primary key could not be found
 	 */
 	@Override
-	public Researcher[] findByG_P_PrevAndNext(
-			long researcherId, long groupId, String position,
+	public Researcher[] findByPosition_PrevAndNext(
+			long researcherId, String position,
 			OrderByComparator<Researcher> orderByComparator)
 		throws NoSuchResearcherException {
 
@@ -4113,15 +4123,13 @@ public class ResearcherPersistenceImpl
 
 			Researcher[] array = new ResearcherImpl[3];
 
-			array[0] = getByG_P_PrevAndNext(
-				session, researcher, groupId, position, orderByComparator,
-				true);
+			array[0] = getByPosition_PrevAndNext(
+				session, researcher, position, orderByComparator, true);
 
 			array[1] = researcher;
 
-			array[2] = getByG_P_PrevAndNext(
-				session, researcher, groupId, position, orderByComparator,
-				false);
+			array[2] = getByPosition_PrevAndNext(
+				session, researcher, position, orderByComparator, false);
 
 			return array;
 		}
@@ -4133,34 +4141,32 @@ public class ResearcherPersistenceImpl
 		}
 	}
 
-	protected Researcher getByG_P_PrevAndNext(
-		Session session, Researcher researcher, long groupId, String position,
+	protected Researcher getByPosition_PrevAndNext(
+		Session session, Researcher researcher, String position,
 		OrderByComparator<Researcher> orderByComparator, boolean previous) {
 
 		StringBundler sb = null;
 
 		if (orderByComparator != null) {
 			sb = new StringBundler(
-				5 + (orderByComparator.getOrderByConditionFields().length * 3) +
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
-			sb = new StringBundler(4);
+			sb = new StringBundler(3);
 		}
 
 		sb.append(_SQL_SELECT_RESEARCHER_WHERE);
 
-		sb.append(_FINDER_COLUMN_G_P_GROUPID_2);
-
 		boolean bindPosition = false;
 
 		if (position.isEmpty()) {
-			sb.append(_FINDER_COLUMN_G_P_POSITION_3);
+			sb.append(_FINDER_COLUMN_POSITION_POSITION_3);
 		}
 		else {
 			bindPosition = true;
 
-			sb.append(_FINDER_COLUMN_G_P_POSITION_2);
+			sb.append(_FINDER_COLUMN_POSITION_POSITION_2);
 		}
 
 		if (orderByComparator != null) {
@@ -4232,8 +4238,6 @@ public class ResearcherPersistenceImpl
 
 		QueryPos queryPos = QueryPos.getInstance(query);
 
-		queryPos.add(groupId);
-
 		if (bindPosition) {
 			queryPos.add(position);
 		}
@@ -4257,46 +4261,43 @@ public class ResearcherPersistenceImpl
 	}
 
 	/**
-	 * Returns all the researchers that the user has permission to view where groupId = &#63; and position = &#63;.
+	 * Returns all the researchers that the user has permission to view where position = &#63;.
 	 *
-	 * @param groupId the group ID
 	 * @param position the position
 	 * @return the matching researchers that the user has permission to view
 	 */
 	@Override
-	public List<Researcher> filterFindByG_P(long groupId, String position) {
-		return filterFindByG_P(
-			groupId, position, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	public List<Researcher> filterFindByPosition(String position) {
+		return filterFindByPosition(
+			position, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
-	 * Returns a range of all the researchers that the user has permission to view where groupId = &#63; and position = &#63;.
+	 * Returns a range of all the researchers that the user has permission to view where position = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ResearcherModelImpl</code>.
 	 * </p>
 	 *
-	 * @param groupId the group ID
 	 * @param position the position
 	 * @param start the lower bound of the range of researchers
 	 * @param end the upper bound of the range of researchers (not inclusive)
 	 * @return the range of matching researchers that the user has permission to view
 	 */
 	@Override
-	public List<Researcher> filterFindByG_P(
-		long groupId, String position, int start, int end) {
+	public List<Researcher> filterFindByPosition(
+		String position, int start, int end) {
 
-		return filterFindByG_P(groupId, position, start, end, null);
+		return filterFindByPosition(position, start, end, null);
 	}
 
 	/**
-	 * Returns an ordered range of all the researchers that the user has permissions to view where groupId = &#63; and position = &#63;.
+	 * Returns an ordered range of all the researchers that the user has permissions to view where position = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ResearcherModelImpl</code>.
 	 * </p>
 	 *
-	 * @param groupId the group ID
 	 * @param position the position
 	 * @param start the lower bound of the range of researchers
 	 * @param end the upper bound of the range of researchers (not inclusive)
@@ -4304,12 +4305,12 @@ public class ResearcherPersistenceImpl
 	 * @return the ordered range of matching researchers that the user has permission to view
 	 */
 	@Override
-	public List<Researcher> filterFindByG_P(
-		long groupId, String position, int start, int end,
+	public List<Researcher> filterFindByPosition(
+		String position, int start, int end,
 		OrderByComparator<Researcher> orderByComparator) {
 
-		if (!InlineSQLHelperUtil.isEnabled(groupId)) {
-			return findByG_P(groupId, position, start, end, orderByComparator);
+		if (!InlineSQLHelperUtil.isEnabled()) {
+			return findByPosition(position, start, end, orderByComparator);
 		}
 
 		position = Objects.toString(position, "");
@@ -4318,10 +4319,10 @@ public class ResearcherPersistenceImpl
 
 		if (orderByComparator != null) {
 			sb = new StringBundler(
-				4 + (orderByComparator.getOrderByFields().length * 2));
+				3 + (orderByComparator.getOrderByFields().length * 2));
 		}
 		else {
-			sb = new StringBundler(5);
+			sb = new StringBundler(4);
 		}
 
 		if (getDB().isSupportsInlineDistinct()) {
@@ -4331,17 +4332,15 @@ public class ResearcherPersistenceImpl
 			sb.append(_FILTER_SQL_SELECT_RESEARCHER_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		sb.append(_FINDER_COLUMN_G_P_GROUPID_2);
-
 		boolean bindPosition = false;
 
 		if (position.isEmpty()) {
-			sb.append(_FINDER_COLUMN_G_P_POSITION_3);
+			sb.append(_FINDER_COLUMN_POSITION_POSITION_3);
 		}
 		else {
 			bindPosition = true;
 
-			sb.append(_FINDER_COLUMN_G_P_POSITION_2);
+			sb.append(_FINDER_COLUMN_POSITION_POSITION_2);
 		}
 
 		if (!getDB().isSupportsInlineDistinct()) {
@@ -4369,7 +4368,7 @@ public class ResearcherPersistenceImpl
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(
 			sb.toString(), Researcher.class.getName(),
-			_FILTER_ENTITY_TABLE_FILTER_PK_COLUMN, groupId);
+			_FILTER_ENTITY_TABLE_FILTER_PK_COLUMN);
 
 		Session session = null;
 
@@ -4387,8 +4386,6 @@ public class ResearcherPersistenceImpl
 
 			QueryPos queryPos = QueryPos.getInstance(sqlQuery);
 
-			queryPos.add(groupId);
-
 			if (bindPosition) {
 				queryPos.add(position);
 			}
@@ -4405,24 +4402,23 @@ public class ResearcherPersistenceImpl
 	}
 
 	/**
-	 * Returns the researchers before and after the current researcher in the ordered set of researchers that the user has permission to view where groupId = &#63; and position = &#63;.
+	 * Returns the researchers before and after the current researcher in the ordered set of researchers that the user has permission to view where position = &#63;.
 	 *
 	 * @param researcherId the primary key of the current researcher
-	 * @param groupId the group ID
 	 * @param position the position
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next researcher
 	 * @throws NoSuchResearcherException if a researcher with the primary key could not be found
 	 */
 	@Override
-	public Researcher[] filterFindByG_P_PrevAndNext(
-			long researcherId, long groupId, String position,
+	public Researcher[] filterFindByPosition_PrevAndNext(
+			long researcherId, String position,
 			OrderByComparator<Researcher> orderByComparator)
 		throws NoSuchResearcherException {
 
-		if (!InlineSQLHelperUtil.isEnabled(groupId)) {
-			return findByG_P_PrevAndNext(
-				researcherId, groupId, position, orderByComparator);
+		if (!InlineSQLHelperUtil.isEnabled()) {
+			return findByPosition_PrevAndNext(
+				researcherId, position, orderByComparator);
 		}
 
 		position = Objects.toString(position, "");
@@ -4436,15 +4432,13 @@ public class ResearcherPersistenceImpl
 
 			Researcher[] array = new ResearcherImpl[3];
 
-			array[0] = filterGetByG_P_PrevAndNext(
-				session, researcher, groupId, position, orderByComparator,
-				true);
+			array[0] = filterGetByPosition_PrevAndNext(
+				session, researcher, position, orderByComparator, true);
 
 			array[1] = researcher;
 
-			array[2] = filterGetByG_P_PrevAndNext(
-				session, researcher, groupId, position, orderByComparator,
-				false);
+			array[2] = filterGetByPosition_PrevAndNext(
+				session, researcher, position, orderByComparator, false);
 
 			return array;
 		}
@@ -4456,19 +4450,19 @@ public class ResearcherPersistenceImpl
 		}
 	}
 
-	protected Researcher filterGetByG_P_PrevAndNext(
-		Session session, Researcher researcher, long groupId, String position,
+	protected Researcher filterGetByPosition_PrevAndNext(
+		Session session, Researcher researcher, String position,
 		OrderByComparator<Researcher> orderByComparator, boolean previous) {
 
 		StringBundler sb = null;
 
 		if (orderByComparator != null) {
 			sb = new StringBundler(
-				6 + (orderByComparator.getOrderByConditionFields().length * 3) +
+				5 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
-			sb = new StringBundler(5);
+			sb = new StringBundler(4);
 		}
 
 		if (getDB().isSupportsInlineDistinct()) {
@@ -4478,17 +4472,15 @@ public class ResearcherPersistenceImpl
 			sb.append(_FILTER_SQL_SELECT_RESEARCHER_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		sb.append(_FINDER_COLUMN_G_P_GROUPID_2);
-
 		boolean bindPosition = false;
 
 		if (position.isEmpty()) {
-			sb.append(_FINDER_COLUMN_G_P_POSITION_3);
+			sb.append(_FINDER_COLUMN_POSITION_POSITION_3);
 		}
 		else {
 			bindPosition = true;
 
-			sb.append(_FINDER_COLUMN_G_P_POSITION_2);
+			sb.append(_FINDER_COLUMN_POSITION_POSITION_2);
 		}
 
 		if (!getDB().isSupportsInlineDistinct()) {
@@ -4580,7 +4572,7 @@ public class ResearcherPersistenceImpl
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(
 			sb.toString(), Researcher.class.getName(),
-			_FILTER_ENTITY_TABLE_FILTER_PK_COLUMN, groupId);
+			_FILTER_ENTITY_TABLE_FILTER_PK_COLUMN);
 
 		SQLQuery sqlQuery = session.createSynchronizedSQLQuery(sql);
 
@@ -4595,8 +4587,6 @@ public class ResearcherPersistenceImpl
 		}
 
 		QueryPos queryPos = QueryPos.getInstance(sqlQuery);
-
-		queryPos.add(groupId);
 
 		if (bindPosition) {
 			queryPos.add(position);
@@ -4621,55 +4611,50 @@ public class ResearcherPersistenceImpl
 	}
 
 	/**
-	 * Removes all the researchers where groupId = &#63; and position = &#63; from the database.
+	 * Removes all the researchers where position = &#63; from the database.
 	 *
-	 * @param groupId the group ID
 	 * @param position the position
 	 */
 	@Override
-	public void removeByG_P(long groupId, String position) {
+	public void removeByPosition(String position) {
 		for (Researcher researcher :
-				findByG_P(
-					groupId, position, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
-					null)) {
+				findByPosition(
+					position, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
 
 			remove(researcher);
 		}
 	}
 
 	/**
-	 * Returns the number of researchers where groupId = &#63; and position = &#63;.
+	 * Returns the number of researchers where position = &#63;.
 	 *
-	 * @param groupId the group ID
 	 * @param position the position
 	 * @return the number of matching researchers
 	 */
 	@Override
-	public int countByG_P(long groupId, String position) {
+	public int countByPosition(String position) {
 		position = Objects.toString(position, "");
 
-		FinderPath finderPath = _finderPathCountByG_P;
+		FinderPath finderPath = _finderPathCountByPosition;
 
-		Object[] finderArgs = new Object[] {groupId, position};
+		Object[] finderArgs = new Object[] {position};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
 		if (count == null) {
-			StringBundler sb = new StringBundler(3);
+			StringBundler sb = new StringBundler(2);
 
 			sb.append(_SQL_COUNT_RESEARCHER_WHERE);
-
-			sb.append(_FINDER_COLUMN_G_P_GROUPID_2);
 
 			boolean bindPosition = false;
 
 			if (position.isEmpty()) {
-				sb.append(_FINDER_COLUMN_G_P_POSITION_3);
+				sb.append(_FINDER_COLUMN_POSITION_POSITION_3);
 			}
 			else {
 				bindPosition = true;
 
-				sb.append(_FINDER_COLUMN_G_P_POSITION_2);
+				sb.append(_FINDER_COLUMN_POSITION_POSITION_2);
 			}
 
 			String sql = sb.toString();
@@ -4682,8 +4667,6 @@ public class ResearcherPersistenceImpl
 				Query query = session.createQuery(sql);
 
 				QueryPos queryPos = QueryPos.getInstance(query);
-
-				queryPos.add(groupId);
 
 				if (bindPosition) {
 					queryPos.add(position);
@@ -4707,40 +4690,37 @@ public class ResearcherPersistenceImpl
 	}
 
 	/**
-	 * Returns the number of researchers that the user has permission to view where groupId = &#63; and position = &#63;.
+	 * Returns the number of researchers that the user has permission to view where position = &#63;.
 	 *
-	 * @param groupId the group ID
 	 * @param position the position
 	 * @return the number of matching researchers that the user has permission to view
 	 */
 	@Override
-	public int filterCountByG_P(long groupId, String position) {
-		if (!InlineSQLHelperUtil.isEnabled(groupId)) {
-			return countByG_P(groupId, position);
+	public int filterCountByPosition(String position) {
+		if (!InlineSQLHelperUtil.isEnabled()) {
+			return countByPosition(position);
 		}
 
 		position = Objects.toString(position, "");
 
-		StringBundler sb = new StringBundler(3);
+		StringBundler sb = new StringBundler(2);
 
 		sb.append(_FILTER_SQL_COUNT_RESEARCHER_WHERE);
-
-		sb.append(_FINDER_COLUMN_G_P_GROUPID_2);
 
 		boolean bindPosition = false;
 
 		if (position.isEmpty()) {
-			sb.append(_FINDER_COLUMN_G_P_POSITION_3);
+			sb.append(_FINDER_COLUMN_POSITION_POSITION_3);
 		}
 		else {
 			bindPosition = true;
 
-			sb.append(_FINDER_COLUMN_G_P_POSITION_2);
+			sb.append(_FINDER_COLUMN_POSITION_POSITION_2);
 		}
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(
 			sb.toString(), Researcher.class.getName(),
-			_FILTER_ENTITY_TABLE_FILTER_PK_COLUMN, groupId);
+			_FILTER_ENTITY_TABLE_FILTER_PK_COLUMN);
 
 		Session session = null;
 
@@ -4753,8 +4733,6 @@ public class ResearcherPersistenceImpl
 				COUNT_COLUMN_NAME, com.liferay.portal.kernel.dao.orm.Type.LONG);
 
 			QueryPos queryPos = QueryPos.getInstance(sqlQuery);
-
-			queryPos.add(groupId);
 
 			if (bindPosition) {
 				queryPos.add(position);
@@ -4772,159 +4750,97 @@ public class ResearcherPersistenceImpl
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_P_GROUPID_2 =
-		"researcher.groupId = ? AND ";
-
-	private static final String _FINDER_COLUMN_G_P_POSITION_2 =
+	private static final String _FINDER_COLUMN_POSITION_POSITION_2 =
 		"researcher.position = ?";
 
-	private static final String _FINDER_COLUMN_G_P_POSITION_3 =
+	private static final String _FINDER_COLUMN_POSITION_POSITION_3 =
 		"(researcher.position IS NULL OR researcher.position = '')";
 
-	private FinderPath _finderPathWithPaginationFindByG_RU;
-	private FinderPath _finderPathWithoutPaginationFindByG_RU;
-	private FinderPath _finderPathCountByG_RU;
+	private FinderPath _finderPathFetchByResearcherUserId;
+	private FinderPath _finderPathCountByResearcherUserId;
 
 	/**
-	 * Returns all the researchers where groupId = &#63; and researcherUserId = &#63;.
+	 * Returns the researcher where researcherUserId = &#63; or throws a <code>NoSuchResearcherException</code> if it could not be found.
 	 *
-	 * @param groupId the group ID
 	 * @param researcherUserId the researcher user ID
-	 * @return the matching researchers
+	 * @return the matching researcher
+	 * @throws NoSuchResearcherException if a matching researcher could not be found
 	 */
 	@Override
-	public List<Researcher> findByG_RU(long groupId, long researcherUserId) {
-		return findByG_RU(
-			groupId, researcherUserId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
-			null);
+	public Researcher findByResearcherUserId(long researcherUserId)
+		throws NoSuchResearcherException {
+
+		Researcher researcher = fetchByResearcherUserId(researcherUserId);
+
+		if (researcher == null) {
+			StringBundler sb = new StringBundler(4);
+
+			sb.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			sb.append("researcherUserId=");
+			sb.append(researcherUserId);
+
+			sb.append("}");
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(sb.toString());
+			}
+
+			throw new NoSuchResearcherException(sb.toString());
+		}
+
+		return researcher;
 	}
 
 	/**
-	 * Returns a range of all the researchers where groupId = &#63; and researcherUserId = &#63;.
+	 * Returns the researcher where researcherUserId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
 	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ResearcherModelImpl</code>.
-	 * </p>
-	 *
-	 * @param groupId the group ID
 	 * @param researcherUserId the researcher user ID
-	 * @param start the lower bound of the range of researchers
-	 * @param end the upper bound of the range of researchers (not inclusive)
-	 * @return the range of matching researchers
+	 * @return the matching researcher, or <code>null</code> if a matching researcher could not be found
 	 */
 	@Override
-	public List<Researcher> findByG_RU(
-		long groupId, long researcherUserId, int start, int end) {
-
-		return findByG_RU(groupId, researcherUserId, start, end, null);
+	public Researcher fetchByResearcherUserId(long researcherUserId) {
+		return fetchByResearcherUserId(researcherUserId, true);
 	}
 
 	/**
-	 * Returns an ordered range of all the researchers where groupId = &#63; and researcherUserId = &#63;.
+	 * Returns the researcher where researcherUserId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
 	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ResearcherModelImpl</code>.
-	 * </p>
-	 *
-	 * @param groupId the group ID
 	 * @param researcherUserId the researcher user ID
-	 * @param start the lower bound of the range of researchers
-	 * @param end the upper bound of the range of researchers (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching researchers
-	 */
-	@Override
-	public List<Researcher> findByG_RU(
-		long groupId, long researcherUserId, int start, int end,
-		OrderByComparator<Researcher> orderByComparator) {
-
-		return findByG_RU(
-			groupId, researcherUserId, start, end, orderByComparator, true);
-	}
-
-	/**
-	 * Returns an ordered range of all the researchers where groupId = &#63; and researcherUserId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ResearcherModelImpl</code>.
-	 * </p>
-	 *
-	 * @param groupId the group ID
-	 * @param researcherUserId the researcher user ID
-	 * @param start the lower bound of the range of researchers
-	 * @param end the upper bound of the range of researchers (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @param useFinderCache whether to use the finder cache
-	 * @return the ordered range of matching researchers
+	 * @return the matching researcher, or <code>null</code> if a matching researcher could not be found
 	 */
 	@Override
-	public List<Researcher> findByG_RU(
-		long groupId, long researcherUserId, int start, int end,
-		OrderByComparator<Researcher> orderByComparator,
-		boolean useFinderCache) {
+	public Researcher fetchByResearcherUserId(
+		long researcherUserId, boolean useFinderCache) {
 
-		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
-		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-			(orderByComparator == null)) {
-
-			if (useFinderCache) {
-				finderPath = _finderPathWithoutPaginationFindByG_RU;
-				finderArgs = new Object[] {groupId, researcherUserId};
-			}
-		}
-		else if (useFinderCache) {
-			finderPath = _finderPathWithPaginationFindByG_RU;
-			finderArgs = new Object[] {
-				groupId, researcherUserId, start, end, orderByComparator
-			};
+		if (useFinderCache) {
+			finderArgs = new Object[] {researcherUserId};
 		}
 
-		List<Researcher> list = null;
+		Object result = null;
 
 		if (useFinderCache) {
-			list = (List<Researcher>)finderCache.getResult(
-				finderPath, finderArgs, this);
+			result = finderCache.getResult(
+				_finderPathFetchByResearcherUserId, finderArgs, this);
+		}
 
-			if ((list != null) && !list.isEmpty()) {
-				for (Researcher researcher : list) {
-					if ((groupId != researcher.getGroupId()) ||
-						(researcherUserId !=
-							researcher.getResearcherUserId())) {
+		if (result instanceof Researcher) {
+			Researcher researcher = (Researcher)result;
 
-						list = null;
-
-						break;
-					}
-				}
+			if (researcherUserId != researcher.getResearcherUserId()) {
+				result = null;
 			}
 		}
 
-		if (list == null) {
-			StringBundler sb = null;
-
-			if (orderByComparator != null) {
-				sb = new StringBundler(
-					4 + (orderByComparator.getOrderByFields().length * 2));
-			}
-			else {
-				sb = new StringBundler(4);
-			}
+		if (result == null) {
+			StringBundler sb = new StringBundler(3);
 
 			sb.append(_SQL_SELECT_RESEARCHER_WHERE);
 
-			sb.append(_FINDER_COLUMN_G_RU_GROUPID_2);
-
-			sb.append(_FINDER_COLUMN_G_RU_RESEARCHERUSERID_2);
-
-			if (orderByComparator != null) {
-				appendOrderByComparator(
-					sb, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
-			}
-			else {
-				sb.append(ResearcherModelImpl.ORDER_BY_JPQL);
-			}
+			sb.append(_FINDER_COLUMN_RESEARCHERUSERID_RESEARCHERUSERID_2);
 
 			String sql = sb.toString();
 
@@ -4937,22 +4853,29 @@ public class ResearcherPersistenceImpl
 
 				QueryPos queryPos = QueryPos.getInstance(query);
 
-				queryPos.add(groupId);
-
 				queryPos.add(researcherUserId);
 
-				list = (List<Researcher>)QueryUtil.list(
-					query, getDialect(), start, end);
+				List<Researcher> list = query.list();
 
-				cacheResult(list);
+				if (list.isEmpty()) {
+					if (useFinderCache) {
+						finderCache.putResult(
+							_finderPathFetchByResearcherUserId, finderArgs,
+							list);
+					}
+				}
+				else {
+					Researcher researcher = list.get(0);
 
-				if (useFinderCache) {
-					finderCache.putResult(finderPath, finderArgs, list);
+					result = researcher;
+
+					cacheResult(researcher);
 				}
 			}
 			catch (Exception exception) {
 				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
+					finderCache.removeResult(
+						_finderPathFetchByResearcherUserId, finderArgs);
 				}
 
 				throw processException(exception);
@@ -4962,676 +4885,49 @@ public class ResearcherPersistenceImpl
 			}
 		}
 
-		return list;
-	}
-
-	/**
-	 * Returns the first researcher in the ordered set where groupId = &#63; and researcherUserId = &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @param researcherUserId the researcher user ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching researcher
-	 * @throws NoSuchResearcherException if a matching researcher could not be found
-	 */
-	@Override
-	public Researcher findByG_RU_First(
-			long groupId, long researcherUserId,
-			OrderByComparator<Researcher> orderByComparator)
-		throws NoSuchResearcherException {
-
-		Researcher researcher = fetchByG_RU_First(
-			groupId, researcherUserId, orderByComparator);
-
-		if (researcher != null) {
-			return researcher;
-		}
-
-		StringBundler sb = new StringBundler(6);
-
-		sb.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-		sb.append("groupId=");
-		sb.append(groupId);
-
-		sb.append(", researcherUserId=");
-		sb.append(researcherUserId);
-
-		sb.append("}");
-
-		throw new NoSuchResearcherException(sb.toString());
-	}
-
-	/**
-	 * Returns the first researcher in the ordered set where groupId = &#63; and researcherUserId = &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @param researcherUserId the researcher user ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching researcher, or <code>null</code> if a matching researcher could not be found
-	 */
-	@Override
-	public Researcher fetchByG_RU_First(
-		long groupId, long researcherUserId,
-		OrderByComparator<Researcher> orderByComparator) {
-
-		List<Researcher> list = findByG_RU(
-			groupId, researcherUserId, 0, 1, orderByComparator);
-
-		if (!list.isEmpty()) {
-			return list.get(0);
-		}
-
-		return null;
-	}
-
-	/**
-	 * Returns the last researcher in the ordered set where groupId = &#63; and researcherUserId = &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @param researcherUserId the researcher user ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching researcher
-	 * @throws NoSuchResearcherException if a matching researcher could not be found
-	 */
-	@Override
-	public Researcher findByG_RU_Last(
-			long groupId, long researcherUserId,
-			OrderByComparator<Researcher> orderByComparator)
-		throws NoSuchResearcherException {
-
-		Researcher researcher = fetchByG_RU_Last(
-			groupId, researcherUserId, orderByComparator);
-
-		if (researcher != null) {
-			return researcher;
-		}
-
-		StringBundler sb = new StringBundler(6);
-
-		sb.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-		sb.append("groupId=");
-		sb.append(groupId);
-
-		sb.append(", researcherUserId=");
-		sb.append(researcherUserId);
-
-		sb.append("}");
-
-		throw new NoSuchResearcherException(sb.toString());
-	}
-
-	/**
-	 * Returns the last researcher in the ordered set where groupId = &#63; and researcherUserId = &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @param researcherUserId the researcher user ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching researcher, or <code>null</code> if a matching researcher could not be found
-	 */
-	@Override
-	public Researcher fetchByG_RU_Last(
-		long groupId, long researcherUserId,
-		OrderByComparator<Researcher> orderByComparator) {
-
-		int count = countByG_RU(groupId, researcherUserId);
-
-		if (count == 0) {
+		if (result instanceof List<?>) {
 			return null;
 		}
-
-		List<Researcher> list = findByG_RU(
-			groupId, researcherUserId, count - 1, count, orderByComparator);
-
-		if (!list.isEmpty()) {
-			return list.get(0);
+		else {
+			return (Researcher)result;
 		}
-
-		return null;
 	}
 
 	/**
-	 * Returns the researchers before and after the current researcher in the ordered set where groupId = &#63; and researcherUserId = &#63;.
+	 * Removes the researcher where researcherUserId = &#63; from the database.
 	 *
-	 * @param researcherId the primary key of the current researcher
-	 * @param groupId the group ID
 	 * @param researcherUserId the researcher user ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the previous, current, and next researcher
-	 * @throws NoSuchResearcherException if a researcher with the primary key could not be found
+	 * @return the researcher that was removed
 	 */
 	@Override
-	public Researcher[] findByG_RU_PrevAndNext(
-			long researcherId, long groupId, long researcherUserId,
-			OrderByComparator<Researcher> orderByComparator)
+	public Researcher removeByResearcherUserId(long researcherUserId)
 		throws NoSuchResearcherException {
 
-		Researcher researcher = findByPrimaryKey(researcherId);
+		Researcher researcher = findByResearcherUserId(researcherUserId);
 
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Researcher[] array = new ResearcherImpl[3];
-
-			array[0] = getByG_RU_PrevAndNext(
-				session, researcher, groupId, researcherUserId,
-				orderByComparator, true);
-
-			array[1] = researcher;
-
-			array[2] = getByG_RU_PrevAndNext(
-				session, researcher, groupId, researcherUserId,
-				orderByComparator, false);
-
-			return array;
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-	}
-
-	protected Researcher getByG_RU_PrevAndNext(
-		Session session, Researcher researcher, long groupId,
-		long researcherUserId, OrderByComparator<Researcher> orderByComparator,
-		boolean previous) {
-
-		StringBundler sb = null;
-
-		if (orderByComparator != null) {
-			sb = new StringBundler(
-				5 + (orderByComparator.getOrderByConditionFields().length * 3) +
-					(orderByComparator.getOrderByFields().length * 3));
-		}
-		else {
-			sb = new StringBundler(4);
-		}
-
-		sb.append(_SQL_SELECT_RESEARCHER_WHERE);
-
-		sb.append(_FINDER_COLUMN_G_RU_GROUPID_2);
-
-		sb.append(_FINDER_COLUMN_G_RU_RESEARCHERUSERID_2);
-
-		if (orderByComparator != null) {
-			String[] orderByConditionFields =
-				orderByComparator.getOrderByConditionFields();
-
-			if (orderByConditionFields.length > 0) {
-				sb.append(WHERE_AND);
-			}
-
-			for (int i = 0; i < orderByConditionFields.length; i++) {
-				sb.append(_ORDER_BY_ENTITY_ALIAS);
-				sb.append(orderByConditionFields[i]);
-
-				if ((i + 1) < orderByConditionFields.length) {
-					if (orderByComparator.isAscending() ^ previous) {
-						sb.append(WHERE_GREATER_THAN_HAS_NEXT);
-					}
-					else {
-						sb.append(WHERE_LESSER_THAN_HAS_NEXT);
-					}
-				}
-				else {
-					if (orderByComparator.isAscending() ^ previous) {
-						sb.append(WHERE_GREATER_THAN);
-					}
-					else {
-						sb.append(WHERE_LESSER_THAN);
-					}
-				}
-			}
-
-			sb.append(ORDER_BY_CLAUSE);
-
-			String[] orderByFields = orderByComparator.getOrderByFields();
-
-			for (int i = 0; i < orderByFields.length; i++) {
-				sb.append(_ORDER_BY_ENTITY_ALIAS);
-				sb.append(orderByFields[i]);
-
-				if ((i + 1) < orderByFields.length) {
-					if (orderByComparator.isAscending() ^ previous) {
-						sb.append(ORDER_BY_ASC_HAS_NEXT);
-					}
-					else {
-						sb.append(ORDER_BY_DESC_HAS_NEXT);
-					}
-				}
-				else {
-					if (orderByComparator.isAscending() ^ previous) {
-						sb.append(ORDER_BY_ASC);
-					}
-					else {
-						sb.append(ORDER_BY_DESC);
-					}
-				}
-			}
-		}
-		else {
-			sb.append(ResearcherModelImpl.ORDER_BY_JPQL);
-		}
-
-		String sql = sb.toString();
-
-		Query query = session.createQuery(sql);
-
-		query.setFirstResult(0);
-		query.setMaxResults(2);
-
-		QueryPos queryPos = QueryPos.getInstance(query);
-
-		queryPos.add(groupId);
-
-		queryPos.add(researcherUserId);
-
-		if (orderByComparator != null) {
-			for (Object orderByConditionValue :
-					orderByComparator.getOrderByConditionValues(researcher)) {
-
-				queryPos.add(orderByConditionValue);
-			}
-		}
-
-		List<Researcher> list = query.list();
-
-		if (list.size() == 2) {
-			return list.get(1);
-		}
-		else {
-			return null;
-		}
+		return remove(researcher);
 	}
 
 	/**
-	 * Returns all the researchers that the user has permission to view where groupId = &#63; and researcherUserId = &#63;.
+	 * Returns the number of researchers where researcherUserId = &#63;.
 	 *
-	 * @param groupId the group ID
-	 * @param researcherUserId the researcher user ID
-	 * @return the matching researchers that the user has permission to view
-	 */
-	@Override
-	public List<Researcher> filterFindByG_RU(
-		long groupId, long researcherUserId) {
-
-		return filterFindByG_RU(
-			groupId, researcherUserId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
-			null);
-	}
-
-	/**
-	 * Returns a range of all the researchers that the user has permission to view where groupId = &#63; and researcherUserId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ResearcherModelImpl</code>.
-	 * </p>
-	 *
-	 * @param groupId the group ID
-	 * @param researcherUserId the researcher user ID
-	 * @param start the lower bound of the range of researchers
-	 * @param end the upper bound of the range of researchers (not inclusive)
-	 * @return the range of matching researchers that the user has permission to view
-	 */
-	@Override
-	public List<Researcher> filterFindByG_RU(
-		long groupId, long researcherUserId, int start, int end) {
-
-		return filterFindByG_RU(groupId, researcherUserId, start, end, null);
-	}
-
-	/**
-	 * Returns an ordered range of all the researchers that the user has permissions to view where groupId = &#63; and researcherUserId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ResearcherModelImpl</code>.
-	 * </p>
-	 *
-	 * @param groupId the group ID
-	 * @param researcherUserId the researcher user ID
-	 * @param start the lower bound of the range of researchers
-	 * @param end the upper bound of the range of researchers (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching researchers that the user has permission to view
-	 */
-	@Override
-	public List<Researcher> filterFindByG_RU(
-		long groupId, long researcherUserId, int start, int end,
-		OrderByComparator<Researcher> orderByComparator) {
-
-		if (!InlineSQLHelperUtil.isEnabled(groupId)) {
-			return findByG_RU(
-				groupId, researcherUserId, start, end, orderByComparator);
-		}
-
-		StringBundler sb = null;
-
-		if (orderByComparator != null) {
-			sb = new StringBundler(
-				4 + (orderByComparator.getOrderByFields().length * 2));
-		}
-		else {
-			sb = new StringBundler(5);
-		}
-
-		if (getDB().isSupportsInlineDistinct()) {
-			sb.append(_FILTER_SQL_SELECT_RESEARCHER_WHERE);
-		}
-		else {
-			sb.append(_FILTER_SQL_SELECT_RESEARCHER_NO_INLINE_DISTINCT_WHERE_1);
-		}
-
-		sb.append(_FINDER_COLUMN_G_RU_GROUPID_2);
-
-		sb.append(_FINDER_COLUMN_G_RU_RESEARCHERUSERID_2);
-
-		if (!getDB().isSupportsInlineDistinct()) {
-			sb.append(_FILTER_SQL_SELECT_RESEARCHER_NO_INLINE_DISTINCT_WHERE_2);
-		}
-
-		if (orderByComparator != null) {
-			if (getDB().isSupportsInlineDistinct()) {
-				appendOrderByComparator(
-					sb, _ORDER_BY_ENTITY_ALIAS, orderByComparator, true);
-			}
-			else {
-				appendOrderByComparator(
-					sb, _ORDER_BY_ENTITY_TABLE, orderByComparator, true);
-			}
-		}
-		else {
-			if (getDB().isSupportsInlineDistinct()) {
-				sb.append(ResearcherModelImpl.ORDER_BY_JPQL);
-			}
-			else {
-				sb.append(ResearcherModelImpl.ORDER_BY_SQL);
-			}
-		}
-
-		String sql = InlineSQLHelperUtil.replacePermissionCheck(
-			sb.toString(), Researcher.class.getName(),
-			_FILTER_ENTITY_TABLE_FILTER_PK_COLUMN, groupId);
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			SQLQuery sqlQuery = session.createSynchronizedSQLQuery(sql);
-
-			if (getDB().isSupportsInlineDistinct()) {
-				sqlQuery.addEntity(_FILTER_ENTITY_ALIAS, ResearcherImpl.class);
-			}
-			else {
-				sqlQuery.addEntity(_FILTER_ENTITY_TABLE, ResearcherImpl.class);
-			}
-
-			QueryPos queryPos = QueryPos.getInstance(sqlQuery);
-
-			queryPos.add(groupId);
-
-			queryPos.add(researcherUserId);
-
-			return (List<Researcher>)QueryUtil.list(
-				sqlQuery, getDialect(), start, end);
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-	}
-
-	/**
-	 * Returns the researchers before and after the current researcher in the ordered set of researchers that the user has permission to view where groupId = &#63; and researcherUserId = &#63;.
-	 *
-	 * @param researcherId the primary key of the current researcher
-	 * @param groupId the group ID
-	 * @param researcherUserId the researcher user ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the previous, current, and next researcher
-	 * @throws NoSuchResearcherException if a researcher with the primary key could not be found
-	 */
-	@Override
-	public Researcher[] filterFindByG_RU_PrevAndNext(
-			long researcherId, long groupId, long researcherUserId,
-			OrderByComparator<Researcher> orderByComparator)
-		throws NoSuchResearcherException {
-
-		if (!InlineSQLHelperUtil.isEnabled(groupId)) {
-			return findByG_RU_PrevAndNext(
-				researcherId, groupId, researcherUserId, orderByComparator);
-		}
-
-		Researcher researcher = findByPrimaryKey(researcherId);
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Researcher[] array = new ResearcherImpl[3];
-
-			array[0] = filterGetByG_RU_PrevAndNext(
-				session, researcher, groupId, researcherUserId,
-				orderByComparator, true);
-
-			array[1] = researcher;
-
-			array[2] = filterGetByG_RU_PrevAndNext(
-				session, researcher, groupId, researcherUserId,
-				orderByComparator, false);
-
-			return array;
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-	}
-
-	protected Researcher filterGetByG_RU_PrevAndNext(
-		Session session, Researcher researcher, long groupId,
-		long researcherUserId, OrderByComparator<Researcher> orderByComparator,
-		boolean previous) {
-
-		StringBundler sb = null;
-
-		if (orderByComparator != null) {
-			sb = new StringBundler(
-				6 + (orderByComparator.getOrderByConditionFields().length * 3) +
-					(orderByComparator.getOrderByFields().length * 3));
-		}
-		else {
-			sb = new StringBundler(5);
-		}
-
-		if (getDB().isSupportsInlineDistinct()) {
-			sb.append(_FILTER_SQL_SELECT_RESEARCHER_WHERE);
-		}
-		else {
-			sb.append(_FILTER_SQL_SELECT_RESEARCHER_NO_INLINE_DISTINCT_WHERE_1);
-		}
-
-		sb.append(_FINDER_COLUMN_G_RU_GROUPID_2);
-
-		sb.append(_FINDER_COLUMN_G_RU_RESEARCHERUSERID_2);
-
-		if (!getDB().isSupportsInlineDistinct()) {
-			sb.append(_FILTER_SQL_SELECT_RESEARCHER_NO_INLINE_DISTINCT_WHERE_2);
-		}
-
-		if (orderByComparator != null) {
-			String[] orderByConditionFields =
-				orderByComparator.getOrderByConditionFields();
-
-			if (orderByConditionFields.length > 0) {
-				sb.append(WHERE_AND);
-			}
-
-			for (int i = 0; i < orderByConditionFields.length; i++) {
-				if (getDB().isSupportsInlineDistinct()) {
-					sb.append(
-						getColumnName(
-							_ORDER_BY_ENTITY_ALIAS, orderByConditionFields[i],
-							true));
-				}
-				else {
-					sb.append(
-						getColumnName(
-							_ORDER_BY_ENTITY_TABLE, orderByConditionFields[i],
-							true));
-				}
-
-				if ((i + 1) < orderByConditionFields.length) {
-					if (orderByComparator.isAscending() ^ previous) {
-						sb.append(WHERE_GREATER_THAN_HAS_NEXT);
-					}
-					else {
-						sb.append(WHERE_LESSER_THAN_HAS_NEXT);
-					}
-				}
-				else {
-					if (orderByComparator.isAscending() ^ previous) {
-						sb.append(WHERE_GREATER_THAN);
-					}
-					else {
-						sb.append(WHERE_LESSER_THAN);
-					}
-				}
-			}
-
-			sb.append(ORDER_BY_CLAUSE);
-
-			String[] orderByFields = orderByComparator.getOrderByFields();
-
-			for (int i = 0; i < orderByFields.length; i++) {
-				if (getDB().isSupportsInlineDistinct()) {
-					sb.append(
-						getColumnName(
-							_ORDER_BY_ENTITY_ALIAS, orderByFields[i], true));
-				}
-				else {
-					sb.append(
-						getColumnName(
-							_ORDER_BY_ENTITY_TABLE, orderByFields[i], true));
-				}
-
-				if ((i + 1) < orderByFields.length) {
-					if (orderByComparator.isAscending() ^ previous) {
-						sb.append(ORDER_BY_ASC_HAS_NEXT);
-					}
-					else {
-						sb.append(ORDER_BY_DESC_HAS_NEXT);
-					}
-				}
-				else {
-					if (orderByComparator.isAscending() ^ previous) {
-						sb.append(ORDER_BY_ASC);
-					}
-					else {
-						sb.append(ORDER_BY_DESC);
-					}
-				}
-			}
-		}
-		else {
-			if (getDB().isSupportsInlineDistinct()) {
-				sb.append(ResearcherModelImpl.ORDER_BY_JPQL);
-			}
-			else {
-				sb.append(ResearcherModelImpl.ORDER_BY_SQL);
-			}
-		}
-
-		String sql = InlineSQLHelperUtil.replacePermissionCheck(
-			sb.toString(), Researcher.class.getName(),
-			_FILTER_ENTITY_TABLE_FILTER_PK_COLUMN, groupId);
-
-		SQLQuery sqlQuery = session.createSynchronizedSQLQuery(sql);
-
-		sqlQuery.setFirstResult(0);
-		sqlQuery.setMaxResults(2);
-
-		if (getDB().isSupportsInlineDistinct()) {
-			sqlQuery.addEntity(_FILTER_ENTITY_ALIAS, ResearcherImpl.class);
-		}
-		else {
-			sqlQuery.addEntity(_FILTER_ENTITY_TABLE, ResearcherImpl.class);
-		}
-
-		QueryPos queryPos = QueryPos.getInstance(sqlQuery);
-
-		queryPos.add(groupId);
-
-		queryPos.add(researcherUserId);
-
-		if (orderByComparator != null) {
-			for (Object orderByConditionValue :
-					orderByComparator.getOrderByConditionValues(researcher)) {
-
-				queryPos.add(orderByConditionValue);
-			}
-		}
-
-		List<Researcher> list = sqlQuery.list();
-
-		if (list.size() == 2) {
-			return list.get(1);
-		}
-		else {
-			return null;
-		}
-	}
-
-	/**
-	 * Removes all the researchers where groupId = &#63; and researcherUserId = &#63; from the database.
-	 *
-	 * @param groupId the group ID
-	 * @param researcherUserId the researcher user ID
-	 */
-	@Override
-	public void removeByG_RU(long groupId, long researcherUserId) {
-		for (Researcher researcher :
-				findByG_RU(
-					groupId, researcherUserId, QueryUtil.ALL_POS,
-					QueryUtil.ALL_POS, null)) {
-
-			remove(researcher);
-		}
-	}
-
-	/**
-	 * Returns the number of researchers where groupId = &#63; and researcherUserId = &#63;.
-	 *
-	 * @param groupId the group ID
 	 * @param researcherUserId the researcher user ID
 	 * @return the number of matching researchers
 	 */
 	@Override
-	public int countByG_RU(long groupId, long researcherUserId) {
-		FinderPath finderPath = _finderPathCountByG_RU;
+	public int countByResearcherUserId(long researcherUserId) {
+		FinderPath finderPath = _finderPathCountByResearcherUserId;
 
-		Object[] finderArgs = new Object[] {groupId, researcherUserId};
+		Object[] finderArgs = new Object[] {researcherUserId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
 		if (count == null) {
-			StringBundler sb = new StringBundler(3);
+			StringBundler sb = new StringBundler(2);
 
 			sb.append(_SQL_COUNT_RESEARCHER_WHERE);
 
-			sb.append(_FINDER_COLUMN_G_RU_GROUPID_2);
-
-			sb.append(_FINDER_COLUMN_G_RU_RESEARCHERUSERID_2);
+			sb.append(_FINDER_COLUMN_RESEARCHERUSERID_RESEARCHERUSERID_2);
 
 			String sql = sb.toString();
 
@@ -5643,8 +4939,6 @@ public class ResearcherPersistenceImpl
 				Query query = session.createQuery(sql);
 
 				QueryPos queryPos = QueryPos.getInstance(query);
-
-				queryPos.add(groupId);
 
 				queryPos.add(researcherUserId);
 
@@ -5665,64 +4959,9 @@ public class ResearcherPersistenceImpl
 		return count.intValue();
 	}
 
-	/**
-	 * Returns the number of researchers that the user has permission to view where groupId = &#63; and researcherUserId = &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @param researcherUserId the researcher user ID
-	 * @return the number of matching researchers that the user has permission to view
-	 */
-	@Override
-	public int filterCountByG_RU(long groupId, long researcherUserId) {
-		if (!InlineSQLHelperUtil.isEnabled(groupId)) {
-			return countByG_RU(groupId, researcherUserId);
-		}
-
-		StringBundler sb = new StringBundler(3);
-
-		sb.append(_FILTER_SQL_COUNT_RESEARCHER_WHERE);
-
-		sb.append(_FINDER_COLUMN_G_RU_GROUPID_2);
-
-		sb.append(_FINDER_COLUMN_G_RU_RESEARCHERUSERID_2);
-
-		String sql = InlineSQLHelperUtil.replacePermissionCheck(
-			sb.toString(), Researcher.class.getName(),
-			_FILTER_ENTITY_TABLE_FILTER_PK_COLUMN, groupId);
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			SQLQuery sqlQuery = session.createSynchronizedSQLQuery(sql);
-
-			sqlQuery.addScalar(
-				COUNT_COLUMN_NAME, com.liferay.portal.kernel.dao.orm.Type.LONG);
-
-			QueryPos queryPos = QueryPos.getInstance(sqlQuery);
-
-			queryPos.add(groupId);
-
-			queryPos.add(researcherUserId);
-
-			Long count = (Long)sqlQuery.uniqueResult();
-
-			return count.intValue();
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-	}
-
-	private static final String _FINDER_COLUMN_G_RU_GROUPID_2 =
-		"researcher.groupId = ? AND ";
-
-	private static final String _FINDER_COLUMN_G_RU_RESEARCHERUSERID_2 =
-		"researcher.researcherUserId = ?";
+	private static final String
+		_FINDER_COLUMN_RESEARCHERUSERID_RESEARCHERUSERID_2 =
+			"researcher.researcherUserId = ?";
 
 	public ResearcherPersistenceImpl() {
 		Map<String, String> dbColumnNames = new HashMap<String, String>();
@@ -5749,9 +4988,8 @@ public class ResearcherPersistenceImpl
 			researcher.getPrimaryKey(), researcher);
 
 		finderCache.putResult(
-			_finderPathFetchByUUID_G,
-			new Object[] {researcher.getUuid(), researcher.getGroupId()},
-			researcher);
+			_finderPathFetchByResearcherUserId,
+			new Object[] {researcher.getResearcherUserId()}, researcher);
 
 		researcher.resetOriginalValues();
 	}
@@ -5849,13 +5087,14 @@ public class ResearcherPersistenceImpl
 		ResearcherModelImpl researcherModelImpl) {
 
 		Object[] args = new Object[] {
-			researcherModelImpl.getUuid(), researcherModelImpl.getGroupId()
+			researcherModelImpl.getResearcherUserId()
 		};
 
 		finderCache.putResult(
-			_finderPathCountByUUID_G, args, Long.valueOf(1), false);
+			_finderPathCountByResearcherUserId, args, Long.valueOf(1), false);
 		finderCache.putResult(
-			_finderPathFetchByUUID_G, args, researcherModelImpl, false);
+			_finderPathFetchByResearcherUserId, args, researcherModelImpl,
+			false);
 	}
 
 	protected void clearUniqueFindersCache(
@@ -5863,23 +5102,22 @@ public class ResearcherPersistenceImpl
 
 		if (clearCurrent) {
 			Object[] args = new Object[] {
-				researcherModelImpl.getUuid(), researcherModelImpl.getGroupId()
+				researcherModelImpl.getResearcherUserId()
 			};
 
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
+			finderCache.removeResult(_finderPathCountByResearcherUserId, args);
+			finderCache.removeResult(_finderPathFetchByResearcherUserId, args);
 		}
 
 		if ((researcherModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
+			 _finderPathFetchByResearcherUserId.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
-				researcherModelImpl.getOriginalUuid(),
-				researcherModelImpl.getOriginalGroupId()
+				researcherModelImpl.getOriginalResearcherUserId()
 			};
 
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
+			finderCache.removeResult(_finderPathCountByResearcherUserId, args);
+			finderCache.removeResult(_finderPathFetchByResearcherUserId, args);
 		}
 	}
 
@@ -6085,11 +5323,11 @@ public class ResearcherPersistenceImpl
 			finderCache.removeResult(
 				_finderPathWithoutPaginationFindByUuid_C, args);
 
-			args = new Object[] {researcherModelImpl.getGroupId()};
+			args = new Object[] {researcherModelImpl.getCompanyId()};
 
-			finderCache.removeResult(_finderPathCountByGroupId, args);
+			finderCache.removeResult(_finderPathCountByCompany, args);
 			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByGroupId, args);
+				_finderPathWithoutPaginationFindByCompany, args);
 
 			args = new Object[] {researcherModelImpl.getStatus()};
 
@@ -6097,32 +5335,11 @@ public class ResearcherPersistenceImpl
 			finderCache.removeResult(
 				_finderPathWithoutPaginationFindByStatus, args);
 
-			args = new Object[] {
-				researcherModelImpl.getGroupId(),
-				researcherModelImpl.getStatus()
-			};
+			args = new Object[] {researcherModelImpl.getPosition()};
 
-			finderCache.removeResult(_finderPathCountByG_S, args);
+			finderCache.removeResult(_finderPathCountByPosition, args);
 			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByG_S, args);
-
-			args = new Object[] {
-				researcherModelImpl.getGroupId(),
-				researcherModelImpl.getPosition()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_P, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByG_P, args);
-
-			args = new Object[] {
-				researcherModelImpl.getGroupId(),
-				researcherModelImpl.getResearcherUserId()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_RU, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByG_RU, args);
+				_finderPathWithoutPaginationFindByPosition, args);
 
 			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
 			finderCache.removeResult(
@@ -6172,22 +5389,22 @@ public class ResearcherPersistenceImpl
 			}
 
 			if ((researcherModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByGroupId.
+				 _finderPathWithoutPaginationFindByCompany.
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					researcherModelImpl.getOriginalGroupId()
+					researcherModelImpl.getOriginalCompanyId()
 				};
 
-				finderCache.removeResult(_finderPathCountByGroupId, args);
+				finderCache.removeResult(_finderPathCountByCompany, args);
 				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
+					_finderPathWithoutPaginationFindByCompany, args);
 
-				args = new Object[] {researcherModelImpl.getGroupId()};
+				args = new Object[] {researcherModelImpl.getCompanyId()};
 
-				finderCache.removeResult(_finderPathCountByGroupId, args);
+				finderCache.removeResult(_finderPathCountByCompany, args);
 				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
+					_finderPathWithoutPaginationFindByCompany, args);
 			}
 
 			if ((researcherModelImpl.getColumnBitmask() &
@@ -6210,72 +5427,22 @@ public class ResearcherPersistenceImpl
 			}
 
 			if ((researcherModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByG_S.getColumnBitmask()) !=
-					 0) {
+				 _finderPathWithoutPaginationFindByPosition.
+					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					researcherModelImpl.getOriginalGroupId(),
-					researcherModelImpl.getOriginalStatus()
-				};
-
-				finderCache.removeResult(_finderPathCountByG_S, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_S, args);
-
-				args = new Object[] {
-					researcherModelImpl.getGroupId(),
-					researcherModelImpl.getStatus()
-				};
-
-				finderCache.removeResult(_finderPathCountByG_S, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_S, args);
-			}
-
-			if ((researcherModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByG_P.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					researcherModelImpl.getOriginalGroupId(),
 					researcherModelImpl.getOriginalPosition()
 				};
 
-				finderCache.removeResult(_finderPathCountByG_P, args);
+				finderCache.removeResult(_finderPathCountByPosition, args);
 				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_P, args);
+					_finderPathWithoutPaginationFindByPosition, args);
 
-				args = new Object[] {
-					researcherModelImpl.getGroupId(),
-					researcherModelImpl.getPosition()
-				};
+				args = new Object[] {researcherModelImpl.getPosition()};
 
-				finderCache.removeResult(_finderPathCountByG_P, args);
+				finderCache.removeResult(_finderPathCountByPosition, args);
 				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_P, args);
-			}
-
-			if ((researcherModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByG_RU.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					researcherModelImpl.getOriginalGroupId(),
-					researcherModelImpl.getOriginalResearcherUserId()
-				};
-
-				finderCache.removeResult(_finderPathCountByG_RU, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_RU, args);
-
-				args = new Object[] {
-					researcherModelImpl.getGroupId(),
-					researcherModelImpl.getResearcherUserId()
-				};
-
-				finderCache.removeResult(_finderPathCountByG_RU, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_RU, args);
+					_finderPathWithoutPaginationFindByPosition, args);
 			}
 		}
 
@@ -6597,18 +5764,6 @@ public class ResearcherPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
 			new String[] {String.class.getName()});
 
-		_finderPathFetchByUUID_G = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, ResearcherImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
-			new String[] {String.class.getName(), Long.class.getName()},
-			ResearcherModelImpl.UUID_COLUMN_BITMASK |
-			ResearcherModelImpl.GROUPID_COLUMN_BITMASK);
-
-		_finderPathCountByUUID_G = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
-			new String[] {String.class.getName(), Long.class.getName()});
-
 		_finderPathWithPaginationFindByUuid_C = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, ResearcherImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
@@ -6631,24 +5786,24 @@ public class ResearcherPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()});
 
-		_finderPathWithPaginationFindByGroupId = new FinderPath(
+		_finderPathWithPaginationFindByCompany = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, ResearcherImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCompany",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
+		_finderPathWithoutPaginationFindByCompany = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, ResearcherImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCompany",
 			new String[] {Long.class.getName()},
-			ResearcherModelImpl.GROUPID_COLUMN_BITMASK |
+			ResearcherModelImpl.COMPANYID_COLUMN_BITMASK |
 			ResearcherModelImpl.CREATEDATE_COLUMN_BITMASK);
 
-		_finderPathCountByGroupId = new FinderPath(
+		_finderPathCountByCompany = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCompany",
 			new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByStatus = new FinderPath(
@@ -6671,71 +5826,36 @@ public class ResearcherPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByStatus",
 			new String[] {Integer.class.getName()});
 
-		_finderPathWithPaginationFindByG_S = new FinderPath(
+		_finderPathWithPaginationFindByPosition = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, ResearcherImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_S",
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPosition",
 			new String[] {
-				Long.class.getName(), Integer.class.getName(),
-				Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
+				String.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByG_S = new FinderPath(
+		_finderPathWithoutPaginationFindByPosition = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, ResearcherImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_S",
-			new String[] {Long.class.getName(), Integer.class.getName()},
-			ResearcherModelImpl.GROUPID_COLUMN_BITMASK |
-			ResearcherModelImpl.STATUS_COLUMN_BITMASK |
-			ResearcherModelImpl.CREATEDATE_COLUMN_BITMASK);
-
-		_finderPathCountByG_S = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_S",
-			new String[] {Long.class.getName(), Integer.class.getName()});
-
-		_finderPathWithPaginationFindByG_P = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, ResearcherImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_P",
-			new String[] {
-				Long.class.getName(), String.class.getName(),
-				Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-
-		_finderPathWithoutPaginationFindByG_P = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, ResearcherImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_P",
-			new String[] {Long.class.getName(), String.class.getName()},
-			ResearcherModelImpl.GROUPID_COLUMN_BITMASK |
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPosition",
+			new String[] {String.class.getName()},
 			ResearcherModelImpl.POSITION_COLUMN_BITMASK |
 			ResearcherModelImpl.CREATEDATE_COLUMN_BITMASK);
 
-		_finderPathCountByG_P = new FinderPath(
+		_finderPathCountByPosition = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_P",
-			new String[] {Long.class.getName(), String.class.getName()});
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPosition",
+			new String[] {String.class.getName()});
 
-		_finderPathWithPaginationFindByG_RU = new FinderPath(
+		_finderPathFetchByResearcherUserId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, ResearcherImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_RU",
-			new String[] {
-				Long.class.getName(), Long.class.getName(),
-				Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
+			FINDER_CLASS_NAME_ENTITY, "fetchByResearcherUserId",
+			new String[] {Long.class.getName()},
+			ResearcherModelImpl.RESEARCHERUSERID_COLUMN_BITMASK);
 
-		_finderPathWithoutPaginationFindByG_RU = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, ResearcherImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_RU",
-			new String[] {Long.class.getName(), Long.class.getName()},
-			ResearcherModelImpl.GROUPID_COLUMN_BITMASK |
-			ResearcherModelImpl.RESEARCHERUSERID_COLUMN_BITMASK |
-			ResearcherModelImpl.CREATEDATE_COLUMN_BITMASK);
-
-		_finderPathCountByG_RU = new FinderPath(
+		_finderPathCountByResearcherUserId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_RU",
-			new String[] {Long.class.getName(), Long.class.getName()});
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByResearcherUserId", new String[] {Long.class.getName()});
 
 		_setResearcherUtilPersistence(this);
 	}

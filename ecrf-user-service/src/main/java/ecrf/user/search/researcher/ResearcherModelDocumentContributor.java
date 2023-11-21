@@ -3,9 +3,11 @@ package ecrf.user.search.researcher;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -32,7 +34,8 @@ public class ResearcherModelDocumentContributor implements ModelDocumentContribu
 			document.addDate(Field.CREATE_DATE, researcher.getCreateDate());
 			document.addDate(Field.MODIFIED_DATE, researcher.getModifiedDate());
 			
-			Locale defaultLocale = PortalUtil.getSiteDefaultLocale(researcher.getGroupId());
+			Company company = CompanyLocalServiceUtil.fetchCompany(researcher.getCompanyId());
+			Locale defaultLocale = PortalUtil.getSiteDefaultLocale(company.getGroupId());
 						
 			document.addText(ECRFUserResearcherAttributes.NAME, researcher.getName());
 			document.addText(ECRFUserResearcherAttributes.EMAIL, researcher.getEmail());

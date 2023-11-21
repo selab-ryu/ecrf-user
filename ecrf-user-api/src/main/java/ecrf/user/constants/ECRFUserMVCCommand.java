@@ -23,5 +23,21 @@ public class ECRFUserMVCCommand {
 	public static final String ACTION_REJECT_MEMBERSHIP = "/action/approve/reject-membership";
 	
 	public static final String RENDER_VIEW_SITE = "/render/main/view-site";
+	public static final String RENDER_REQUEST_MEMBERSHIP = "/render/main/request-membership";
 	public static final String ACTION_REQUEST_MEMBERSHIP = "/action/main/request-membership";
+	
+	public static final String RENDER_UPDATE_CRF = "/render/crf/update-crf";
+	public static final String RENDER_DEFINE_STRUCTURE = "/render/crf/define-structure";
+	
+	public static final String ACTION_ADD_CRF = "/action/crf/add-crf";
+	public static final String ACTION_UPDATE_CRF = "/action/crf/update-crf";
+	
+	public static final String RENDER_VIEW_SUBJECT = "/render/subject/view-subject";
+	public static final String RENDER_ADD_SUBJECT = "/render/subject/add-subject";
+	public static final String RENDER_UPDATE_SUBJECT = "/render/subject/update-subject";
+	public static final String RENDER_LIST_SUBJECT = "/render/subject/list-subject";
+	
+	public static final String ACTION_ADD_SUBJECT = "/action/subject/add-subject";
+	public static final String ACTION_UPDATE_SUBJECT = "/action/subject/update-subject";
+	public static final String ACTION_DELETE_SUBJECT = "/action/subject/delete-subject";
 }

@@ -64,14 +64,6 @@ public interface PatientLocalService
 	 *
 	 * Never modify this interface directly. Add custom service methods to <code>ecrf.user.service.impl.PatientLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the patient local service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link PatientLocalServiceUtil} if injection and service tracking are not available.
 	 */
-	public Patient addPatient(
-			long patientUserId, String name, int birthYear, int birthMonth,
-			int birthDay, String phone, String position, int gender,
-			int consentYear, int consentMonth, int consentDay,
-			int participationDateYear, int participationDateMonth,
-			int participationDateDay, int participationStatus,
-			String experimentalGroup, ServiceContext sc)
-		throws PortalException;
 
 	/**
 	 * Adds the patient to the database. Also notifies the appropriate model listeners.
@@ -85,6 +77,17 @@ public interface PatientLocalService
 	 */
 	@Indexable(type = IndexableType.REINDEX)
 	public Patient addPatient(Patient patient);
+
+	public Patient addPatient(
+			String name, int birthYear, int birthMonth, int birthDay,
+			String position, int gender, String phone, String phone2,
+			String serialId, int hospitalCode, int visitDateYear,
+			int visitDateMonth, int visitDateDay, int consentYear,
+			int consentMonth, int consentDay, int participationDateYear,
+			int participationDateMonth, int participationDateDay,
+			int participationStatus, String experimentalGroup, boolean hasCRF,
+			boolean hasCohortStudy, boolean hasMRIStudy, ServiceContext sc)
+		throws PortalException;
 
 	/**
 	 * Creates a new patient with the primary key. Does not add the patient to the database.
@@ -240,16 +243,6 @@ public interface PatientLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Patient getPatient(long patientId) throws PortalException;
 
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<Patient> getPatientByGroupId(long groupId);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<Patient> getPatientByGroupId(long groupId, int start, int end);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<Patient> getPatientByGroupId(
-		long groupId, int start, int end, OrderByComparator comparator);
-
 	/**
 	 * Returns the patient matching the UUID and group.
 	 *
@@ -261,9 +254,6 @@ public interface PatientLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Patient getPatientByUuidAndGroupId(String uuid, long groupId)
 		throws PortalException;
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getPatientCount(long groupId);
 
 	/**
 	 * Returns a range of all the patients.
@@ -322,12 +312,14 @@ public interface PatientLocalService
 		throws PortalException;
 
 	public Patient updatePatient(
-			long patientId, long patientUserId, String name, int birthYear,
-			int birthMonth, int birthDay, String phone, String position,
-			int gender, int consentYear, int consentMonth, int consentDay,
-			int participationDateYear, int participationDateMonth,
-			int participationDateDay, int participationStatus,
-			String experimentalGroup, ServiceContext sc)
+			long patientId, String name, int birthYear, int birthMonth,
+			int birthDay, String position, int gender, String phone,
+			String phone2, String serialId, int hospitalCode, int visitDateYear,
+			int visitDateMonth, int visitDateDay, int consentYear,
+			int consentMonth, int consentDay, int participationDateYear,
+			int participationDateMonth, int participationDateDay,
+			int participationStatus, String experimentalGroup, boolean hasCRF,
+			boolean hasCohortStudy, boolean hasMRIStudy, ServiceContext sc)
 		throws PortalException;
 
 	/**

@@ -10,6 +10,7 @@ public class ECRFUserPortletKeys {
 	public static final String RESEARCHER ="ecrf_user_researcher_ResearcherPortlet";
 	public static final String PROJECT = "ecrf_user_project_ProjectPortlet";
 	public static final String PATIENT = "ecrf_user_patient_PatientPortlet";
-	public static final String CRF = "";
+	public static final String CRF = "ecrf_user_crf_CRFWebPortlet";;
+	public static final String SUBJECT = "ecrf_user_subject_SubjectPortlet";
 }
  

@@ -27,12 +27,12 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import ecrf.user.model.Researcher;
 import ecrf.user.service.ResearcherService;
 import ecrf.user.service.ResearcherServiceUtil;
-import ecrf.user.service.persistence.CRFPatientPersistence;
 import ecrf.user.service.persistence.CRFPersistence;
 import ecrf.user.service.persistence.CRFResearcherPersistence;
-import ecrf.user.service.persistence.PatientPersistence;
+import ecrf.user.service.persistence.CRFSubjectPersistence;
 import ecrf.user.service.persistence.ProjectPersistence;
 import ecrf.user.service.persistence.ResearcherPersistence;
+import ecrf.user.service.persistence.SubjectPersistence;
 
 import java.lang.reflect.Field;
 
@@ -140,13 +140,10 @@ public abstract class ResearcherServiceBaseImpl
 	protected CRFPersistence crfPersistence;
 
 	@Reference
-	protected CRFPatientPersistence crfPatientPersistence;
-
-	@Reference
 	protected CRFResearcherPersistence crfResearcherPersistence;
 
 	@Reference
-	protected PatientPersistence patientPersistence;
+	protected CRFSubjectPersistence crfSubjectPersistence;
 
 	@Reference
 	protected ProjectPersistence projectPersistence;
@@ -158,6 +155,9 @@ public abstract class ResearcherServiceBaseImpl
 
 	@Reference
 	protected ResearcherPersistence researcherPersistence;
+
+	@Reference
+	protected SubjectPersistence subjectPersistence;
 
 	@Reference
 	protected com.liferay.counter.kernel.service.CounterLocalService
@@ -181,17 +181,5 @@ public abstract class ResearcherServiceBaseImpl
 
 	@Reference
 	protected com.liferay.portal.kernel.service.UserService userService;
-
-	@Reference
-	protected com.liferay.asset.kernel.service.AssetEntryLocalService
-		assetEntryLocalService;
-
-	@Reference
-	protected com.liferay.asset.kernel.service.AssetEntryService
-		assetEntryService;
-
-	@Reference
-	protected com.liferay.asset.kernel.service.AssetLinkLocalService
-		assetLinkLocalService;
 
 }

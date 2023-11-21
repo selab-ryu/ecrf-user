@@ -79,18 +79,21 @@ public class PatientModelImpl
 
 	public static final Object[][] TABLE_COLUMNS = {
 		{"mvccVersion", Types.BIGINT}, {"uuid_", Types.VARCHAR},
-		{"patientId", Types.BIGINT}, {"groupId", Types.BIGINT},
-		{"companyId", Types.BIGINT}, {"userId", Types.BIGINT},
+		{"patientId", Types.BIGINT}, {"companyId", Types.BIGINT},
+		{"groupId", Types.BIGINT}, {"userId", Types.BIGINT},
 		{"userName", Types.VARCHAR}, {"createDate", Types.TIMESTAMP},
 		{"modifiedDate", Types.TIMESTAMP}, {"status", Types.INTEGER},
 		{"statusByUserId", Types.BIGINT}, {"statusByUserName", Types.VARCHAR},
 		{"statusDate", Types.TIMESTAMP}, {"name", Types.VARCHAR},
-		{"birth", Types.TIMESTAMP}, {"phone", Types.VARCHAR},
-		{"position", Types.VARCHAR}, {"gender", Types.INTEGER},
+		{"birth", Types.TIMESTAMP}, {"position", Types.VARCHAR},
+		{"gender", Types.INTEGER}, {"phone", Types.VARCHAR},
+		{"phone2", Types.VARCHAR}, {"serialId", Types.VARCHAR},
+		{"hospitalCode", Types.INTEGER}, {"visitDate", Types.TIMESTAMP},
 		{"consentDate", Types.TIMESTAMP},
 		{"participationStartDate", Types.TIMESTAMP},
 		{"participationStatus", Types.INTEGER},
-		{"experimentalGroup", Types.VARCHAR}, {"patientUserId", Types.BIGINT}
+		{"experimentalGroup", Types.VARCHAR}, {"hasCRF", Types.BOOLEAN},
+		{"hasCohortStudy", Types.BOOLEAN}, {"hasMRIStudy", Types.BOOLEAN}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -100,8 +103,8 @@ public class PatientModelImpl
 		TABLE_COLUMNS_MAP.put("mvccVersion", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("uuid_", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("patientId", Types.BIGINT);
-		TABLE_COLUMNS_MAP.put("groupId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("companyId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("groupId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("userId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("userName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
@@ -112,18 +115,24 @@ public class PatientModelImpl
 		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("name", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("birth", Types.TIMESTAMP);
-		TABLE_COLUMNS_MAP.put("phone", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("position", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("gender", Types.INTEGER);
+		TABLE_COLUMNS_MAP.put("phone", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("phone2", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("serialId", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("hospitalCode", Types.INTEGER);
+		TABLE_COLUMNS_MAP.put("visitDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("consentDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("participationStartDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("participationStatus", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("experimentalGroup", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("patientUserId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("hasCRF", Types.BOOLEAN);
+		TABLE_COLUMNS_MAP.put("hasCohortStudy", Types.BOOLEAN);
+		TABLE_COLUMNS_MAP.put("hasMRIStudy", Types.BOOLEAN);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table EC_Patient (mvccVersion LONG default 0 not null,uuid_ VARCHAR(75) null,patientId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,name VARCHAR(75) null,birth DATE null,phone VARCHAR(75) null,position VARCHAR(75) null,gender INTEGER,consentDate DATE null,participationStartDate DATE null,participationStatus INTEGER,experimentalGroup VARCHAR(75) null,patientUserId LONG)";
+		"create table EC_Patient (mvccVersion LONG default 0 not null,uuid_ VARCHAR(75) null,patientId LONG not null primary key,companyId LONG,groupId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,name VARCHAR(75) null,birth DATE null,position VARCHAR(75) null,gender INTEGER,phone VARCHAR(75) null,phone2 VARCHAR(75) null,serialId VARCHAR(75) null,hospitalCode INTEGER,visitDate DATE null,consentDate DATE null,participationStartDate DATE null,participationStatus INTEGER,experimentalGroup VARCHAR(75) null,hasCRF BOOLEAN,hasCohortStudy BOOLEAN,hasMRIStudy BOOLEAN)";
 
 	public static final String TABLE_SQL_DROP = "drop table EC_Patient";
 
@@ -173,8 +182,8 @@ public class PatientModelImpl
 		model.setMvccVersion(soapModel.getMvccVersion());
 		model.setUuid(soapModel.getUuid());
 		model.setPatientId(soapModel.getPatientId());
-		model.setGroupId(soapModel.getGroupId());
 		model.setCompanyId(soapModel.getCompanyId());
+		model.setGroupId(soapModel.getGroupId());
 		model.setUserId(soapModel.getUserId());
 		model.setUserName(soapModel.getUserName());
 		model.setCreateDate(soapModel.getCreateDate());
@@ -185,14 +194,20 @@ public class PatientModelImpl
 		model.setStatusDate(soapModel.getStatusDate());
 		model.setName(soapModel.getName());
 		model.setBirth(soapModel.getBirth());
-		model.setPhone(soapModel.getPhone());
 		model.setPosition(soapModel.getPosition());
 		model.setGender(soapModel.getGender());
+		model.setPhone(soapModel.getPhone());
+		model.setPhone2(soapModel.getPhone2());
+		model.setSerialId(soapModel.getSerialId());
+		model.setHospitalCode(soapModel.getHospitalCode());
+		model.setVisitDate(soapModel.getVisitDate());
 		model.setConsentDate(soapModel.getConsentDate());
 		model.setParticipationStartDate(soapModel.getParticipationStartDate());
 		model.setParticipationStatus(soapModel.getParticipationStatus());
 		model.setExperimentalGroup(soapModel.getExperimentalGroup());
-		model.setPatientUserId(soapModel.getPatientUserId());
+		model.setHasCRF(soapModel.getHasCRF());
+		model.setHasCohortStudy(soapModel.getHasCohortStudy());
+		model.setHasMRIStudy(soapModel.getHasMRIStudy());
 
 		return model;
 	}
@@ -324,12 +339,12 @@ public class PatientModelImpl
 		attributeGetterFunctions.put("patientId", Patient::getPatientId);
 		attributeSetterBiConsumers.put(
 			"patientId", (BiConsumer<Patient, Long>)Patient::setPatientId);
-		attributeGetterFunctions.put("groupId", Patient::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId", (BiConsumer<Patient, Long>)Patient::setGroupId);
 		attributeGetterFunctions.put("companyId", Patient::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId", (BiConsumer<Patient, Long>)Patient::setCompanyId);
+		attributeGetterFunctions.put("groupId", Patient::getGroupId);
+		attributeSetterBiConsumers.put(
+			"groupId", (BiConsumer<Patient, Long>)Patient::setGroupId);
 		attributeGetterFunctions.put("userId", Patient::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<Patient, Long>)Patient::setUserId);
@@ -365,15 +380,28 @@ public class PatientModelImpl
 		attributeGetterFunctions.put("birth", Patient::getBirth);
 		attributeSetterBiConsumers.put(
 			"birth", (BiConsumer<Patient, Date>)Patient::setBirth);
-		attributeGetterFunctions.put("phone", Patient::getPhone);
-		attributeSetterBiConsumers.put(
-			"phone", (BiConsumer<Patient, String>)Patient::setPhone);
 		attributeGetterFunctions.put("position", Patient::getPosition);
 		attributeSetterBiConsumers.put(
 			"position", (BiConsumer<Patient, String>)Patient::setPosition);
 		attributeGetterFunctions.put("gender", Patient::getGender);
 		attributeSetterBiConsumers.put(
 			"gender", (BiConsumer<Patient, Integer>)Patient::setGender);
+		attributeGetterFunctions.put("phone", Patient::getPhone);
+		attributeSetterBiConsumers.put(
+			"phone", (BiConsumer<Patient, String>)Patient::setPhone);
+		attributeGetterFunctions.put("phone2", Patient::getPhone2);
+		attributeSetterBiConsumers.put(
+			"phone2", (BiConsumer<Patient, String>)Patient::setPhone2);
+		attributeGetterFunctions.put("serialId", Patient::getSerialId);
+		attributeSetterBiConsumers.put(
+			"serialId", (BiConsumer<Patient, String>)Patient::setSerialId);
+		attributeGetterFunctions.put("hospitalCode", Patient::getHospitalCode);
+		attributeSetterBiConsumers.put(
+			"hospitalCode",
+			(BiConsumer<Patient, Integer>)Patient::setHospitalCode);
+		attributeGetterFunctions.put("visitDate", Patient::getVisitDate);
+		attributeSetterBiConsumers.put(
+			"visitDate", (BiConsumer<Patient, Date>)Patient::setVisitDate);
 		attributeGetterFunctions.put("consentDate", Patient::getConsentDate);
 		attributeSetterBiConsumers.put(
 			"consentDate", (BiConsumer<Patient, Date>)Patient::setConsentDate);
@@ -392,11 +420,18 @@ public class PatientModelImpl
 		attributeSetterBiConsumers.put(
 			"experimentalGroup",
 			(BiConsumer<Patient, String>)Patient::setExperimentalGroup);
-		attributeGetterFunctions.put(
-			"patientUserId", Patient::getPatientUserId);
+		attributeGetterFunctions.put("hasCRF", Patient::getHasCRF);
 		attributeSetterBiConsumers.put(
-			"patientUserId",
-			(BiConsumer<Patient, Long>)Patient::setPatientUserId);
+			"hasCRF", (BiConsumer<Patient, Boolean>)Patient::setHasCRF);
+		attributeGetterFunctions.put(
+			"hasCohortStudy", Patient::getHasCohortStudy);
+		attributeSetterBiConsumers.put(
+			"hasCohortStudy",
+			(BiConsumer<Patient, Boolean>)Patient::setHasCohortStudy);
+		attributeGetterFunctions.put("hasMRIStudy", Patient::getHasMRIStudy);
+		attributeSetterBiConsumers.put(
+			"hasMRIStudy",
+			(BiConsumer<Patient, Boolean>)Patient::setHasMRIStudy);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -456,29 +491,6 @@ public class PatientModelImpl
 
 	@JSON
 	@Override
-	public long getGroupId() {
-		return _groupId;
-	}
-
-	@Override
-	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
-		}
-
-		_groupId = groupId;
-	}
-
-	public long getOriginalGroupId() {
-		return _originalGroupId;
-	}
-
-	@JSON
-	@Override
 	public long getCompanyId() {
 		return _companyId;
 	}
@@ -498,6 +510,29 @@ public class PatientModelImpl
 
 	public long getOriginalCompanyId() {
 		return _originalCompanyId;
+	}
+
+	@JSON
+	@Override
+	public long getGroupId() {
+		return _groupId;
+	}
+
+	@Override
+	public void setGroupId(long groupId) {
+		_columnBitmask |= GROUPID_COLUMN_BITMASK;
+
+		if (!_setOriginalGroupId) {
+			_setOriginalGroupId = true;
+
+			_originalGroupId = _groupId;
+		}
+
+		_groupId = groupId;
+	}
+
+	public long getOriginalGroupId() {
+		return _originalGroupId;
 	}
 
 	@JSON
@@ -667,22 +702,6 @@ public class PatientModelImpl
 
 	@JSON
 	@Override
-	public String getPhone() {
-		if (_phone == null) {
-			return "";
-		}
-		else {
-			return _phone;
-		}
-	}
-
-	@Override
-	public void setPhone(String phone) {
-		_phone = phone;
-	}
-
-	@JSON
-	@Override
 	public String getPosition() {
 		if (_position == null) {
 			return "";
@@ -706,6 +725,76 @@ public class PatientModelImpl
 	@Override
 	public void setGender(int gender) {
 		_gender = gender;
+	}
+
+	@JSON
+	@Override
+	public String getPhone() {
+		if (_phone == null) {
+			return "";
+		}
+		else {
+			return _phone;
+		}
+	}
+
+	@Override
+	public void setPhone(String phone) {
+		_phone = phone;
+	}
+
+	@JSON
+	@Override
+	public String getPhone2() {
+		if (_phone2 == null) {
+			return "";
+		}
+		else {
+			return _phone2;
+		}
+	}
+
+	@Override
+	public void setPhone2(String phone2) {
+		_phone2 = phone2;
+	}
+
+	@JSON
+	@Override
+	public String getSerialId() {
+		if (_serialId == null) {
+			return "";
+		}
+		else {
+			return _serialId;
+		}
+	}
+
+	@Override
+	public void setSerialId(String serialId) {
+		_serialId = serialId;
+	}
+
+	@JSON
+	@Override
+	public int getHospitalCode() {
+		return _hospitalCode;
+	}
+
+	@Override
+	public void setHospitalCode(int hospitalCode) {
+		_hospitalCode = hospitalCode;
+	}
+
+	@JSON
+	@Override
+	public Date getVisitDate() {
+		return _visitDate;
+	}
+
+	@Override
+	public void setVisitDate(Date visitDate) {
+		_visitDate = visitDate;
 	}
 
 	@JSON
@@ -759,29 +848,35 @@ public class PatientModelImpl
 
 	@JSON
 	@Override
-	public long getPatientUserId() {
-		return _patientUserId;
+	public Boolean getHasCRF() {
+		return _hasCRF;
 	}
 
 	@Override
-	public void setPatientUserId(long patientUserId) {
-		_patientUserId = patientUserId;
+	public void setHasCRF(Boolean hasCRF) {
+		_hasCRF = hasCRF;
+	}
+
+	@JSON
+	@Override
+	public Boolean getHasCohortStudy() {
+		return _hasCohortStudy;
 	}
 
 	@Override
-	public String getPatientUserUuid() {
-		try {
-			User user = UserLocalServiceUtil.getUserById(getPatientUserId());
+	public void setHasCohortStudy(Boolean hasCohortStudy) {
+		_hasCohortStudy = hasCohortStudy;
+	}
 
-			return user.getUuid();
-		}
-		catch (PortalException portalException) {
-			return "";
-		}
+	@JSON
+	@Override
+	public Boolean getHasMRIStudy() {
+		return _hasMRIStudy;
 	}
 
 	@Override
-	public void setPatientUserUuid(String patientUserUuid) {
+	public void setHasMRIStudy(Boolean hasMRIStudy) {
+		_hasMRIStudy = hasMRIStudy;
 	}
 
 	@Override
@@ -909,8 +1004,8 @@ public class PatientModelImpl
 		patientImpl.setMvccVersion(getMvccVersion());
 		patientImpl.setUuid(getUuid());
 		patientImpl.setPatientId(getPatientId());
-		patientImpl.setGroupId(getGroupId());
 		patientImpl.setCompanyId(getCompanyId());
+		patientImpl.setGroupId(getGroupId());
 		patientImpl.setUserId(getUserId());
 		patientImpl.setUserName(getUserName());
 		patientImpl.setCreateDate(getCreateDate());
@@ -921,14 +1016,20 @@ public class PatientModelImpl
 		patientImpl.setStatusDate(getStatusDate());
 		patientImpl.setName(getName());
 		patientImpl.setBirth(getBirth());
-		patientImpl.setPhone(getPhone());
 		patientImpl.setPosition(getPosition());
 		patientImpl.setGender(getGender());
+		patientImpl.setPhone(getPhone());
+		patientImpl.setPhone2(getPhone2());
+		patientImpl.setSerialId(getSerialId());
+		patientImpl.setHospitalCode(getHospitalCode());
+		patientImpl.setVisitDate(getVisitDate());
 		patientImpl.setConsentDate(getConsentDate());
 		patientImpl.setParticipationStartDate(getParticipationStartDate());
 		patientImpl.setParticipationStatus(getParticipationStatus());
 		patientImpl.setExperimentalGroup(getExperimentalGroup());
-		patientImpl.setPatientUserId(getPatientUserId());
+		patientImpl.setHasCRF(getHasCRF());
+		patientImpl.setHasCohortStudy(getHasCohortStudy());
+		patientImpl.setHasMRIStudy(getHasMRIStudy());
 
 		patientImpl.resetOriginalValues();
 
@@ -1005,13 +1106,13 @@ public class PatientModelImpl
 	public void resetOriginalValues() {
 		_originalUuid = _uuid;
 
-		_originalGroupId = _groupId;
-
-		_setOriginalGroupId = false;
-
 		_originalCompanyId = _companyId;
 
 		_setOriginalCompanyId = false;
+
+		_originalGroupId = _groupId;
+
+		_setOriginalGroupId = false;
 
 		_setModifiedDate = false;
 
@@ -1034,9 +1135,9 @@ public class PatientModelImpl
 
 		patientCacheModel.patientId = getPatientId();
 
-		patientCacheModel.groupId = getGroupId();
-
 		patientCacheModel.companyId = getCompanyId();
+
+		patientCacheModel.groupId = getGroupId();
 
 		patientCacheModel.userId = getUserId();
 
@@ -1104,14 +1205,6 @@ public class PatientModelImpl
 			patientCacheModel.birth = Long.MIN_VALUE;
 		}
 
-		patientCacheModel.phone = getPhone();
-
-		String phone = patientCacheModel.phone;
-
-		if ((phone != null) && (phone.length() == 0)) {
-			patientCacheModel.phone = null;
-		}
-
 		patientCacheModel.position = getPosition();
 
 		String position = patientCacheModel.position;
@@ -1121,6 +1214,41 @@ public class PatientModelImpl
 		}
 
 		patientCacheModel.gender = getGender();
+
+		patientCacheModel.phone = getPhone();
+
+		String phone = patientCacheModel.phone;
+
+		if ((phone != null) && (phone.length() == 0)) {
+			patientCacheModel.phone = null;
+		}
+
+		patientCacheModel.phone2 = getPhone2();
+
+		String phone2 = patientCacheModel.phone2;
+
+		if ((phone2 != null) && (phone2.length() == 0)) {
+			patientCacheModel.phone2 = null;
+		}
+
+		patientCacheModel.serialId = getSerialId();
+
+		String serialId = patientCacheModel.serialId;
+
+		if ((serialId != null) && (serialId.length() == 0)) {
+			patientCacheModel.serialId = null;
+		}
+
+		patientCacheModel.hospitalCode = getHospitalCode();
+
+		Date visitDate = getVisitDate();
+
+		if (visitDate != null) {
+			patientCacheModel.visitDate = visitDate.getTime();
+		}
+		else {
+			patientCacheModel.visitDate = Long.MIN_VALUE;
+		}
 
 		Date consentDate = getConsentDate();
 
@@ -1151,7 +1279,23 @@ public class PatientModelImpl
 			patientCacheModel.experimentalGroup = null;
 		}
 
-		patientCacheModel.patientUserId = getPatientUserId();
+		Boolean hasCRF = getHasCRF();
+
+		if (hasCRF != null) {
+			patientCacheModel.hasCRF = hasCRF;
+		}
+
+		Boolean hasCohortStudy = getHasCohortStudy();
+
+		if (hasCohortStudy != null) {
+			patientCacheModel.hasCohortStudy = hasCohortStudy;
+		}
+
+		Boolean hasMRIStudy = getHasMRIStudy();
+
+		if (hasMRIStudy != null) {
+			patientCacheModel.hasMRIStudy = hasMRIStudy;
+		}
 
 		return patientCacheModel;
 	}
@@ -1252,12 +1396,12 @@ public class PatientModelImpl
 	private String _uuid;
 	private String _originalUuid;
 	private long _patientId;
-	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
 	private long _originalCompanyId;
 	private boolean _setOriginalCompanyId;
+	private long _groupId;
+	private long _originalGroupId;
+	private boolean _setOriginalGroupId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
@@ -1269,14 +1413,20 @@ public class PatientModelImpl
 	private Date _statusDate;
 	private String _name;
 	private Date _birth;
-	private String _phone;
 	private String _position;
 	private int _gender;
+	private String _phone;
+	private String _phone2;
+	private String _serialId;
+	private int _hospitalCode;
+	private Date _visitDate;
 	private Date _consentDate;
 	private Date _participationStartDate;
 	private int _participationStatus;
 	private String _experimentalGroup;
-	private long _patientUserId;
+	private Boolean _hasCRF;
+	private Boolean _hasCohortStudy;
+	private Boolean _hasMRIStudy;
 	private long _columnBitmask;
 	private Patient _escapedModel;
 

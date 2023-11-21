@@ -46,12 +46,26 @@ create table EC_CRFResearcher (
 	crfId LONG
 );
 
+create table EC_CRFSubject (
+	mvccVersion LONG default 0 not null,
+	uuid_ VARCHAR(75) null,
+	crfSubjectId LONG not null primary key,
+	groupId LONG,
+	companyId LONG,
+	userId LONG,
+	userName VARCHAR(75) null,
+	createDate DATE null,
+	modifiedDate DATE null,
+	crfId LONG,
+	subjectId LONG
+);
+
 create table EC_Patient (
 	mvccVersion LONG default 0 not null,
 	uuid_ VARCHAR(75) null,
 	patientId LONG not null primary key,
-	groupId LONG,
 	companyId LONG,
+	groupId LONG,
 	userId LONG,
 	userName VARCHAR(75) null,
 	createDate DATE null,
@@ -62,14 +76,20 @@ create table EC_Patient (
 	statusDate DATE null,
 	name VARCHAR(75) null,
 	birth DATE null,
-	phone VARCHAR(75) null,
 	position VARCHAR(75) null,
 	gender INTEGER,
+	phone VARCHAR(75) null,
+	phone2 VARCHAR(75) null,
+	serialId VARCHAR(75) null,
+	hospitalCode INTEGER,
+	visitDate DATE null,
 	consentDate DATE null,
 	participationStartDate DATE null,
 	participationStatus INTEGER,
 	experimentalGroup VARCHAR(75) null,
-	patientUserId LONG
+	hasCRF BOOLEAN,
+	hasCohortStudy BOOLEAN,
+	hasMRIStudy BOOLEAN
 );
 
 create table EC_Project (
@@ -99,7 +119,6 @@ create table EC_Researcher (
 	mvccVersion LONG default 0 not null,
 	uuid_ VARCHAR(75) null,
 	researcherId LONG not null primary key,
-	groupId LONG,
 	companyId LONG,
 	userId LONG,
 	userName VARCHAR(75) null,
@@ -118,4 +137,36 @@ create table EC_Researcher (
 	position VARCHAR(75) null,
 	approveStatus INTEGER,
 	researcherUserId LONG
+);
+
+create table EC_Subject (
+	mvccVersion LONG default 0 not null,
+	uuid_ VARCHAR(75) null,
+	subjectId LONG not null primary key,
+	companyId LONG,
+	groupId LONG,
+	userId LONG,
+	userName VARCHAR(75) null,
+	createDate DATE null,
+	modifiedDate DATE null,
+	status INTEGER,
+	statusByUserId LONG,
+	statusByUserName VARCHAR(75) null,
+	statusDate DATE null,
+	name VARCHAR(75) null,
+	birth DATE null,
+	gender INTEGER,
+	phone VARCHAR(75) null,
+	phone2 VARCHAR(75) null,
+	address VARCHAR(75) null,
+	serialId VARCHAR(75) null,
+	hospitalCode INTEGER,
+	visitDate DATE null,
+	consentDate DATE null,
+	participationStartDate DATE null,
+	participationStatus INTEGER,
+	experimentalGroup VARCHAR(75) null,
+	hasCRF BOOLEAN,
+	hasCohortStudy BOOLEAN,
+	hasMRIStudy BOOLEAN
 );

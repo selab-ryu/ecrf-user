@@ -16,14 +16,14 @@ package ecrf.user.service.impl;
 
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
 
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Logger;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -41,16 +41,20 @@ import ecrf.user.service.base.PatientLocalServiceBaseImpl;
 	service = AopService.class
 )
 public class PatientLocalServiceImpl extends PatientLocalServiceBaseImpl {
+	
 	public Patient addPatient(
-			long patientUserId, String name,
+			String name,
 			int birthYear, int birthMonth, int birthDay,
-			String phone, String position, int gender,
+			String position, int gender, String phone, String phone2,
+			String serialId, int hospitalCode,
+			int visitDateYear, int visitDateMonth, int visitDateDay,
 			int consentYear, int consentMonth, int consentDay,
 			int participationDateYear, int participationDateMonth, int participationDateDay,
 			int participationStatus, String experimentalGroup,
+			boolean hasCRF, boolean hasCohortStudy, boolean hasMRIStudy,
 			ServiceContext sc) throws PortalException {
-		_logger = Logger.getLogger(this.getClass().getName());
-		_logger.info("Add Patient Start");
+		_log = LogFactoryUtil.getLog(this.getClass().getName());
+		_log.info("Service : Add Patient");
 		
 		long patientId = super.counterLocalService.increment();
 		Patient patient = super.patientLocalService.createPatient(patientId);
@@ -61,6 +65,7 @@ public class PatientLocalServiceImpl extends PatientLocalServiceBaseImpl {
 		long groupId = sc.getScopeGroupId();
 		
 		Date birth = PortalUtil.getDate(birthMonth, birthDay, birthYear);
+		Date visitDate = PortalUtil.getDate(visitDateMonth, visitDateDay, visitDateYear);
 		Date consentDate = PortalUtil.getDate(consentMonth, consentDay, consentYear);
 		Date participationStartDate = PortalUtil.getDate(participationDateMonth, participationDateDay, participationDateYear);
 		
@@ -76,14 +81,22 @@ public class PatientLocalServiceImpl extends PatientLocalServiceBaseImpl {
 		// set entity fields
 		patient.setName(name);
 		patient.setBirth(birth);
-		patient.setPhone(phone);
 		patient.setPosition(position);
 		patient.setGender(gender);
+		patient.setPhone(phone);
+		patient.setPhone2(phone2);
+		
+		patient.setSerialId(serialId);
+		patient.setHospitalCode(hospitalCode);
+		patient.setVisitDate(visitDate);
 		patient.setConsentDate(consentDate);
 		patient.setParticipationStartDate(participationStartDate);
 		patient.setParticipationStatus(participationStatus);
 		patient.setExperimentalGroup(experimentalGroup);
-		patient.setPatientUserId(patientUserId);
+		
+		patient.setHasCRF(hasCRF);
+		patient.setHasCohortStudy(hasCohortStudy);
+		patient.setHasMRIStudy(hasMRIStudy);
 		
 		// other liferay frameworks
 		
@@ -93,19 +106,23 @@ public class PatientLocalServiceImpl extends PatientLocalServiceBaseImpl {
 	}
 	
 	public Patient updatePatient(
-			long patientId, long patientUserId, String name,
+			long patientId, String name,
 			int birthYear, int birthMonth, int birthDay,
-			String phone, String position, int gender,
+			String position, int gender, String phone, String phone2,
+			String serialId, int hospitalCode,
+			int visitDateYear, int visitDateMonth, int visitDateDay,
 			int consentYear, int consentMonth, int consentDay,
 			int participationDateYear, int participationDateMonth, int participationDateDay,
 			int participationStatus, String experimentalGroup,
+			boolean hasCRF, boolean hasCohortStudy, boolean hasMRIStudy,
 			ServiceContext sc) throws PortalException {
-		_logger = Logger.getLogger(this.getClass().getName());
-		_logger.info("Update Patient Start");
+		_log = LogFactoryUtil.getLog(this.getClass().getName());
+		_log.info("Service : Update Patient");
 		
 		Patient patient = super.patientLocalService.getPatient(patientId);
 		
 		Date birth = PortalUtil.getDate(birthMonth, birthDay, birthYear);
+		Date visitDate = PortalUtil.getDate(visitDateMonth, visitDateDay, visitDateYear);
 		Date consentDate = PortalUtil.getDate(consentMonth, consentDay, consentYear);
 		Date participationStartDate = PortalUtil.getDate(participationDateMonth, participationDateDay, participationDateYear);
 		
@@ -116,14 +133,22 @@ public class PatientLocalServiceImpl extends PatientLocalServiceBaseImpl {
 		// set entity fields
 		patient.setName(name);
 		patient.setBirth(birth);
-		patient.setPhone(phone);
 		patient.setPosition(position);
 		patient.setGender(gender);
+		patient.setPhone(phone);
+		patient.setPhone2(phone2);
+		
+		patient.setSerialId(serialId);
+		patient.setHospitalCode(hospitalCode);
+		patient.setVisitDate(visitDate);
 		patient.setConsentDate(consentDate);
 		patient.setParticipationStartDate(participationStartDate);
 		patient.setParticipationStatus(participationStatus);
 		patient.setExperimentalGroup(experimentalGroup);
-		patient.setPatientUserId(patientUserId);
+		
+		patient.setHasCRF(hasCRF);
+		patient.setHasCohortStudy(hasCohortStudy);
+		patient.setHasMRIStudy(hasMRIStudy);
 		
 		// other liferay frameworks
 		
@@ -158,21 +183,8 @@ public class PatientLocalServiceImpl extends PatientLocalServiceBaseImpl {
 		return patient;
 	}
 	
-	public List<Patient> getPatientByGroupId(long groupId) {
-		return super.patientPersistence.findByGroupId(groupId);
-	}
-	public List<Patient> getPatientByGroupId(long groupId, int start, int end) {
-		return super.patientPersistence.findByGroupId(groupId, start, end);
-	}
-	public List<Patient> getPatientByGroupId(long groupId, int start, int end, OrderByComparator comparator) {
-		return super.patientPersistence.findByGroupId(groupId, start, end, comparator);
-	}
-	public int getPatientCount(long groupId) {
-		return super.patientPersistence.countByGroupId(groupId);
-	}
-	
 	@Reference
 	private CRFPatientLocalService _crfPatientLocalService;
 	
-	private Logger _logger;
+	private Log _log;
 }

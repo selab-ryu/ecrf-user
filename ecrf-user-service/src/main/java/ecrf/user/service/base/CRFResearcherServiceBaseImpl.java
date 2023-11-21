@@ -27,12 +27,12 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import ecrf.user.model.CRFResearcher;
 import ecrf.user.service.CRFResearcherService;
 import ecrf.user.service.CRFResearcherServiceUtil;
-import ecrf.user.service.persistence.CRFPatientPersistence;
 import ecrf.user.service.persistence.CRFPersistence;
 import ecrf.user.service.persistence.CRFResearcherPersistence;
-import ecrf.user.service.persistence.PatientPersistence;
+import ecrf.user.service.persistence.CRFSubjectPersistence;
 import ecrf.user.service.persistence.ProjectPersistence;
 import ecrf.user.service.persistence.ResearcherPersistence;
+import ecrf.user.service.persistence.SubjectPersistence;
 
 import java.lang.reflect.Field;
 
@@ -142,9 +142,6 @@ public abstract class CRFResearcherServiceBaseImpl
 	protected CRFPersistence crfPersistence;
 
 	@Reference
-	protected CRFPatientPersistence crfPatientPersistence;
-
-	@Reference
 	protected ecrf.user.service.CRFResearcherLocalService
 		crfResearcherLocalService;
 
@@ -154,13 +151,16 @@ public abstract class CRFResearcherServiceBaseImpl
 	protected CRFResearcherPersistence crfResearcherPersistence;
 
 	@Reference
-	protected PatientPersistence patientPersistence;
+	protected CRFSubjectPersistence crfSubjectPersistence;
 
 	@Reference
 	protected ProjectPersistence projectPersistence;
 
 	@Reference
 	protected ResearcherPersistence researcherPersistence;
+
+	@Reference
+	protected SubjectPersistence subjectPersistence;
 
 	@Reference
 	protected com.liferay.counter.kernel.service.CounterLocalService

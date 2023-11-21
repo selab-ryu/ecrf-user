@@ -264,18 +264,18 @@ public class ResearcherLocalServiceWrapper
 	}
 
 	/**
-	 * Returns the researcher matching the UUID and group.
+	 * Returns the researcher with the matching UUID and company.
 	 *
 	 * @param uuid the researcher's UUID
-	 * @param groupId the primary key of the group
+	 * @param companyId the primary key of the company
 	 * @return the matching researcher, or <code>null</code> if a matching researcher could not be found
 	 */
 	@Override
-	public ecrf.user.model.Researcher fetchResearcherByUuidAndGroupId(
-		String uuid, long groupId) {
+	public ecrf.user.model.Researcher fetchResearcherByUuidAndCompanyId(
+		String uuid, long companyId) {
 
-		return _researcherLocalService.fetchResearcherByUuidAndGroupId(
-			uuid, groupId);
+		return _researcherLocalService.fetchResearcherByUuidAndCompanyId(
+			uuid, companyId);
 	}
 
 	@Override
@@ -338,84 +338,27 @@ public class ResearcherLocalServiceWrapper
 	}
 
 	@Override
-	public java.util.List<ecrf.user.model.Researcher> getResearcherByG_P(
-		long groupId, String position) {
+	public ecrf.user.model.Researcher getResearcherByUserId(long userId)
+		throws ecrf.user.exception.NoSuchResearcherException {
 
-		return _researcherLocalService.getResearcherByG_P(groupId, position);
-	}
-
-	@Override
-	public java.util.List<ecrf.user.model.Researcher> getResearcherByG_RU(
-		long groupId, long researcherUserId) {
-
-		return _researcherLocalService.getResearcherByG_RU(
-			groupId, researcherUserId);
-	}
-
-	@Override
-	public ecrf.user.model.Researcher getResearcherByG_RU_First(
-		long groupId, long researcherUserId) {
-
-		return _researcherLocalService.getResearcherByG_RU_First(
-			groupId, researcherUserId);
-	}
-
-	@Override
-	public java.util.List<ecrf.user.model.Researcher> getResearcherByGroupId(
-		long groupId) {
-
-		return _researcherLocalService.getResearcherByGroupId(groupId);
-	}
-
-	@Override
-	public java.util.List<ecrf.user.model.Researcher> getResearcherByGroupId(
-		long groupId, int start, int end) {
-
-		return _researcherLocalService.getResearcherByGroupId(
-			groupId, start, end);
-	}
-
-	@Override
-	public java.util.List<ecrf.user.model.Researcher> getResearcherByGroupId(
-		long groupId, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator comparator) {
-
-		return _researcherLocalService.getResearcherByGroupId(
-			groupId, start, end, comparator);
+		return _researcherLocalService.getResearcherByUserId(userId);
 	}
 
 	/**
-	 * Returns the researcher matching the UUID and group.
+	 * Returns the researcher with the matching UUID and company.
 	 *
 	 * @param uuid the researcher's UUID
-	 * @param groupId the primary key of the group
+	 * @param companyId the primary key of the company
 	 * @return the matching researcher
 	 * @throws PortalException if a matching researcher could not be found
 	 */
 	@Override
-	public ecrf.user.model.Researcher getResearcherByUuidAndGroupId(
-			String uuid, long groupId)
+	public ecrf.user.model.Researcher getResearcherByUuidAndCompanyId(
+			String uuid, long companyId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return _researcherLocalService.getResearcherByUuidAndGroupId(
-			uuid, groupId);
-	}
-
-	@Override
-	public int getResearcherCount(long groupId) {
-		return _researcherLocalService.getResearcherCount(groupId);
-	}
-
-	@Override
-	public int getResearcherCountByG_P(long groupId, String position) {
-		return _researcherLocalService.getResearcherCountByG_P(
-			groupId, position);
-	}
-
-	@Override
-	public int getResearcherCountByG_RU(long groupId, long researcherUserId) {
-		return _researcherLocalService.getResearcherCountByG_RU(
-			groupId, researcherUserId);
+		return _researcherLocalService.getResearcherByUuidAndCompanyId(
+			uuid, companyId);
 	}
 
 	/**
@@ -434,42 +377,6 @@ public class ResearcherLocalServiceWrapper
 		int start, int end) {
 
 		return _researcherLocalService.getResearchers(start, end);
-	}
-
-	/**
-	 * Returns all the researchers matching the UUID and company.
-	 *
-	 * @param uuid the UUID of the researchers
-	 * @param companyId the primary key of the company
-	 * @return the matching researchers, or an empty list if no matches were found
-	 */
-	@Override
-	public java.util.List<ecrf.user.model.Researcher>
-		getResearchersByUuidAndCompanyId(String uuid, long companyId) {
-
-		return _researcherLocalService.getResearchersByUuidAndCompanyId(
-			uuid, companyId);
-	}
-
-	/**
-	 * Returns a range of researchers matching the UUID and company.
-	 *
-	 * @param uuid the UUID of the researchers
-	 * @param companyId the primary key of the company
-	 * @param start the lower bound of the range of researchers
-	 * @param end the upper bound of the range of researchers (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the range of matching researchers, or an empty list if no matches were found
-	 */
-	@Override
-	public java.util.List<ecrf.user.model.Researcher>
-		getResearchersByUuidAndCompanyId(
-			String uuid, long companyId, int start, int end,
-			com.liferay.portal.kernel.util.OrderByComparator
-				<ecrf.user.model.Researcher> orderByComparator) {
-
-		return _researcherLocalService.getResearchersByUuidAndCompanyId(
-			uuid, companyId, start, end, orderByComparator);
 	}
 
 	/**

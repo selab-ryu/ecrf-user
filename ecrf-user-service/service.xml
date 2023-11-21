@@ -5,12 +5,10 @@
 	<author>Ryu W.C.</author>
 	<namespace>EC</namespace>
 	<entity name="Researcher" local-service="true" uuid="true" remote-service="true">
-
 		<!-- PK fields -->
 		<column name="researcherId" primary="true" type="long" />
 
-		<!-- Group instance -->
-		<column name="groupId" type="long" />
+		<!-- Instance  -->
 		<column name="companyId" type="long" />
 
 		<!-- Audit fields -->
@@ -34,6 +32,8 @@
 		<column name="officeContact" type="String" />
 		<column name="position" type="String" />
 		<column name="approveStatus" type="int" />
+		
+		<!-- Foreign Key -->
 		<column name="researcherUserId" type="long" />
 
 		<!-- Order -->
@@ -43,37 +43,27 @@
 		</order>
 
 		<!-- Finder methods -->
-		<finder name="GroupId" return-type="Collection">
-			<finder-column name="groupId" />
+		<finder name="Company" return-type="Collection">
+			<finder-column name="companyId" />
 		</finder>
 		<finder name="Status" return-type="Collection">
 			<finder-column name="status" />
 		</finder>
-		<finder name="G_S" return-type="Collection">
-			<finder-column name="groupId" />
-			<finder-column name="status" />
-		</finder>
-		<finder name="G_P" return-type="Collection">
-			<finder-column name="groupId" />
+		<finder name="Position" return-type="Collection">
 			<finder-column name="position" />
 		</finder>
-		<finder name="G_RU" return-type="Collection">
-			<finder-column name="groupId" />
+		<finder name="ResearcherUserId" return-type="Researcher" unique="true">
 			<finder-column name="researcherUserId" />
 		</finder>
-		
-		<reference package-path="com.liferay.portlet.asset" entity="AssetEntry" />
-		<reference package-path="com.liferay.portlet.asset" entity="AssetLink" />
-		
 	</entity>
 	
-	<entity name="Patient" local-service="true" uuid="true" remote-service="true">
+	<entity name="Subject" local-service="true" uuid="true" remote-service="true">
 		<!-- PK fields -->
-		<column name="patientId" primary="true" type="long" />
-
-		<!-- Group instance -->
-		<column name="groupId" type="long" />
+		<column name="subjectId" primary="true" type="long" />
+		
+		<!-- Instance -->
 		<column name="companyId" type="long" />
+		<column name="groupId" type="long" />
 		
 		<!-- Audit fields -->
 		<column name="userId" type="long" />
@@ -90,18 +80,26 @@
 		<!-- Other fields -->
 		<column name="name" type="String" />
 		<column name="birth" type="Date" />
-		<column name="phone" type="String" />
-		<column name="position" type="String" />
 		<column name="gender" type="int" />
+		<column name="phone" type="String" />
+		<column name="phone2" type="String" />
+		<column name="address" type="String" />
+		
+		<column name="serialId" type="String"/> <!-- subjectIdStr  -->
+		<column name="hospitalCode" type="int"/>
+		<column name="visitDate" type="Date" />
 		<column name="consentDate" type="Date" />
-		<column name="participationStartDate" type="Date" />
-		<column name="participationStatus" type="int" />
+		<column name="participationStartDate" type="Date" />	
 		<column name="experimentalGroup" type="String" />
-		<column name="patientUserId" type="long" />
+	
+		<column name="participationStatus" type="int" />
+		<column name="hasCRF" type="Boolean" />
+		<column name="hasCohortStudy" type="Boolean" />
+		<column name="hasMRIStudy" type="Boolean" />
 		
 		<!-- Order -->
 		<order>
-			<order-column name="patientId" order-by="asc" />
+			<order-column name="subjectId" order-by="asc" />
 			<order-column name="createDate" order-by="desc" />
 		</order>
 
@@ -109,7 +107,7 @@
 		<finder name="GroupId" return-type="Collection">
 			<finder-column name="groupId" />
 		</finder>
-
+		
 		<!-- References -->
 		
 	</entity>
@@ -240,8 +238,8 @@
 		<!-- References -->
 	</entity>
 	
-	<entity name="CRFPatient" local-service="true" uuid="true" remote-service="true">
-        <column name="crfPatientId" type="long" primary="true" />
+	<entity name="CRFSubject" local-service="true" uuid="true" remote-service="true">
+        <column name="crfSubjectId" type="long" primary="true" />
         
         <!-- Group instance -->
 		<column name="groupId" type="long" />
@@ -255,7 +253,7 @@
         
         <!-- Others fields -->
         <column name="crfId" type="long" />
-        <column name="patientId" type="long" />
+        <column name="subjectId" type="long" />
         
         <!-- Order fields -->
 		<order>
@@ -271,9 +269,9 @@
 			<finder-column name="groupId" />
 			<finder-column name="crfId" />
 		</finder>
-		<finder name="G_PA" return-type="Collection">
+		<finder name="G_S" return-type="Collection">
 			<finder-column name="groupId" />
-			<finder-column name="patientId" />
+			<finder-column name="subjectId" />
 		</finder>
 
 		<!-- References -->

@@ -1,6 +1,7 @@
 dependencies {
 	compileOnly project(":modules:ecrf-user:ecrf-user-api")
-
+	compileOnly project(":modules:SXIcecap:SXIcecap-api")
+	
 	compileOnly group: "com.liferay", name: "com.liferay.petra.io"
 	compileOnly group: "com.liferay", name: "com.liferay.petra.lang"
 	compileOnly group: "com.liferay", name: "com.liferay.petra.string"

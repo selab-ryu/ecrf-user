@@ -247,16 +247,16 @@ public class ResearcherLocalServiceUtil {
 	}
 
 	/**
-	 * Returns the researcher matching the UUID and group.
+	 * Returns the researcher with the matching UUID and company.
 	 *
 	 * @param uuid the researcher's UUID
-	 * @param groupId the primary key of the group
+	 * @param companyId the primary key of the company
 	 * @return the matching researcher, or <code>null</code> if a matching researcher could not be found
 	 */
-	public static Researcher fetchResearcherByUuidAndGroupId(
-		String uuid, long groupId) {
+	public static Researcher fetchResearcherByUuidAndCompanyId(
+		String uuid, long companyId) {
 
-		return getService().fetchResearcherByUuidAndGroupId(uuid, groupId);
+		return getService().fetchResearcherByUuidAndCompanyId(uuid, companyId);
 	}
 
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
@@ -311,69 +311,25 @@ public class ResearcherLocalServiceUtil {
 		return getService().getResearcher(researcherId);
 	}
 
-	public static List<Researcher> getResearcherByG_P(
-		long groupId, String position) {
+	public static Researcher getResearcherByUserId(long userId)
+		throws ecrf.user.exception.NoSuchResearcherException {
 
-		return getService().getResearcherByG_P(groupId, position);
-	}
-
-	public static List<Researcher> getResearcherByG_RU(
-		long groupId, long researcherUserId) {
-
-		return getService().getResearcherByG_RU(groupId, researcherUserId);
-	}
-
-	public static Researcher getResearcherByG_RU_First(
-		long groupId, long researcherUserId) {
-
-		return getService().getResearcherByG_RU_First(
-			groupId, researcherUserId);
-	}
-
-	public static List<Researcher> getResearcherByGroupId(long groupId) {
-		return getService().getResearcherByGroupId(groupId);
-	}
-
-	public static List<Researcher> getResearcherByGroupId(
-		long groupId, int start, int end) {
-
-		return getService().getResearcherByGroupId(groupId, start, end);
-	}
-
-	public static List<Researcher> getResearcherByGroupId(
-		long groupId, int start, int end, OrderByComparator comparator) {
-
-		return getService().getResearcherByGroupId(
-			groupId, start, end, comparator);
+		return getService().getResearcherByUserId(userId);
 	}
 
 	/**
-	 * Returns the researcher matching the UUID and group.
+	 * Returns the researcher with the matching UUID and company.
 	 *
 	 * @param uuid the researcher's UUID
-	 * @param groupId the primary key of the group
+	 * @param companyId the primary key of the company
 	 * @return the matching researcher
 	 * @throws PortalException if a matching researcher could not be found
 	 */
-	public static Researcher getResearcherByUuidAndGroupId(
-			String uuid, long groupId)
+	public static Researcher getResearcherByUuidAndCompanyId(
+			String uuid, long companyId)
 		throws PortalException {
 
-		return getService().getResearcherByUuidAndGroupId(uuid, groupId);
-	}
-
-	public static int getResearcherCount(long groupId) {
-		return getService().getResearcherCount(groupId);
-	}
-
-	public static int getResearcherCountByG_P(long groupId, String position) {
-		return getService().getResearcherCountByG_P(groupId, position);
-	}
-
-	public static int getResearcherCountByG_RU(
-		long groupId, long researcherUserId) {
-
-		return getService().getResearcherCountByG_RU(groupId, researcherUserId);
+		return getService().getResearcherByUuidAndCompanyId(uuid, companyId);
 	}
 
 	/**
@@ -389,37 +345,6 @@ public class ResearcherLocalServiceUtil {
 	 */
 	public static List<Researcher> getResearchers(int start, int end) {
 		return getService().getResearchers(start, end);
-	}
-
-	/**
-	 * Returns all the researchers matching the UUID and company.
-	 *
-	 * @param uuid the UUID of the researchers
-	 * @param companyId the primary key of the company
-	 * @return the matching researchers, or an empty list if no matches were found
-	 */
-	public static List<Researcher> getResearchersByUuidAndCompanyId(
-		String uuid, long companyId) {
-
-		return getService().getResearchersByUuidAndCompanyId(uuid, companyId);
-	}
-
-	/**
-	 * Returns a range of researchers matching the UUID and company.
-	 *
-	 * @param uuid the UUID of the researchers
-	 * @param companyId the primary key of the company
-	 * @param start the lower bound of the range of researchers
-	 * @param end the upper bound of the range of researchers (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the range of matching researchers, or an empty list if no matches were found
-	 */
-	public static List<Researcher> getResearchersByUuidAndCompanyId(
-		String uuid, long companyId, int start, int end,
-		OrderByComparator<Researcher> orderByComparator) {
-
-		return getService().getResearchersByUuidAndCompanyId(
-			uuid, companyId, start, end, orderByComparator);
 	}
 
 	/**

@@ -44,22 +44,6 @@ public class PatientLocalServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to <code>ecrf.user.service.impl.PatientLocalServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
-	public static Patient addPatient(
-			long patientUserId, String name, int birthYear, int birthMonth,
-			int birthDay, String phone, String position, int gender,
-			int consentYear, int consentMonth, int consentDay,
-			int participationDateYear, int participationDateMonth,
-			int participationDateDay, int participationStatus,
-			String experimentalGroup,
-			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws PortalException {
-
-		return getService().addPatient(
-			patientUserId, name, birthYear, birthMonth, birthDay, phone,
-			position, gender, consentYear, consentMonth, consentDay,
-			participationDateYear, participationDateMonth, participationDateDay,
-			participationStatus, experimentalGroup, sc);
-	}
 
 	/**
 	 * Adds the patient to the database. Also notifies the appropriate model listeners.
@@ -73,6 +57,27 @@ public class PatientLocalServiceUtil {
 	 */
 	public static Patient addPatient(Patient patient) {
 		return getService().addPatient(patient);
+	}
+
+	public static Patient addPatient(
+			String name, int birthYear, int birthMonth, int birthDay,
+			String position, int gender, String phone, String phone2,
+			String serialId, int hospitalCode, int visitDateYear,
+			int visitDateMonth, int visitDateDay, int consentYear,
+			int consentMonth, int consentDay, int participationDateYear,
+			int participationDateMonth, int participationDateDay,
+			int participationStatus, String experimentalGroup, boolean hasCRF,
+			boolean hasCohortStudy, boolean hasMRIStudy,
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
+
+		return getService().addPatient(
+			name, birthYear, birthMonth, birthDay, position, gender, phone,
+			phone2, serialId, hospitalCode, visitDateYear, visitDateMonth,
+			visitDateDay, consentYear, consentMonth, consentDay,
+			participationDateYear, participationDateMonth, participationDateDay,
+			participationStatus, experimentalGroup, hasCRF, hasCohortStudy,
+			hasMRIStudy, sc);
 	}
 
 	/**
@@ -272,23 +277,6 @@ public class PatientLocalServiceUtil {
 		return getService().getPatient(patientId);
 	}
 
-	public static List<Patient> getPatientByGroupId(long groupId) {
-		return getService().getPatientByGroupId(groupId);
-	}
-
-	public static List<Patient> getPatientByGroupId(
-		long groupId, int start, int end) {
-
-		return getService().getPatientByGroupId(groupId, start, end);
-	}
-
-	public static List<Patient> getPatientByGroupId(
-		long groupId, int start, int end, OrderByComparator comparator) {
-
-		return getService().getPatientByGroupId(
-			groupId, start, end, comparator);
-	}
-
 	/**
 	 * Returns the patient matching the UUID and group.
 	 *
@@ -301,10 +289,6 @@ public class PatientLocalServiceUtil {
 		throws PortalException {
 
 		return getService().getPatientByUuidAndGroupId(uuid, groupId);
-	}
-
-	public static int getPatientCount(long groupId) {
-		return getService().getPatientCount(groupId);
 	}
 
 	/**
@@ -372,20 +356,24 @@ public class PatientLocalServiceUtil {
 	}
 
 	public static Patient updatePatient(
-			long patientId, long patientUserId, String name, int birthYear,
-			int birthMonth, int birthDay, String phone, String position,
-			int gender, int consentYear, int consentMonth, int consentDay,
-			int participationDateYear, int participationDateMonth,
-			int participationDateDay, int participationStatus,
-			String experimentalGroup,
+			long patientId, String name, int birthYear, int birthMonth,
+			int birthDay, String position, int gender, String phone,
+			String phone2, String serialId, int hospitalCode, int visitDateYear,
+			int visitDateMonth, int visitDateDay, int consentYear,
+			int consentMonth, int consentDay, int participationDateYear,
+			int participationDateMonth, int participationDateDay,
+			int participationStatus, String experimentalGroup, boolean hasCRF,
+			boolean hasCohortStudy, boolean hasMRIStudy,
 			com.liferay.portal.kernel.service.ServiceContext sc)
 		throws PortalException {
 
 		return getService().updatePatient(
-			patientId, patientUserId, name, birthYear, birthMonth, birthDay,
-			phone, position, gender, consentYear, consentMonth, consentDay,
+			patientId, name, birthYear, birthMonth, birthDay, position, gender,
+			phone, phone2, serialId, hospitalCode, visitDateYear,
+			visitDateMonth, visitDateDay, consentYear, consentMonth, consentDay,
 			participationDateYear, participationDateMonth, participationDateDay,
-			participationStatus, experimentalGroup, sc);
+			participationStatus, experimentalGroup, hasCRF, hasCohortStudy,
+			hasMRIStudy, sc);
 	}
 
 	/**

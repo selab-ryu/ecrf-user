@@ -55,12 +55,12 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import ecrf.user.model.Project;
 import ecrf.user.service.ProjectLocalService;
 import ecrf.user.service.ProjectLocalServiceUtil;
-import ecrf.user.service.persistence.CRFPatientPersistence;
 import ecrf.user.service.persistence.CRFPersistence;
 import ecrf.user.service.persistence.CRFResearcherPersistence;
-import ecrf.user.service.persistence.PatientPersistence;
+import ecrf.user.service.persistence.CRFSubjectPersistence;
 import ecrf.user.service.persistence.ProjectPersistence;
 import ecrf.user.service.persistence.ResearcherPersistence;
+import ecrf.user.service.persistence.SubjectPersistence;
 
 import java.io.Serializable;
 
@@ -611,13 +611,10 @@ public abstract class ProjectLocalServiceBaseImpl
 	protected CRFPersistence crfPersistence;
 
 	@Reference
-	protected CRFPatientPersistence crfPatientPersistence;
-
-	@Reference
 	protected CRFResearcherPersistence crfResearcherPersistence;
 
 	@Reference
-	protected PatientPersistence patientPersistence;
+	protected CRFSubjectPersistence crfSubjectPersistence;
 
 	protected ProjectLocalService projectLocalService;
 
@@ -626,6 +623,9 @@ public abstract class ProjectLocalServiceBaseImpl
 
 	@Reference
 	protected ResearcherPersistence researcherPersistence;
+
+	@Reference
+	protected SubjectPersistence subjectPersistence;
 
 	@Reference
 	protected com.liferay.counter.kernel.service.CounterLocalService

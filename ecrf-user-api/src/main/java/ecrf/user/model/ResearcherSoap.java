@@ -34,7 +34,6 @@ public class ResearcherSoap implements Serializable {
 		soapModel.setMvccVersion(model.getMvccVersion());
 		soapModel.setUuid(model.getUuid());
 		soapModel.setResearcherId(model.getResearcherId());
-		soapModel.setGroupId(model.getGroupId());
 		soapModel.setCompanyId(model.getCompanyId());
 		soapModel.setUserId(model.getUserId());
 		soapModel.setUserName(model.getUserName());
@@ -128,14 +127,6 @@ public class ResearcherSoap implements Serializable {
 
 	public void setResearcherId(long researcherId) {
 		_researcherId = researcherId;
-	}
-
-	public long getGroupId() {
-		return _groupId;
-	}
-
-	public void setGroupId(long groupId) {
-		_groupId = groupId;
 	}
 
 	public long getCompanyId() {
@@ -285,7 +276,6 @@ public class ResearcherSoap implements Serializable {
 	private long _mvccVersion;
 	private String _uuid;
 	private long _researcherId;
-	private long _groupId;
 	private long _companyId;
 	private long _userId;
 	private String _userName;
