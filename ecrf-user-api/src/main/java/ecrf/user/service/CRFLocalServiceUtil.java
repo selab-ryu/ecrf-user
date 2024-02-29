@@ -63,17 +63,15 @@ public class CRFLocalServiceUtil {
 	public static CRF addCRF(
 			String crfName, String crfVersion,
 			Map<java.util.Locale, String> titleMap,
-			Map<java.util.Locale, String> descriptionMap, long managerId,
-			int applyDateYear, int applyDateMonth, int applyDateDay,
-			int crfStatus,
+			Map<java.util.Locale, String> descriptionMap, int applyDateYear,
+			int applyDateMonth, int applyDateDay, int crfStatus,
 			com.liferay.portal.kernel.service.ServiceContext crfsc,
 			com.liferay.portal.kernel.service.ServiceContext dtsc)
 		throws PortalException {
 
 		return getService().addCRF(
-			crfName, crfVersion, titleMap, descriptionMap, managerId,
-			applyDateYear, applyDateMonth, applyDateDay, crfStatus, crfsc,
-			dtsc);
+			crfName, crfVersion, titleMap, descriptionMap, applyDateYear,
+			applyDateMonth, applyDateDay, crfStatus, crfsc, dtsc);
 	}
 
 	/**
@@ -261,24 +259,6 @@ public class CRFLocalServiceUtil {
 		return getService().getCRFByGroupId(groupId, start, end, comparator);
 	}
 
-	public static List<CRF> getCRFByManagerId(long groupId, long managerId) {
-		return getService().getCRFByManagerId(groupId, managerId);
-	}
-
-	public static List<CRF> getCRFByManagerId(
-		long groupId, long managerId, int start, int end) {
-
-		return getService().getCRFByManagerId(groupId, managerId, start, end);
-	}
-
-	public static List<CRF> getCRFByManagerId(
-		long groupId, long managerId, int start, int end,
-		OrderByComparator comparator) {
-
-		return getService().getCRFByManagerId(
-			groupId, managerId, start, end, comparator);
-	}
-
 	/**
 	 * Returns the crf matching the UUID and group.
 	 *
@@ -295,10 +275,6 @@ public class CRFLocalServiceUtil {
 
 	public static int getCRFCount(long groupId) {
 		return getService().getCRFCount(groupId);
-	}
-
-	public static int getCRFCountByManagerId(long groupId, long managerId) {
-		return getService().getCRFCountByManagerId(groupId, managerId);
 	}
 
 	/**
@@ -356,6 +332,10 @@ public class CRFLocalServiceUtil {
 		return getService().getCRFsCount();
 	}
 
+	public static long getDataTypeId(long crfId) {
+		return getService().getDataTypeId(crfId);
+	}
+
 	public static com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery
 		getExportActionableDynamicQuery(
 			com.liferay.exportimport.kernel.lar.PortletDataContext
@@ -389,6 +369,10 @@ public class CRFLocalServiceUtil {
 		return getService().getPersistedModel(primaryKeyObj);
 	}
 
+	public static String getTitle(long crfId, java.util.Locale locale) {
+		return getService().getTitle(crfId, locale);
+	}
+
 	/**
 	 * Updates the crf in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *
@@ -406,25 +390,22 @@ public class CRFLocalServiceUtil {
 	public static CRF updateCRF(
 			long crfId, String crfName, String crfVersion,
 			Map<java.util.Locale, String> titleMap,
-			Map<java.util.Locale, String> descriptionMap, long managerId,
-			int applyDateYear, int applyDateMonth, int applyDateDay,
-			int crfStatus,
+			Map<java.util.Locale, String> descriptionMap, int applyDateYear,
+			int applyDateMonth, int applyDateDay, int crfStatus,
 			com.liferay.portal.kernel.service.ServiceContext crfsc,
 			com.liferay.portal.kernel.service.ServiceContext dtsc)
 		throws PortalException {
 
 		return getService().updateCRF(
-			crfId, crfName, crfVersion, titleMap, descriptionMap, managerId,
-			applyDateYear, applyDateMonth, applyDateDay, crfStatus, crfsc,
-			dtsc);
+			crfId, crfName, crfVersion, titleMap, descriptionMap, applyDateYear,
+			applyDateMonth, applyDateDay, crfStatus, crfsc, dtsc);
 	}
 
-	public static CRF updateManager(
-			long crfId, long managerId,
-			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws PortalException {
+	public static CRF updateCRFStatus(
+		long crfId, int crfStatus,
+		com.liferay.portal.kernel.service.ServiceContext sc) {
 
-		return getService().updateManager(crfId, managerId, sc);
+		return getService().updateCRFStatus(crfId, crfStatus, sc);
 	}
 
 	public static CRFLocalService getService() {

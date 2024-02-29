@@ -1,12 +1,6 @@
 <?xml version="1.0"?>
 
 <model-hints>
-	<hint-collection name="SEARCHABLE-DATE">
-		<hint name="month-nullable">true</hint>
-		<hint name="day-nullable">true</hint>
-		<hint name="year-nullable">true</hint>
-		<hint name="show-time">false</hint>
-	</hint-collection>
 	<hint-collection name="EDITOR">
 		<hint name="editor">true</hint>
 		<hint name="max-length">2000000</hint>
@@ -31,9 +25,64 @@
 		<field name="statusByUserName" type="String" />
 		<field name="statusDate" type="Date" />
 		<field name="datatypeId" type="long" />
-		<field name="managerId" type="long" />
-		<field name="applyDate" type="Date" />
 		<field name="crfStatus" type="int" />
+		<field name="applyDate" type="Date" />
+	</model>
+	<model name="ecrf.user.model.CRFAutoquery">
+		<field name="mvccVersion" type="long" />
+		<field name="uuid" type="String" />
+		<field name="autoQueryId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+		<field name="subjectId" type="long" />
+		<field name="crfId" type="long" />
+		<field name="queryTermId" type="long" />
+		<field name="queryTermName" type="String" />
+		<field name="queryValue" type="String" />
+		<field name="queryPreviousValue" type="String" />
+		<field name="queryType" type="int" />
+		<field name="queryComment" type="String" />
+		<field name="queryComfirm" type="int" />
+		<field name="queryComfirmUserId" type="long" />
+		<field name="queryComfirmUserName" type="String" />
+		<field name="queryComfirmDate" type="Date" />
+	</model>
+	<model name="ecrf.user.model.CRFHistory">
+		<field name="mvccVersion" type="long" />
+		<field name="uuid" type="String" />
+		<field name="historyId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+		<field name="subjectId" type="long" />
+		<field name="subjectName" type="String" />
+		<field name="serialId" type="String" />
+		<field name="crfId" type="long" />
+		<field name="structuredDataId" type="long" />
+		<field name="actionType" type="int" />
+		<field name="previousJSON" type="String">
+			<hint name="max-length">4096</hint>
+		</field>
+		<field name="currentJSON" type="String">
+			<hint name="max-length">4096</hint>
+		</field>
+		<field name="historyVersion" type="String" />
+		<field name="previousHistoryVersion" type="String" />
 	</model>
 	<model name="ecrf.user.model.CRFResearcher">
 		<field name="mvccVersion" type="long" />
@@ -47,6 +96,19 @@
 		<field name="modifiedDate" type="Date" />
 		<field name="researcherId" type="long" />
 		<field name="crfId" type="long" />
+		<field name="jobTitle" type="String" />
+	</model>
+	<model name="ecrf.user.model.CRFSearchLog">
+		<field name="mvccVersion" type="long" />
+		<field name="uuid" type="String" />
+		<field name="searchLogId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="searchLog" type="String" />
 	</model>
 	<model name="ecrf.user.model.CRFSubject">
 		<field name="mvccVersion" type="long" />
@@ -60,6 +122,23 @@
 		<field name="modifiedDate" type="Date" />
 		<field name="crfId" type="long" />
 		<field name="subjectId" type="long" />
+		<field name="participationStatus" type="int" />
+		<field name="participationStartDate" type="Date" />
+		<field name="experimentalGroup" type="String" />
+	</model>
+	<model name="ecrf.user.model.LinkCRF">
+		<field name="mvccVersion" type="long" />
+		<field name="uuid" type="String" />
+		<field name="linkId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="subjectId" type="long" />
+		<field name="crfId" type="long" />
+		<field name="structuredDataId" type="long" />
 	</model>
 	<model name="ecrf.user.model.Project">
 		<field name="mvccVersion" type="long" />
@@ -80,12 +159,8 @@
 		<field name="purpose" type="String">
 			<hint-collection name="TEXTAREA" />
 		</field>
-		<field name="startDate" type="Date">
-			<hint-collection name="SEARCHABLE-DATE" />
-		</field>
-		<field name="endDate" type="Date">
-			<hint-collection name="SEARCHABLE-DATE" />
-		</field>
+		<field name="startDate" type="Date" />
+		<field name="endDate" type="Date" />
 		<field name="principalResearcherId" type="long" />
 		<field name="manageResearcherId" type="long" />
 	</model>
@@ -105,6 +180,7 @@
 		<field name="name" type="String" />
 		<field name="email" type="String" />
 		<field name="birth" type="Date" />
+		<field name="gender" type="int" />
 		<field name="phone" type="String" />
 		<field name="institution" type="String" />
 		<field name="officeContact" type="String" />
@@ -134,13 +210,5 @@
 		<field name="address" type="String" />
 		<field name="serialId" type="String" />
 		<field name="hospitalCode" type="int" />
-		<field name="visitDate" type="Date" />
-		<field name="consentDate" type="Date" />
-		<field name="participationStartDate" type="Date" />
-		<field name="participationStatus" type="int" />
-		<field name="experimentalGroup" type="String" />
-		<field name="hasCRF" type="Boolean" />
-		<field name="hasCohortStudy" type="Boolean" />
-		<field name="hasMRIStudy" type="Boolean" />
 	</model>
 </model-hints>

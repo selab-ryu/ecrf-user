@@ -52,14 +52,6 @@ public class SubjectSoap implements Serializable {
 		soapModel.setAddress(model.getAddress());
 		soapModel.setSerialId(model.getSerialId());
 		soapModel.setHospitalCode(model.getHospitalCode());
-		soapModel.setVisitDate(model.getVisitDate());
-		soapModel.setConsentDate(model.getConsentDate());
-		soapModel.setParticipationStartDate(model.getParticipationStartDate());
-		soapModel.setParticipationStatus(model.getParticipationStatus());
-		soapModel.setExperimentalGroup(model.getExperimentalGroup());
-		soapModel.setHasCRF(model.getHasCRF());
-		soapModel.setHasCohortStudy(model.getHasCohortStudy());
-		soapModel.setHasMRIStudy(model.getHasMRIStudy());
 
 		return soapModel;
 	}
@@ -281,70 +273,6 @@ public class SubjectSoap implements Serializable {
 		_hospitalCode = hospitalCode;
 	}
 
-	public Date getVisitDate() {
-		return _visitDate;
-	}
-
-	public void setVisitDate(Date visitDate) {
-		_visitDate = visitDate;
-	}
-
-	public Date getConsentDate() {
-		return _consentDate;
-	}
-
-	public void setConsentDate(Date consentDate) {
-		_consentDate = consentDate;
-	}
-
-	public Date getParticipationStartDate() {
-		return _participationStartDate;
-	}
-
-	public void setParticipationStartDate(Date participationStartDate) {
-		_participationStartDate = participationStartDate;
-	}
-
-	public int getParticipationStatus() {
-		return _participationStatus;
-	}
-
-	public void setParticipationStatus(int participationStatus) {
-		_participationStatus = participationStatus;
-	}
-
-	public String getExperimentalGroup() {
-		return _experimentalGroup;
-	}
-
-	public void setExperimentalGroup(String experimentalGroup) {
-		_experimentalGroup = experimentalGroup;
-	}
-
-	public Boolean getHasCRF() {
-		return _hasCRF;
-	}
-
-	public void setHasCRF(Boolean hasCRF) {
-		_hasCRF = hasCRF;
-	}
-
-	public Boolean getHasCohortStudy() {
-		return _hasCohortStudy;
-	}
-
-	public void setHasCohortStudy(Boolean hasCohortStudy) {
-		_hasCohortStudy = hasCohortStudy;
-	}
-
-	public Boolean getHasMRIStudy() {
-		return _hasMRIStudy;
-	}
-
-	public void setHasMRIStudy(Boolean hasMRIStudy) {
-		_hasMRIStudy = hasMRIStudy;
-	}
-
 	private long _mvccVersion;
 	private String _uuid;
 	private long _subjectId;
@@ -366,13 +294,5 @@ public class SubjectSoap implements Serializable {
 	private String _address;
 	private String _serialId;
 	private int _hospitalCode;
-	private Date _visitDate;
-	private Date _consentDate;
-	private Date _participationStartDate;
-	private int _participationStatus;
-	private String _experimentalGroup;
-	private Boolean _hasCRF;
-	private Boolean _hasCohortStudy;
-	private Boolean _hasMRIStudy;
 
 }

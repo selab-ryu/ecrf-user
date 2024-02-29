@@ -10,7 +10,7 @@ import java.util.Locale;
 
 import org.osgi.service.component.annotations.Component;
 
-import ecrf.user.constants.ECRFUserResearcherAttributes;
+import ecrf.user.constants.attribute.ECRFUserResearcherAttributes;
 
 @Component(
     immediate = true,

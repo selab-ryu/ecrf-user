@@ -37,6 +37,7 @@ import ecrf.user.model.CRFResearcher;
 
 import java.io.Serializable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.osgi.annotation.versioning.ProviderType;
@@ -79,8 +80,12 @@ public interface CRFResearcherLocalService
 	public CRFResearcher addCRFResearcher(CRFResearcher crfResearcher);
 
 	public CRFResearcher addCRFResearcher(
-			long researcherId, long crfId, ServiceContext sc)
+			long researcherId, long crfId, String jobTitle, ServiceContext sc)
 		throws PortalException;
+
+	public int countCRFResearcherByG_C(long groupId, long crfId);
+
+	public int countCRFResearcherByG_R(long groupId, long researcherId);
 
 	/**
 	 * Creates a new crf researcher with the primary key. Does not add the crf researcher to the database.
@@ -221,16 +226,34 @@ public interface CRFResearcherLocalService
 		throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<CRFResearcher> getCRFResearcherByCRFId(
-		long groupId, long crfId);
+	public CRFResearcher getCRFResearcherByC_R(long crfId, long researcherId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<CRFResearcher> getCRFResearcherByCRFId(
+	public List<CRFResearcher> getCRFResearcherByCRFId(long crfId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<CRFResearcher> getCRFResearcherByG_C(long groupId, long crfId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<CRFResearcher> getCRFResearcherByG_C(
 		long groupId, long crfId, int start, int end);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<CRFResearcher> getCRFResearcherByCRFId(
+	public List<CRFResearcher> getCRFResearcherByG_C(
 		long groupId, long crfId, int start, int end,
+		OrderByComparator comparator);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<CRFResearcher> getCRFResearcherByG_R(
+		long groupId, long researcherId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<CRFResearcher> getCRFResearcherByG_R(
+		long groupId, long researcherId, int start, int end);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<CRFResearcher> getCRFResearcherByG_R(
+		long groupId, long researcherId, int start, int end,
 		OrderByComparator comparator);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
@@ -246,16 +269,7 @@ public interface CRFResearcherLocalService
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<CRFResearcher> getCRFResearcherByResearcherId(
-		long groupId, long researcherId);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<CRFResearcher> getCRFResearcherByResearcherId(
-		long groupId, long researcherId, int start, int end);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<CRFResearcher> getCRFResearcherByResearcherId(
-		long groupId, long researcherId, int start, int end,
-		OrderByComparator comparator);
+		long researcherId);
 
 	/**
 	 * Returns the crf researcher matching the UUID and group.
@@ -272,13 +286,6 @@ public interface CRFResearcherLocalService
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getCRFResearcherCount(long groupId);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getCRFResearcherCountByCRFId(long groupId, long crfId);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getCRFResearcherCountByResearcherId(
-		long groupId, long researcherId);
 
 	/**
 	 * Returns a range of all the crf researchers.
@@ -350,6 +357,9 @@ public interface CRFResearcherLocalService
 	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
 		throws PortalException;
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public boolean isResearcherInCRF(long crfId, long userId);
+
 	/**
 	 * Updates the crf researcher in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *
@@ -362,5 +372,10 @@ public interface CRFResearcherLocalService
 	 */
 	@Indexable(type = IndexableType.REINDEX)
 	public CRFResearcher updateCRFResearcher(CRFResearcher crfResearcher);
+
+	public void updateCRFResearchers(
+			long crfId, ArrayList<CRFResearcher> crfResearcherList,
+			ServiceContext sc)
+		throws PortalException;
 
 }

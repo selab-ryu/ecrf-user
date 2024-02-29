@@ -78,7 +78,7 @@ public class CRFSubjectCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(23);
+		StringBundler sb = new StringBundler(29);
 
 		sb.append("{mvccVersion=");
 		sb.append(mvccVersion);
@@ -102,6 +102,12 @@ public class CRFSubjectCacheModel
 		sb.append(crfId);
 		sb.append(", subjectId=");
 		sb.append(subjectId);
+		sb.append(", participationStatus=");
+		sb.append(participationStatus);
+		sb.append(", participationStartDate=");
+		sb.append(participationStartDate);
+		sb.append(", experimentalGroup=");
+		sb.append(experimentalGroup);
 		sb.append("}");
 
 		return sb.toString();
@@ -148,6 +154,22 @@ public class CRFSubjectCacheModel
 
 		crfSubjectImpl.setCrfId(crfId);
 		crfSubjectImpl.setSubjectId(subjectId);
+		crfSubjectImpl.setParticipationStatus(participationStatus);
+
+		if (participationStartDate == Long.MIN_VALUE) {
+			crfSubjectImpl.setParticipationStartDate(null);
+		}
+		else {
+			crfSubjectImpl.setParticipationStartDate(
+				new Date(participationStartDate));
+		}
+
+		if (experimentalGroup == null) {
+			crfSubjectImpl.setExperimentalGroup("");
+		}
+		else {
+			crfSubjectImpl.setExperimentalGroup(experimentalGroup);
+		}
 
 		crfSubjectImpl.resetOriginalValues();
 
@@ -173,6 +195,10 @@ public class CRFSubjectCacheModel
 		crfId = objectInput.readLong();
 
 		subjectId = objectInput.readLong();
+
+		participationStatus = objectInput.readInt();
+		participationStartDate = objectInput.readLong();
+		experimentalGroup = objectInput.readUTF();
 	}
 
 	@Override
@@ -207,6 +233,16 @@ public class CRFSubjectCacheModel
 		objectOutput.writeLong(crfId);
 
 		objectOutput.writeLong(subjectId);
+
+		objectOutput.writeInt(participationStatus);
+		objectOutput.writeLong(participationStartDate);
+
+		if (experimentalGroup == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(experimentalGroup);
+		}
 	}
 
 	public long mvccVersion;
@@ -220,5 +256,8 @@ public class CRFSubjectCacheModel
 	public long modifiedDate;
 	public long crfId;
 	public long subjectId;
+	public int participationStatus;
+	public long participationStartDate;
+	public String experimentalGroup;
 
 }

@@ -18,7 +18,6 @@
 	            <action-key>ADD_PATIENT</action-key>
 	            <action-key>ADD_CRF</action-key>
 	            <action-key>ADD_CRF_RESEARCHER</action-key>
-	            <action-key>ADD_CRF_PATIENT</action-key>
 	            <action-key>APPROVE_MEMBERSHIP</action-key>
 	            <action-key>PERMISSIONS</action-key>
 	        </supports>
@@ -31,7 +30,6 @@
 	            <action-key>ADD_PATIENT</action-key>
 	            <action-key>ADD_CRF</action-key>
 	            <action-key>ADD_CRF_RESEARCHER</action-key>
-	            <action-key>ADD_CRF_PATIENT</action-key>
 	            <action-key>APPROVE_MEMBERSHIP</action-key>
 	            <action-key>PERMISSIONS</action-key>
 	        </guest-unsupported>

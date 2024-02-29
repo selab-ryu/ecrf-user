@@ -20,7 +20,13 @@ import com.liferay.portal.kernel.jsonwebservice.JSONWebService;
 import com.liferay.portal.kernel.security.access.control.AccessControlled;
 import com.liferay.portal.kernel.service.BaseService;
 import com.liferay.portal.kernel.transaction.Isolation;
+import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
+
+import ecrf.user.model.Subject;
+import ecrf.user.model.custom.CRFSubjectInfo;
+
+import java.util.ArrayList;
 
 import org.osgi.annotation.versioning.ProviderType;
 
@@ -47,6 +53,25 @@ public interface CRFSubjectService extends BaseService {
 	 *
 	 * Never modify this interface directly. Add custom service methods to <code>ecrf.user.service.impl.CRFSubjectServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the crf subject remote service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link CRFSubjectServiceUtil} if injection and service tracking are not available.
 	 */
+	@JSONWebService(value = "get-all-crf-subject-info-list")
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public ArrayList<CRFSubjectInfo> getAllCRFSubjectInfoList(
+		long groupId, long crfId);
+
+	@JSONWebService(value = "get-subject-list-by-experimental-group")
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public ArrayList<Subject> getCRFSubjectByExGroup(
+		long groupId, long crfId, String exGroup);
+
+	@JSONWebService(value = "get-crf-subject-list")
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public ArrayList<CRFSubjectInfo> getCRFSubjectList(
+		long groupId, long crfId);
+
+	@JSONWebService(value = "get-crf-subject-list-not-included")
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public ArrayList<Subject> getCRFSubjectListNotIncluded(
+		long groupId, long crfId);
 
 	/**
 	 * Returns the OSGi service identifier.
@@ -54,5 +79,9 @@ public interface CRFSubjectService extends BaseService {
 	 * @return the OSGi service identifier
 	 */
 	public String getOSGiServiceIdentifier();
+
+	@JSONWebService(value = "get-subject-list")
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public ArrayList<Subject> getSubjectList(long groupId);
 
 }

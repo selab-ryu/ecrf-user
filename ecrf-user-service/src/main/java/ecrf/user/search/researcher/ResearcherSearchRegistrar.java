@@ -13,7 +13,7 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 
-import ecrf.user.constants.ECRFUserResearcherAttributes;
+import ecrf.user.constants.attribute.ECRFUserResearcherAttributes;
 import ecrf.user.model.Researcher;
 
 @Component (immediate=true)

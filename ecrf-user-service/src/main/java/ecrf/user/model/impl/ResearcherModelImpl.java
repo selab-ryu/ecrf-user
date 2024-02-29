@@ -85,10 +85,10 @@ public class ResearcherModelImpl
 		{"status", Types.INTEGER}, {"statusByUserId", Types.BIGINT},
 		{"statusByUserName", Types.VARCHAR}, {"statusDate", Types.TIMESTAMP},
 		{"name", Types.VARCHAR}, {"email", Types.VARCHAR},
-		{"birth", Types.TIMESTAMP}, {"phone", Types.VARCHAR},
-		{"institution", Types.VARCHAR}, {"officeContact", Types.VARCHAR},
-		{"position", Types.VARCHAR}, {"approveStatus", Types.INTEGER},
-		{"researcherUserId", Types.BIGINT}
+		{"birth", Types.TIMESTAMP}, {"gender", Types.INTEGER},
+		{"phone", Types.VARCHAR}, {"institution", Types.VARCHAR},
+		{"officeContact", Types.VARCHAR}, {"position", Types.VARCHAR},
+		{"approveStatus", Types.INTEGER}, {"researcherUserId", Types.BIGINT}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -110,6 +110,7 @@ public class ResearcherModelImpl
 		TABLE_COLUMNS_MAP.put("name", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("email", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("birth", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("gender", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("phone", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("institution", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("officeContact", Types.VARCHAR);
@@ -119,7 +120,7 @@ public class ResearcherModelImpl
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table EC_Researcher (mvccVersion LONG default 0 not null,uuid_ VARCHAR(75) null,researcherId LONG not null primary key,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,name VARCHAR(75) null,email VARCHAR(75) null,birth DATE null,phone VARCHAR(75) null,institution VARCHAR(75) null,officeContact VARCHAR(75) null,position VARCHAR(75) null,approveStatus INTEGER,researcherUserId LONG)";
+		"create table EC_Researcher (mvccVersion LONG default 0 not null,uuid_ VARCHAR(75) null,researcherId LONG not null primary key,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,name VARCHAR(75) null,email VARCHAR(75) null,birth DATE null,gender INTEGER,phone VARCHAR(75) null,institution VARCHAR(75) null,officeContact VARCHAR(75) null,position VARCHAR(75) null,approveStatus INTEGER,researcherUserId LONG)";
 
 	public static final String TABLE_SQL_DROP = "drop table EC_Researcher";
 
@@ -185,6 +186,7 @@ public class ResearcherModelImpl
 		model.setName(soapModel.getName());
 		model.setEmail(soapModel.getEmail());
 		model.setBirth(soapModel.getBirth());
+		model.setGender(soapModel.getGender());
 		model.setPhone(soapModel.getPhone());
 		model.setInstitution(soapModel.getInstitution());
 		model.setOfficeContact(soapModel.getOfficeContact());
@@ -371,6 +373,9 @@ public class ResearcherModelImpl
 		attributeGetterFunctions.put("birth", Researcher::getBirth);
 		attributeSetterBiConsumers.put(
 			"birth", (BiConsumer<Researcher, Date>)Researcher::setBirth);
+		attributeGetterFunctions.put("gender", Researcher::getGender);
+		attributeSetterBiConsumers.put(
+			"gender", (BiConsumer<Researcher, Integer>)Researcher::setGender);
 		attributeGetterFunctions.put("phone", Researcher::getPhone);
 		attributeSetterBiConsumers.put(
 			"phone", (BiConsumer<Researcher, String>)Researcher::setPhone);
@@ -672,6 +677,17 @@ public class ResearcherModelImpl
 
 	@JSON
 	@Override
+	public int getGender() {
+		return _gender;
+	}
+
+	@Override
+	public void setGender(int gender) {
+		_gender = gender;
+	}
+
+	@JSON
+	@Override
 	public String getPhone() {
 		if (_phone == null) {
 			return "";
@@ -931,6 +947,7 @@ public class ResearcherModelImpl
 		researcherImpl.setName(getName());
 		researcherImpl.setEmail(getEmail());
 		researcherImpl.setBirth(getBirth());
+		researcherImpl.setGender(getGender());
 		researcherImpl.setPhone(getPhone());
 		researcherImpl.setInstitution(getInstitution());
 		researcherImpl.setOfficeContact(getOfficeContact());
@@ -1123,6 +1140,8 @@ public class ResearcherModelImpl
 			researcherCacheModel.birth = Long.MIN_VALUE;
 		}
 
+		researcherCacheModel.gender = getGender();
+
 		researcherCacheModel.phone = getPhone();
 
 		String phone = researcherCacheModel.phone;
@@ -1275,6 +1294,7 @@ public class ResearcherModelImpl
 	private String _name;
 	private String _email;
 	private Date _birth;
+	private int _gender;
 	private String _phone;
 	private String _institution;
 	private String _officeContact;

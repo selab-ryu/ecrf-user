@@ -82,7 +82,7 @@ public class CRFResearcherModelImpl
 		{"companyId", Types.BIGINT}, {"userId", Types.BIGINT},
 		{"userName", Types.VARCHAR}, {"createDate", Types.TIMESTAMP},
 		{"modifiedDate", Types.TIMESTAMP}, {"researcherId", Types.BIGINT},
-		{"crfId", Types.BIGINT}
+		{"crfId", Types.BIGINT}, {"jobTitle", Types.VARCHAR}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -100,10 +100,11 @@ public class CRFResearcherModelImpl
 		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("researcherId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("crfId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("jobTitle", Types.VARCHAR);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table EC_CRFResearcher (mvccVersion LONG default 0 not null,uuid_ VARCHAR(75) null,crfResearcherId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,researcherId LONG,crfId LONG)";
+		"create table EC_CRFResearcher (mvccVersion LONG default 0 not null,uuid_ VARCHAR(75) null,crfResearcherId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,researcherId LONG,crfId LONG,jobTitle VARCHAR(75) null)";
 
 	public static final String TABLE_SQL_DROP = "drop table EC_CRFResearcher";
 
@@ -163,6 +164,7 @@ public class CRFResearcherModelImpl
 		model.setModifiedDate(soapModel.getModifiedDate());
 		model.setResearcherId(soapModel.getResearcherId());
 		model.setCrfId(soapModel.getCrfId());
+		model.setJobTitle(soapModel.getJobTitle());
 
 		return model;
 	}
@@ -334,6 +336,10 @@ public class CRFResearcherModelImpl
 		attributeGetterFunctions.put("crfId", CRFResearcher::getCrfId);
 		attributeSetterBiConsumers.put(
 			"crfId", (BiConsumer<CRFResearcher, Long>)CRFResearcher::setCrfId);
+		attributeGetterFunctions.put("jobTitle", CRFResearcher::getJobTitle);
+		attributeSetterBiConsumers.put(
+			"jobTitle",
+			(BiConsumer<CRFResearcher, String>)CRFResearcher::setJobTitle);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -554,6 +560,22 @@ public class CRFResearcherModelImpl
 		return _originalCrfId;
 	}
 
+	@JSON
+	@Override
+	public String getJobTitle() {
+		if (_jobTitle == null) {
+			return "";
+		}
+		else {
+			return _jobTitle;
+		}
+	}
+
+	@Override
+	public void setJobTitle(String jobTitle) {
+		_jobTitle = jobTitle;
+	}
+
 	@Override
 	public StagedModelType getStagedModelType() {
 		return new StagedModelType(
@@ -607,6 +629,7 @@ public class CRFResearcherModelImpl
 		crfResearcherImpl.setModifiedDate(getModifiedDate());
 		crfResearcherImpl.setResearcherId(getResearcherId());
 		crfResearcherImpl.setCrfId(getCrfId());
+		crfResearcherImpl.setJobTitle(getJobTitle());
 
 		crfResearcherImpl.resetOriginalValues();
 
@@ -757,6 +780,14 @@ public class CRFResearcherModelImpl
 
 		crfResearcherCacheModel.crfId = getCrfId();
 
+		crfResearcherCacheModel.jobTitle = getJobTitle();
+
+		String jobTitle = crfResearcherCacheModel.jobTitle;
+
+		if ((jobTitle != null) && (jobTitle.length() == 0)) {
+			crfResearcherCacheModel.jobTitle = null;
+		}
+
 		return crfResearcherCacheModel;
 	}
 
@@ -873,6 +904,7 @@ public class CRFResearcherModelImpl
 	private long _crfId;
 	private long _originalCrfId;
 	private boolean _setOriginalCrfId;
+	private String _jobTitle;
 	private long _columnBitmask;
 	private CRFResearcher _escapedModel;
 

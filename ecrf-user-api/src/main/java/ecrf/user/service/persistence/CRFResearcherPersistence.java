@@ -534,6 +534,292 @@ public interface CRFResearcherPersistence
 	public int countByGroupId(long groupId);
 
 	/**
+	 * Returns all the crf researchers where crfId = &#63;.
+	 *
+	 * @param crfId the crf ID
+	 * @return the matching crf researchers
+	 */
+	public java.util.List<CRFResearcher> findByCRFId(long crfId);
+
+	/**
+	 * Returns a range of all the crf researchers where crfId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFResearcherModelImpl</code>.
+	 * </p>
+	 *
+	 * @param crfId the crf ID
+	 * @param start the lower bound of the range of crf researchers
+	 * @param end the upper bound of the range of crf researchers (not inclusive)
+	 * @return the range of matching crf researchers
+	 */
+	public java.util.List<CRFResearcher> findByCRFId(
+		long crfId, int start, int end);
+
+	/**
+	 * Returns an ordered range of all the crf researchers where crfId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFResearcherModelImpl</code>.
+	 * </p>
+	 *
+	 * @param crfId the crf ID
+	 * @param start the lower bound of the range of crf researchers
+	 * @param end the upper bound of the range of crf researchers (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching crf researchers
+	 */
+	public java.util.List<CRFResearcher> findByCRFId(
+		long crfId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<CRFResearcher>
+			orderByComparator);
+
+	/**
+	 * Returns an ordered range of all the crf researchers where crfId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFResearcherModelImpl</code>.
+	 * </p>
+	 *
+	 * @param crfId the crf ID
+	 * @param start the lower bound of the range of crf researchers
+	 * @param end the upper bound of the range of crf researchers (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching crf researchers
+	 */
+	public java.util.List<CRFResearcher> findByCRFId(
+		long crfId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<CRFResearcher>
+			orderByComparator,
+		boolean useFinderCache);
+
+	/**
+	 * Returns the first crf researcher in the ordered set where crfId = &#63;.
+	 *
+	 * @param crfId the crf ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching crf researcher
+	 * @throws NoSuchCRFResearcherException if a matching crf researcher could not be found
+	 */
+	public CRFResearcher findByCRFId_First(
+			long crfId,
+			com.liferay.portal.kernel.util.OrderByComparator<CRFResearcher>
+				orderByComparator)
+		throws NoSuchCRFResearcherException;
+
+	/**
+	 * Returns the first crf researcher in the ordered set where crfId = &#63;.
+	 *
+	 * @param crfId the crf ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching crf researcher, or <code>null</code> if a matching crf researcher could not be found
+	 */
+	public CRFResearcher fetchByCRFId_First(
+		long crfId,
+		com.liferay.portal.kernel.util.OrderByComparator<CRFResearcher>
+			orderByComparator);
+
+	/**
+	 * Returns the last crf researcher in the ordered set where crfId = &#63;.
+	 *
+	 * @param crfId the crf ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching crf researcher
+	 * @throws NoSuchCRFResearcherException if a matching crf researcher could not be found
+	 */
+	public CRFResearcher findByCRFId_Last(
+			long crfId,
+			com.liferay.portal.kernel.util.OrderByComparator<CRFResearcher>
+				orderByComparator)
+		throws NoSuchCRFResearcherException;
+
+	/**
+	 * Returns the last crf researcher in the ordered set where crfId = &#63;.
+	 *
+	 * @param crfId the crf ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching crf researcher, or <code>null</code> if a matching crf researcher could not be found
+	 */
+	public CRFResearcher fetchByCRFId_Last(
+		long crfId,
+		com.liferay.portal.kernel.util.OrderByComparator<CRFResearcher>
+			orderByComparator);
+
+	/**
+	 * Returns the crf researchers before and after the current crf researcher in the ordered set where crfId = &#63;.
+	 *
+	 * @param crfResearcherId the primary key of the current crf researcher
+	 * @param crfId the crf ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next crf researcher
+	 * @throws NoSuchCRFResearcherException if a crf researcher with the primary key could not be found
+	 */
+	public CRFResearcher[] findByCRFId_PrevAndNext(
+			long crfResearcherId, long crfId,
+			com.liferay.portal.kernel.util.OrderByComparator<CRFResearcher>
+				orderByComparator)
+		throws NoSuchCRFResearcherException;
+
+	/**
+	 * Removes all the crf researchers where crfId = &#63; from the database.
+	 *
+	 * @param crfId the crf ID
+	 */
+	public void removeByCRFId(long crfId);
+
+	/**
+	 * Returns the number of crf researchers where crfId = &#63;.
+	 *
+	 * @param crfId the crf ID
+	 * @return the number of matching crf researchers
+	 */
+	public int countByCRFId(long crfId);
+
+	/**
+	 * Returns all the crf researchers where researcherId = &#63;.
+	 *
+	 * @param researcherId the researcher ID
+	 * @return the matching crf researchers
+	 */
+	public java.util.List<CRFResearcher> findByResearcherId(long researcherId);
+
+	/**
+	 * Returns a range of all the crf researchers where researcherId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFResearcherModelImpl</code>.
+	 * </p>
+	 *
+	 * @param researcherId the researcher ID
+	 * @param start the lower bound of the range of crf researchers
+	 * @param end the upper bound of the range of crf researchers (not inclusive)
+	 * @return the range of matching crf researchers
+	 */
+	public java.util.List<CRFResearcher> findByResearcherId(
+		long researcherId, int start, int end);
+
+	/**
+	 * Returns an ordered range of all the crf researchers where researcherId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFResearcherModelImpl</code>.
+	 * </p>
+	 *
+	 * @param researcherId the researcher ID
+	 * @param start the lower bound of the range of crf researchers
+	 * @param end the upper bound of the range of crf researchers (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching crf researchers
+	 */
+	public java.util.List<CRFResearcher> findByResearcherId(
+		long researcherId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<CRFResearcher>
+			orderByComparator);
+
+	/**
+	 * Returns an ordered range of all the crf researchers where researcherId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFResearcherModelImpl</code>.
+	 * </p>
+	 *
+	 * @param researcherId the researcher ID
+	 * @param start the lower bound of the range of crf researchers
+	 * @param end the upper bound of the range of crf researchers (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching crf researchers
+	 */
+	public java.util.List<CRFResearcher> findByResearcherId(
+		long researcherId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<CRFResearcher>
+			orderByComparator,
+		boolean useFinderCache);
+
+	/**
+	 * Returns the first crf researcher in the ordered set where researcherId = &#63;.
+	 *
+	 * @param researcherId the researcher ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching crf researcher
+	 * @throws NoSuchCRFResearcherException if a matching crf researcher could not be found
+	 */
+	public CRFResearcher findByResearcherId_First(
+			long researcherId,
+			com.liferay.portal.kernel.util.OrderByComparator<CRFResearcher>
+				orderByComparator)
+		throws NoSuchCRFResearcherException;
+
+	/**
+	 * Returns the first crf researcher in the ordered set where researcherId = &#63;.
+	 *
+	 * @param researcherId the researcher ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching crf researcher, or <code>null</code> if a matching crf researcher could not be found
+	 */
+	public CRFResearcher fetchByResearcherId_First(
+		long researcherId,
+		com.liferay.portal.kernel.util.OrderByComparator<CRFResearcher>
+			orderByComparator);
+
+	/**
+	 * Returns the last crf researcher in the ordered set where researcherId = &#63;.
+	 *
+	 * @param researcherId the researcher ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching crf researcher
+	 * @throws NoSuchCRFResearcherException if a matching crf researcher could not be found
+	 */
+	public CRFResearcher findByResearcherId_Last(
+			long researcherId,
+			com.liferay.portal.kernel.util.OrderByComparator<CRFResearcher>
+				orderByComparator)
+		throws NoSuchCRFResearcherException;
+
+	/**
+	 * Returns the last crf researcher in the ordered set where researcherId = &#63;.
+	 *
+	 * @param researcherId the researcher ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching crf researcher, or <code>null</code> if a matching crf researcher could not be found
+	 */
+	public CRFResearcher fetchByResearcherId_Last(
+		long researcherId,
+		com.liferay.portal.kernel.util.OrderByComparator<CRFResearcher>
+			orderByComparator);
+
+	/**
+	 * Returns the crf researchers before and after the current crf researcher in the ordered set where researcherId = &#63;.
+	 *
+	 * @param crfResearcherId the primary key of the current crf researcher
+	 * @param researcherId the researcher ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next crf researcher
+	 * @throws NoSuchCRFResearcherException if a crf researcher with the primary key could not be found
+	 */
+	public CRFResearcher[] findByResearcherId_PrevAndNext(
+			long crfResearcherId, long researcherId,
+			com.liferay.portal.kernel.util.OrderByComparator<CRFResearcher>
+				orderByComparator)
+		throws NoSuchCRFResearcherException;
+
+	/**
+	 * Removes all the crf researchers where researcherId = &#63; from the database.
+	 *
+	 * @param researcherId the researcher ID
+	 */
+	public void removeByResearcherId(long researcherId);
+
+	/**
+	 * Returns the number of crf researchers where researcherId = &#63;.
+	 *
+	 * @param researcherId the researcher ID
+	 * @return the number of matching crf researchers
+	 */
+	public int countByResearcherId(long researcherId);
+
+	/**
 	 * Returns all the crf researchers where groupId = &#63; and crfId = &#63;.
 	 *
 	 * @param groupId the group ID
@@ -841,6 +1127,56 @@ public interface CRFResearcherPersistence
 	 * @return the number of matching crf researchers
 	 */
 	public int countByG_R(long groupId, long researcherId);
+
+	/**
+	 * Returns the crf researcher where crfId = &#63; and researcherId = &#63; or throws a <code>NoSuchCRFResearcherException</code> if it could not be found.
+	 *
+	 * @param crfId the crf ID
+	 * @param researcherId the researcher ID
+	 * @return the matching crf researcher
+	 * @throws NoSuchCRFResearcherException if a matching crf researcher could not be found
+	 */
+	public CRFResearcher findByC_R(long crfId, long researcherId)
+		throws NoSuchCRFResearcherException;
+
+	/**
+	 * Returns the crf researcher where crfId = &#63; and researcherId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param crfId the crf ID
+	 * @param researcherId the researcher ID
+	 * @return the matching crf researcher, or <code>null</code> if a matching crf researcher could not be found
+	 */
+	public CRFResearcher fetchByC_R(long crfId, long researcherId);
+
+	/**
+	 * Returns the crf researcher where crfId = &#63; and researcherId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param crfId the crf ID
+	 * @param researcherId the researcher ID
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the matching crf researcher, or <code>null</code> if a matching crf researcher could not be found
+	 */
+	public CRFResearcher fetchByC_R(
+		long crfId, long researcherId, boolean useFinderCache);
+
+	/**
+	 * Removes the crf researcher where crfId = &#63; and researcherId = &#63; from the database.
+	 *
+	 * @param crfId the crf ID
+	 * @param researcherId the researcher ID
+	 * @return the crf researcher that was removed
+	 */
+	public CRFResearcher removeByC_R(long crfId, long researcherId)
+		throws NoSuchCRFResearcherException;
+
+	/**
+	 * Returns the number of crf researchers where crfId = &#63; and researcherId = &#63;.
+	 *
+	 * @param crfId the crf ID
+	 * @param researcherId the researcher ID
+	 * @return the number of matching crf researchers
+	 */
+	public int countByC_R(long crfId, long researcherId);
 
 	/**
 	 * Caches the crf researcher in the entity cache if it is enabled.

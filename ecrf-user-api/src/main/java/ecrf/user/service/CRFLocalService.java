@@ -82,9 +82,9 @@ public interface CRFLocalService
 
 	public CRF addCRF(
 			String crfName, String crfVersion, Map<Locale, String> titleMap,
-			Map<Locale, String> descriptionMap, long managerId,
-			int applyDateYear, int applyDateMonth, int applyDateDay,
-			int crfStatus, ServiceContext crfsc, ServiceContext dtsc)
+			Map<Locale, String> descriptionMap, int applyDateYear,
+			int applyDateMonth, int applyDateDay, int crfStatus,
+			ServiceContext crfsc, ServiceContext dtsc)
 		throws PortalException;
 
 	/**
@@ -236,18 +236,6 @@ public interface CRFLocalService
 	public List<CRF> getCRFByGroupId(
 		long groupId, int start, int end, OrderByComparator comparator);
 
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<CRF> getCRFByManagerId(long groupId, long managerId);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<CRF> getCRFByManagerId(
-		long groupId, long managerId, int start, int end);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<CRF> getCRFByManagerId(
-		long groupId, long managerId, int start, int end,
-		OrderByComparator comparator);
-
 	/**
 	 * Returns the crf matching the UUID and group.
 	 *
@@ -262,9 +250,6 @@ public interface CRFLocalService
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getCRFCount(long groupId);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getCRFCountByManagerId(long groupId, long managerId);
 
 	/**
 	 * Returns a range of all the crfs.
@@ -314,6 +299,9 @@ public interface CRFLocalService
 	public int getCRFsCount();
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public long getDataTypeId(long crfId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ExportActionableDynamicQuery getExportActionableDynamicQuery(
 		PortletDataContext portletDataContext);
 
@@ -335,6 +323,9 @@ public interface CRFLocalService
 	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
 		throws PortalException;
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public String getTitle(long crfId, Locale locale);
+
 	/**
 	 * Updates the crf in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *
@@ -351,12 +342,10 @@ public interface CRFLocalService
 	public CRF updateCRF(
 			long crfId, String crfName, String crfVersion,
 			Map<Locale, String> titleMap, Map<Locale, String> descriptionMap,
-			long managerId, int applyDateYear, int applyDateMonth,
-			int applyDateDay, int crfStatus, ServiceContext crfsc,
-			ServiceContext dtsc)
+			int applyDateYear, int applyDateMonth, int applyDateDay,
+			int crfStatus, ServiceContext crfsc, ServiceContext dtsc)
 		throws PortalException;
 
-	public CRF updateManager(long crfId, long managerId, ServiceContext sc)
-		throws PortalException;
+	public CRF updateCRFStatus(long crfId, int crfStatus, ServiceContext sc);
 
 }

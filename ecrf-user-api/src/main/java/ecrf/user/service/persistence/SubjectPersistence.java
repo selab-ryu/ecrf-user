@@ -388,6 +388,237 @@ public interface SubjectPersistence extends BasePersistence<Subject> {
 	public int countByUuid_C(String uuid, long companyId);
 
 	/**
+	 * Returns the subject where subjectId = &#63; or throws a <code>NoSuchSubjectException</code> if it could not be found.
+	 *
+	 * @param subjectId the subject ID
+	 * @return the matching subject
+	 * @throws NoSuchSubjectException if a matching subject could not be found
+	 */
+	public Subject findBySubjectId(long subjectId)
+		throws NoSuchSubjectException;
+
+	/**
+	 * Returns the subject where subjectId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param subjectId the subject ID
+	 * @return the matching subject, or <code>null</code> if a matching subject could not be found
+	 */
+	public Subject fetchBySubjectId(long subjectId);
+
+	/**
+	 * Returns the subject where subjectId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param subjectId the subject ID
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the matching subject, or <code>null</code> if a matching subject could not be found
+	 */
+	public Subject fetchBySubjectId(long subjectId, boolean useFinderCache);
+
+	/**
+	 * Removes the subject where subjectId = &#63; from the database.
+	 *
+	 * @param subjectId the subject ID
+	 * @return the subject that was removed
+	 */
+	public Subject removeBySubjectId(long subjectId)
+		throws NoSuchSubjectException;
+
+	/**
+	 * Returns the number of subjects where subjectId = &#63;.
+	 *
+	 * @param subjectId the subject ID
+	 * @return the number of matching subjects
+	 */
+	public int countBySubjectId(long subjectId);
+
+	/**
+	 * Returns the subject where serialId = &#63; or throws a <code>NoSuchSubjectException</code> if it could not be found.
+	 *
+	 * @param serialId the serial ID
+	 * @return the matching subject
+	 * @throws NoSuchSubjectException if a matching subject could not be found
+	 */
+	public Subject findBySerialId(String serialId)
+		throws NoSuchSubjectException;
+
+	/**
+	 * Returns the subject where serialId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param serialId the serial ID
+	 * @return the matching subject, or <code>null</code> if a matching subject could not be found
+	 */
+	public Subject fetchBySerialId(String serialId);
+
+	/**
+	 * Returns the subject where serialId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param serialId the serial ID
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the matching subject, or <code>null</code> if a matching subject could not be found
+	 */
+	public Subject fetchBySerialId(String serialId, boolean useFinderCache);
+
+	/**
+	 * Removes the subject where serialId = &#63; from the database.
+	 *
+	 * @param serialId the serial ID
+	 * @return the subject that was removed
+	 */
+	public Subject removeBySerialId(String serialId)
+		throws NoSuchSubjectException;
+
+	/**
+	 * Returns the number of subjects where serialId = &#63;.
+	 *
+	 * @param serialId the serial ID
+	 * @return the number of matching subjects
+	 */
+	public int countBySerialId(String serialId);
+
+	/**
+	 * Returns all the subjects where name = &#63;.
+	 *
+	 * @param name the name
+	 * @return the matching subjects
+	 */
+	public java.util.List<Subject> findBySubjectName(String name);
+
+	/**
+	 * Returns a range of all the subjects where name = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>SubjectModelImpl</code>.
+	 * </p>
+	 *
+	 * @param name the name
+	 * @param start the lower bound of the range of subjects
+	 * @param end the upper bound of the range of subjects (not inclusive)
+	 * @return the range of matching subjects
+	 */
+	public java.util.List<Subject> findBySubjectName(
+		String name, int start, int end);
+
+	/**
+	 * Returns an ordered range of all the subjects where name = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>SubjectModelImpl</code>.
+	 * </p>
+	 *
+	 * @param name the name
+	 * @param start the lower bound of the range of subjects
+	 * @param end the upper bound of the range of subjects (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching subjects
+	 */
+	public java.util.List<Subject> findBySubjectName(
+		String name, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Subject>
+			orderByComparator);
+
+	/**
+	 * Returns an ordered range of all the subjects where name = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>SubjectModelImpl</code>.
+	 * </p>
+	 *
+	 * @param name the name
+	 * @param start the lower bound of the range of subjects
+	 * @param end the upper bound of the range of subjects (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching subjects
+	 */
+	public java.util.List<Subject> findBySubjectName(
+		String name, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Subject>
+			orderByComparator,
+		boolean useFinderCache);
+
+	/**
+	 * Returns the first subject in the ordered set where name = &#63;.
+	 *
+	 * @param name the name
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching subject
+	 * @throws NoSuchSubjectException if a matching subject could not be found
+	 */
+	public Subject findBySubjectName_First(
+			String name,
+			com.liferay.portal.kernel.util.OrderByComparator<Subject>
+				orderByComparator)
+		throws NoSuchSubjectException;
+
+	/**
+	 * Returns the first subject in the ordered set where name = &#63;.
+	 *
+	 * @param name the name
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching subject, or <code>null</code> if a matching subject could not be found
+	 */
+	public Subject fetchBySubjectName_First(
+		String name,
+		com.liferay.portal.kernel.util.OrderByComparator<Subject>
+			orderByComparator);
+
+	/**
+	 * Returns the last subject in the ordered set where name = &#63;.
+	 *
+	 * @param name the name
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching subject
+	 * @throws NoSuchSubjectException if a matching subject could not be found
+	 */
+	public Subject findBySubjectName_Last(
+			String name,
+			com.liferay.portal.kernel.util.OrderByComparator<Subject>
+				orderByComparator)
+		throws NoSuchSubjectException;
+
+	/**
+	 * Returns the last subject in the ordered set where name = &#63;.
+	 *
+	 * @param name the name
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching subject, or <code>null</code> if a matching subject could not be found
+	 */
+	public Subject fetchBySubjectName_Last(
+		String name,
+		com.liferay.portal.kernel.util.OrderByComparator<Subject>
+			orderByComparator);
+
+	/**
+	 * Returns the subjects before and after the current subject in the ordered set where name = &#63;.
+	 *
+	 * @param subjectId the primary key of the current subject
+	 * @param name the name
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next subject
+	 * @throws NoSuchSubjectException if a subject with the primary key could not be found
+	 */
+	public Subject[] findBySubjectName_PrevAndNext(
+			long subjectId, String name,
+			com.liferay.portal.kernel.util.OrderByComparator<Subject>
+				orderByComparator)
+		throws NoSuchSubjectException;
+
+	/**
+	 * Removes all the subjects where name = &#63; from the database.
+	 *
+	 * @param name the name
+	 */
+	public void removeBySubjectName(String name);
+
+	/**
+	 * Returns the number of subjects where name = &#63;.
+	 *
+	 * @param name the name
+	 * @return the number of matching subjects
+	 */
+	public int countBySubjectName(String name);
+
+	/**
 	 * Returns all the subjects where groupId = &#63;.
 	 *
 	 * @param groupId the group ID

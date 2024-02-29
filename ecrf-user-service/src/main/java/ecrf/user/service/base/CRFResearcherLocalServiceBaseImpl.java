@@ -47,11 +47,17 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import ecrf.user.model.CRFResearcher;
 import ecrf.user.service.CRFResearcherLocalService;
 import ecrf.user.service.CRFResearcherLocalServiceUtil;
+import ecrf.user.service.persistence.CRFAutoqueryPersistence;
+import ecrf.user.service.persistence.CRFHistoryPersistence;
 import ecrf.user.service.persistence.CRFPersistence;
 import ecrf.user.service.persistence.CRFResearcherPersistence;
+import ecrf.user.service.persistence.CRFSearchLogPersistence;
 import ecrf.user.service.persistence.CRFSubjectPersistence;
+import ecrf.user.service.persistence.LinkCRFPersistence;
 import ecrf.user.service.persistence.ProjectPersistence;
+import ecrf.user.service.persistence.ResearcherFinder;
 import ecrf.user.service.persistence.ResearcherPersistence;
+import ecrf.user.service.persistence.SubjectFinder;
 import ecrf.user.service.persistence.SubjectPersistence;
 
 import java.io.Serializable;
@@ -576,13 +582,25 @@ public abstract class CRFResearcherLocalServiceBaseImpl
 	@Reference
 	protected CRFPersistence crfPersistence;
 
+	@Reference
+	protected CRFAutoqueryPersistence crfAutoqueryPersistence;
+
+	@Reference
+	protected CRFHistoryPersistence crfHistoryPersistence;
+
 	protected CRFResearcherLocalService crfResearcherLocalService;
 
 	@Reference
 	protected CRFResearcherPersistence crfResearcherPersistence;
 
 	@Reference
+	protected CRFSearchLogPersistence crfSearchLogPersistence;
+
+	@Reference
 	protected CRFSubjectPersistence crfSubjectPersistence;
+
+	@Reference
+	protected LinkCRFPersistence linkCRFPersistence;
 
 	@Reference
 	protected ProjectPersistence projectPersistence;
@@ -591,7 +609,13 @@ public abstract class CRFResearcherLocalServiceBaseImpl
 	protected ResearcherPersistence researcherPersistence;
 
 	@Reference
+	protected ResearcherFinder researcherFinder;
+
+	@Reference
 	protected SubjectPersistence subjectPersistence;
+
+	@Reference
+	protected SubjectFinder subjectFinder;
 
 	@Reference
 	protected com.liferay.counter.kernel.service.CounterLocalService
@@ -608,5 +632,29 @@ public abstract class CRFResearcherLocalServiceBaseImpl
 	@Reference
 	protected com.liferay.portal.kernel.service.UserLocalService
 		userLocalService;
+
+	@Reference
+	protected com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalService
+		workflowInstanceLinkLocalService;
+
+	@Reference
+	protected com.liferay.asset.kernel.service.AssetEntryLocalService
+		assetEntryLocalService;
+
+	@Reference
+	protected com.liferay.asset.kernel.service.AssetTagLocalService
+		assetTagLocalService;
+
+	@Reference
+	protected com.liferay.ratings.kernel.service.RatingsStatsLocalService
+		ratingsStatsLocalService;
+
+	@Reference
+	protected com.liferay.trash.kernel.service.TrashEntryLocalService
+		trashEntryLocalService;
+
+	@Reference
+	protected com.liferay.trash.kernel.service.TrashVersionLocalService
+		trashVersionLocalService;
 
 }

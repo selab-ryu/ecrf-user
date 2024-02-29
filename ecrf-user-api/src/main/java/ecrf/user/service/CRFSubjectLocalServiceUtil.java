@@ -418,6 +418,14 @@ public class CRFSubjectLocalServiceUtil {
 		return getService().updateCRFSubject(crfSubject);
 	}
 
+	public static void updateCRFSubjects(
+			long crfId, java.util.ArrayList<CRFSubject> crfSubjectList,
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
+
+		getService().updateCRFSubjects(crfId, crfSubjectList, sc);
+	}
+
 	public static CRFSubjectLocalService getService() {
 		return _service;
 	}

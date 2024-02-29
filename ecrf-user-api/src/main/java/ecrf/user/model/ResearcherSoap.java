@@ -46,6 +46,7 @@ public class ResearcherSoap implements Serializable {
 		soapModel.setName(model.getName());
 		soapModel.setEmail(model.getEmail());
 		soapModel.setBirth(model.getBirth());
+		soapModel.setGender(model.getGender());
 		soapModel.setPhone(model.getPhone());
 		soapModel.setInstitution(model.getInstitution());
 		soapModel.setOfficeContact(model.getOfficeContact());
@@ -225,6 +226,14 @@ public class ResearcherSoap implements Serializable {
 		_birth = birth;
 	}
 
+	public int getGender() {
+		return _gender;
+	}
+
+	public void setGender(int gender) {
+		_gender = gender;
+	}
+
 	public String getPhone() {
 		return _phone;
 	}
@@ -288,6 +297,7 @@ public class ResearcherSoap implements Serializable {
 	private String _name;
 	private String _email;
 	private Date _birth;
+	private int _gender;
 	private String _phone;
 	private String _institution;
 	private String _officeContact;

@@ -58,6 +58,7 @@ public class ResearcherWrapper
 		attributes.put("name", getName());
 		attributes.put("email", getEmail());
 		attributes.put("birth", getBirth());
+		attributes.put("gender", getGender());
 		attributes.put("phone", getPhone());
 		attributes.put("institution", getInstitution());
 		attributes.put("officeContact", getOfficeContact());
@@ -160,6 +161,12 @@ public class ResearcherWrapper
 			setBirth(birth);
 		}
 
+		Integer gender = (Integer)attributes.get("gender");
+
+		if (gender != null) {
+			setGender(gender);
+		}
+
 		String phone = (String)attributes.get("phone");
 
 		if (phone != null) {
@@ -245,6 +252,16 @@ public class ResearcherWrapper
 	@Override
 	public String getEmail() {
 		return model.getEmail();
+	}
+
+	/**
+	 * Returns the gender of this researcher.
+	 *
+	 * @return the gender of this researcher
+	 */
+	@Override
+	public int getGender() {
+		return model.getGender();
 	}
 
 	/**
@@ -580,6 +597,16 @@ public class ResearcherWrapper
 	@Override
 	public void setEmail(String email) {
 		model.setEmail(email);
+	}
+
+	/**
+	 * Sets the gender of this researcher.
+	 *
+	 * @param gender the gender of this researcher
+	 */
+	@Override
+	public void setGender(int gender) {
+		model.setGender(gender);
 	}
 
 	/**

@@ -9,7 +9,7 @@ import com.liferay.portal.search.spi.model.query.contributor.helper.KeywordQuery
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
-import ecrf.user.constants.ECRFUserResearcherAttributes;
+import ecrf.user.constants.attribute.ECRFUserResearcherAttributes;
 
 @Component(
     immediate = true,

@@ -14,9 +14,16 @@
 
 package ecrf.user.service.http;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+
+import ecrf.user.service.CRFSubjectServiceUtil;
+
+import java.rmi.RemoteException;
+
 /**
  * Provides the SOAP utility for the
- * <code>ecrf.user.service.CRFSubjectServiceUtil</code> service
+ * <code>CRFSubjectServiceUtil</code> service
  * utility. The static methods of this class call the same methods of the
  * service utility. However, the signatures are different because it is
  * difficult for SOAP to support certain types.
@@ -54,4 +61,97 @@ package ecrf.user.service.http;
  * @generated
  */
 public class CRFSubjectServiceSoap {
+
+	public static java.util.ArrayList<ecrf.user.model.Subject>
+			getCRFSubjectByExGroup(long groupId, long crfId, String exGroup)
+		throws RemoteException {
+
+		try {
+			java.util.ArrayList<ecrf.user.model.Subject> returnValue =
+				CRFSubjectServiceUtil.getCRFSubjectByExGroup(
+					groupId, crfId, exGroup);
+
+			return returnValue;
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static java.util.ArrayList<ecrf.user.model.custom.CRFSubjectInfo>
+			getCRFSubjectList(long groupId, long crfId)
+		throws RemoteException {
+
+		try {
+			java.util.ArrayList<ecrf.user.model.custom.CRFSubjectInfo>
+				returnValue = CRFSubjectServiceUtil.getCRFSubjectList(
+					groupId, crfId);
+
+			return returnValue;
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static java.util.ArrayList<ecrf.user.model.custom.CRFSubjectInfo>
+			getAllCRFSubjectInfoList(long groupId, long crfId)
+		throws RemoteException {
+
+		try {
+			java.util.ArrayList<ecrf.user.model.custom.CRFSubjectInfo>
+				returnValue = CRFSubjectServiceUtil.getAllCRFSubjectInfoList(
+					groupId, crfId);
+
+			return returnValue;
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static java.util.ArrayList<ecrf.user.model.Subject>
+			getCRFSubjectListNotIncluded(long groupId, long crfId)
+		throws RemoteException {
+
+		try {
+			java.util.ArrayList<ecrf.user.model.Subject> returnValue =
+				CRFSubjectServiceUtil.getCRFSubjectListNotIncluded(
+					groupId, crfId);
+
+			return returnValue;
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static java.util.ArrayList<ecrf.user.model.Subject> getSubjectList(
+			long groupId)
+		throws RemoteException {
+
+		try {
+			java.util.ArrayList<ecrf.user.model.Subject> returnValue =
+				CRFSubjectServiceUtil.getSubjectList(groupId);
+
+			return returnValue;
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	private static Log _log = LogFactoryUtil.getLog(
+		CRFSubjectServiceSoap.class);
+
 }

@@ -50,16 +50,15 @@ public class CRFLocalServiceWrapper
 			String crfName, String crfVersion,
 			java.util.Map<java.util.Locale, String> titleMap,
 			java.util.Map<java.util.Locale, String> descriptionMap,
-			long managerId, int applyDateYear, int applyDateMonth,
-			int applyDateDay, int crfStatus,
+			int applyDateYear, int applyDateMonth, int applyDateDay,
+			int crfStatus,
 			com.liferay.portal.kernel.service.ServiceContext crfsc,
 			com.liferay.portal.kernel.service.ServiceContext dtsc)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _crfLocalService.addCRF(
-			crfName, crfVersion, titleMap, descriptionMap, managerId,
-			applyDateYear, applyDateMonth, applyDateDay, crfStatus, crfsc,
-			dtsc);
+			crfName, crfVersion, titleMap, descriptionMap, applyDateYear,
+			applyDateMonth, applyDateDay, crfStatus, crfsc, dtsc);
 	}
 
 	/**
@@ -283,30 +282,6 @@ public class CRFLocalServiceWrapper
 			groupId, start, end, comparator);
 	}
 
-	@Override
-	public java.util.List<ecrf.user.model.CRF> getCRFByManagerId(
-		long groupId, long managerId) {
-
-		return _crfLocalService.getCRFByManagerId(groupId, managerId);
-	}
-
-	@Override
-	public java.util.List<ecrf.user.model.CRF> getCRFByManagerId(
-		long groupId, long managerId, int start, int end) {
-
-		return _crfLocalService.getCRFByManagerId(
-			groupId, managerId, start, end);
-	}
-
-	@Override
-	public java.util.List<ecrf.user.model.CRF> getCRFByManagerId(
-		long groupId, long managerId, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator comparator) {
-
-		return _crfLocalService.getCRFByManagerId(
-			groupId, managerId, start, end, comparator);
-	}
-
 	/**
 	 * Returns the crf matching the UUID and group.
 	 *
@@ -325,11 +300,6 @@ public class CRFLocalServiceWrapper
 	@Override
 	public int getCRFCount(long groupId) {
 		return _crfLocalService.getCRFCount(groupId);
-	}
-
-	@Override
-	public int getCRFCountByManagerId(long groupId, long managerId) {
-		return _crfLocalService.getCRFCountByManagerId(groupId, managerId);
 	}
 
 	/**
@@ -393,6 +363,11 @@ public class CRFLocalServiceWrapper
 	}
 
 	@Override
+	public long getDataTypeId(long crfId) {
+		return _crfLocalService.getDataTypeId(crfId);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery
 		getExportActionableDynamicQuery(
 			com.liferay.exportimport.kernel.lar.PortletDataContext
@@ -430,6 +405,11 @@ public class CRFLocalServiceWrapper
 		return _crfLocalService.getPersistedModel(primaryKeyObj);
 	}
 
+	@Override
+	public String getTitle(long crfId, java.util.Locale locale) {
+		return _crfLocalService.getTitle(crfId, locale);
+	}
+
 	/**
 	 * Updates the crf in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *
@@ -450,25 +430,23 @@ public class CRFLocalServiceWrapper
 			long crfId, String crfName, String crfVersion,
 			java.util.Map<java.util.Locale, String> titleMap,
 			java.util.Map<java.util.Locale, String> descriptionMap,
-			long managerId, int applyDateYear, int applyDateMonth,
-			int applyDateDay, int crfStatus,
+			int applyDateYear, int applyDateMonth, int applyDateDay,
+			int crfStatus,
 			com.liferay.portal.kernel.service.ServiceContext crfsc,
 			com.liferay.portal.kernel.service.ServiceContext dtsc)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _crfLocalService.updateCRF(
-			crfId, crfName, crfVersion, titleMap, descriptionMap, managerId,
-			applyDateYear, applyDateMonth, applyDateDay, crfStatus, crfsc,
-			dtsc);
+			crfId, crfName, crfVersion, titleMap, descriptionMap, applyDateYear,
+			applyDateMonth, applyDateDay, crfStatus, crfsc, dtsc);
 	}
 
 	@Override
-	public ecrf.user.model.CRF updateManager(
-			long crfId, long managerId,
-			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public ecrf.user.model.CRF updateCRFStatus(
+		long crfId, int crfStatus,
+		com.liferay.portal.kernel.service.ServiceContext sc) {
 
-		return _crfLocalService.updateManager(crfId, managerId, sc);
+		return _crfLocalService.updateCRFStatus(crfId, crfStatus, sc);
 	}
 
 	@Override

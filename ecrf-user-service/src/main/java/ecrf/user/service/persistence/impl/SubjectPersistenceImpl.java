@@ -1468,6 +1468,977 @@ public class SubjectPersistenceImpl
 	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 =
 		"subject.companyId = ?";
 
+	private FinderPath _finderPathFetchBySubjectId;
+	private FinderPath _finderPathCountBySubjectId;
+
+	/**
+	 * Returns the subject where subjectId = &#63; or throws a <code>NoSuchSubjectException</code> if it could not be found.
+	 *
+	 * @param subjectId the subject ID
+	 * @return the matching subject
+	 * @throws NoSuchSubjectException if a matching subject could not be found
+	 */
+	@Override
+	public Subject findBySubjectId(long subjectId)
+		throws NoSuchSubjectException {
+
+		Subject subject = fetchBySubjectId(subjectId);
+
+		if (subject == null) {
+			StringBundler sb = new StringBundler(4);
+
+			sb.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			sb.append("subjectId=");
+			sb.append(subjectId);
+
+			sb.append("}");
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(sb.toString());
+			}
+
+			throw new NoSuchSubjectException(sb.toString());
+		}
+
+		return subject;
+	}
+
+	/**
+	 * Returns the subject where subjectId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param subjectId the subject ID
+	 * @return the matching subject, or <code>null</code> if a matching subject could not be found
+	 */
+	@Override
+	public Subject fetchBySubjectId(long subjectId) {
+		return fetchBySubjectId(subjectId, true);
+	}
+
+	/**
+	 * Returns the subject where subjectId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param subjectId the subject ID
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the matching subject, or <code>null</code> if a matching subject could not be found
+	 */
+	@Override
+	public Subject fetchBySubjectId(long subjectId, boolean useFinderCache) {
+		Object[] finderArgs = null;
+
+		if (useFinderCache) {
+			finderArgs = new Object[] {subjectId};
+		}
+
+		Object result = null;
+
+		if (useFinderCache) {
+			result = finderCache.getResult(
+				_finderPathFetchBySubjectId, finderArgs, this);
+		}
+
+		if (result instanceof Subject) {
+			Subject subject = (Subject)result;
+
+			if (subjectId != subject.getSubjectId()) {
+				result = null;
+			}
+		}
+
+		if (result == null) {
+			StringBundler sb = new StringBundler(3);
+
+			sb.append(_SQL_SELECT_SUBJECT_WHERE);
+
+			sb.append(_FINDER_COLUMN_SUBJECTID_SUBJECTID_2);
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				queryPos.add(subjectId);
+
+				List<Subject> list = query.list();
+
+				if (list.isEmpty()) {
+					if (useFinderCache) {
+						finderCache.putResult(
+							_finderPathFetchBySubjectId, finderArgs, list);
+					}
+				}
+				else {
+					Subject subject = list.get(0);
+
+					result = subject;
+
+					cacheResult(subject);
+				}
+			}
+			catch (Exception exception) {
+				if (useFinderCache) {
+					finderCache.removeResult(
+						_finderPathFetchBySubjectId, finderArgs);
+				}
+
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		if (result instanceof List<?>) {
+			return null;
+		}
+		else {
+			return (Subject)result;
+		}
+	}
+
+	/**
+	 * Removes the subject where subjectId = &#63; from the database.
+	 *
+	 * @param subjectId the subject ID
+	 * @return the subject that was removed
+	 */
+	@Override
+	public Subject removeBySubjectId(long subjectId)
+		throws NoSuchSubjectException {
+
+		Subject subject = findBySubjectId(subjectId);
+
+		return remove(subject);
+	}
+
+	/**
+	 * Returns the number of subjects where subjectId = &#63;.
+	 *
+	 * @param subjectId the subject ID
+	 * @return the number of matching subjects
+	 */
+	@Override
+	public int countBySubjectId(long subjectId) {
+		FinderPath finderPath = _finderPathCountBySubjectId;
+
+		Object[] finderArgs = new Object[] {subjectId};
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler sb = new StringBundler(2);
+
+			sb.append(_SQL_COUNT_SUBJECT_WHERE);
+
+			sb.append(_FINDER_COLUMN_SUBJECTID_SUBJECTID_2);
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				queryPos.add(subjectId);
+
+				count = (Long)query.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception exception) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_SUBJECTID_SUBJECTID_2 =
+		"subject.subjectId = ?";
+
+	private FinderPath _finderPathFetchBySerialId;
+	private FinderPath _finderPathCountBySerialId;
+
+	/**
+	 * Returns the subject where serialId = &#63; or throws a <code>NoSuchSubjectException</code> if it could not be found.
+	 *
+	 * @param serialId the serial ID
+	 * @return the matching subject
+	 * @throws NoSuchSubjectException if a matching subject could not be found
+	 */
+	@Override
+	public Subject findBySerialId(String serialId)
+		throws NoSuchSubjectException {
+
+		Subject subject = fetchBySerialId(serialId);
+
+		if (subject == null) {
+			StringBundler sb = new StringBundler(4);
+
+			sb.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			sb.append("serialId=");
+			sb.append(serialId);
+
+			sb.append("}");
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(sb.toString());
+			}
+
+			throw new NoSuchSubjectException(sb.toString());
+		}
+
+		return subject;
+	}
+
+	/**
+	 * Returns the subject where serialId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param serialId the serial ID
+	 * @return the matching subject, or <code>null</code> if a matching subject could not be found
+	 */
+	@Override
+	public Subject fetchBySerialId(String serialId) {
+		return fetchBySerialId(serialId, true);
+	}
+
+	/**
+	 * Returns the subject where serialId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param serialId the serial ID
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the matching subject, or <code>null</code> if a matching subject could not be found
+	 */
+	@Override
+	public Subject fetchBySerialId(String serialId, boolean useFinderCache) {
+		serialId = Objects.toString(serialId, "");
+
+		Object[] finderArgs = null;
+
+		if (useFinderCache) {
+			finderArgs = new Object[] {serialId};
+		}
+
+		Object result = null;
+
+		if (useFinderCache) {
+			result = finderCache.getResult(
+				_finderPathFetchBySerialId, finderArgs, this);
+		}
+
+		if (result instanceof Subject) {
+			Subject subject = (Subject)result;
+
+			if (!Objects.equals(serialId, subject.getSerialId())) {
+				result = null;
+			}
+		}
+
+		if (result == null) {
+			StringBundler sb = new StringBundler(3);
+
+			sb.append(_SQL_SELECT_SUBJECT_WHERE);
+
+			boolean bindSerialId = false;
+
+			if (serialId.isEmpty()) {
+				sb.append(_FINDER_COLUMN_SERIALID_SERIALID_3);
+			}
+			else {
+				bindSerialId = true;
+
+				sb.append(_FINDER_COLUMN_SERIALID_SERIALID_2);
+			}
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				if (bindSerialId) {
+					queryPos.add(serialId);
+				}
+
+				List<Subject> list = query.list();
+
+				if (list.isEmpty()) {
+					if (useFinderCache) {
+						finderCache.putResult(
+							_finderPathFetchBySerialId, finderArgs, list);
+					}
+				}
+				else {
+					Subject subject = list.get(0);
+
+					result = subject;
+
+					cacheResult(subject);
+				}
+			}
+			catch (Exception exception) {
+				if (useFinderCache) {
+					finderCache.removeResult(
+						_finderPathFetchBySerialId, finderArgs);
+				}
+
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		if (result instanceof List<?>) {
+			return null;
+		}
+		else {
+			return (Subject)result;
+		}
+	}
+
+	/**
+	 * Removes the subject where serialId = &#63; from the database.
+	 *
+	 * @param serialId the serial ID
+	 * @return the subject that was removed
+	 */
+	@Override
+	public Subject removeBySerialId(String serialId)
+		throws NoSuchSubjectException {
+
+		Subject subject = findBySerialId(serialId);
+
+		return remove(subject);
+	}
+
+	/**
+	 * Returns the number of subjects where serialId = &#63;.
+	 *
+	 * @param serialId the serial ID
+	 * @return the number of matching subjects
+	 */
+	@Override
+	public int countBySerialId(String serialId) {
+		serialId = Objects.toString(serialId, "");
+
+		FinderPath finderPath = _finderPathCountBySerialId;
+
+		Object[] finderArgs = new Object[] {serialId};
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler sb = new StringBundler(2);
+
+			sb.append(_SQL_COUNT_SUBJECT_WHERE);
+
+			boolean bindSerialId = false;
+
+			if (serialId.isEmpty()) {
+				sb.append(_FINDER_COLUMN_SERIALID_SERIALID_3);
+			}
+			else {
+				bindSerialId = true;
+
+				sb.append(_FINDER_COLUMN_SERIALID_SERIALID_2);
+			}
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				if (bindSerialId) {
+					queryPos.add(serialId);
+				}
+
+				count = (Long)query.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception exception) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_SERIALID_SERIALID_2 =
+		"subject.serialId = ?";
+
+	private static final String _FINDER_COLUMN_SERIALID_SERIALID_3 =
+		"(subject.serialId IS NULL OR subject.serialId = '')";
+
+	private FinderPath _finderPathWithPaginationFindBySubjectName;
+	private FinderPath _finderPathWithoutPaginationFindBySubjectName;
+	private FinderPath _finderPathCountBySubjectName;
+
+	/**
+	 * Returns all the subjects where name = &#63;.
+	 *
+	 * @param name the name
+	 * @return the matching subjects
+	 */
+	@Override
+	public List<Subject> findBySubjectName(String name) {
+		return findBySubjectName(
+			name, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the subjects where name = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>SubjectModelImpl</code>.
+	 * </p>
+	 *
+	 * @param name the name
+	 * @param start the lower bound of the range of subjects
+	 * @param end the upper bound of the range of subjects (not inclusive)
+	 * @return the range of matching subjects
+	 */
+	@Override
+	public List<Subject> findBySubjectName(String name, int start, int end) {
+		return findBySubjectName(name, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the subjects where name = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>SubjectModelImpl</code>.
+	 * </p>
+	 *
+	 * @param name the name
+	 * @param start the lower bound of the range of subjects
+	 * @param end the upper bound of the range of subjects (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching subjects
+	 */
+	@Override
+	public List<Subject> findBySubjectName(
+		String name, int start, int end,
+		OrderByComparator<Subject> orderByComparator) {
+
+		return findBySubjectName(name, start, end, orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the subjects where name = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>SubjectModelImpl</code>.
+	 * </p>
+	 *
+	 * @param name the name
+	 * @param start the lower bound of the range of subjects
+	 * @param end the upper bound of the range of subjects (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching subjects
+	 */
+	@Override
+	public List<Subject> findBySubjectName(
+		String name, int start, int end,
+		OrderByComparator<Subject> orderByComparator, boolean useFinderCache) {
+
+		name = Objects.toString(name, "");
+
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+			(orderByComparator == null)) {
+
+			if (useFinderCache) {
+				finderPath = _finderPathWithoutPaginationFindBySubjectName;
+				finderArgs = new Object[] {name};
+			}
+		}
+		else if (useFinderCache) {
+			finderPath = _finderPathWithPaginationFindBySubjectName;
+			finderArgs = new Object[] {name, start, end, orderByComparator};
+		}
+
+		List<Subject> list = null;
+
+		if (useFinderCache) {
+			list = (List<Subject>)finderCache.getResult(
+				finderPath, finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (Subject subject : list) {
+					if (!name.equals(subject.getName())) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler sb = null;
+
+			if (orderByComparator != null) {
+				sb = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				sb = new StringBundler(3);
+			}
+
+			sb.append(_SQL_SELECT_SUBJECT_WHERE);
+
+			boolean bindName = false;
+
+			if (name.isEmpty()) {
+				sb.append(_FINDER_COLUMN_SUBJECTNAME_NAME_3);
+			}
+			else {
+				bindName = true;
+
+				sb.append(_FINDER_COLUMN_SUBJECTNAME_NAME_2);
+			}
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(
+					sb, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
+			}
+			else {
+				sb.append(SubjectModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				if (bindName) {
+					queryPos.add(name);
+				}
+
+				list = (List<Subject>)QueryUtil.list(
+					query, getDialect(), start, end);
+
+				cacheResult(list);
+
+				if (useFinderCache) {
+					finderCache.putResult(finderPath, finderArgs, list);
+				}
+			}
+			catch (Exception exception) {
+				if (useFinderCache) {
+					finderCache.removeResult(finderPath, finderArgs);
+				}
+
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first subject in the ordered set where name = &#63;.
+	 *
+	 * @param name the name
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching subject
+	 * @throws NoSuchSubjectException if a matching subject could not be found
+	 */
+	@Override
+	public Subject findBySubjectName_First(
+			String name, OrderByComparator<Subject> orderByComparator)
+		throws NoSuchSubjectException {
+
+		Subject subject = fetchBySubjectName_First(name, orderByComparator);
+
+		if (subject != null) {
+			return subject;
+		}
+
+		StringBundler sb = new StringBundler(4);
+
+		sb.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		sb.append("name=");
+		sb.append(name);
+
+		sb.append("}");
+
+		throw new NoSuchSubjectException(sb.toString());
+	}
+
+	/**
+	 * Returns the first subject in the ordered set where name = &#63;.
+	 *
+	 * @param name the name
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching subject, or <code>null</code> if a matching subject could not be found
+	 */
+	@Override
+	public Subject fetchBySubjectName_First(
+		String name, OrderByComparator<Subject> orderByComparator) {
+
+		List<Subject> list = findBySubjectName(name, 0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last subject in the ordered set where name = &#63;.
+	 *
+	 * @param name the name
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching subject
+	 * @throws NoSuchSubjectException if a matching subject could not be found
+	 */
+	@Override
+	public Subject findBySubjectName_Last(
+			String name, OrderByComparator<Subject> orderByComparator)
+		throws NoSuchSubjectException {
+
+		Subject subject = fetchBySubjectName_Last(name, orderByComparator);
+
+		if (subject != null) {
+			return subject;
+		}
+
+		StringBundler sb = new StringBundler(4);
+
+		sb.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		sb.append("name=");
+		sb.append(name);
+
+		sb.append("}");
+
+		throw new NoSuchSubjectException(sb.toString());
+	}
+
+	/**
+	 * Returns the last subject in the ordered set where name = &#63;.
+	 *
+	 * @param name the name
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching subject, or <code>null</code> if a matching subject could not be found
+	 */
+	@Override
+	public Subject fetchBySubjectName_Last(
+		String name, OrderByComparator<Subject> orderByComparator) {
+
+		int count = countBySubjectName(name);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<Subject> list = findBySubjectName(
+			name, count - 1, count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the subjects before and after the current subject in the ordered set where name = &#63;.
+	 *
+	 * @param subjectId the primary key of the current subject
+	 * @param name the name
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next subject
+	 * @throws NoSuchSubjectException if a subject with the primary key could not be found
+	 */
+	@Override
+	public Subject[] findBySubjectName_PrevAndNext(
+			long subjectId, String name,
+			OrderByComparator<Subject> orderByComparator)
+		throws NoSuchSubjectException {
+
+		name = Objects.toString(name, "");
+
+		Subject subject = findByPrimaryKey(subjectId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Subject[] array = new SubjectImpl[3];
+
+			array[0] = getBySubjectName_PrevAndNext(
+				session, subject, name, orderByComparator, true);
+
+			array[1] = subject;
+
+			array[2] = getBySubjectName_PrevAndNext(
+				session, subject, name, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception exception) {
+			throw processException(exception);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Subject getBySubjectName_PrevAndNext(
+		Session session, Subject subject, String name,
+		OrderByComparator<Subject> orderByComparator, boolean previous) {
+
+		StringBundler sb = null;
+
+		if (orderByComparator != null) {
+			sb = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			sb = new StringBundler(3);
+		}
+
+		sb.append(_SQL_SELECT_SUBJECT_WHERE);
+
+		boolean bindName = false;
+
+		if (name.isEmpty()) {
+			sb.append(_FINDER_COLUMN_SUBJECTNAME_NAME_3);
+		}
+		else {
+			bindName = true;
+
+			sb.append(_FINDER_COLUMN_SUBJECTNAME_NAME_2);
+		}
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				sb.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				sb.append(_ORDER_BY_ENTITY_ALIAS);
+				sb.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						sb.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(WHERE_GREATER_THAN);
+					}
+					else {
+						sb.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			sb.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				sb.append(_ORDER_BY_ENTITY_ALIAS);
+				sb.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						sb.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(ORDER_BY_ASC);
+					}
+					else {
+						sb.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			sb.append(SubjectModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = sb.toString();
+
+		Query query = session.createQuery(sql);
+
+		query.setFirstResult(0);
+		query.setMaxResults(2);
+
+		QueryPos queryPos = QueryPos.getInstance(query);
+
+		if (bindName) {
+			queryPos.add(name);
+		}
+
+		if (orderByComparator != null) {
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(subject)) {
+
+				queryPos.add(orderByConditionValue);
+			}
+		}
+
+		List<Subject> list = query.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the subjects where name = &#63; from the database.
+	 *
+	 * @param name the name
+	 */
+	@Override
+	public void removeBySubjectName(String name) {
+		for (Subject subject :
+				findBySubjectName(
+					name, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
+			remove(subject);
+		}
+	}
+
+	/**
+	 * Returns the number of subjects where name = &#63;.
+	 *
+	 * @param name the name
+	 * @return the number of matching subjects
+	 */
+	@Override
+	public int countBySubjectName(String name) {
+		name = Objects.toString(name, "");
+
+		FinderPath finderPath = _finderPathCountBySubjectName;
+
+		Object[] finderArgs = new Object[] {name};
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler sb = new StringBundler(2);
+
+			sb.append(_SQL_COUNT_SUBJECT_WHERE);
+
+			boolean bindName = false;
+
+			if (name.isEmpty()) {
+				sb.append(_FINDER_COLUMN_SUBJECTNAME_NAME_3);
+			}
+			else {
+				bindName = true;
+
+				sb.append(_FINDER_COLUMN_SUBJECTNAME_NAME_2);
+			}
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				if (bindName) {
+					queryPos.add(name);
+				}
+
+				count = (Long)query.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception exception) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_SUBJECTNAME_NAME_2 =
+		"subject.name = ?";
+
+	private static final String _FINDER_COLUMN_SUBJECTNAME_NAME_3 =
+		"(subject.name IS NULL OR subject.name = '')";
+
 	private FinderPath _finderPathWithPaginationFindByGroupId;
 	private FinderPath _finderPathWithoutPaginationFindByGroupId;
 	private FinderPath _finderPathCountByGroupId;
@@ -1990,6 +2961,14 @@ public class SubjectPersistenceImpl
 			_finderPathFetchByUUID_G,
 			new Object[] {subject.getUuid(), subject.getGroupId()}, subject);
 
+		finderCache.putResult(
+			_finderPathFetchBySubjectId, new Object[] {subject.getSubjectId()},
+			subject);
+
+		finderCache.putResult(
+			_finderPathFetchBySerialId, new Object[] {subject.getSerialId()},
+			subject);
+
 		subject.resetOriginalValues();
 	}
 
@@ -2089,6 +3068,20 @@ public class SubjectPersistenceImpl
 			_finderPathCountByUUID_G, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByUUID_G, args, subjectModelImpl, false);
+
+		args = new Object[] {subjectModelImpl.getSubjectId()};
+
+		finderCache.putResult(
+			_finderPathCountBySubjectId, args, Long.valueOf(1), false);
+		finderCache.putResult(
+			_finderPathFetchBySubjectId, args, subjectModelImpl, false);
+
+		args = new Object[] {subjectModelImpl.getSerialId()};
+
+		finderCache.putResult(
+			_finderPathCountBySerialId, args, Long.valueOf(1), false);
+		finderCache.putResult(
+			_finderPathFetchBySerialId, args, subjectModelImpl, false);
 	}
 
 	protected void clearUniqueFindersCache(
@@ -2113,6 +3106,42 @@ public class SubjectPersistenceImpl
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
 			finderCache.removeResult(_finderPathFetchByUUID_G, args);
+		}
+
+		if (clearCurrent) {
+			Object[] args = new Object[] {subjectModelImpl.getSubjectId()};
+
+			finderCache.removeResult(_finderPathCountBySubjectId, args);
+			finderCache.removeResult(_finderPathFetchBySubjectId, args);
+		}
+
+		if ((subjectModelImpl.getColumnBitmask() &
+			 _finderPathFetchBySubjectId.getColumnBitmask()) != 0) {
+
+			Object[] args = new Object[] {
+				subjectModelImpl.getOriginalSubjectId()
+			};
+
+			finderCache.removeResult(_finderPathCountBySubjectId, args);
+			finderCache.removeResult(_finderPathFetchBySubjectId, args);
+		}
+
+		if (clearCurrent) {
+			Object[] args = new Object[] {subjectModelImpl.getSerialId()};
+
+			finderCache.removeResult(_finderPathCountBySerialId, args);
+			finderCache.removeResult(_finderPathFetchBySerialId, args);
+		}
+
+		if ((subjectModelImpl.getColumnBitmask() &
+			 _finderPathFetchBySerialId.getColumnBitmask()) != 0) {
+
+			Object[] args = new Object[] {
+				subjectModelImpl.getOriginalSerialId()
+			};
+
+			finderCache.removeResult(_finderPathCountBySerialId, args);
+			finderCache.removeResult(_finderPathFetchBySerialId, args);
 		}
 	}
 
@@ -2313,6 +3342,12 @@ public class SubjectPersistenceImpl
 			finderCache.removeResult(
 				_finderPathWithoutPaginationFindByUuid_C, args);
 
+			args = new Object[] {subjectModelImpl.getName()};
+
+			finderCache.removeResult(_finderPathCountBySubjectName, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindBySubjectName, args);
+
 			args = new Object[] {subjectModelImpl.getGroupId()};
 
 			finderCache.removeResult(_finderPathCountByGroupId, args);
@@ -2363,6 +3398,25 @@ public class SubjectPersistenceImpl
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
 				finderCache.removeResult(
 					_finderPathWithoutPaginationFindByUuid_C, args);
+			}
+
+			if ((subjectModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindBySubjectName.
+					 getColumnBitmask()) != 0) {
+
+				Object[] args = new Object[] {
+					subjectModelImpl.getOriginalName()
+				};
+
+				finderCache.removeResult(_finderPathCountBySubjectName, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindBySubjectName, args);
+
+				args = new Object[] {subjectModelImpl.getName()};
+
+				finderCache.removeResult(_finderPathCountBySubjectName, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindBySubjectName, args);
 			}
 
 			if ((subjectModelImpl.getColumnBitmask() &
@@ -2696,6 +3750,7 @@ public class SubjectPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
 			new String[] {String.class.getName()},
 			SubjectModelImpl.UUID_COLUMN_BITMASK |
+			SubjectModelImpl.NAME_COLUMN_BITMASK |
 			SubjectModelImpl.CREATEDATE_COLUMN_BITMASK);
 
 		_finderPathCountByUuid = new FinderPath(
@@ -2730,12 +3785,55 @@ public class SubjectPersistenceImpl
 			new String[] {String.class.getName(), Long.class.getName()},
 			SubjectModelImpl.UUID_COLUMN_BITMASK |
 			SubjectModelImpl.COMPANYID_COLUMN_BITMASK |
+			SubjectModelImpl.NAME_COLUMN_BITMASK |
 			SubjectModelImpl.CREATEDATE_COLUMN_BITMASK);
 
 		_finderPathCountByUuid_C = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()});
+
+		_finderPathFetchBySubjectId = new FinderPath(
+			entityCacheEnabled, finderCacheEnabled, SubjectImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchBySubjectId",
+			new String[] {Long.class.getName()},
+			SubjectModelImpl.SUBJECTID_COLUMN_BITMASK);
+
+		_finderPathCountBySubjectId = new FinderPath(
+			entityCacheEnabled, finderCacheEnabled, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countBySubjectId",
+			new String[] {Long.class.getName()});
+
+		_finderPathFetchBySerialId = new FinderPath(
+			entityCacheEnabled, finderCacheEnabled, SubjectImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchBySerialId",
+			new String[] {String.class.getName()},
+			SubjectModelImpl.SERIALID_COLUMN_BITMASK);
+
+		_finderPathCountBySerialId = new FinderPath(
+			entityCacheEnabled, finderCacheEnabled, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countBySerialId",
+			new String[] {String.class.getName()});
+
+		_finderPathWithPaginationFindBySubjectName = new FinderPath(
+			entityCacheEnabled, finderCacheEnabled, SubjectImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findBySubjectName",
+			new String[] {
+				String.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindBySubjectName = new FinderPath(
+			entityCacheEnabled, finderCacheEnabled, SubjectImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findBySubjectName",
+			new String[] {String.class.getName()},
+			SubjectModelImpl.NAME_COLUMN_BITMASK |
+			SubjectModelImpl.CREATEDATE_COLUMN_BITMASK);
+
+		_finderPathCountBySubjectName = new FinderPath(
+			entityCacheEnabled, finderCacheEnabled, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countBySubjectName",
+			new String[] {String.class.getName()});
 
 		_finderPathWithPaginationFindByGroupId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SubjectImpl.class,
@@ -2750,6 +3848,7 @@ public class SubjectPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
 			new String[] {Long.class.getName()},
 			SubjectModelImpl.GROUPID_COLUMN_BITMASK |
+			SubjectModelImpl.NAME_COLUMN_BITMASK |
 			SubjectModelImpl.CREATEDATE_COLUMN_BITMASK);
 
 		_finderPathCountByGroupId = new FinderPath(

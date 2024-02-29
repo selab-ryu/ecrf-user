@@ -12,5 +12,10 @@ public class ECRFUserWebKeys {
 	
 	public static final String DISPLAY_STYLE = "displayStyle";
 	public static final String ORDER_BY_COL = "orderByCol";
-	public static final String ORDER_BY_TYPE = "orderByType"; 
+	public static final String ORDER_BY_TYPE = "orderByType";
+	
+	public static final String PAGE_FRIENDLY_URL = "pageFriendlyURL";
+	public static final String PORTLET_KEY = "portletKey";
+	
+	public static final String LIST_PATH = "listPath";
 }

@@ -34,22 +34,13 @@ public class SubjectLocalServiceWrapper
 	public ecrf.user.model.Subject addSubject(
 			String name, int birthYear, int birthMonth, int birthDay,
 			int gender, String phone, String phone2, String address,
-			String serialId, int hospitalCode, int visitDateYear,
-			int visitDateMonth, int visitDateDay, int consentYear,
-			int consentMonth, int consentDay, int participationDateYear,
-			int participationDateMonth, int participationDateDay,
-			int participationStatus, String experimentalGroup, boolean hasCRF,
-			boolean hasCohortStudy, boolean hasMRIStudy,
+			String serialId, int hospitalCode,
 			com.liferay.portal.kernel.service.ServiceContext sc)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _subjectLocalService.addSubject(
 			name, birthYear, birthMonth, birthDay, gender, phone, phone2,
-			address, serialId, hospitalCode, visitDateYear, visitDateMonth,
-			visitDateDay, consentYear, consentMonth, consentDay,
-			participationDateYear, participationDateMonth, participationDateDay,
-			participationStatus, experimentalGroup, hasCRF, hasCohortStudy,
-			hasMRIStudy, sc);
+			address, serialId, hospitalCode, sc);
 	}
 
 	/**
@@ -256,8 +247,8 @@ public class SubjectLocalServiceWrapper
 	}
 
 	@Override
-	public java.util.List<ecrf.user.model.Subject> getAllSubject(long groupId) {
-		return _subjectLocalService.getAllSubject(groupId);
+	public java.util.List<ecrf.user.model.Subject> getAllSubject() {
+		return _subjectLocalService.getAllSubject();
 	}
 
 	@Override
@@ -310,6 +301,25 @@ public class SubjectLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _subjectLocalService.getSubject(subjectId);
+	}
+
+	@Override
+	public java.util.List<ecrf.user.model.Subject> getSubjectByGroupId(
+		long groupId) {
+
+		return _subjectLocalService.getSubjectByGroupId(groupId);
+	}
+
+	@Override
+	public java.util.List<ecrf.user.model.Subject> getSubjectByIds(
+		long groupId, long[] subjectIds) {
+
+		return _subjectLocalService.getSubjectByIds(groupId, subjectIds);
+	}
+
+	@Override
+	public ecrf.user.model.Subject getSubjectBySerialId(String serialId) {
+		return _subjectLocalService.getSubjectBySerialId(serialId);
 	}
 
 	/**
@@ -397,22 +407,12 @@ public class SubjectLocalServiceWrapper
 			long subjectId, String name, int birthYear, int birthMonth,
 			int birthDay, int gender, String phone, String phone2,
 			String address, String serialId, int hospitalCode,
-			int visitDateYear, int visitDateMonth, int visitDateDay,
-			int consentYear, int consentMonth, int consentDay,
-			int participationDateYear, int participationDateMonth,
-			int participationDateDay, int participationStatus,
-			String experimentalGroup, boolean hasCRF, boolean hasCohortStudy,
-			boolean hasMRIStudy,
 			com.liferay.portal.kernel.service.ServiceContext sc)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _subjectLocalService.updateSubject(
 			subjectId, name, birthYear, birthMonth, birthDay, gender, phone,
-			phone2, address, serialId, hospitalCode, visitDateYear,
-			visitDateMonth, visitDateDay, consentYear, consentMonth, consentDay,
-			participationDateYear, participationDateMonth, participationDateDay,
-			participationStatus, experimentalGroup, hasCRF, hasCohortStudy,
-			hasMRIStudy, sc);
+			phone2, address, serialId, hospitalCode, sc);
 	}
 
 	/**

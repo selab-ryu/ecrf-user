@@ -71,18 +71,10 @@ public interface ResearcherLocalService
 			boolean male, String jobTitle, long prefixId, long suffixId,
 			String emailAddress, String password1, String password2,
 			String screenName, String firstName, String lastName, int birthYear,
-			int birthMonth, int birthDay, String phone, String institution,
-			String officeContact, String position, int approveStatus,
-			ServiceContext userServiceContext,
+			int birthMonth, int birthDay, int gender, String phone,
+			String institution, String officeContact, String position,
+			int approveStatus, ServiceContext userServiceContext,
 			ServiceContext researcherServiceContext)
-		throws PortalException;
-
-	@Indexable(type = IndexableType.REINDEX)
-	public Researcher addResearcher(
-			long researcherUserId, String firstName, String lastName,
-			String emailAddress, int birthYear, int birthMonth, int birthDay,
-			String phone, String institution, String officeContact,
-			String position, int approveStatus, ServiceContext sc)
 		throws PortalException;
 
 	/**
@@ -150,8 +142,8 @@ public interface ResearcherLocalService
 	public Researcher deleteResearcher(Researcher researcher);
 
 	@Indexable(type = IndexableType.DELETE)
-	public Researcher deleteResearcher(
-		Researcher researcher, ServiceContext sc);
+	public Researcher deleteResearcherWithUser(Researcher researcher)
+		throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public DynamicQuery dynamicQuery();
@@ -269,6 +261,9 @@ public interface ResearcherLocalService
 	public Researcher getResearcher(long researcherId) throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Researcher> getResearcherBySite(long siteId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Researcher getResearcherByUserId(long userId)
 		throws NoSuchResearcherException;
 
@@ -307,14 +302,8 @@ public interface ResearcherLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getResearchersCount();
 
-	@Indexable(type = IndexableType.REINDEX)
-	public Researcher updateResearcher(
-			long researcherId, long researcherUserId, String firstName,
-			String lastName, String emailAddress, int birthYear, int birthMonth,
-			int birthDay, String phone, String institution,
-			String officeContact, String position, int approveStatus,
-			ServiceContext sc)
-		throws PortalException;
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public boolean hasPIPermission(long userId);
 
 	/**
 	 * Updates the researcher in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
@@ -328,5 +317,15 @@ public interface ResearcherLocalService
 	 */
 	@Indexable(type = IndexableType.REINDEX)
 	public Researcher updateResearcher(Researcher researcher);
+
+	@Indexable(type = IndexableType.REINDEX)
+	public Researcher updateResearcherWithUser(
+			long researcherId, boolean male, String password1,
+			String screenName, String firstName, String lastName, int birthYear,
+			int birthMonth, int birthDay, int gender, String phone,
+			String institution, String officeContact, String position,
+			ServiceContext userServiceContext,
+			ServiceContext researcherServiceContext)
+		throws PortalException;
 
 }

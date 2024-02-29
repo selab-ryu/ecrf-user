@@ -56,9 +56,8 @@ public class CRFWrapper
 		attributes.put("statusByUserName", getStatusByUserName());
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("datatypeId", getDatatypeId());
-		attributes.put("managerId", getManagerId());
-		attributes.put("applyDate", getApplyDate());
 		attributes.put("crfStatus", getCrfStatus());
+		attributes.put("applyDate", getApplyDate());
 
 		return attributes;
 	}
@@ -149,22 +148,16 @@ public class CRFWrapper
 			setDatatypeId(datatypeId);
 		}
 
-		Long managerId = (Long)attributes.get("managerId");
+		Integer crfStatus = (Integer)attributes.get("crfStatus");
 
-		if (managerId != null) {
-			setManagerId(managerId);
+		if (crfStatus != null) {
+			setCrfStatus(crfStatus);
 		}
 
 		Date applyDate = (Date)attributes.get("applyDate");
 
 		if (applyDate != null) {
 			setApplyDate(applyDate);
-		}
-
-		Integer crfStatus = (Integer)attributes.get("crfStatus");
-
-		if (crfStatus != null) {
-			setCrfStatus(crfStatus);
 		}
 	}
 
@@ -236,16 +229,6 @@ public class CRFWrapper
 	@Override
 	public long getGroupId() {
 		return model.getGroupId();
-	}
-
-	/**
-	 * Returns the manager ID of this crf.
-	 *
-	 * @return the manager ID of this crf
-	 */
-	@Override
-	public long getManagerId() {
-		return model.getManagerId();
 	}
 
 	/**
@@ -521,16 +504,6 @@ public class CRFWrapper
 	@Override
 	public void setGroupId(long groupId) {
 		model.setGroupId(groupId);
-	}
-
-	/**
-	 * Sets the manager ID of this crf.
-	 *
-	 * @param managerId the manager ID of this crf
-	 */
-	@Override
-	public void setManagerId(long managerId) {
-		model.setManagerId(managerId);
 	}
 
 	/**

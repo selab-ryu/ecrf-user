@@ -64,14 +64,6 @@ public class SubjectWrapper
 		attributes.put("address", getAddress());
 		attributes.put("serialId", getSerialId());
 		attributes.put("hospitalCode", getHospitalCode());
-		attributes.put("visitDate", getVisitDate());
-		attributes.put("consentDate", getConsentDate());
-		attributes.put("participationStartDate", getParticipationStartDate());
-		attributes.put("participationStatus", getParticipationStatus());
-		attributes.put("experimentalGroup", getExperimentalGroup());
-		attributes.put("hasCRF", getHasCRF());
-		attributes.put("hasCohortStudy", getHasCohortStudy());
-		attributes.put("hasMRIStudy", getHasMRIStudy());
 
 		return attributes;
 	}
@@ -203,56 +195,6 @@ public class SubjectWrapper
 		if (hospitalCode != null) {
 			setHospitalCode(hospitalCode);
 		}
-
-		Date visitDate = (Date)attributes.get("visitDate");
-
-		if (visitDate != null) {
-			setVisitDate(visitDate);
-		}
-
-		Date consentDate = (Date)attributes.get("consentDate");
-
-		if (consentDate != null) {
-			setConsentDate(consentDate);
-		}
-
-		Date participationStartDate = (Date)attributes.get(
-			"participationStartDate");
-
-		if (participationStartDate != null) {
-			setParticipationStartDate(participationStartDate);
-		}
-
-		Integer participationStatus = (Integer)attributes.get(
-			"participationStatus");
-
-		if (participationStatus != null) {
-			setParticipationStatus(participationStatus);
-		}
-
-		String experimentalGroup = (String)attributes.get("experimentalGroup");
-
-		if (experimentalGroup != null) {
-			setExperimentalGroup(experimentalGroup);
-		}
-
-		Boolean hasCRF = (Boolean)attributes.get("hasCRF");
-
-		if (hasCRF != null) {
-			setHasCRF(hasCRF);
-		}
-
-		Boolean hasCohortStudy = (Boolean)attributes.get("hasCohortStudy");
-
-		if (hasCohortStudy != null) {
-			setHasCohortStudy(hasCohortStudy);
-		}
-
-		Boolean hasMRIStudy = (Boolean)attributes.get("hasMRIStudy");
-
-		if (hasMRIStudy != null) {
-			setHasMRIStudy(hasMRIStudy);
-		}
 	}
 
 	/**
@@ -286,16 +228,6 @@ public class SubjectWrapper
 	}
 
 	/**
-	 * Returns the consent date of this subject.
-	 *
-	 * @return the consent date of this subject
-	 */
-	@Override
-	public Date getConsentDate() {
-		return model.getConsentDate();
-	}
-
-	/**
 	 * Returns the create date of this subject.
 	 *
 	 * @return the create date of this subject
@@ -303,16 +235,6 @@ public class SubjectWrapper
 	@Override
 	public Date getCreateDate() {
 		return model.getCreateDate();
-	}
-
-	/**
-	 * Returns the experimental group of this subject.
-	 *
-	 * @return the experimental group of this subject
-	 */
-	@Override
-	public String getExperimentalGroup() {
-		return model.getExperimentalGroup();
 	}
 
 	/**
@@ -333,36 +255,6 @@ public class SubjectWrapper
 	@Override
 	public long getGroupId() {
 		return model.getGroupId();
-	}
-
-	/**
-	 * Returns the has cohort study of this subject.
-	 *
-	 * @return the has cohort study of this subject
-	 */
-	@Override
-	public Boolean getHasCohortStudy() {
-		return model.getHasCohortStudy();
-	}
-
-	/**
-	 * Returns the has crf of this subject.
-	 *
-	 * @return the has crf of this subject
-	 */
-	@Override
-	public Boolean getHasCRF() {
-		return model.getHasCRF();
-	}
-
-	/**
-	 * Returns the has mri study of this subject.
-	 *
-	 * @return the has mri study of this subject
-	 */
-	@Override
-	public Boolean getHasMRIStudy() {
-		return model.getHasMRIStudy();
 	}
 
 	/**
@@ -403,26 +295,6 @@ public class SubjectWrapper
 	@Override
 	public String getName() {
 		return model.getName();
-	}
-
-	/**
-	 * Returns the participation start date of this subject.
-	 *
-	 * @return the participation start date of this subject
-	 */
-	@Override
-	public Date getParticipationStartDate() {
-		return model.getParticipationStartDate();
-	}
-
-	/**
-	 * Returns the participation status of this subject.
-	 *
-	 * @return the participation status of this subject
-	 */
-	@Override
-	public int getParticipationStatus() {
-		return model.getParticipationStatus();
 	}
 
 	/**
@@ -566,16 +438,6 @@ public class SubjectWrapper
 	}
 
 	/**
-	 * Returns the visit date of this subject.
-	 *
-	 * @return the visit date of this subject
-	 */
-	@Override
-	public Date getVisitDate() {
-		return model.getVisitDate();
-	}
-
-	/**
 	 * Returns <code>true</code> if this subject is approved.
 	 *
 	 * @return <code>true</code> if this subject is approved; <code>false</code> otherwise
@@ -691,16 +553,6 @@ public class SubjectWrapper
 	}
 
 	/**
-	 * Sets the consent date of this subject.
-	 *
-	 * @param consentDate the consent date of this subject
-	 */
-	@Override
-	public void setConsentDate(Date consentDate) {
-		model.setConsentDate(consentDate);
-	}
-
-	/**
 	 * Sets the create date of this subject.
 	 *
 	 * @param createDate the create date of this subject
@@ -708,16 +560,6 @@ public class SubjectWrapper
 	@Override
 	public void setCreateDate(Date createDate) {
 		model.setCreateDate(createDate);
-	}
-
-	/**
-	 * Sets the experimental group of this subject.
-	 *
-	 * @param experimentalGroup the experimental group of this subject
-	 */
-	@Override
-	public void setExperimentalGroup(String experimentalGroup) {
-		model.setExperimentalGroup(experimentalGroup);
 	}
 
 	/**
@@ -738,36 +580,6 @@ public class SubjectWrapper
 	@Override
 	public void setGroupId(long groupId) {
 		model.setGroupId(groupId);
-	}
-
-	/**
-	 * Sets the has cohort study of this subject.
-	 *
-	 * @param hasCohortStudy the has cohort study of this subject
-	 */
-	@Override
-	public void setHasCohortStudy(Boolean hasCohortStudy) {
-		model.setHasCohortStudy(hasCohortStudy);
-	}
-
-	/**
-	 * Sets the has crf of this subject.
-	 *
-	 * @param hasCRF the has crf of this subject
-	 */
-	@Override
-	public void setHasCRF(Boolean hasCRF) {
-		model.setHasCRF(hasCRF);
-	}
-
-	/**
-	 * Sets the has mri study of this subject.
-	 *
-	 * @param hasMRIStudy the has mri study of this subject
-	 */
-	@Override
-	public void setHasMRIStudy(Boolean hasMRIStudy) {
-		model.setHasMRIStudy(hasMRIStudy);
 	}
 
 	/**
@@ -808,26 +620,6 @@ public class SubjectWrapper
 	@Override
 	public void setName(String name) {
 		model.setName(name);
-	}
-
-	/**
-	 * Sets the participation start date of this subject.
-	 *
-	 * @param participationStartDate the participation start date of this subject
-	 */
-	@Override
-	public void setParticipationStartDate(Date participationStartDate) {
-		model.setParticipationStartDate(participationStartDate);
-	}
-
-	/**
-	 * Sets the participation status of this subject.
-	 *
-	 * @param participationStatus the participation status of this subject
-	 */
-	@Override
-	public void setParticipationStatus(int participationStatus) {
-		model.setParticipationStatus(participationStatus);
 	}
 
 	/**
@@ -968,16 +760,6 @@ public class SubjectWrapper
 	@Override
 	public void setUuid(String uuid) {
 		model.setUuid(uuid);
-	}
-
-	/**
-	 * Sets the visit date of this subject.
-	 *
-	 * @param visitDate the visit date of this subject
-	 */
-	@Override
-	public void setVisitDate(Date visitDate) {
-		model.setVisitDate(visitDate);
 	}
 
 	@Override

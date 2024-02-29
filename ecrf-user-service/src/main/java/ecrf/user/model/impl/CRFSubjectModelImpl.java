@@ -82,7 +82,9 @@ public class CRFSubjectModelImpl
 		{"companyId", Types.BIGINT}, {"userId", Types.BIGINT},
 		{"userName", Types.VARCHAR}, {"createDate", Types.TIMESTAMP},
 		{"modifiedDate", Types.TIMESTAMP}, {"crfId", Types.BIGINT},
-		{"subjectId", Types.BIGINT}
+		{"subjectId", Types.BIGINT}, {"participationStatus", Types.INTEGER},
+		{"participationStartDate", Types.TIMESTAMP},
+		{"experimentalGroup", Types.VARCHAR}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -100,10 +102,13 @@ public class CRFSubjectModelImpl
 		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("crfId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("subjectId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("participationStatus", Types.INTEGER);
+		TABLE_COLUMNS_MAP.put("participationStartDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("experimentalGroup", Types.VARCHAR);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table EC_CRFSubject (mvccVersion LONG default 0 not null,uuid_ VARCHAR(75) null,crfSubjectId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,crfId LONG,subjectId LONG)";
+		"create table EC_CRFSubject (mvccVersion LONG default 0 not null,uuid_ VARCHAR(75) null,crfSubjectId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,crfId LONG,subjectId LONG,participationStatus INTEGER,participationStartDate DATE null,experimentalGroup VARCHAR(75) null)";
 
 	public static final String TABLE_SQL_DROP = "drop table EC_CRFSubject";
 
@@ -163,6 +168,9 @@ public class CRFSubjectModelImpl
 		model.setModifiedDate(soapModel.getModifiedDate());
 		model.setCrfId(soapModel.getCrfId());
 		model.setSubjectId(soapModel.getSubjectId());
+		model.setParticipationStatus(soapModel.getParticipationStatus());
+		model.setParticipationStartDate(soapModel.getParticipationStartDate());
+		model.setExperimentalGroup(soapModel.getExperimentalGroup());
 
 		return model;
 	}
@@ -327,6 +335,23 @@ public class CRFSubjectModelImpl
 		attributeSetterBiConsumers.put(
 			"subjectId",
 			(BiConsumer<CRFSubject, Long>)CRFSubject::setSubjectId);
+		attributeGetterFunctions.put(
+			"participationStatus", CRFSubject::getParticipationStatus);
+		attributeSetterBiConsumers.put(
+			"participationStatus",
+			(BiConsumer<CRFSubject, Integer>)
+				CRFSubject::setParticipationStatus);
+		attributeGetterFunctions.put(
+			"participationStartDate", CRFSubject::getParticipationStartDate);
+		attributeSetterBiConsumers.put(
+			"participationStartDate",
+			(BiConsumer<CRFSubject, Date>)
+				CRFSubject::setParticipationStartDate);
+		attributeGetterFunctions.put(
+			"experimentalGroup", CRFSubject::getExperimentalGroup);
+		attributeSetterBiConsumers.put(
+			"experimentalGroup",
+			(BiConsumer<CRFSubject, String>)CRFSubject::setExperimentalGroup);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -547,6 +572,44 @@ public class CRFSubjectModelImpl
 		return _originalSubjectId;
 	}
 
+	@JSON
+	@Override
+	public int getParticipationStatus() {
+		return _participationStatus;
+	}
+
+	@Override
+	public void setParticipationStatus(int participationStatus) {
+		_participationStatus = participationStatus;
+	}
+
+	@JSON
+	@Override
+	public Date getParticipationStartDate() {
+		return _participationStartDate;
+	}
+
+	@Override
+	public void setParticipationStartDate(Date participationStartDate) {
+		_participationStartDate = participationStartDate;
+	}
+
+	@JSON
+	@Override
+	public String getExperimentalGroup() {
+		if (_experimentalGroup == null) {
+			return "";
+		}
+		else {
+			return _experimentalGroup;
+		}
+	}
+
+	@Override
+	public void setExperimentalGroup(String experimentalGroup) {
+		_experimentalGroup = experimentalGroup;
+	}
+
 	@Override
 	public StagedModelType getStagedModelType() {
 		return new StagedModelType(
@@ -600,6 +663,9 @@ public class CRFSubjectModelImpl
 		crfSubjectImpl.setModifiedDate(getModifiedDate());
 		crfSubjectImpl.setCrfId(getCrfId());
 		crfSubjectImpl.setSubjectId(getSubjectId());
+		crfSubjectImpl.setParticipationStatus(getParticipationStatus());
+		crfSubjectImpl.setParticipationStartDate(getParticipationStartDate());
+		crfSubjectImpl.setExperimentalGroup(getExperimentalGroup());
 
 		crfSubjectImpl.resetOriginalValues();
 
@@ -748,6 +814,26 @@ public class CRFSubjectModelImpl
 
 		crfSubjectCacheModel.subjectId = getSubjectId();
 
+		crfSubjectCacheModel.participationStatus = getParticipationStatus();
+
+		Date participationStartDate = getParticipationStartDate();
+
+		if (participationStartDate != null) {
+			crfSubjectCacheModel.participationStartDate =
+				participationStartDate.getTime();
+		}
+		else {
+			crfSubjectCacheModel.participationStartDate = Long.MIN_VALUE;
+		}
+
+		crfSubjectCacheModel.experimentalGroup = getExperimentalGroup();
+
+		String experimentalGroup = crfSubjectCacheModel.experimentalGroup;
+
+		if ((experimentalGroup != null) && (experimentalGroup.length() == 0)) {
+			crfSubjectCacheModel.experimentalGroup = null;
+		}
+
 		return crfSubjectCacheModel;
 	}
 
@@ -864,6 +950,9 @@ public class CRFSubjectModelImpl
 	private long _subjectId;
 	private long _originalSubjectId;
 	private boolean _setOriginalSubjectId;
+	private int _participationStatus;
+	private Date _participationStartDate;
+	private String _experimentalGroup;
 	private long _columnBitmask;
 	private CRFSubject _escapedModel;
 

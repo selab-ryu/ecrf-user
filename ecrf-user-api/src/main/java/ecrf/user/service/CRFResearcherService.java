@@ -20,7 +20,12 @@ import com.liferay.portal.kernel.jsonwebservice.JSONWebService;
 import com.liferay.portal.kernel.security.access.control.AccessControlled;
 import com.liferay.portal.kernel.service.BaseService;
 import com.liferay.portal.kernel.transaction.Isolation;
+import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
+
+import ecrf.user.model.custom.CRFResearcherInfo;
+
+import java.util.ArrayList;
 
 import org.osgi.annotation.versioning.ProviderType;
 
@@ -47,6 +52,15 @@ public interface CRFResearcherService extends BaseService {
 	 *
 	 * Never modify this interface directly. Add custom service methods to <code>ecrf.user.service.impl.CRFResearcherServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the crf researcher remote service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link CRFResearcherServiceUtil} if injection and service tracking are not available.
 	 */
+	@JSONWebService(value = "get-all-crf-researcher-info")
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public ArrayList<CRFResearcherInfo> getCRFAllResearcherInfoList(
+		long groupId, long crfId);
+
+	@JSONWebService(value = "get-crf-researcher-list")
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public ArrayList<CRFResearcherInfo> getCRFResearcherList(
+		long groupId, long crfId);
 
 	/**
 	 * Returns the OSGi service identifier.

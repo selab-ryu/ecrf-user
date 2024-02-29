@@ -30,6 +30,35 @@ public class CRFSubjectServiceWrapper
 		_crfSubjectService = crfSubjectService;
 	}
 
+	@Override
+	public java.util.ArrayList<ecrf.user.model.custom.CRFSubjectInfo>
+		getAllCRFSubjectInfoList(long groupId, long crfId) {
+
+		return _crfSubjectService.getAllCRFSubjectInfoList(groupId, crfId);
+	}
+
+	@Override
+	public java.util.ArrayList<ecrf.user.model.Subject> getCRFSubjectByExGroup(
+		long groupId, long crfId, String exGroup) {
+
+		return _crfSubjectService.getCRFSubjectByExGroup(
+			groupId, crfId, exGroup);
+	}
+
+	@Override
+	public java.util.ArrayList<ecrf.user.model.custom.CRFSubjectInfo>
+		getCRFSubjectList(long groupId, long crfId) {
+
+		return _crfSubjectService.getCRFSubjectList(groupId, crfId);
+	}
+
+	@Override
+	public java.util.ArrayList<ecrf.user.model.Subject>
+		getCRFSubjectListNotIncluded(long groupId, long crfId) {
+
+		return _crfSubjectService.getCRFSubjectListNotIncluded(groupId, crfId);
+	}
+
 	/**
 	 * Returns the OSGi service identifier.
 	 *
@@ -38,6 +67,13 @@ public class CRFSubjectServiceWrapper
 	@Override
 	public String getOSGiServiceIdentifier() {
 		return _crfSubjectService.getOSGiServiceIdentifier();
+	}
+
+	@Override
+	public java.util.ArrayList<ecrf.user.model.Subject> getSubjectList(
+		long groupId) {
+
+		return _crfSubjectService.getSubjectList(groupId);
 	}
 
 	@Override

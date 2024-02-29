@@ -67,12 +67,7 @@ public interface SubjectLocalService
 	public Subject addSubject(
 			String name, int birthYear, int birthMonth, int birthDay,
 			int gender, String phone, String phone2, String address,
-			String serialId, int hospitalCode, int visitDateYear,
-			int visitDateMonth, int visitDateDay, int consentYear,
-			int consentMonth, int consentDay, int participationDateYear,
-			int participationDateMonth, int participationDateDay,
-			int participationStatus, String experimentalGroup, boolean hasCRF,
-			boolean hasCohortStudy, boolean hasMRIStudy, ServiceContext sc)
+			String serialId, int hospitalCode, ServiceContext sc)
 		throws PortalException;
 
 	/**
@@ -219,7 +214,7 @@ public interface SubjectLocalService
 	public ActionableDynamicQuery getActionableDynamicQuery();
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<Subject> getAllSubject(long groupId);
+	public List<Subject> getAllSubject();
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ExportActionableDynamicQuery getExportActionableDynamicQuery(
@@ -252,6 +247,15 @@ public interface SubjectLocalService
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Subject getSubject(long subjectId) throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Subject> getSubjectByGroupId(long groupId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Subject> getSubjectByIds(long groupId, long[] subjectIds);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Subject getSubjectBySerialId(String serialId);
 
 	/**
 	 * Returns the subject matching the UUID and group.
@@ -317,12 +321,7 @@ public interface SubjectLocalService
 			long subjectId, String name, int birthYear, int birthMonth,
 			int birthDay, int gender, String phone, String phone2,
 			String address, String serialId, int hospitalCode,
-			int visitDateYear, int visitDateMonth, int visitDateDay,
-			int consentYear, int consentMonth, int consentDay,
-			int participationDateYear, int participationDateMonth,
-			int participationDateDay, int participationStatus,
-			String experimentalGroup, boolean hasCRF, boolean hasCohortStudy,
-			boolean hasMRIStudy, ServiceContext sc)
+			ServiceContext sc)
 		throws PortalException;
 
 	/**

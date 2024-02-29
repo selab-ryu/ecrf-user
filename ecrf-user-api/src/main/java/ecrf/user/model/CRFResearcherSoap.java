@@ -42,6 +42,7 @@ public class CRFResearcherSoap implements Serializable {
 		soapModel.setModifiedDate(model.getModifiedDate());
 		soapModel.setResearcherId(model.getResearcherId());
 		soapModel.setCrfId(model.getCrfId());
+		soapModel.setJobTitle(model.getJobTitle());
 
 		return soapModel;
 	}
@@ -183,6 +184,14 @@ public class CRFResearcherSoap implements Serializable {
 		_crfId = crfId;
 	}
 
+	public String getJobTitle() {
+		return _jobTitle;
+	}
+
+	public void setJobTitle(String jobTitle) {
+		_jobTitle = jobTitle;
+	}
+
 	private long _mvccVersion;
 	private String _uuid;
 	private long _crfResearcherId;
@@ -194,5 +203,6 @@ public class CRFResearcherSoap implements Serializable {
 	private Date _modifiedDate;
 	private long _researcherId;
 	private long _crfId;
+	private String _jobTitle;
 
 }

@@ -78,7 +78,7 @@ public class CRFResearcherCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(23);
+		StringBundler sb = new StringBundler(25);
 
 		sb.append("{mvccVersion=");
 		sb.append(mvccVersion);
@@ -102,6 +102,8 @@ public class CRFResearcherCacheModel
 		sb.append(researcherId);
 		sb.append(", crfId=");
 		sb.append(crfId);
+		sb.append(", jobTitle=");
+		sb.append(jobTitle);
 		sb.append("}");
 
 		return sb.toString();
@@ -149,6 +151,13 @@ public class CRFResearcherCacheModel
 		crfResearcherImpl.setResearcherId(researcherId);
 		crfResearcherImpl.setCrfId(crfId);
 
+		if (jobTitle == null) {
+			crfResearcherImpl.setJobTitle("");
+		}
+		else {
+			crfResearcherImpl.setJobTitle(jobTitle);
+		}
+
 		crfResearcherImpl.resetOriginalValues();
 
 		return crfResearcherImpl;
@@ -173,6 +182,7 @@ public class CRFResearcherCacheModel
 		researcherId = objectInput.readLong();
 
 		crfId = objectInput.readLong();
+		jobTitle = objectInput.readUTF();
 	}
 
 	@Override
@@ -207,6 +217,13 @@ public class CRFResearcherCacheModel
 		objectOutput.writeLong(researcherId);
 
 		objectOutput.writeLong(crfId);
+
+		if (jobTitle == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(jobTitle);
+		}
 	}
 
 	public long mvccVersion;
@@ -220,5 +237,6 @@ public class CRFResearcherCacheModel
 	public long modifiedDate;
 	public long researcherId;
 	public long crfId;
+	public String jobTitle;
 
 }

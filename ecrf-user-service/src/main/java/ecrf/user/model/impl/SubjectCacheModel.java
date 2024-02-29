@@ -77,7 +77,7 @@ public class SubjectCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(59);
+		StringBundler sb = new StringBundler(43);
 
 		sb.append("{mvccVersion=");
 		sb.append(mvccVersion);
@@ -121,22 +121,6 @@ public class SubjectCacheModel
 		sb.append(serialId);
 		sb.append(", hospitalCode=");
 		sb.append(hospitalCode);
-		sb.append(", visitDate=");
-		sb.append(visitDate);
-		sb.append(", consentDate=");
-		sb.append(consentDate);
-		sb.append(", participationStartDate=");
-		sb.append(participationStartDate);
-		sb.append(", participationStatus=");
-		sb.append(participationStatus);
-		sb.append(", experimentalGroup=");
-		sb.append(experimentalGroup);
-		sb.append(", hasCRF=");
-		sb.append(hasCRF);
-		sb.append(", hasCohortStudy=");
-		sb.append(hasCohortStudy);
-		sb.append(", hasMRIStudy=");
-		sb.append(hasMRIStudy);
 		sb.append("}");
 
 		return sb.toString();
@@ -244,41 +228,6 @@ public class SubjectCacheModel
 
 		subjectImpl.setHospitalCode(hospitalCode);
 
-		if (visitDate == Long.MIN_VALUE) {
-			subjectImpl.setVisitDate(null);
-		}
-		else {
-			subjectImpl.setVisitDate(new Date(visitDate));
-		}
-
-		if (consentDate == Long.MIN_VALUE) {
-			subjectImpl.setConsentDate(null);
-		}
-		else {
-			subjectImpl.setConsentDate(new Date(consentDate));
-		}
-
-		if (participationStartDate == Long.MIN_VALUE) {
-			subjectImpl.setParticipationStartDate(null);
-		}
-		else {
-			subjectImpl.setParticipationStartDate(
-				new Date(participationStartDate));
-		}
-
-		subjectImpl.setParticipationStatus(participationStatus);
-
-		if (experimentalGroup == null) {
-			subjectImpl.setExperimentalGroup("");
-		}
-		else {
-			subjectImpl.setExperimentalGroup(experimentalGroup);
-		}
-
-		subjectImpl.setHasCRF(hasCRF);
-		subjectImpl.setHasCohortStudy(hasCohortStudy);
-		subjectImpl.setHasMRIStudy(hasMRIStudy);
-
 		subjectImpl.resetOriginalValues();
 
 		return subjectImpl;
@@ -315,18 +264,6 @@ public class SubjectCacheModel
 		serialId = objectInput.readUTF();
 
 		hospitalCode = objectInput.readInt();
-		visitDate = objectInput.readLong();
-		consentDate = objectInput.readLong();
-		participationStartDate = objectInput.readLong();
-
-		participationStatus = objectInput.readInt();
-		experimentalGroup = objectInput.readUTF();
-
-		hasCRF = objectInput.readBoolean();
-
-		hasCohortStudy = objectInput.readBoolean();
-
-		hasMRIStudy = objectInput.readBoolean();
 	}
 
 	@Override
@@ -411,24 +348,6 @@ public class SubjectCacheModel
 		}
 
 		objectOutput.writeInt(hospitalCode);
-		objectOutput.writeLong(visitDate);
-		objectOutput.writeLong(consentDate);
-		objectOutput.writeLong(participationStartDate);
-
-		objectOutput.writeInt(participationStatus);
-
-		if (experimentalGroup == null) {
-			objectOutput.writeUTF("");
-		}
-		else {
-			objectOutput.writeUTF(experimentalGroup);
-		}
-
-		objectOutput.writeBoolean(hasCRF);
-
-		objectOutput.writeBoolean(hasCohortStudy);
-
-		objectOutput.writeBoolean(hasMRIStudy);
 	}
 
 	public long mvccVersion;
@@ -452,13 +371,5 @@ public class SubjectCacheModel
 	public String address;
 	public String serialId;
 	public int hospitalCode;
-	public long visitDate;
-	public long consentDate;
-	public long participationStartDate;
-	public int participationStatus;
-	public String experimentalGroup;
-	public boolean hasCRF;
-	public boolean hasCohortStudy;
-	public boolean hasMRIStudy;
 
 }

@@ -33,6 +33,17 @@ public class CRFResearcherServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to <code>ecrf.user.service.impl.CRFResearcherServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static java.util.ArrayList<ecrf.user.model.custom.CRFResearcherInfo>
+		getCRFAllResearcherInfoList(long groupId, long crfId) {
+
+		return getService().getCRFAllResearcherInfoList(groupId, crfId);
+	}
+
+	public static java.util.ArrayList<ecrf.user.model.custom.CRFResearcherInfo>
+		getCRFResearcherList(long groupId, long crfId) {
+
+		return getService().getCRFResearcherList(groupId, crfId);
+	}
 
 	/**
 	 * Returns the OSGi service identifier.

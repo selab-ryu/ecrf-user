@@ -88,12 +88,7 @@ public class SubjectModelImpl
 		{"birth", Types.TIMESTAMP}, {"gender", Types.INTEGER},
 		{"phone", Types.VARCHAR}, {"phone2", Types.VARCHAR},
 		{"address", Types.VARCHAR}, {"serialId", Types.VARCHAR},
-		{"hospitalCode", Types.INTEGER}, {"visitDate", Types.TIMESTAMP},
-		{"consentDate", Types.TIMESTAMP},
-		{"participationStartDate", Types.TIMESTAMP},
-		{"participationStatus", Types.INTEGER},
-		{"experimentalGroup", Types.VARCHAR}, {"hasCRF", Types.BOOLEAN},
-		{"hasCohortStudy", Types.BOOLEAN}, {"hasMRIStudy", Types.BOOLEAN}
+		{"hospitalCode", Types.INTEGER}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -121,26 +116,18 @@ public class SubjectModelImpl
 		TABLE_COLUMNS_MAP.put("address", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("serialId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("hospitalCode", Types.INTEGER);
-		TABLE_COLUMNS_MAP.put("visitDate", Types.TIMESTAMP);
-		TABLE_COLUMNS_MAP.put("consentDate", Types.TIMESTAMP);
-		TABLE_COLUMNS_MAP.put("participationStartDate", Types.TIMESTAMP);
-		TABLE_COLUMNS_MAP.put("participationStatus", Types.INTEGER);
-		TABLE_COLUMNS_MAP.put("experimentalGroup", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("hasCRF", Types.BOOLEAN);
-		TABLE_COLUMNS_MAP.put("hasCohortStudy", Types.BOOLEAN);
-		TABLE_COLUMNS_MAP.put("hasMRIStudy", Types.BOOLEAN);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table EC_Subject (mvccVersion LONG default 0 not null,uuid_ VARCHAR(75) null,subjectId LONG not null primary key,companyId LONG,groupId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,name VARCHAR(75) null,birth DATE null,gender INTEGER,phone VARCHAR(75) null,phone2 VARCHAR(75) null,address VARCHAR(75) null,serialId VARCHAR(75) null,hospitalCode INTEGER,visitDate DATE null,consentDate DATE null,participationStartDate DATE null,participationStatus INTEGER,experimentalGroup VARCHAR(75) null,hasCRF BOOLEAN,hasCohortStudy BOOLEAN,hasMRIStudy BOOLEAN)";
+		"create table EC_Subject (mvccVersion LONG default 0 not null,uuid_ VARCHAR(75) null,subjectId LONG not null primary key,companyId LONG,groupId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,name VARCHAR(75) null,birth DATE null,gender INTEGER,phone VARCHAR(75) null,phone2 VARCHAR(75) null,address VARCHAR(75) null,serialId VARCHAR(75) null,hospitalCode INTEGER)";
 
 	public static final String TABLE_SQL_DROP = "drop table EC_Subject";
 
 	public static final String ORDER_BY_JPQL =
-		" ORDER BY subject.subjectId ASC, subject.createDate DESC";
+		" ORDER BY subject.subjectId DESC, subject.name ASC, subject.createDate DESC";
 
 	public static final String ORDER_BY_SQL =
-		" ORDER BY EC_Subject.subjectId ASC, EC_Subject.createDate DESC";
+		" ORDER BY EC_Subject.subjectId DESC, EC_Subject.name ASC, EC_Subject.createDate DESC";
 
 	public static final String DATA_SOURCE = "liferayDataSource";
 
@@ -152,11 +139,15 @@ public class SubjectModelImpl
 
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
 
-	public static final long UUID_COLUMN_BITMASK = 4L;
+	public static final long NAME_COLUMN_BITMASK = 4L;
 
-	public static final long SUBJECTID_COLUMN_BITMASK = 8L;
+	public static final long SERIALID_COLUMN_BITMASK = 8L;
 
-	public static final long CREATEDATE_COLUMN_BITMASK = 16L;
+	public static final long SUBJECTID_COLUMN_BITMASK = 16L;
+
+	public static final long UUID_COLUMN_BITMASK = 32L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 64L;
 
 	public static void setEntityCacheEnabled(boolean entityCacheEnabled) {
 		_entityCacheEnabled = entityCacheEnabled;
@@ -200,14 +191,6 @@ public class SubjectModelImpl
 		model.setAddress(soapModel.getAddress());
 		model.setSerialId(soapModel.getSerialId());
 		model.setHospitalCode(soapModel.getHospitalCode());
-		model.setVisitDate(soapModel.getVisitDate());
-		model.setConsentDate(soapModel.getConsentDate());
-		model.setParticipationStartDate(soapModel.getParticipationStartDate());
-		model.setParticipationStatus(soapModel.getParticipationStatus());
-		model.setExperimentalGroup(soapModel.getExperimentalGroup());
-		model.setHasCRF(soapModel.getHasCRF());
-		model.setHasCohortStudy(soapModel.getHasCohortStudy());
-		model.setHasMRIStudy(soapModel.getHasMRIStudy());
 
 		return model;
 	}
@@ -399,39 +382,6 @@ public class SubjectModelImpl
 		attributeSetterBiConsumers.put(
 			"hospitalCode",
 			(BiConsumer<Subject, Integer>)Subject::setHospitalCode);
-		attributeGetterFunctions.put("visitDate", Subject::getVisitDate);
-		attributeSetterBiConsumers.put(
-			"visitDate", (BiConsumer<Subject, Date>)Subject::setVisitDate);
-		attributeGetterFunctions.put("consentDate", Subject::getConsentDate);
-		attributeSetterBiConsumers.put(
-			"consentDate", (BiConsumer<Subject, Date>)Subject::setConsentDate);
-		attributeGetterFunctions.put(
-			"participationStartDate", Subject::getParticipationStartDate);
-		attributeSetterBiConsumers.put(
-			"participationStartDate",
-			(BiConsumer<Subject, Date>)Subject::setParticipationStartDate);
-		attributeGetterFunctions.put(
-			"participationStatus", Subject::getParticipationStatus);
-		attributeSetterBiConsumers.put(
-			"participationStatus",
-			(BiConsumer<Subject, Integer>)Subject::setParticipationStatus);
-		attributeGetterFunctions.put(
-			"experimentalGroup", Subject::getExperimentalGroup);
-		attributeSetterBiConsumers.put(
-			"experimentalGroup",
-			(BiConsumer<Subject, String>)Subject::setExperimentalGroup);
-		attributeGetterFunctions.put("hasCRF", Subject::getHasCRF);
-		attributeSetterBiConsumers.put(
-			"hasCRF", (BiConsumer<Subject, Boolean>)Subject::setHasCRF);
-		attributeGetterFunctions.put(
-			"hasCohortStudy", Subject::getHasCohortStudy);
-		attributeSetterBiConsumers.put(
-			"hasCohortStudy",
-			(BiConsumer<Subject, Boolean>)Subject::setHasCohortStudy);
-		attributeGetterFunctions.put("hasMRIStudy", Subject::getHasMRIStudy);
-		attributeSetterBiConsumers.put(
-			"hasMRIStudy",
-			(BiConsumer<Subject, Boolean>)Subject::setHasMRIStudy);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -486,7 +436,17 @@ public class SubjectModelImpl
 	public void setSubjectId(long subjectId) {
 		_columnBitmask = -1L;
 
+		if (!_setOriginalSubjectId) {
+			_setOriginalSubjectId = true;
+
+			_originalSubjectId = _subjectId;
+		}
+
 		_subjectId = subjectId;
+	}
+
+	public long getOriginalSubjectId() {
+		return _originalSubjectId;
 	}
 
 	@JSON
@@ -686,7 +646,17 @@ public class SubjectModelImpl
 
 	@Override
 	public void setName(String name) {
+		_columnBitmask = -1L;
+
+		if (_originalName == null) {
+			_originalName = _name;
+		}
+
 		_name = name;
+	}
+
+	public String getOriginalName() {
+		return GetterUtil.getString(_originalName);
 	}
 
 	@JSON
@@ -772,7 +742,17 @@ public class SubjectModelImpl
 
 	@Override
 	public void setSerialId(String serialId) {
+		_columnBitmask |= SERIALID_COLUMN_BITMASK;
+
+		if (_originalSerialId == null) {
+			_originalSerialId = _serialId;
+		}
+
 		_serialId = serialId;
+	}
+
+	public String getOriginalSerialId() {
+		return GetterUtil.getString(_originalSerialId);
 	}
 
 	@JSON
@@ -784,99 +764,6 @@ public class SubjectModelImpl
 	@Override
 	public void setHospitalCode(int hospitalCode) {
 		_hospitalCode = hospitalCode;
-	}
-
-	@JSON
-	@Override
-	public Date getVisitDate() {
-		return _visitDate;
-	}
-
-	@Override
-	public void setVisitDate(Date visitDate) {
-		_visitDate = visitDate;
-	}
-
-	@JSON
-	@Override
-	public Date getConsentDate() {
-		return _consentDate;
-	}
-
-	@Override
-	public void setConsentDate(Date consentDate) {
-		_consentDate = consentDate;
-	}
-
-	@JSON
-	@Override
-	public Date getParticipationStartDate() {
-		return _participationStartDate;
-	}
-
-	@Override
-	public void setParticipationStartDate(Date participationStartDate) {
-		_participationStartDate = participationStartDate;
-	}
-
-	@JSON
-	@Override
-	public int getParticipationStatus() {
-		return _participationStatus;
-	}
-
-	@Override
-	public void setParticipationStatus(int participationStatus) {
-		_participationStatus = participationStatus;
-	}
-
-	@JSON
-	@Override
-	public String getExperimentalGroup() {
-		if (_experimentalGroup == null) {
-			return "";
-		}
-		else {
-			return _experimentalGroup;
-		}
-	}
-
-	@Override
-	public void setExperimentalGroup(String experimentalGroup) {
-		_experimentalGroup = experimentalGroup;
-	}
-
-	@JSON
-	@Override
-	public Boolean getHasCRF() {
-		return _hasCRF;
-	}
-
-	@Override
-	public void setHasCRF(Boolean hasCRF) {
-		_hasCRF = hasCRF;
-	}
-
-	@JSON
-	@Override
-	public Boolean getHasCohortStudy() {
-		return _hasCohortStudy;
-	}
-
-	@Override
-	public void setHasCohortStudy(Boolean hasCohortStudy) {
-		_hasCohortStudy = hasCohortStudy;
-	}
-
-	@JSON
-	@Override
-	public Boolean getHasMRIStudy() {
-		return _hasMRIStudy;
-	}
-
-	@Override
-	public void setHasMRIStudy(Boolean hasMRIStudy) {
-		_hasMRIStudy = hasMRIStudy;
 	}
 
 	@Override
@@ -1022,14 +909,6 @@ public class SubjectModelImpl
 		subjectImpl.setAddress(getAddress());
 		subjectImpl.setSerialId(getSerialId());
 		subjectImpl.setHospitalCode(getHospitalCode());
-		subjectImpl.setVisitDate(getVisitDate());
-		subjectImpl.setConsentDate(getConsentDate());
-		subjectImpl.setParticipationStartDate(getParticipationStartDate());
-		subjectImpl.setParticipationStatus(getParticipationStatus());
-		subjectImpl.setExperimentalGroup(getExperimentalGroup());
-		subjectImpl.setHasCRF(getHasCRF());
-		subjectImpl.setHasCohortStudy(getHasCohortStudy());
-		subjectImpl.setHasMRIStudy(getHasMRIStudy());
 
 		subjectImpl.resetOriginalValues();
 
@@ -1049,6 +928,14 @@ public class SubjectModelImpl
 		else {
 			value = 0;
 		}
+
+		value = value * -1;
+
+		if (value != 0) {
+			return value;
+		}
+
+		value = getName().compareTo(subject.getName());
 
 		if (value != 0) {
 			return value;
@@ -1106,6 +993,10 @@ public class SubjectModelImpl
 	public void resetOriginalValues() {
 		_originalUuid = _uuid;
 
+		_originalSubjectId = _subjectId;
+
+		_setOriginalSubjectId = false;
+
 		_originalCompanyId = _companyId;
 
 		_setOriginalCompanyId = false;
@@ -1115,6 +1006,10 @@ public class SubjectModelImpl
 		_setOriginalGroupId = false;
 
 		_setModifiedDate = false;
+
+		_originalName = _name;
+
+		_originalSerialId = _serialId;
 
 		_columnBitmask = 0;
 	}
@@ -1241,62 +1136,6 @@ public class SubjectModelImpl
 
 		subjectCacheModel.hospitalCode = getHospitalCode();
 
-		Date visitDate = getVisitDate();
-
-		if (visitDate != null) {
-			subjectCacheModel.visitDate = visitDate.getTime();
-		}
-		else {
-			subjectCacheModel.visitDate = Long.MIN_VALUE;
-		}
-
-		Date consentDate = getConsentDate();
-
-		if (consentDate != null) {
-			subjectCacheModel.consentDate = consentDate.getTime();
-		}
-		else {
-			subjectCacheModel.consentDate = Long.MIN_VALUE;
-		}
-
-		Date participationStartDate = getParticipationStartDate();
-
-		if (participationStartDate != null) {
-			subjectCacheModel.participationStartDate =
-				participationStartDate.getTime();
-		}
-		else {
-			subjectCacheModel.participationStartDate = Long.MIN_VALUE;
-		}
-
-		subjectCacheModel.participationStatus = getParticipationStatus();
-
-		subjectCacheModel.experimentalGroup = getExperimentalGroup();
-
-		String experimentalGroup = subjectCacheModel.experimentalGroup;
-
-		if ((experimentalGroup != null) && (experimentalGroup.length() == 0)) {
-			subjectCacheModel.experimentalGroup = null;
-		}
-
-		Boolean hasCRF = getHasCRF();
-
-		if (hasCRF != null) {
-			subjectCacheModel.hasCRF = hasCRF;
-		}
-
-		Boolean hasCohortStudy = getHasCohortStudy();
-
-		if (hasCohortStudy != null) {
-			subjectCacheModel.hasCohortStudy = hasCohortStudy;
-		}
-
-		Boolean hasMRIStudy = getHasMRIStudy();
-
-		if (hasMRIStudy != null) {
-			subjectCacheModel.hasMRIStudy = hasMRIStudy;
-		}
-
 		return subjectCacheModel;
 	}
 
@@ -1396,6 +1235,8 @@ public class SubjectModelImpl
 	private String _uuid;
 	private String _originalUuid;
 	private long _subjectId;
+	private long _originalSubjectId;
+	private boolean _setOriginalSubjectId;
 	private long _companyId;
 	private long _originalCompanyId;
 	private boolean _setOriginalCompanyId;
@@ -1412,21 +1253,15 @@ public class SubjectModelImpl
 	private String _statusByUserName;
 	private Date _statusDate;
 	private String _name;
+	private String _originalName;
 	private Date _birth;
 	private int _gender;
 	private String _phone;
 	private String _phone2;
 	private String _address;
 	private String _serialId;
+	private String _originalSerialId;
 	private int _hospitalCode;
-	private Date _visitDate;
-	private Date _consentDate;
-	private Date _participationStartDate;
-	private int _participationStatus;
-	private String _experimentalGroup;
-	private Boolean _hasCRF;
-	private Boolean _hasCohortStudy;
-	private Boolean _hasMRIStudy;
 	private long _columnBitmask;
 	private Subject _escapedModel;
 

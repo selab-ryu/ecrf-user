@@ -249,4 +249,19 @@ public interface CRFResearcherModel
 	 */
 	public void setCrfId(long crfId);
 
+	/**
+	 * Returns the job title of this crf researcher.
+	 *
+	 * @return the job title of this crf researcher
+	 */
+	@AutoEscape
+	public String getJobTitle();
+
+	/**
+	 * Sets the job title of this crf researcher.
+	 *
+	 * @param jobTitle the job title of this crf researcher
+	 */
+	public void setJobTitle(String jobTitle);
+
 }

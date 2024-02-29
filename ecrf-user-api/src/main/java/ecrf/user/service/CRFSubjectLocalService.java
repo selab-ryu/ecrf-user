@@ -37,6 +37,7 @@ import ecrf.user.model.CRFSubject;
 
 import java.io.Serializable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.osgi.annotation.versioning.ProviderType;
@@ -355,5 +356,9 @@ public interface CRFSubjectLocalService
 	 */
 	@Indexable(type = IndexableType.REINDEX)
 	public CRFSubject updateCRFSubject(CRFSubject crfSubject);
+
+	public void updateCRFSubjects(
+			long crfId, ArrayList<CRFSubject> crfSubjectList, ServiceContext sc)
+		throws PortalException;
 
 }

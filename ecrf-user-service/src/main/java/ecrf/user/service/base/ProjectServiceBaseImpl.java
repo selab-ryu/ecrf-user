@@ -27,11 +27,17 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import ecrf.user.model.Project;
 import ecrf.user.service.ProjectService;
 import ecrf.user.service.ProjectServiceUtil;
+import ecrf.user.service.persistence.CRFAutoqueryPersistence;
+import ecrf.user.service.persistence.CRFHistoryPersistence;
 import ecrf.user.service.persistence.CRFPersistence;
 import ecrf.user.service.persistence.CRFResearcherPersistence;
+import ecrf.user.service.persistence.CRFSearchLogPersistence;
 import ecrf.user.service.persistence.CRFSubjectPersistence;
+import ecrf.user.service.persistence.LinkCRFPersistence;
 import ecrf.user.service.persistence.ProjectPersistence;
+import ecrf.user.service.persistence.ResearcherFinder;
 import ecrf.user.service.persistence.ResearcherPersistence;
+import ecrf.user.service.persistence.SubjectFinder;
 import ecrf.user.service.persistence.SubjectPersistence;
 
 import java.lang.reflect.Field;
@@ -139,10 +145,22 @@ public abstract class ProjectServiceBaseImpl
 	protected CRFPersistence crfPersistence;
 
 	@Reference
+	protected CRFAutoqueryPersistence crfAutoqueryPersistence;
+
+	@Reference
+	protected CRFHistoryPersistence crfHistoryPersistence;
+
+	@Reference
 	protected CRFResearcherPersistence crfResearcherPersistence;
 
 	@Reference
+	protected CRFSearchLogPersistence crfSearchLogPersistence;
+
+	@Reference
 	protected CRFSubjectPersistence crfSubjectPersistence;
+
+	@Reference
+	protected LinkCRFPersistence linkCRFPersistence;
 
 	@Reference
 	protected ecrf.user.service.ProjectLocalService projectLocalService;
@@ -156,7 +174,13 @@ public abstract class ProjectServiceBaseImpl
 	protected ResearcherPersistence researcherPersistence;
 
 	@Reference
+	protected ResearcherFinder researcherFinder;
+
+	@Reference
 	protected SubjectPersistence subjectPersistence;
+
+	@Reference
+	protected SubjectFinder subjectFinder;
 
 	@Reference
 	protected com.liferay.counter.kernel.service.CounterLocalService
@@ -180,5 +204,40 @@ public abstract class ProjectServiceBaseImpl
 
 	@Reference
 	protected com.liferay.portal.kernel.service.UserService userService;
+
+	@Reference
+	protected com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalService
+		workflowInstanceLinkLocalService;
+
+	@Reference
+	protected com.liferay.asset.kernel.service.AssetEntryLocalService
+		assetEntryLocalService;
+
+	@Reference
+	protected com.liferay.asset.kernel.service.AssetEntryService
+		assetEntryService;
+
+	@Reference
+	protected com.liferay.asset.kernel.service.AssetTagLocalService
+		assetTagLocalService;
+
+	@Reference
+	protected com.liferay.asset.kernel.service.AssetTagService assetTagService;
+
+	@Reference
+	protected com.liferay.ratings.kernel.service.RatingsStatsLocalService
+		ratingsStatsLocalService;
+
+	@Reference
+	protected com.liferay.trash.kernel.service.TrashEntryLocalService
+		trashEntryLocalService;
+
+	@Reference
+	protected com.liferay.trash.kernel.service.TrashEntryService
+		trashEntryService;
+
+	@Reference
+	protected com.liferay.trash.kernel.service.TrashVersionLocalService
+		trashVersionLocalService;
 
 }

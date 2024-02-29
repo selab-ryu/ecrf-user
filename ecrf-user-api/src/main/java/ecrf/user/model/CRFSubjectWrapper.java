@@ -54,6 +54,9 @@ public class CRFSubjectWrapper
 		attributes.put("modifiedDate", getModifiedDate());
 		attributes.put("crfId", getCrfId());
 		attributes.put("subjectId", getSubjectId());
+		attributes.put("participationStatus", getParticipationStatus());
+		attributes.put("participationStartDate", getParticipationStartDate());
+		attributes.put("experimentalGroup", getExperimentalGroup());
 
 		return attributes;
 	}
@@ -125,6 +128,26 @@ public class CRFSubjectWrapper
 		if (subjectId != null) {
 			setSubjectId(subjectId);
 		}
+
+		Integer participationStatus = (Integer)attributes.get(
+			"participationStatus");
+
+		if (participationStatus != null) {
+			setParticipationStatus(participationStatus);
+		}
+
+		Date participationStartDate = (Date)attributes.get(
+			"participationStartDate");
+
+		if (participationStartDate != null) {
+			setParticipationStartDate(participationStartDate);
+		}
+
+		String experimentalGroup = (String)attributes.get("experimentalGroup");
+
+		if (experimentalGroup != null) {
+			setExperimentalGroup(experimentalGroup);
+		}
 	}
 
 	/**
@@ -168,6 +191,16 @@ public class CRFSubjectWrapper
 	}
 
 	/**
+	 * Returns the experimental group of this crf subject.
+	 *
+	 * @return the experimental group of this crf subject
+	 */
+	@Override
+	public String getExperimentalGroup() {
+		return model.getExperimentalGroup();
+	}
+
+	/**
 	 * Returns the group ID of this crf subject.
 	 *
 	 * @return the group ID of this crf subject
@@ -195,6 +228,26 @@ public class CRFSubjectWrapper
 	@Override
 	public long getMvccVersion() {
 		return model.getMvccVersion();
+	}
+
+	/**
+	 * Returns the participation start date of this crf subject.
+	 *
+	 * @return the participation start date of this crf subject
+	 */
+	@Override
+	public Date getParticipationStartDate() {
+		return model.getParticipationStartDate();
+	}
+
+	/**
+	 * Returns the participation status of this crf subject.
+	 *
+	 * @return the participation status of this crf subject
+	 */
+	@Override
+	public int getParticipationStatus() {
+		return model.getParticipationStatus();
 	}
 
 	/**
@@ -303,6 +356,16 @@ public class CRFSubjectWrapper
 	}
 
 	/**
+	 * Sets the experimental group of this crf subject.
+	 *
+	 * @param experimentalGroup the experimental group of this crf subject
+	 */
+	@Override
+	public void setExperimentalGroup(String experimentalGroup) {
+		model.setExperimentalGroup(experimentalGroup);
+	}
+
+	/**
 	 * Sets the group ID of this crf subject.
 	 *
 	 * @param groupId the group ID of this crf subject
@@ -330,6 +393,26 @@ public class CRFSubjectWrapper
 	@Override
 	public void setMvccVersion(long mvccVersion) {
 		model.setMvccVersion(mvccVersion);
+	}
+
+	/**
+	 * Sets the participation start date of this crf subject.
+	 *
+	 * @param participationStartDate the participation start date of this crf subject
+	 */
+	@Override
+	public void setParticipationStartDate(Date participationStartDate) {
+		model.setParticipationStartDate(participationStartDate);
+	}
+
+	/**
+	 * Sets the participation status of this crf subject.
+	 *
+	 * @param participationStatus the participation status of this crf subject
+	 */
+	@Override
+	public void setParticipationStatus(int participationStatus) {
+		model.setParticipationStatus(participationStatus);
 	}
 
 	/**

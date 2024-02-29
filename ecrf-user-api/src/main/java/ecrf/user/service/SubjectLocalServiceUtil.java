@@ -47,22 +47,13 @@ public class SubjectLocalServiceUtil {
 	public static Subject addSubject(
 			String name, int birthYear, int birthMonth, int birthDay,
 			int gender, String phone, String phone2, String address,
-			String serialId, int hospitalCode, int visitDateYear,
-			int visitDateMonth, int visitDateDay, int consentYear,
-			int consentMonth, int consentDay, int participationDateYear,
-			int participationDateMonth, int participationDateDay,
-			int participationStatus, String experimentalGroup, boolean hasCRF,
-			boolean hasCohortStudy, boolean hasMRIStudy,
+			String serialId, int hospitalCode,
 			com.liferay.portal.kernel.service.ServiceContext sc)
 		throws PortalException {
 
 		return getService().addSubject(
 			name, birthYear, birthMonth, birthDay, gender, phone, phone2,
-			address, serialId, hospitalCode, visitDateYear, visitDateMonth,
-			visitDateDay, consentYear, consentMonth, consentDay,
-			participationDateYear, participationDateMonth, participationDateDay,
-			participationStatus, experimentalGroup, hasCRF, hasCohortStudy,
-			hasMRIStudy, sc);
+			address, serialId, hospitalCode, sc);
 	}
 
 	/**
@@ -241,8 +232,8 @@ public class SubjectLocalServiceUtil {
 		return getService().getActionableDynamicQuery();
 	}
 
-	public static List<Subject> getAllSubject(long groupId) {
-		return getService().getAllSubject(groupId);
+	public static List<Subject> getAllSubject() {
+		return getService().getAllSubject();
 	}
 
 	public static com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery
@@ -287,6 +278,20 @@ public class SubjectLocalServiceUtil {
 	 */
 	public static Subject getSubject(long subjectId) throws PortalException {
 		return getService().getSubject(subjectId);
+	}
+
+	public static List<Subject> getSubjectByGroupId(long groupId) {
+		return getService().getSubjectByGroupId(groupId);
+	}
+
+	public static List<Subject> getSubjectByIds(
+		long groupId, long[] subjectIds) {
+
+		return getService().getSubjectByIds(groupId, subjectIds);
+	}
+
+	public static Subject getSubjectBySerialId(String serialId) {
+		return getService().getSubjectBySerialId(serialId);
 	}
 
 	/**
@@ -362,22 +367,12 @@ public class SubjectLocalServiceUtil {
 			long subjectId, String name, int birthYear, int birthMonth,
 			int birthDay, int gender, String phone, String phone2,
 			String address, String serialId, int hospitalCode,
-			int visitDateYear, int visitDateMonth, int visitDateDay,
-			int consentYear, int consentMonth, int consentDay,
-			int participationDateYear, int participationDateMonth,
-			int participationDateDay, int participationStatus,
-			String experimentalGroup, boolean hasCRF, boolean hasCohortStudy,
-			boolean hasMRIStudy,
 			com.liferay.portal.kernel.service.ServiceContext sc)
 		throws PortalException {
 
 		return getService().updateSubject(
 			subjectId, name, birthYear, birthMonth, birthDay, gender, phone,
-			phone2, address, serialId, hospitalCode, visitDateYear,
-			visitDateMonth, visitDateDay, consentYear, consentMonth, consentDay,
-			participationDateYear, participationDateMonth, participationDateDay,
-			participationStatus, experimentalGroup, hasCRF, hasCohortStudy,
-			hasMRIStudy, sc);
+			phone2, address, serialId, hospitalCode, sc);
 	}
 
 	/**

@@ -13,23 +13,62 @@ create table EC_CRF (
 	statusByUserName VARCHAR(75) null,
 	statusDate DATE null,
 	datatypeId LONG,
-	managerId LONG,
-	applyDate DATE null,
-	crfStatus INTEGER
+	crfStatus INTEGER,
+	applyDate DATE null
 );
 
-create table EC_CRFPatient (
+create table EC_CRFAutoquery (
 	mvccVersion LONG default 0 not null,
 	uuid_ VARCHAR(75) null,
-	crfPatientId LONG not null primary key,
+	autoQueryId LONG not null primary key,
 	groupId LONG,
 	companyId LONG,
 	userId LONG,
 	userName VARCHAR(75) null,
 	createDate DATE null,
 	modifiedDate DATE null,
+	status INTEGER,
+	statusByUserId LONG,
+	statusByUserName VARCHAR(75) null,
+	statusDate DATE null,
+	subjectId LONG,
 	crfId LONG,
-	patientId LONG
+	queryTermId LONG,
+	queryTermName VARCHAR(75) null,
+	queryValue VARCHAR(75) null,
+	queryPreviousValue VARCHAR(75) null,
+	queryType INTEGER,
+	queryComment VARCHAR(75) null,
+	queryComfirm INTEGER,
+	queryComfirmUserId LONG,
+	queryComfirmUserName VARCHAR(75) null,
+	queryComfirmDate DATE null
+);
+
+create table EC_CRFHistory (
+	mvccVersion LONG default 0 not null,
+	uuid_ VARCHAR(75) null,
+	historyId LONG not null primary key,
+	groupId LONG,
+	companyId LONG,
+	userId LONG,
+	userName VARCHAR(75) null,
+	createDate DATE null,
+	modifiedDate DATE null,
+	status INTEGER,
+	statusByUserId LONG,
+	statusByUserName VARCHAR(75) null,
+	statusDate DATE null,
+	subjectId LONG,
+	subjectName VARCHAR(75) null,
+	serialId VARCHAR(75) null,
+	crfId LONG,
+	structuredDataId LONG,
+	actionType INTEGER,
+	previousJSON TEXT null,
+	currentJSON TEXT null,
+	historyVersion VARCHAR(75) null,
+	previousHistoryVersion VARCHAR(75) null
 );
 
 create table EC_CRFResearcher (
@@ -43,7 +82,21 @@ create table EC_CRFResearcher (
 	createDate DATE null,
 	modifiedDate DATE null,
 	researcherId LONG,
-	crfId LONG
+	crfId LONG,
+	jobTitle VARCHAR(75) null
+);
+
+create table EC_CRFSearchLog (
+	mvccVersion LONG default 0 not null,
+	uuid_ VARCHAR(75) null,
+	searchLogId LONG not null primary key,
+	groupId LONG,
+	companyId LONG,
+	userId LONG,
+	userName VARCHAR(75) null,
+	createDate DATE null,
+	modifiedDate DATE null,
+	searchLog VARCHAR(75) null
 );
 
 create table EC_CRFSubject (
@@ -57,39 +110,25 @@ create table EC_CRFSubject (
 	createDate DATE null,
 	modifiedDate DATE null,
 	crfId LONG,
-	subjectId LONG
+	subjectId LONG,
+	participationStatus INTEGER,
+	participationStartDate DATE null,
+	experimentalGroup VARCHAR(75) null
 );
 
-create table EC_Patient (
+create table EC_LinkCRF (
 	mvccVersion LONG default 0 not null,
 	uuid_ VARCHAR(75) null,
-	patientId LONG not null primary key,
-	companyId LONG,
+	linkId LONG not null primary key,
 	groupId LONG,
+	companyId LONG,
 	userId LONG,
 	userName VARCHAR(75) null,
 	createDate DATE null,
 	modifiedDate DATE null,
-	status INTEGER,
-	statusByUserId LONG,
-	statusByUserName VARCHAR(75) null,
-	statusDate DATE null,
-	name VARCHAR(75) null,
-	birth DATE null,
-	position VARCHAR(75) null,
-	gender INTEGER,
-	phone VARCHAR(75) null,
-	phone2 VARCHAR(75) null,
-	serialId VARCHAR(75) null,
-	hospitalCode INTEGER,
-	visitDate DATE null,
-	consentDate DATE null,
-	participationStartDate DATE null,
-	participationStatus INTEGER,
-	experimentalGroup VARCHAR(75) null,
-	hasCRF BOOLEAN,
-	hasCohortStudy BOOLEAN,
-	hasMRIStudy BOOLEAN
+	subjectId LONG,
+	crfId LONG,
+	structuredDataId LONG
 );
 
 create table EC_Project (
@@ -131,6 +170,7 @@ create table EC_Researcher (
 	name VARCHAR(75) null,
 	email VARCHAR(75) null,
 	birth DATE null,
+	gender INTEGER,
 	phone VARCHAR(75) null,
 	institution VARCHAR(75) null,
 	officeContact VARCHAR(75) null,
@@ -160,13 +200,5 @@ create table EC_Subject (
 	phone2 VARCHAR(75) null,
 	address VARCHAR(75) null,
 	serialId VARCHAR(75) null,
-	hospitalCode INTEGER,
-	visitDate DATE null,
-	consentDate DATE null,
-	participationStartDate DATE null,
-	participationStatus INTEGER,
-	experimentalGroup VARCHAR(75) null,
-	hasCRF BOOLEAN,
-	hasCohortStudy BOOLEAN,
-	hasMRIStudy BOOLEAN
+	hospitalCode INTEGER
 );

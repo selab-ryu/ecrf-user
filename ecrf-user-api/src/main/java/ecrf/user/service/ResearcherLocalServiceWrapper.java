@@ -38,8 +38,9 @@ public class ResearcherLocalServiceWrapper
 			boolean male, String jobTitle, long prefixId, long suffixId,
 			String emailAddress, String password1, String password2,
 			String screenName, String firstName, String lastName, int birthYear,
-			int birthMonth, int birthDay, String phone, String institution,
-			String officeContact, String position, int approveStatus,
+			int birthMonth, int birthDay, int gender, String phone,
+			String institution, String officeContact, String position,
+			int approveStatus,
 			com.liferay.portal.kernel.service.ServiceContext userServiceContext,
 			com.liferay.portal.kernel.service.ServiceContext
 				researcherServiceContext)
@@ -48,24 +49,9 @@ public class ResearcherLocalServiceWrapper
 		return _researcherLocalService.addResarcherWithUser(
 			companyId, facebookId, openId, languageId, male, jobTitle, prefixId,
 			suffixId, emailAddress, password1, password2, screenName, firstName,
-			lastName, birthYear, birthMonth, birthDay, phone, institution,
-			officeContact, position, approveStatus, userServiceContext,
-			researcherServiceContext);
-	}
-
-	@Override
-	public ecrf.user.model.Researcher addResearcher(
-			long researcherUserId, String firstName, String lastName,
-			String emailAddress, int birthYear, int birthMonth, int birthDay,
-			String phone, String institution, String officeContact,
-			String position, int approveStatus,
-			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		return _researcherLocalService.addResearcher(
-			researcherUserId, firstName, lastName, emailAddress, birthYear,
-			birthMonth, birthDay, phone, institution, officeContact, position,
-			approveStatus, sc);
+			lastName, birthYear, birthMonth, birthDay, gender, phone,
+			institution, officeContact, position, approveStatus,
+			userServiceContext, researcherServiceContext);
 	}
 
 	/**
@@ -161,11 +147,11 @@ public class ResearcherLocalServiceWrapper
 	}
 
 	@Override
-	public ecrf.user.model.Researcher deleteResearcher(
-		ecrf.user.model.Researcher researcher,
-		com.liferay.portal.kernel.service.ServiceContext sc) {
+	public ecrf.user.model.Researcher deleteResearcherWithUser(
+			ecrf.user.model.Researcher researcher)
+		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return _researcherLocalService.deleteResearcher(researcher, sc);
+		return _researcherLocalService.deleteResearcherWithUser(researcher);
 	}
 
 	@Override
@@ -338,6 +324,13 @@ public class ResearcherLocalServiceWrapper
 	}
 
 	@Override
+	public java.util.List<ecrf.user.model.Researcher> getResearcherBySite(
+		long siteId) {
+
+		return _researcherLocalService.getResearcherBySite(siteId);
+	}
+
+	@Override
 	public ecrf.user.model.Researcher getResearcherByUserId(long userId)
 		throws ecrf.user.exception.NoSuchResearcherException {
 
@@ -390,18 +383,8 @@ public class ResearcherLocalServiceWrapper
 	}
 
 	@Override
-	public ecrf.user.model.Researcher updateResearcher(
-			long researcherId, long researcherUserId, String firstName,
-			String lastName, String emailAddress, int birthYear, int birthMonth,
-			int birthDay, String phone, String institution,
-			String officeContact, String position, int approveStatus,
-			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		return _researcherLocalService.updateResearcher(
-			researcherId, researcherUserId, firstName, lastName, emailAddress,
-			birthYear, birthMonth, birthDay, phone, institution, officeContact,
-			position, approveStatus, sc);
+	public boolean hasPIPermission(long userId) {
+		return _researcherLocalService.hasPIPermission(userId);
 	}
 
 	/**
@@ -419,6 +402,24 @@ public class ResearcherLocalServiceWrapper
 		ecrf.user.model.Researcher researcher) {
 
 		return _researcherLocalService.updateResearcher(researcher);
+	}
+
+	@Override
+	public ecrf.user.model.Researcher updateResearcherWithUser(
+			long researcherId, boolean male, String password1,
+			String screenName, String firstName, String lastName, int birthYear,
+			int birthMonth, int birthDay, int gender, String phone,
+			String institution, String officeContact, String position,
+			com.liferay.portal.kernel.service.ServiceContext userServiceContext,
+			com.liferay.portal.kernel.service.ServiceContext
+				researcherServiceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _researcherLocalService.updateResearcherWithUser(
+			researcherId, male, password1, screenName, firstName, lastName,
+			birthYear, birthMonth, birthDay, gender, phone, institution,
+			officeContact, position, userServiceContext,
+			researcherServiceContext);
 	}
 
 	@Override

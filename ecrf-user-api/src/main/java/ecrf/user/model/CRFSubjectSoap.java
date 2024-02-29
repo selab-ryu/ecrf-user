@@ -42,6 +42,9 @@ public class CRFSubjectSoap implements Serializable {
 		soapModel.setModifiedDate(model.getModifiedDate());
 		soapModel.setCrfId(model.getCrfId());
 		soapModel.setSubjectId(model.getSubjectId());
+		soapModel.setParticipationStatus(model.getParticipationStatus());
+		soapModel.setParticipationStartDate(model.getParticipationStartDate());
+		soapModel.setExperimentalGroup(model.getExperimentalGroup());
 
 		return soapModel;
 	}
@@ -183,6 +186,30 @@ public class CRFSubjectSoap implements Serializable {
 		_subjectId = subjectId;
 	}
 
+	public int getParticipationStatus() {
+		return _participationStatus;
+	}
+
+	public void setParticipationStatus(int participationStatus) {
+		_participationStatus = participationStatus;
+	}
+
+	public Date getParticipationStartDate() {
+		return _participationStartDate;
+	}
+
+	public void setParticipationStartDate(Date participationStartDate) {
+		_participationStartDate = participationStartDate;
+	}
+
+	public String getExperimentalGroup() {
+		return _experimentalGroup;
+	}
+
+	public void setExperimentalGroup(String experimentalGroup) {
+		_experimentalGroup = experimentalGroup;
+	}
+
 	private long _mvccVersion;
 	private String _uuid;
 	private long _crfSubjectId;
@@ -194,5 +221,8 @@ public class CRFSubjectSoap implements Serializable {
 	private Date _modifiedDate;
 	private long _crfId;
 	private long _subjectId;
+	private int _participationStatus;
+	private Date _participationStartDate;
+	private String _experimentalGroup;
 
 }

@@ -21,6 +21,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import java.util.Date;
 import java.util.List;
@@ -46,14 +47,8 @@ public class SubjectLocalServiceImpl extends SubjectLocalServiceBaseImpl {
 			int birthYear, int birthMonth, int birthDay,
 			int gender, String phone, String phone2, String address, 
 			String serialId, int hospitalCode,
-			int visitDateYear, int visitDateMonth, int visitDateDay,
-			int consentYear, int consentMonth, int consentDay,
-			int participationDateYear, int participationDateMonth, int participationDateDay,
-			int participationStatus, String experimentalGroup,
-			boolean hasCRF, boolean hasCohortStudy, boolean hasMRIStudy,
 			ServiceContext sc) throws PortalException {
-		_log = LogFactoryUtil.getLog(this.getClass().getName());
-		_log.info("Service : Add Subject");
+		_log.info("Service : Add Subject Start");
 		
 		long subjectId = super.counterLocalService.increment();
 		Subject subject = super.subjectLocalService.createSubject(subjectId);
@@ -64,18 +59,16 @@ public class SubjectLocalServiceImpl extends SubjectLocalServiceBaseImpl {
 		long groupId = sc.getScopeGroupId();
 		
 		Date birth = PortalUtil.getDate(birthMonth, birthDay, birthYear);
-		Date visitDate = PortalUtil.getDate(visitDateMonth, visitDateDay, visitDateYear);
-		Date consentDate = PortalUtil.getDate(consentMonth, consentDay, consentYear);
-		Date participationStartDate = PortalUtil.getDate(participationDateMonth, participationDateDay, participationDateYear);
+		
+		Date now = new Date();
 		
 		// set audit fields
+		subject.setCompanyId(sc.getCompanyId());
+		subject.setGroupId(groupId);
 		subject.setUserId(userId);
 		subject.setUserName(user.getFullName());
-		subject.setCompanyId(user.getCompanyId());
-		subject.setGroupId(groupId);
-		subject.setCreateDate(sc.getCreateDate());
-		subject.setModifiedDate(sc.getModifiedDate());
-		subject.setExpandoBridgeAttributes(sc);
+		subject.setCreateDate(now);
+		subject.setModifiedDate(now);
 		
 		// set entity fields
 		subject.setName(name);
@@ -87,19 +80,18 @@ public class SubjectLocalServiceImpl extends SubjectLocalServiceBaseImpl {
 		
 		subject.setSerialId(serialId);
 		subject.setHospitalCode(hospitalCode);
-		subject.setVisitDate(visitDate);
-		subject.setConsentDate(consentDate);
-		subject.setParticipationStartDate(participationStartDate);
-		subject.setParticipationStatus(participationStatus);
-		subject.setExperimentalGroup(experimentalGroup);
-		
-		subject.setHasCRF(hasCRF);
-		subject.setHasCohortStudy(hasCohortStudy);
-		subject.setHasMRIStudy(hasMRIStudy);
 		
 		// other liferay frameworks
 		
+		subject.setExpandoBridgeAttributes(sc);
+		subject.setStatus(WorkflowConstants.STATUS_APPROVED);
+		subject.setStatusByUserId(userId);
+		subject.setStatusByUserName(user.getFullName());
+		subject.setStatusDate(now);
+		
+		subject.setExpandoBridgeAttributes(sc);
 		super.subjectPersistence.update(subject);
+		_log.info("Service : Add Subject End");
 		
 		return subject;
 	}
@@ -109,21 +101,12 @@ public class SubjectLocalServiceImpl extends SubjectLocalServiceBaseImpl {
 			int birthYear, int birthMonth, int birthDay,
 			int gender, String phone, String phone2, String address, 
 			String serialId, int hospitalCode,
-			int visitDateYear, int visitDateMonth, int visitDateDay,
-			int consentYear, int consentMonth, int consentDay,
-			int participationDateYear, int participationDateMonth, int participationDateDay,
-			int participationStatus, String experimentalGroup,
-			boolean hasCRF, boolean hasCohortStudy, boolean hasMRIStudy,
 			ServiceContext sc) throws PortalException {
-		_log = LogFactoryUtil.getLog(this.getClass().getName());
-		_log.info("Service : Update Subject");
+		_log.info("Service : Update Subject Start");
 		
 		Subject subject = super.subjectLocalService.getSubject(subjectId);
 		
 		Date birth = PortalUtil.getDate(birthMonth, birthDay, birthYear);
-		Date visitDate = PortalUtil.getDate(visitDateMonth, visitDateDay, visitDateYear);
-		Date consentDate = PortalUtil.getDate(consentMonth, consentDay, consentYear);
-		Date participationStartDate = PortalUtil.getDate(participationDateMonth, participationDateDay, participationDateYear);
 		
 		// set audit fields
 		subject.setModifiedDate(sc.getModifiedDate());
@@ -139,18 +122,7 @@ public class SubjectLocalServiceImpl extends SubjectLocalServiceBaseImpl {
 		
 		subject.setSerialId(serialId);
 		subject.setHospitalCode(hospitalCode);
-		subject.setVisitDate(visitDate);
-		subject.setConsentDate(consentDate);
-		subject.setParticipationStartDate(participationStartDate);
-		subject.setParticipationStatus(participationStatus);
-		subject.setExperimentalGroup(experimentalGroup);
-		
-		subject.setHasCRF(hasCRF);
-		subject.setHasCohortStudy(hasCohortStudy);
-		subject.setHasMRIStudy(hasMRIStudy);
-		
-		// other liferay frameworks
-		
+				
 		super.subjectPersistence.update(subject);
 		
 		return subject;
@@ -182,12 +154,26 @@ public class SubjectLocalServiceImpl extends SubjectLocalServiceBaseImpl {
 		return subject;
 	}
 	
-	public List<Subject> getAllSubject(long groupId) {
+	public List<Subject> getAllSubject() {
+		return super.subjectPersistence.findAll();
+	}
+	
+	public List<Subject> getSubjectByGroupId(long groupId) {
 		return super.subjectPersistence.findByGroupId(groupId);
+	}
+	
+	public List<Subject> getSubjectByIds(long groupId, long[] subjectIds) {
+		return subjectFinder.findBySubjectIds(groupId, subjectIds);
+	}
+	
+	public Subject getSubjectBySerialId(String serialId) {
+		Subject subject = null;
+		
+		return subject;
 	}
 	
 	@Reference
 	private CRFSubjectLocalService _crfSubjectLocalService;
 	
-	private Log _log;
+	private Log _log = LogFactoryUtil.getLog(SubjectLocalServiceImpl.class);
 }

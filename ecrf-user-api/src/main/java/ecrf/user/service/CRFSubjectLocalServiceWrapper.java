@@ -472,6 +472,16 @@ public class CRFSubjectLocalServiceWrapper
 	}
 
 	@Override
+	public void updateCRFSubjects(
+			long crfId,
+			java.util.ArrayList<ecrf.user.model.CRFSubject> crfSubjectList,
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		_crfSubjectLocalService.updateCRFSubjects(crfId, crfSubjectList, sc);
+	}
+
+	@Override
 	public CRFSubjectLocalService getWrappedService() {
 		return _crfSubjectLocalService;
 	}

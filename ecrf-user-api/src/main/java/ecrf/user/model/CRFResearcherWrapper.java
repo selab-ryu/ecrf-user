@@ -54,6 +54,7 @@ public class CRFResearcherWrapper
 		attributes.put("modifiedDate", getModifiedDate());
 		attributes.put("researcherId", getResearcherId());
 		attributes.put("crfId", getCrfId());
+		attributes.put("jobTitle", getJobTitle());
 
 		return attributes;
 	}
@@ -125,6 +126,12 @@ public class CRFResearcherWrapper
 		if (crfId != null) {
 			setCrfId(crfId);
 		}
+
+		String jobTitle = (String)attributes.get("jobTitle");
+
+		if (jobTitle != null) {
+			setJobTitle(jobTitle);
+		}
 	}
 
 	/**
@@ -175,6 +182,16 @@ public class CRFResearcherWrapper
 	@Override
 	public long getGroupId() {
 		return model.getGroupId();
+	}
+
+	/**
+	 * Returns the job title of this crf researcher.
+	 *
+	 * @return the job title of this crf researcher
+	 */
+	@Override
+	public String getJobTitle() {
+		return model.getJobTitle();
 	}
 
 	/**
@@ -310,6 +327,16 @@ public class CRFResearcherWrapper
 	@Override
 	public void setGroupId(long groupId) {
 		model.setGroupId(groupId);
+	}
+
+	/**
+	 * Sets the job title of this crf researcher.
+	 *
+	 * @param jobTitle the job title of this crf researcher
+	 */
+	@Override
+	public void setJobTitle(String jobTitle) {
+		model.setJobTitle(jobTitle);
 	}
 
 	/**

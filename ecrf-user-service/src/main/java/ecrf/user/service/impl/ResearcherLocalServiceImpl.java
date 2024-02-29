@@ -14,25 +14,23 @@
 
 package ecrf.user.service.impl;
 
-import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.aop.AopService;
-import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.model.Company;
+import com.liferay.portal.kernel.model.Contact;
 import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
+import com.liferay.portal.kernel.service.ContactLocalService;
 import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.service.persistence.CompanyPersistence;
-import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.LocaleUtil;
-import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Validator;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -40,6 +38,7 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 import ecrf.user.exception.NoSuchResearcherException;
+import ecrf.user.model.CRFResearcher;
 import ecrf.user.model.Researcher;
 import ecrf.user.service.CRFLocalService;
 import ecrf.user.service.CRFResearcherLocalService;
@@ -53,29 +52,29 @@ import ecrf.user.service.base.ResearcherLocalServiceBaseImpl;
 	service = AopService.class
 )
 public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
-	private Log _log;
+	private Log _log = LogFactoryUtil.getLog(ResearcherLocalServiceImpl.class);
 	
 	@Reference
 	private CRFResearcherLocalService _crfResearcherLocalService;
 	
 	@Reference
 	private CRFLocalService _crfLocalService;
-	
-	@BeanReference(type = CompanyPersistence.class)
-	private CompanyPersistence _companyPersistence;
+		
+	@Reference
+	private ContactLocalService _contactLocalService;
 	
 	@Indexable(type=IndexableType.REINDEX)
 	public Researcher addResarcherWithUser(
-			long companyId, long facebookId, String openId,
+			long companyId,
+			long facebookId, String openId,
 			String languageId, boolean male, String jobTitle,
 			long prefixId, long suffixId,
 			String emailAddress, String password1, String password2,
 			String screenName,  String firstName, String lastName,
-			int birthYear, int birthMonth, int birthDay, String phone,
-			String institution, String officeContact, String position,
+			int birthYear, int birthMonth, int birthDay, int gender, 
+			String phone, String institution, String officeContact, String position,
 			int approveStatus, ServiceContext userServiceContext, ServiceContext researcherServiceContext
 			) throws PortalException {
-		_log = LogFactoryUtil.getLog(this.getClass().getName());
 		_log.info("Add Researcher With User Start");
 		
 		long creatorUserId = researcherServiceContext.getUserId();
@@ -97,23 +96,21 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 		
 		_log.info("Add User");
 		User user = null;
-		try {
-			user = userLocalService.addUserWithWorkflow(
-					creatorUserId, companyId, autoPassword, password1, password2, 
-					autoScreenName, screenName, emailAddress, facebookId, openId, 
-					LocaleUtil.fromLanguageId(languageId), firstName, null, lastName, prefixId, suffixId, 
-					male, birthMonth, birthDay, birthYear, jobTitle, groupIds, 
-					organizationIds, roleIds, userGroupIds, sendEmail, userServiceContext);
-		} catch (PortalException e) {
-			e.printStackTrace();
-		}
-		
+		Researcher researcher = null;
+
+		user = userLocalService.addUserWithWorkflow(
+				creatorUserId, companyId, autoPassword, password1, password2, 
+				autoScreenName, screenName, emailAddress, facebookId, openId, 
+				LocaleUtil.fromLanguageId(languageId), firstName, null, lastName, prefixId, suffixId, 
+				male, birthMonth, birthDay, birthYear, jobTitle, groupIds, 
+				organizationIds, roleIds, userGroupIds, sendEmail, userServiceContext);
+	
 		long researcherUserId = user.getUserId();
 		
 		_log.info("Add Researcher");
 		// add Researcher
 		long researcherId = super.counterLocalService.increment();
-		Researcher researcher = super.researcherLocalService.createResearcher(researcherId);
+		researcher = super.researcherLocalService.createResearcher(researcherId);
 		
 		Date birth = PortalUtil.getDate(birthMonth, birthDay, birthYear);
 		
@@ -132,6 +129,7 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 		researcher.setName(fullName);
 		researcher.setEmail(emailAddress);
 		researcher.setBirth(birth);
+		researcher.setGender(gender);
 		researcher.setPhone(phone);
 		researcher.setInstitution(institution);
 		researcher.setOfficeContact(officeContact);
@@ -139,145 +137,77 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 		researcher.setApproveStatus(approveStatus);
 		
 		_log.info("Update Researcher");
-		super.researcherPersistence.update(researcher, researcherServiceContext);
-		
-		// calls to other liferay frameworks (workflow, asset, resource, ...)
+		super.researcherPersistence.update(researcher);
 		
 		resourceLocalService.addResources(
 				researcher.getCompanyId(), 0, creatorUserId,
 				Researcher.class.getName(), researcherId,
 				false, true, true);
 		
-		Company company = _companyPersistence.fetchByPrimaryKey(companyId);
-		
-//		super.assetEntryLocalService.updateEntry(
-//				researcher.getUserId(), company.getGroupId(), researcher.getCreateDate(), researcher.getModifiedDate(),
-//				Researcher.class.getName(), researcherId, researcher.getUuid(), 
-//				0, researcherServiceContext.getAssetCategoryIds(), researcherServiceContext.getAssetTagNames(),
-//				true, true, researcher.getCreateDate(), null, null, null,
-//				ContentTypes.TEXT_HTML, researcher.getName(), null, null,
-//				null, null, 0, 0, researcherServiceContext.getAssetPriority());
-		
 		_log.info("Add Researcher With User End");
+				
 		return researcher;
 	}
 	
 	@Indexable(type=IndexableType.REINDEX)
-	public Researcher addResearcher(
-			long researcherUserId,
-			String firstName, String lastName, String emailAddress,
-			int birthYear, int birthMonth, int birthDay, String phone,
-			String institution, String officeContact, String position,
-			int approveStatus, ServiceContext sc) throws  PortalException {
-		_log = LogFactoryUtil.getLog(this.getClass().getName());
-		_log.info("Add Researcher Start");
-		
-		long researcherId = super.counterLocalService.increment();
-		Researcher researcher = super.researcherLocalService.createResearcher(researcherId);
-		
-		// get metadata
-		long userId = sc.getUserId();
-		User user = super.userLocalService.getUser(userId);
-		
-		Date birth = PortalUtil.getDate(birthMonth, birthDay, birthYear);
-		
-		// set audit fields
-		researcher.setUserId(userId);
-		researcher.setCompanyId(user.getCompanyId());
-		researcher.setUserName(user.getFullName());
-		researcher.setCreateDate(sc.getCreateDate());
-		researcher.setModifiedDate(sc.getModifiedDate());
-		researcher.setExpandoBridgeAttributes(sc);
-		
-		String fullName = lastName + StringPool.SPACE + firstName;
-		
-		// set entity fields
-		researcher.setResearcherUserId(researcherUserId);
-		researcher.setName(fullName);
-		researcher.setEmail(emailAddress);
-		researcher.setBirth(birth);
-		researcher.setPhone(phone);
-		researcher.setInstitution(institution);
-		researcher.setOfficeContact(officeContact);
-		researcher.setPosition(position);
-		researcher.setApproveStatus(approveStatus);
-		
-		super.researcherPersistence.update(researcher, sc);
-		
-		// calls to other liferay frameworks (workflow, asset, resource, ...)
-		
-		resourceLocalService.addResources(
-				researcher.getCompanyId(), 0, userId,
-				Researcher.class.getName(), researcherId,
-				false, true, true);
-		
-		Company company = _companyPersistence.fetchByPrimaryKey(user.getCompanyId());
-		
-//		super.assetEntryLocalService.updateEntry(
-//				researcher.getUserId(), company.getGroupId(), researcher.getCreateDate(), researcher.getModifiedDate(),
-//				Researcher.class.getName(), researcherId, researcher.getUuid(), 
-//				0, sc.getAssetCategoryIds(), sc.getAssetTagNames(),
-//				true, true, researcher.getCreateDate(), null, null, null,
-//				ContentTypes.TEXT_HTML, researcher.getName(), null, null,
-//				null, null, 0, 0, sc.getAssetPriority());
-		
-		return researcher;
-	}
-	
-	@Indexable(type=IndexableType.REINDEX)
-	public Researcher updateResearcher(
-			long researcherId, long researcherUserId, 
-			String firstName, String lastName, String emailAddress,
-			int birthYear, int birthMonth, int birthDay, String phone,
-			String institution, String officeContact, String position,
-			int approveStatus, ServiceContext sc) throws  PortalException {
-		_log = LogFactoryUtil.getLog(this.getClass().getName());
-		_log.info("Update Researcher");
+	public Researcher updateResearcherWithUser(
+			long researcherId,
+			boolean male, String password1,
+			String screenName,  String firstName, String lastName,
+			int birthYear, int birthMonth, int birthDay, int gender, 
+			String phone, String institution, String officeContact, String position,
+			ServiceContext userServiceContext, ServiceContext researcherServiceContext
+			) throws PortalException {
 		
 		Researcher researcher = super.researcherLocalService.getResearcher(researcherId);
 		
 		Date birth = PortalUtil.getDate(birthMonth, birthDay, birthYear);
 		
-		long userId = sc.getUserId();
+		long userId = userServiceContext.getUserId();
 		User user = super.userLocalService.getUser(userId);
 		
-		// set audit fields
-		researcher.setUserId(userId);
-		researcher.setUserName(user.getFullName());
-		researcher.setModifiedDate(sc.getModifiedDate());
-		researcher.setExpandoBridgeAttributes(sc);
+		// set attributes
+		User researcherUser = super.userLocalService.getUser(researcher.getResearcherUserId());
+		// email cannot changed
+		researcherUser.setScreenName(screenName);
+		researcherUser.setFirstName(firstName);
+		researcherUser.setLastName(lastName);
+		
+		super.userLocalService.updateUser(researcherUser);
+		
+		// password change
+		if(Validator.isNotNull(password1)) {
+			super.userLocalService.updatePassword(researcherUser.getUserId(), password1, password1, false);
+		}
+		
+		Contact contact = _contactLocalService.getContact(researcherUser.getContactId());
+		contact.setFirstName(firstName);
+		contact.setLastName(lastName);
+		contact.setBirthday(birth);
+		contact.setMale(male);
+				
+		_contactLocalService.updateContact(contact);
 		
 		String fullName = lastName + StringPool.SPACE + firstName;
 		
-		// set entity fields	
-		researcher.setResearcherUserId(researcherUserId);
-		researcher.setName(fullName);
-		researcher.setEmail(emailAddress);
+		researcher.setModifiedDate(researcherServiceContext.getModifiedDate());
+		researcher.setExpandoBridgeAttributes(researcherServiceContext);
+		
 		researcher.setBirth(birth);
-		researcher.setPhone(phone);
+		researcher.setGender(gender);
 		researcher.setInstitution(institution);
+		researcher.setModifiedDate(new Date());
+		researcher.setName(fullName);
 		researcher.setOfficeContact(officeContact);
+		researcher.setPhone(phone);
 		researcher.setPosition(position);
-		researcher.setApproveStatus(approveStatus);
 		
-		super.researcherPersistence.update(researcher, sc);
-		
-		// calls to other liferay frameworks (workflow, asset, resource, ...)
+		super.researcherPersistence.update(researcher);
 		
 		super.resourceLocalService.updateResources(
-				researcher.getCompanyId(), 0,
+				researcher.getCompanyId(), researcherServiceContext.getScopeGroup().getParentGroupId(),
 				Researcher.class.getName(), researcher.getResearcherId(),
-				sc.getModelPermissions());
-		
-		Company company = _companyPersistence.fetchByPrimaryKey(user.getCompanyId());
-		
-//		super.assetEntryLocalService.updateEntry(
-//				researcher.getUserId(), company.getGroupId(), researcher.getCreateDate(), researcher.getModifiedDate(),
-//				Researcher.class.getName(), researcherId, researcher.getUuid(), 
-//				0, sc.getAssetCategoryIds(), sc.getAssetTagNames(),
-//				true, true, researcher.getCreateDate(), null, null, null,
-//				ContentTypes.TEXT_HTML, researcher.getName(), null, null,
-//				null, null, 0, 0, sc.getAssetPriority());
+				researcherServiceContext.getModelPermissions());
 		
 		return researcher;
 	}
@@ -294,12 +224,7 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 //			for(CRFResearcher crfResearcher : crfResearcherList) {
 //				_crfResearcherLocalService.deleteCRFResearcher(crfResearcher);
 //			}
-//			
-//			List<CRF> crfList = _crfLocalService.getCRFByManagerId(sc.getScopeGroupId(), researcherId);
-//			for(CRF crf : crfList) {
-//				_crfLocalService.updateManager(crf.getCrfId(), 0, sc);
-//			}
-			
+
 			resourceLocalService.deleteResource(
 					researcher.getCompanyId(), Researcher.class.getName(),
 					ResourceConstants.SCOPE_INDIVIDUAL, researcher.getResearcherId());
@@ -309,35 +234,39 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 	}
 	
 	@Indexable(type=IndexableType.DELETE)
-	public Researcher deleteResearcher(Researcher researcher, ServiceContext sc) {
-		super.researcherPersistence.remove(researcher);
+	public Researcher deleteResearcher(Researcher researcher) {
 		
-//		// remove other related entity
-//		List<CRFResearcher> crfResearcherList = _crfResearcherLocalService.getCRFResearcherByResearcherId(sc.getScopeGroupId(), researcher.getResearcherId());
-//		for(CRFResearcher crfResearcher : crfResearcherList) {
-//			_crfResearcherLocalService.deleteCRFResearcher(crfResearcher);
-//		}
-//		
-//		List<CRF> crfList = _crfLocalService.getCRFByManagerId(sc.getScopeGroupId(), researcher.getResearcherId());
-//		for(CRF crf : crfList) {
-//			try {
-//				_crfLocalService.updateManager(crf.getCrfId(), 0, sc);
-//			} catch (PortalException e) {
-//				e.printStackTrace();
-//			}
-//		}
 		try {
-			resourceLocalService.deleteResource(
-					researcher.getCompanyId(), Researcher.class.getName(),
-					ResourceConstants.SCOPE_INDIVIDUAL, researcher.getResearcherId());
-		} catch(PortalException pe) {
-			pe.printStackTrace();
+			this.deleteResearcher(researcher.getResearcherId());
+		} catch (PortalException e) {
+			_log.error(e.getMessage());
 		}
+		
 		return researcher;
 	}	
 	
+	@Indexable(type=IndexableType.DELETE)
+	public Researcher deleteResearcherWithUser(Researcher researcher) throws PortalException {
+		super.researcherPersistence.remove(researcher);
+		
+		resourceLocalService.deleteResource(
+				researcher.getCompanyId(), Researcher.class.getName(),
+				ResourceConstants.SCOPE_INDIVIDUAL, researcher.getResearcherId());
+		
+		long userId = researcher.getResearcherUserId();
+		if(userId > 0)
+			super.userLocalService.deleteUser(userId);
+		
+		// remove other related entity
+		List<CRFResearcher> crfResearcherList = _crfResearcherLocalService.getCRFResearcherByResearcherId(researcher.getResearcherId());
+		for(CRFResearcher crfResearcher : crfResearcherList) {
+			_crfResearcherLocalService.deleteCRFResearcher(crfResearcher);
+		}
+				
+		return researcher;
+	}
+	
 	public Researcher changeApproveStatus(long researcherId, int approveStatus) throws PortalException {
-		_log = LogFactoryUtil.getLog(this.getClass().getName());
 		_log.info("Change Aprrove Status");
 		
 		Researcher researcher = super.researcherLocalService.getResearcher(researcherId);
@@ -349,7 +278,45 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 		return researcher;
 	}
 	
+	public List<Researcher> getResearcherBySite(long siteId) {
+		List<User> siteUsers = super.userLocalService.getGroupUsers(siteId);
+		List<Researcher> siteResearchers = new ArrayList<>();
+
+		long[] userIds = null;
+		ArrayList<Long> userIdList = new ArrayList<Long>(); 
+		for(User user : siteUsers) {
+			long userId = user.getUserId();
+			
+			if(userId > 0) {
+				userIdList.add(new Long(userId));
+			}
+		}
+		
+		userIds = userIdList.stream().mapToLong(l -> l).toArray();
+		
+		siteResearchers = researcherFinder.findByUserIds(userIds);
+		
+		_log.info("[size match check] site users / user ids / site researchers : " + siteUsers.size() + " / " + userIds.length + " / " + siteResearchers.size());
+		
+		return siteResearchers;
+	}
+	
 	public Researcher getResearcherByUserId(long userId) throws NoSuchResearcherException {
 		return super.researcherPersistence.findByResearcherUserId(userId);
+	}
+	
+	public boolean hasPIPermission(long userId) {
+		boolean hasPermission = false;
+		try {
+			_log.info("user id : " + userId);
+			Researcher researcher = this.getResearcherByUserId(userId);
+			if(Validator.isNotNull(researcher)) {
+				if(researcher.getPosition().equals("pi")) hasPermission = true;
+			}
+		} catch (Exception e) {
+			_log.error(e.getMessage());
+			return false;
+		}
+		return hasPermission;
 	}
 }

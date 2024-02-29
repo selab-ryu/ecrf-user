@@ -77,7 +77,7 @@ public class CRFCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(35);
+		StringBundler sb = new StringBundler(33);
 
 		sb.append("{mvccVersion=");
 		sb.append(mvccVersion);
@@ -107,12 +107,10 @@ public class CRFCacheModel
 		sb.append(statusDate);
 		sb.append(", datatypeId=");
 		sb.append(datatypeId);
-		sb.append(", managerId=");
-		sb.append(managerId);
-		sb.append(", applyDate=");
-		sb.append(applyDate);
 		sb.append(", crfStatus=");
 		sb.append(crfStatus);
+		sb.append(", applyDate=");
+		sb.append(applyDate);
 		sb.append("}");
 
 		return sb.toString();
@@ -175,7 +173,7 @@ public class CRFCacheModel
 		}
 
 		crfImpl.setDatatypeId(datatypeId);
-		crfImpl.setManagerId(managerId);
+		crfImpl.setCrfStatus(crfStatus);
 
 		if (applyDate == Long.MIN_VALUE) {
 			crfImpl.setApplyDate(null);
@@ -183,8 +181,6 @@ public class CRFCacheModel
 		else {
 			crfImpl.setApplyDate(new Date(applyDate));
 		}
-
-		crfImpl.setCrfStatus(crfStatus);
 
 		crfImpl.resetOriginalValues();
 
@@ -215,10 +211,8 @@ public class CRFCacheModel
 
 		datatypeId = objectInput.readLong();
 
-		managerId = objectInput.readLong();
-		applyDate = objectInput.readLong();
-
 		crfStatus = objectInput.readInt();
+		applyDate = objectInput.readLong();
 	}
 
 	@Override
@@ -265,10 +259,8 @@ public class CRFCacheModel
 
 		objectOutput.writeLong(datatypeId);
 
-		objectOutput.writeLong(managerId);
-		objectOutput.writeLong(applyDate);
-
 		objectOutput.writeInt(crfStatus);
+		objectOutput.writeLong(applyDate);
 	}
 
 	public long mvccVersion;
@@ -285,8 +277,7 @@ public class CRFCacheModel
 	public String statusByUserName;
 	public long statusDate;
 	public long datatypeId;
-	public long managerId;
-	public long applyDate;
 	public int crfStatus;
+	public long applyDate;
 
 }

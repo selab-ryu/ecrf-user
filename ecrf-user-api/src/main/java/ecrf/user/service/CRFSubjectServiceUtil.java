@@ -33,6 +33,30 @@ public class CRFSubjectServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to <code>ecrf.user.service.impl.CRFSubjectServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static java.util.ArrayList<ecrf.user.model.custom.CRFSubjectInfo>
+		getAllCRFSubjectInfoList(long groupId, long crfId) {
+
+		return getService().getAllCRFSubjectInfoList(groupId, crfId);
+	}
+
+	public static java.util.ArrayList<ecrf.user.model.Subject>
+		getCRFSubjectByExGroup(
+			long groupId, long crfId, java.lang.String exGroup) {
+
+		return getService().getCRFSubjectByExGroup(groupId, crfId, exGroup);
+	}
+
+	public static java.util.ArrayList<ecrf.user.model.custom.CRFSubjectInfo>
+		getCRFSubjectList(long groupId, long crfId) {
+
+		return getService().getCRFSubjectList(groupId, crfId);
+	}
+
+	public static java.util.ArrayList<ecrf.user.model.Subject>
+		getCRFSubjectListNotIncluded(long groupId, long crfId) {
+
+		return getService().getCRFSubjectListNotIncluded(groupId, crfId);
+	}
 
 	/**
 	 * Returns the OSGi service identifier.
@@ -41,6 +65,12 @@ public class CRFSubjectServiceUtil {
 	 */
 	public static java.lang.String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
+	}
+
+	public static java.util.ArrayList<ecrf.user.model.Subject> getSubjectList(
+		long groupId) {
+
+		return getService().getSubjectList(groupId);
 	}
 
 	public static CRFSubjectService getService() {

@@ -84,8 +84,7 @@ public class CRFModelImpl extends BaseModelImpl<CRF> implements CRFModel {
 		{"modifiedDate", Types.TIMESTAMP}, {"status", Types.INTEGER},
 		{"statusByUserId", Types.BIGINT}, {"statusByUserName", Types.VARCHAR},
 		{"statusDate", Types.TIMESTAMP}, {"datatypeId", Types.BIGINT},
-		{"managerId", Types.BIGINT}, {"applyDate", Types.TIMESTAMP},
-		{"crfStatus", Types.INTEGER}
+		{"crfStatus", Types.INTEGER}, {"applyDate", Types.TIMESTAMP}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -106,13 +105,12 @@ public class CRFModelImpl extends BaseModelImpl<CRF> implements CRFModel {
 		TABLE_COLUMNS_MAP.put("statusByUserName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("datatypeId", Types.BIGINT);
-		TABLE_COLUMNS_MAP.put("managerId", Types.BIGINT);
-		TABLE_COLUMNS_MAP.put("applyDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("crfStatus", Types.INTEGER);
+		TABLE_COLUMNS_MAP.put("applyDate", Types.TIMESTAMP);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table EC_CRF (mvccVersion LONG default 0 not null,uuid_ VARCHAR(75) null,crfId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,datatypeId LONG,managerId LONG,applyDate DATE null,crfStatus INTEGER)";
+		"create table EC_CRF (mvccVersion LONG default 0 not null,uuid_ VARCHAR(75) null,crfId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,datatypeId LONG,crfStatus INTEGER,applyDate DATE null)";
 
 	public static final String TABLE_SQL_DROP = "drop table EC_CRF";
 
@@ -132,13 +130,11 @@ public class CRFModelImpl extends BaseModelImpl<CRF> implements CRFModel {
 
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
 
-	public static final long MANAGERID_COLUMN_BITMASK = 4L;
+	public static final long UUID_COLUMN_BITMASK = 4L;
 
-	public static final long UUID_COLUMN_BITMASK = 8L;
+	public static final long CRFID_COLUMN_BITMASK = 8L;
 
-	public static final long CRFID_COLUMN_BITMASK = 16L;
-
-	public static final long CREATEDATE_COLUMN_BITMASK = 32L;
+	public static final long CREATEDATE_COLUMN_BITMASK = 16L;
 
 	public static void setEntityCacheEnabled(boolean entityCacheEnabled) {
 		_entityCacheEnabled = entityCacheEnabled;
@@ -175,9 +171,8 @@ public class CRFModelImpl extends BaseModelImpl<CRF> implements CRFModel {
 		model.setStatusByUserName(soapModel.getStatusByUserName());
 		model.setStatusDate(soapModel.getStatusDate());
 		model.setDatatypeId(soapModel.getDatatypeId());
-		model.setManagerId(soapModel.getManagerId());
-		model.setApplyDate(soapModel.getApplyDate());
 		model.setCrfStatus(soapModel.getCrfStatus());
+		model.setApplyDate(soapModel.getApplyDate());
 
 		return model;
 	}
@@ -340,15 +335,12 @@ public class CRFModelImpl extends BaseModelImpl<CRF> implements CRFModel {
 		attributeGetterFunctions.put("datatypeId", CRF::getDatatypeId);
 		attributeSetterBiConsumers.put(
 			"datatypeId", (BiConsumer<CRF, Long>)CRF::setDatatypeId);
-		attributeGetterFunctions.put("managerId", CRF::getManagerId);
-		attributeSetterBiConsumers.put(
-			"managerId", (BiConsumer<CRF, Long>)CRF::setManagerId);
-		attributeGetterFunctions.put("applyDate", CRF::getApplyDate);
-		attributeSetterBiConsumers.put(
-			"applyDate", (BiConsumer<CRF, Date>)CRF::setApplyDate);
 		attributeGetterFunctions.put("crfStatus", CRF::getCrfStatus);
 		attributeSetterBiConsumers.put(
 			"crfStatus", (BiConsumer<CRF, Integer>)CRF::setCrfStatus);
+		attributeGetterFunctions.put("applyDate", CRF::getApplyDate);
+		attributeSetterBiConsumers.put(
+			"applyDate", (BiConsumer<CRF, Date>)CRF::setApplyDate);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -603,25 +595,13 @@ public class CRFModelImpl extends BaseModelImpl<CRF> implements CRFModel {
 
 	@JSON
 	@Override
-	public long getManagerId() {
-		return _managerId;
+	public int getCrfStatus() {
+		return _crfStatus;
 	}
 
 	@Override
-	public void setManagerId(long managerId) {
-		_columnBitmask |= MANAGERID_COLUMN_BITMASK;
-
-		if (!_setOriginalManagerId) {
-			_setOriginalManagerId = true;
-
-			_originalManagerId = _managerId;
-		}
-
-		_managerId = managerId;
-	}
-
-	public long getOriginalManagerId() {
-		return _originalManagerId;
+	public void setCrfStatus(int crfStatus) {
+		_crfStatus = crfStatus;
 	}
 
 	@JSON
@@ -633,17 +613,6 @@ public class CRFModelImpl extends BaseModelImpl<CRF> implements CRFModel {
 	@Override
 	public void setApplyDate(Date applyDate) {
 		_applyDate = applyDate;
-	}
-
-	@JSON
-	@Override
-	public int getCrfStatus() {
-		return _crfStatus;
-	}
-
-	@Override
-	public void setCrfStatus(int crfStatus) {
-		_crfStatus = crfStatus;
 	}
 
 	@Override
@@ -781,9 +750,8 @@ public class CRFModelImpl extends BaseModelImpl<CRF> implements CRFModel {
 		crfImpl.setStatusByUserName(getStatusByUserName());
 		crfImpl.setStatusDate(getStatusDate());
 		crfImpl.setDatatypeId(getDatatypeId());
-		crfImpl.setManagerId(getManagerId());
-		crfImpl.setApplyDate(getApplyDate());
 		crfImpl.setCrfStatus(getCrfStatus());
+		crfImpl.setApplyDate(getApplyDate());
 
 		crfImpl.resetOriginalValues();
 
@@ -870,10 +838,6 @@ public class CRFModelImpl extends BaseModelImpl<CRF> implements CRFModel {
 
 		_setModifiedDate = false;
 
-		_originalManagerId = _managerId;
-
-		_setOriginalManagerId = false;
-
 		_columnBitmask = 0;
 	}
 
@@ -948,7 +912,7 @@ public class CRFModelImpl extends BaseModelImpl<CRF> implements CRFModel {
 
 		crfCacheModel.datatypeId = getDatatypeId();
 
-		crfCacheModel.managerId = getManagerId();
+		crfCacheModel.crfStatus = getCrfStatus();
 
 		Date applyDate = getApplyDate();
 
@@ -958,8 +922,6 @@ public class CRFModelImpl extends BaseModelImpl<CRF> implements CRFModel {
 		else {
 			crfCacheModel.applyDate = Long.MIN_VALUE;
 		}
-
-		crfCacheModel.crfStatus = getCrfStatus();
 
 		return crfCacheModel;
 	}
@@ -1074,11 +1036,8 @@ public class CRFModelImpl extends BaseModelImpl<CRF> implements CRFModel {
 	private String _statusByUserName;
 	private Date _statusDate;
 	private long _datatypeId;
-	private long _managerId;
-	private long _originalManagerId;
-	private boolean _setOriginalManagerId;
-	private Date _applyDate;
 	private int _crfStatus;
+	private Date _applyDate;
 	private long _columnBitmask;
 	private CRF _escapedModel;
 

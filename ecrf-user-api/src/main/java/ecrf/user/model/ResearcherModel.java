@@ -331,6 +331,20 @@ public interface ResearcherModel
 	public void setBirth(Date birth);
 
 	/**
+	 * Returns the gender of this researcher.
+	 *
+	 * @return the gender of this researcher
+	 */
+	public int getGender();
+
+	/**
+	 * Sets the gender of this researcher.
+	 *
+	 * @param gender the gender of this researcher
+	 */
+	public void setGender(int gender);
+
+	/**
 	 * Returns the phone of this researcher.
 	 *
 	 * @return the phone of this researcher

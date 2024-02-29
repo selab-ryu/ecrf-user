@@ -6,6 +6,8 @@ Export-Package: \
 	ecrf.user.model,\
 	ecrf.user.service,\
 	ecrf.user.service.persistence,\
-	ecrf.user.constants
+	ecrf.user.constants.attribute,\
+	ecrf.user.constants,\
+	ecrf.user.model.custom
 -check: EXPORTS
 -includeresource: META-INF/service.xml=../ecrf-user-service/service.xml

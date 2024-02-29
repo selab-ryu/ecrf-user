@@ -45,9 +45,8 @@ public class CRFSoap implements Serializable {
 		soapModel.setStatusByUserName(model.getStatusByUserName());
 		soapModel.setStatusDate(model.getStatusDate());
 		soapModel.setDatatypeId(model.getDatatypeId());
-		soapModel.setManagerId(model.getManagerId());
-		soapModel.setApplyDate(model.getApplyDate());
 		soapModel.setCrfStatus(model.getCrfStatus());
+		soapModel.setApplyDate(model.getApplyDate());
 
 		return soapModel;
 	}
@@ -212,12 +211,12 @@ public class CRFSoap implements Serializable {
 		_datatypeId = datatypeId;
 	}
 
-	public long getManagerId() {
-		return _managerId;
+	public int getCrfStatus() {
+		return _crfStatus;
 	}
 
-	public void setManagerId(long managerId) {
-		_managerId = managerId;
+	public void setCrfStatus(int crfStatus) {
+		_crfStatus = crfStatus;
 	}
 
 	public Date getApplyDate() {
@@ -226,14 +225,6 @@ public class CRFSoap implements Serializable {
 
 	public void setApplyDate(Date applyDate) {
 		_applyDate = applyDate;
-	}
-
-	public int getCrfStatus() {
-		return _crfStatus;
-	}
-
-	public void setCrfStatus(int crfStatus) {
-		_crfStatus = crfStatus;
 	}
 
 	private long _mvccVersion;
@@ -250,8 +241,7 @@ public class CRFSoap implements Serializable {
 	private String _statusByUserName;
 	private Date _statusDate;
 	private long _datatypeId;
-	private long _managerId;
-	private Date _applyDate;
 	private int _crfStatus;
+	private Date _applyDate;
 
 }

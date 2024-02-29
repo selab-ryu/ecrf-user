@@ -528,6 +528,289 @@ public class SubjectUtil {
 	}
 
 	/**
+	 * Returns the subject where subjectId = &#63; or throws a <code>NoSuchSubjectException</code> if it could not be found.
+	 *
+	 * @param subjectId the subject ID
+	 * @return the matching subject
+	 * @throws NoSuchSubjectException if a matching subject could not be found
+	 */
+	public static Subject findBySubjectId(long subjectId)
+		throws ecrf.user.exception.NoSuchSubjectException {
+
+		return getPersistence().findBySubjectId(subjectId);
+	}
+
+	/**
+	 * Returns the subject where subjectId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param subjectId the subject ID
+	 * @return the matching subject, or <code>null</code> if a matching subject could not be found
+	 */
+	public static Subject fetchBySubjectId(long subjectId) {
+		return getPersistence().fetchBySubjectId(subjectId);
+	}
+
+	/**
+	 * Returns the subject where subjectId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param subjectId the subject ID
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the matching subject, or <code>null</code> if a matching subject could not be found
+	 */
+	public static Subject fetchBySubjectId(
+		long subjectId, boolean useFinderCache) {
+
+		return getPersistence().fetchBySubjectId(subjectId, useFinderCache);
+	}
+
+	/**
+	 * Removes the subject where subjectId = &#63; from the database.
+	 *
+	 * @param subjectId the subject ID
+	 * @return the subject that was removed
+	 */
+	public static Subject removeBySubjectId(long subjectId)
+		throws ecrf.user.exception.NoSuchSubjectException {
+
+		return getPersistence().removeBySubjectId(subjectId);
+	}
+
+	/**
+	 * Returns the number of subjects where subjectId = &#63;.
+	 *
+	 * @param subjectId the subject ID
+	 * @return the number of matching subjects
+	 */
+	public static int countBySubjectId(long subjectId) {
+		return getPersistence().countBySubjectId(subjectId);
+	}
+
+	/**
+	 * Returns the subject where serialId = &#63; or throws a <code>NoSuchSubjectException</code> if it could not be found.
+	 *
+	 * @param serialId the serial ID
+	 * @return the matching subject
+	 * @throws NoSuchSubjectException if a matching subject could not be found
+	 */
+	public static Subject findBySerialId(String serialId)
+		throws ecrf.user.exception.NoSuchSubjectException {
+
+		return getPersistence().findBySerialId(serialId);
+	}
+
+	/**
+	 * Returns the subject where serialId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param serialId the serial ID
+	 * @return the matching subject, or <code>null</code> if a matching subject could not be found
+	 */
+	public static Subject fetchBySerialId(String serialId) {
+		return getPersistence().fetchBySerialId(serialId);
+	}
+
+	/**
+	 * Returns the subject where serialId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param serialId the serial ID
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the matching subject, or <code>null</code> if a matching subject could not be found
+	 */
+	public static Subject fetchBySerialId(
+		String serialId, boolean useFinderCache) {
+
+		return getPersistence().fetchBySerialId(serialId, useFinderCache);
+	}
+
+	/**
+	 * Removes the subject where serialId = &#63; from the database.
+	 *
+	 * @param serialId the serial ID
+	 * @return the subject that was removed
+	 */
+	public static Subject removeBySerialId(String serialId)
+		throws ecrf.user.exception.NoSuchSubjectException {
+
+		return getPersistence().removeBySerialId(serialId);
+	}
+
+	/**
+	 * Returns the number of subjects where serialId = &#63;.
+	 *
+	 * @param serialId the serial ID
+	 * @return the number of matching subjects
+	 */
+	public static int countBySerialId(String serialId) {
+		return getPersistence().countBySerialId(serialId);
+	}
+
+	/**
+	 * Returns all the subjects where name = &#63;.
+	 *
+	 * @param name the name
+	 * @return the matching subjects
+	 */
+	public static List<Subject> findBySubjectName(String name) {
+		return getPersistence().findBySubjectName(name);
+	}
+
+	/**
+	 * Returns a range of all the subjects where name = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>SubjectModelImpl</code>.
+	 * </p>
+	 *
+	 * @param name the name
+	 * @param start the lower bound of the range of subjects
+	 * @param end the upper bound of the range of subjects (not inclusive)
+	 * @return the range of matching subjects
+	 */
+	public static List<Subject> findBySubjectName(
+		String name, int start, int end) {
+
+		return getPersistence().findBySubjectName(name, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the subjects where name = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>SubjectModelImpl</code>.
+	 * </p>
+	 *
+	 * @param name the name
+	 * @param start the lower bound of the range of subjects
+	 * @param end the upper bound of the range of subjects (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching subjects
+	 */
+	public static List<Subject> findBySubjectName(
+		String name, int start, int end,
+		OrderByComparator<Subject> orderByComparator) {
+
+		return getPersistence().findBySubjectName(
+			name, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns an ordered range of all the subjects where name = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>SubjectModelImpl</code>.
+	 * </p>
+	 *
+	 * @param name the name
+	 * @param start the lower bound of the range of subjects
+	 * @param end the upper bound of the range of subjects (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching subjects
+	 */
+	public static List<Subject> findBySubjectName(
+		String name, int start, int end,
+		OrderByComparator<Subject> orderByComparator, boolean useFinderCache) {
+
+		return getPersistence().findBySubjectName(
+			name, start, end, orderByComparator, useFinderCache);
+	}
+
+	/**
+	 * Returns the first subject in the ordered set where name = &#63;.
+	 *
+	 * @param name the name
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching subject
+	 * @throws NoSuchSubjectException if a matching subject could not be found
+	 */
+	public static Subject findBySubjectName_First(
+			String name, OrderByComparator<Subject> orderByComparator)
+		throws ecrf.user.exception.NoSuchSubjectException {
+
+		return getPersistence().findBySubjectName_First(
+			name, orderByComparator);
+	}
+
+	/**
+	 * Returns the first subject in the ordered set where name = &#63;.
+	 *
+	 * @param name the name
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching subject, or <code>null</code> if a matching subject could not be found
+	 */
+	public static Subject fetchBySubjectName_First(
+		String name, OrderByComparator<Subject> orderByComparator) {
+
+		return getPersistence().fetchBySubjectName_First(
+			name, orderByComparator);
+	}
+
+	/**
+	 * Returns the last subject in the ordered set where name = &#63;.
+	 *
+	 * @param name the name
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching subject
+	 * @throws NoSuchSubjectException if a matching subject could not be found
+	 */
+	public static Subject findBySubjectName_Last(
+			String name, OrderByComparator<Subject> orderByComparator)
+		throws ecrf.user.exception.NoSuchSubjectException {
+
+		return getPersistence().findBySubjectName_Last(name, orderByComparator);
+	}
+
+	/**
+	 * Returns the last subject in the ordered set where name = &#63;.
+	 *
+	 * @param name the name
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching subject, or <code>null</code> if a matching subject could not be found
+	 */
+	public static Subject fetchBySubjectName_Last(
+		String name, OrderByComparator<Subject> orderByComparator) {
+
+		return getPersistence().fetchBySubjectName_Last(
+			name, orderByComparator);
+	}
+
+	/**
+	 * Returns the subjects before and after the current subject in the ordered set where name = &#63;.
+	 *
+	 * @param subjectId the primary key of the current subject
+	 * @param name the name
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next subject
+	 * @throws NoSuchSubjectException if a subject with the primary key could not be found
+	 */
+	public static Subject[] findBySubjectName_PrevAndNext(
+			long subjectId, String name,
+			OrderByComparator<Subject> orderByComparator)
+		throws ecrf.user.exception.NoSuchSubjectException {
+
+		return getPersistence().findBySubjectName_PrevAndNext(
+			subjectId, name, orderByComparator);
+	}
+
+	/**
+	 * Removes all the subjects where name = &#63; from the database.
+	 *
+	 * @param name the name
+	 */
+	public static void removeBySubjectName(String name) {
+		getPersistence().removeBySubjectName(name);
+	}
+
+	/**
+	 * Returns the number of subjects where name = &#63;.
+	 *
+	 * @param name the name
+	 * @return the number of matching subjects
+	 */
+	public static int countBySubjectName(String name) {
+		return getPersistence().countBySubjectName(name);
+	}
+
+	/**
 	 * Returns all the subjects where groupId = &#63;.
 	 *
 	 * @param groupId the group ID

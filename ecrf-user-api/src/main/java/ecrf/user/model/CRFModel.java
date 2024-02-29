@@ -318,18 +318,18 @@ public interface CRFModel
 	public void setDatatypeId(long datatypeId);
 
 	/**
-	 * Returns the manager ID of this crf.
+	 * Returns the crf status of this crf.
 	 *
-	 * @return the manager ID of this crf
+	 * @return the crf status of this crf
 	 */
-	public long getManagerId();
+	public int getCrfStatus();
 
 	/**
-	 * Sets the manager ID of this crf.
+	 * Sets the crf status of this crf.
 	 *
-	 * @param managerId the manager ID of this crf
+	 * @param crfStatus the crf status of this crf
 	 */
-	public void setManagerId(long managerId);
+	public void setCrfStatus(int crfStatus);
 
 	/**
 	 * Returns the apply date of this crf.
@@ -344,20 +344,6 @@ public interface CRFModel
 	 * @param applyDate the apply date of this crf
 	 */
 	public void setApplyDate(Date applyDate);
-
-	/**
-	 * Returns the crf status of this crf.
-	 *
-	 * @return the crf status of this crf
-	 */
-	public int getCrfStatus();
-
-	/**
-	 * Sets the crf status of this crf.
-	 *
-	 * @param crfStatus the crf status of this crf
-	 */
-	public void setCrfStatus(int crfStatus);
 
 	/**
 	 * Returns <code>true</code> if this crf is approved.

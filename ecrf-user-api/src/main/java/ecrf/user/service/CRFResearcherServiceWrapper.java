@@ -32,6 +32,21 @@ public class CRFResearcherServiceWrapper
 		_crfResearcherService = crfResearcherService;
 	}
 
+	@Override
+	public java.util.ArrayList<ecrf.user.model.custom.CRFResearcherInfo>
+		getCRFAllResearcherInfoList(long groupId, long crfId) {
+
+		return _crfResearcherService.getCRFAllResearcherInfoList(
+			groupId, crfId);
+	}
+
+	@Override
+	public java.util.ArrayList<ecrf.user.model.custom.CRFResearcherInfo>
+		getCRFResearcherList(long groupId, long crfId) {
+
+		return _crfResearcherService.getCRFResearcherList(groupId, crfId);
+	}
+
 	/**
 	 * Returns the OSGi service identifier.
 	 *

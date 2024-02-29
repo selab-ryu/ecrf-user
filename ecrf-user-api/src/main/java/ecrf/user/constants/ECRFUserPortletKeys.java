@@ -12,5 +12,14 @@ public class ECRFUserPortletKeys {
 	public static final String PATIENT = "ecrf_user_patient_PatientPortlet";
 	public static final String CRF = "ecrf_user_crf_CRFWebPortlet";;
 	public static final String SUBJECT = "ecrf_user_subject_SubjectPortlet";
+	
+	public static final String CRF_QUERY = "ecrf_user_crf_query_CRFQueryPortlet";
+	public static final String CRF_FORM = "ecrf_user_crf_form_CRFFormPortlet";
+	public static final String CRF_DATA = "ecrf_user_crf_data_CRFDataPortlet";
+	
+	// get from com.liferay.users.admin.constants.UsersAdminPortletKeys at users_admin app
+	public static final String MY_ACCOUNT = "com_liferay_my_account_web_portlet_MyAccountPortlet";
+	public static final String MY_ORGANIZATIONS = "com_liferay_users_admin_web_portlet_MyOrganizationsPortlet";
+	public static final String USERS_ADMIN = "com_liferay_users_admin_web_portlet_UsersAdminPortlet";
 }
  

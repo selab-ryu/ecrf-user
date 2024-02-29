@@ -249,4 +249,47 @@ public interface CRFSubjectModel
 	 */
 	public void setSubjectId(long subjectId);
 
+	/**
+	 * Returns the participation status of this crf subject.
+	 *
+	 * @return the participation status of this crf subject
+	 */
+	public int getParticipationStatus();
+
+	/**
+	 * Sets the participation status of this crf subject.
+	 *
+	 * @param participationStatus the participation status of this crf subject
+	 */
+	public void setParticipationStatus(int participationStatus);
+
+	/**
+	 * Returns the participation start date of this crf subject.
+	 *
+	 * @return the participation start date of this crf subject
+	 */
+	public Date getParticipationStartDate();
+
+	/**
+	 * Sets the participation start date of this crf subject.
+	 *
+	 * @param participationStartDate the participation start date of this crf subject
+	 */
+	public void setParticipationStartDate(Date participationStartDate);
+
+	/**
+	 * Returns the experimental group of this crf subject.
+	 *
+	 * @return the experimental group of this crf subject
+	 */
+	@AutoEscape
+	public String getExperimentalGroup();
+
+	/**
+	 * Sets the experimental group of this crf subject.
+	 *
+	 * @param experimentalGroup the experimental group of this crf subject
+	 */
+	public void setExperimentalGroup(String experimentalGroup);
+
 }
