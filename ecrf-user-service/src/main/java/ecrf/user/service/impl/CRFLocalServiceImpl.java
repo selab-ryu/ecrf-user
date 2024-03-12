@@ -35,6 +35,7 @@ import java.util.Map;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
+import ecrf.user.exception.NoSuchCRFException;
 import ecrf.user.model.CRF;
 import ecrf.user.model.CRFAutoquery;
 import ecrf.user.model.CRFHistory;
@@ -277,8 +278,17 @@ public class CRFLocalServiceImpl extends CRFLocalServiceBaseImpl {
 	}
 	public int getCRFCount(long groupId) {
 		return super.crfPersistence.countByGroupId(groupId);
-	}	
+	}
 	
+	public CRF getCRFByDataTypeId(long dataTypeId) {
+		try {
+			return super.crfPersistence.findByDataTypeId(dataTypeId);
+		} catch (NoSuchCRFException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 	@Reference
 	private CRFAutoqueryLocalService _crfAutoQueryLocalService;
 	

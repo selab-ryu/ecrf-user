@@ -32,10 +32,9 @@ import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
-import com.liferay.portal.kernel.util.PropsKeys;
-import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 
@@ -44,14 +43,13 @@ import ecrf.user.model.CRF;
 import ecrf.user.model.impl.CRFImpl;
 import ecrf.user.model.impl.CRFModelImpl;
 import ecrf.user.service.persistence.CRFPersistence;
-import ecrf.user.service.persistence.CRFUtil;
 import ecrf.user.service.persistence.impl.constants.ECPersistenceConstants;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -1954,6 +1952,220 @@ public class CRFPersistenceImpl
 	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 =
 		"crf.groupId = ?";
 
+	private FinderPath _finderPathFetchByDataTypeId;
+	private FinderPath _finderPathCountByDataTypeId;
+
+	/**
+	 * Returns the crf where datatypeId = &#63; or throws a <code>NoSuchCRFException</code> if it could not be found.
+	 *
+	 * @param datatypeId the datatype ID
+	 * @return the matching crf
+	 * @throws NoSuchCRFException if a matching crf could not be found
+	 */
+	@Override
+	public CRF findByDataTypeId(long datatypeId) throws NoSuchCRFException {
+		CRF crf = fetchByDataTypeId(datatypeId);
+
+		if (crf == null) {
+			StringBundler sb = new StringBundler(4);
+
+			sb.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			sb.append("datatypeId=");
+			sb.append(datatypeId);
+
+			sb.append("}");
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(sb.toString());
+			}
+
+			throw new NoSuchCRFException(sb.toString());
+		}
+
+		return crf;
+	}
+
+	/**
+	 * Returns the crf where datatypeId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param datatypeId the datatype ID
+	 * @return the matching crf, or <code>null</code> if a matching crf could not be found
+	 */
+	@Override
+	public CRF fetchByDataTypeId(long datatypeId) {
+		return fetchByDataTypeId(datatypeId, true);
+	}
+
+	/**
+	 * Returns the crf where datatypeId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param datatypeId the datatype ID
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the matching crf, or <code>null</code> if a matching crf could not be found
+	 */
+	@Override
+	public CRF fetchByDataTypeId(long datatypeId, boolean useFinderCache) {
+		Object[] finderArgs = null;
+
+		if (useFinderCache) {
+			finderArgs = new Object[] {datatypeId};
+		}
+
+		Object result = null;
+
+		if (useFinderCache) {
+			result = finderCache.getResult(
+				_finderPathFetchByDataTypeId, finderArgs, this);
+		}
+
+		if (result instanceof CRF) {
+			CRF crf = (CRF)result;
+
+			if (datatypeId != crf.getDatatypeId()) {
+				result = null;
+			}
+		}
+
+		if (result == null) {
+			StringBundler sb = new StringBundler(3);
+
+			sb.append(_SQL_SELECT_CRF_WHERE);
+
+			sb.append(_FINDER_COLUMN_DATATYPEID_DATATYPEID_2);
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				queryPos.add(datatypeId);
+
+				List<CRF> list = query.list();
+
+				if (list.isEmpty()) {
+					if (useFinderCache) {
+						finderCache.putResult(
+							_finderPathFetchByDataTypeId, finderArgs, list);
+					}
+				}
+				else {
+					if (list.size() > 1) {
+						Collections.sort(list, Collections.reverseOrder());
+
+						if (_log.isWarnEnabled()) {
+							if (!useFinderCache) {
+								finderArgs = new Object[] {datatypeId};
+							}
+
+							_log.warn(
+								"CRFPersistenceImpl.fetchByDataTypeId(long, boolean) with parameters (" +
+									StringUtil.merge(finderArgs) +
+										") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+						}
+					}
+
+					CRF crf = list.get(0);
+
+					result = crf;
+
+					cacheResult(crf);
+				}
+			}
+			catch (Exception exception) {
+				if (useFinderCache) {
+					finderCache.removeResult(
+						_finderPathFetchByDataTypeId, finderArgs);
+				}
+
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		if (result instanceof List<?>) {
+			return null;
+		}
+		else {
+			return (CRF)result;
+		}
+	}
+
+	/**
+	 * Removes the crf where datatypeId = &#63; from the database.
+	 *
+	 * @param datatypeId the datatype ID
+	 * @return the crf that was removed
+	 */
+	@Override
+	public CRF removeByDataTypeId(long datatypeId) throws NoSuchCRFException {
+		CRF crf = findByDataTypeId(datatypeId);
+
+		return remove(crf);
+	}
+
+	/**
+	 * Returns the number of crfs where datatypeId = &#63;.
+	 *
+	 * @param datatypeId the datatype ID
+	 * @return the number of matching crfs
+	 */
+	@Override
+	public int countByDataTypeId(long datatypeId) {
+		FinderPath finderPath = _finderPathCountByDataTypeId;
+
+		Object[] finderArgs = new Object[] {datatypeId};
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler sb = new StringBundler(2);
+
+			sb.append(_SQL_COUNT_CRF_WHERE);
+
+			sb.append(_FINDER_COLUMN_DATATYPEID_DATATYPEID_2);
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				queryPos.add(datatypeId);
+
+				count = (Long)query.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception exception) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_DATATYPEID_DATATYPEID_2 =
+		"crf.datatypeId = ?";
+
 	public CRFPersistenceImpl() {
 		Map<String, String> dbColumnNames = new HashMap<String, String>();
 
@@ -1981,26 +2193,21 @@ public class CRFPersistenceImpl
 			_finderPathFetchByUUID_G,
 			new Object[] {crf.getUuid(), crf.getGroupId()}, crf);
 
+		finderCache.putResult(
+			_finderPathFetchByDataTypeId, new Object[] {crf.getDatatypeId()},
+			crf);
+
 		crf.resetOriginalValues();
 	}
-
-	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the crfs in the entity cache if it is enabled.
 	 *
-	 * @param crfs the crfs
+	 * @param crFs the crfs
 	 */
 	@Override
-	public void cacheResult(List<CRF> crfs) {
-		if ((_valueObjectFinderCacheListThreshold == 0) ||
-			((_valueObjectFinderCacheListThreshold > 0) &&
-			 (crfs.size() > _valueObjectFinderCacheListThreshold))) {
-
-			return;
-		}
-
-		for (CRF crf : crfs) {
+	public void cacheResult(List<CRF> crFs) {
+		for (CRF crf : crFs) {
 			if (entityCache.getResult(
 					entityCacheEnabled, CRFImpl.class, crf.getPrimaryKey()) ==
 						null) {
@@ -2048,11 +2255,11 @@ public class CRFPersistenceImpl
 	}
 
 	@Override
-	public void clearCache(List<CRF> crfs) {
+	public void clearCache(List<CRF> crFs) {
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
-		for (CRF crf : crfs) {
+		for (CRF crf : crFs) {
 			entityCache.removeResult(
 				entityCacheEnabled, CRFImpl.class, crf.getPrimaryKey());
 
@@ -2080,6 +2287,13 @@ public class CRFPersistenceImpl
 			_finderPathCountByUUID_G, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByUUID_G, args, crfModelImpl, false);
+
+		args = new Object[] {crfModelImpl.getDatatypeId()};
+
+		finderCache.putResult(
+			_finderPathCountByDataTypeId, args, Long.valueOf(1), false);
+		finderCache.putResult(
+			_finderPathFetchByDataTypeId, args, crfModelImpl, false);
 	}
 
 	protected void clearUniqueFindersCache(
@@ -2104,6 +2318,22 @@ public class CRFPersistenceImpl
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
 			finderCache.removeResult(_finderPathFetchByUUID_G, args);
+		}
+
+		if (clearCurrent) {
+			Object[] args = new Object[] {crfModelImpl.getDatatypeId()};
+
+			finderCache.removeResult(_finderPathCountByDataTypeId, args);
+			finderCache.removeResult(_finderPathFetchByDataTypeId, args);
+		}
+
+		if ((crfModelImpl.getColumnBitmask() &
+			 _finderPathFetchByDataTypeId.getColumnBitmask()) != 0) {
+
+			Object[] args = new Object[] {crfModelImpl.getOriginalDatatypeId()};
+
+			finderCache.removeResult(_finderPathCountByDataTypeId, args);
+			finderCache.removeResult(_finderPathFetchByDataTypeId, args);
 		}
 	}
 
@@ -2239,23 +2469,23 @@ public class CRFPersistenceImpl
 		ServiceContext serviceContext =
 			ServiceContextThreadLocal.getServiceContext();
 
-		Date date = new Date();
+		Date now = new Date();
 
 		if (isNew && (crf.getCreateDate() == null)) {
 			if (serviceContext == null) {
-				crf.setCreateDate(date);
+				crf.setCreateDate(now);
 			}
 			else {
-				crf.setCreateDate(serviceContext.getCreateDate(date));
+				crf.setCreateDate(serviceContext.getCreateDate(now));
 			}
 		}
 
 		if (!crfModelImpl.hasSetModifiedDate()) {
 			if (serviceContext == null) {
-				crf.setModifiedDate(date);
+				crf.setModifiedDate(now);
 			}
 			else {
-				crf.setModifiedDate(serviceContext.getModifiedDate(date));
+				crf.setModifiedDate(serviceContext.getModifiedDate(now));
 			}
 		}
 
@@ -2264,7 +2494,7 @@ public class CRFPersistenceImpl
 		try {
 			session = openSession();
 
-			if (isNew) {
+			if (crf.isNew()) {
 				session.save(crf);
 
 				crf.setNew(false);
@@ -2648,9 +2878,6 @@ public class CRFPersistenceImpl
 		CRFModelImpl.setEntityCacheEnabled(entityCacheEnabled);
 		CRFModelImpl.setFinderCacheEnabled(finderCacheEnabled);
 
-		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
-			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
-
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, CRFImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
@@ -2739,31 +2966,24 @@ public class CRFPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
 			new String[] {Long.class.getName()});
 
-		_setCRFUtilPersistence(this);
+		_finderPathFetchByDataTypeId = new FinderPath(
+			entityCacheEnabled, finderCacheEnabled, CRFImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByDataTypeId",
+			new String[] {Long.class.getName()},
+			CRFModelImpl.DATATYPEID_COLUMN_BITMASK);
+
+		_finderPathCountByDataTypeId = new FinderPath(
+			entityCacheEnabled, finderCacheEnabled, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByDataTypeId",
+			new String[] {Long.class.getName()});
 	}
 
 	@Deactivate
 	public void deactivate() {
-		_setCRFUtilPersistence(null);
-
 		entityCache.removeCache(CRFImpl.class.getName());
-
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setCRFUtilPersistence(CRFPersistence crfPersistence) {
-		try {
-			Field field = CRFUtil.class.getDeclaredField("_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, crfPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@Override
@@ -2830,5 +3050,14 @@ public class CRFPersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid"});
+
+	static {
+		try {
+			Class.forName(ECPersistenceConstants.class.getName());
+		}
+		catch (ClassNotFoundException classNotFoundException) {
+			throw new ExceptionInInitializerError(classNotFoundException);
+		}
+	}
 
 }

@@ -46,7 +46,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 import ecrf.user.model.LinkCRF;
 import ecrf.user.service.LinkCRFLocalService;
-import ecrf.user.service.LinkCRFLocalServiceUtil;
 import ecrf.user.service.persistence.CRFAutoqueryPersistence;
 import ecrf.user.service.persistence.CRFHistoryPersistence;
 import ecrf.user.service.persistence.CRFPersistence;
@@ -62,13 +61,10 @@ import ecrf.user.service.persistence.SubjectPersistence;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
 
-import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 
 /**
@@ -89,7 +85,7 @@ public abstract class LinkCRFLocalServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>LinkCRFLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>LinkCRFLocalServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>LinkCRFLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>ecrf.user.service.LinkCRFLocalServiceUtil</code>.
 	 */
 
 	/**
@@ -492,11 +488,6 @@ public abstract class LinkCRFLocalServiceBaseImpl
 		return linkCRFPersistence.update(linkCRF);
 	}
 
-	@Deactivate
-	protected void deactivate() {
-		_setLocalServiceUtilService(null);
-	}
-
 	@Override
 	public Class<?>[] getAopInterfaces() {
 		return new Class<?>[] {
@@ -508,8 +499,6 @@ public abstract class LinkCRFLocalServiceBaseImpl
 	@Override
 	public void setAopProxy(Object aopProxy) {
 		linkCRFLocalService = (LinkCRFLocalService)aopProxy;
-
-		_setLocalServiceUtilService(linkCRFLocalService);
 	}
 
 	/**
@@ -551,22 +540,6 @@ public abstract class LinkCRFLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		LinkCRFLocalService linkCRFLocalService) {
-
-		try {
-			Field field = LinkCRFLocalServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, linkCRFLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

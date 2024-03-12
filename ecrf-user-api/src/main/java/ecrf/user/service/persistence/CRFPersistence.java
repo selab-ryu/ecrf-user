@@ -526,6 +526,48 @@ public interface CRFPersistence extends BasePersistence<CRF> {
 	public int countByGroupId(long groupId);
 
 	/**
+	 * Returns the crf where datatypeId = &#63; or throws a <code>NoSuchCRFException</code> if it could not be found.
+	 *
+	 * @param datatypeId the datatype ID
+	 * @return the matching crf
+	 * @throws NoSuchCRFException if a matching crf could not be found
+	 */
+	public CRF findByDataTypeId(long datatypeId) throws NoSuchCRFException;
+
+	/**
+	 * Returns the crf where datatypeId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param datatypeId the datatype ID
+	 * @return the matching crf, or <code>null</code> if a matching crf could not be found
+	 */
+	public CRF fetchByDataTypeId(long datatypeId);
+
+	/**
+	 * Returns the crf where datatypeId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param datatypeId the datatype ID
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the matching crf, or <code>null</code> if a matching crf could not be found
+	 */
+	public CRF fetchByDataTypeId(long datatypeId, boolean useFinderCache);
+
+	/**
+	 * Removes the crf where datatypeId = &#63; from the database.
+	 *
+	 * @param datatypeId the datatype ID
+	 * @return the crf that was removed
+	 */
+	public CRF removeByDataTypeId(long datatypeId) throws NoSuchCRFException;
+
+	/**
+	 * Returns the number of crfs where datatypeId = &#63;.
+	 *
+	 * @param datatypeId the datatype ID
+	 * @return the number of matching crfs
+	 */
+	public int countByDataTypeId(long datatypeId);
+
+	/**
 	 * Caches the crf in the entity cache if it is enabled.
 	 *
 	 * @param crf the crf
@@ -535,9 +577,9 @@ public interface CRFPersistence extends BasePersistence<CRF> {
 	/**
 	 * Caches the crfs in the entity cache if it is enabled.
 	 *
-	 * @param crfs the crfs
+	 * @param crFs the crfs
 	 */
-	public void cacheResult(java.util.List<CRF> crfs);
+	public void cacheResult(java.util.List<CRF> crFs);
 
 	/**
 	 * Creates a new crf with the primary key. Does not add the crf to the database.

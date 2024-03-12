@@ -26,6 +26,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.osgi.framework.Bundle;
+import org.osgi.framework.FrameworkUtil;
+import org.osgi.util.tracker.ServiceTracker;
+
 /**
  * The persistence utility for the crf researcher service. This utility wraps <code>ecrf.user.service.persistence.impl.CRFResearcherPersistenceImpl</code> and provides direct access to the database for CRUD operations. This utility should only be used by the service layer, as it must operate within a transaction. Never access this utility in a JSP, controller, model, or other front-end class.
  *
@@ -1618,9 +1622,25 @@ public class CRFResearcherUtil {
 	}
 
 	public static CRFResearcherPersistence getPersistence() {
-		return _persistence;
+		return _serviceTracker.getService();
 	}
 
-	private static volatile CRFResearcherPersistence _persistence;
+	private static ServiceTracker
+		<CRFResearcherPersistence, CRFResearcherPersistence> _serviceTracker;
+
+	static {
+		Bundle bundle = FrameworkUtil.getBundle(CRFResearcherPersistence.class);
+
+		ServiceTracker<CRFResearcherPersistence, CRFResearcherPersistence>
+			serviceTracker =
+				new ServiceTracker
+					<CRFResearcherPersistence, CRFResearcherPersistence>(
+						bundle.getBundleContext(),
+						CRFResearcherPersistence.class, null);
+
+		serviceTracker.open();
+
+		_serviceTracker = serviceTracker;
+	}
 
 }

@@ -93,7 +93,7 @@ public class CRFSubjectServiceImpl extends CRFSubjectServiceBaseImpl {
 					
 					CRFSubjectInfo info = new CRFSubjectInfo(crfSubject.getCrfSubjectId(), crfSubject.getCrfId(), crfSubject.getSubjectId());
 					
-					info.setCrfName(dataType.getDisplayName());
+					info.setCrfName(dataType.getDisplayName(Locale.ENGLISH));
 					info.setCrfStatus(crf.getCrfStatus());
 					
 					info.setSubjectName(subject.getName());
@@ -143,10 +143,13 @@ public class CRFSubjectServiceImpl extends CRFSubjectServiceBaseImpl {
 				info.setSubjectGender(subject.getGender());
 								
 				crfSubjectInfoList.add(info);
+				_log.info(info.toString());
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
 		}	
+		
+		_log.info(crfSubjectInfoList.size());
 		
 		return crfSubjectInfoList;
 	}

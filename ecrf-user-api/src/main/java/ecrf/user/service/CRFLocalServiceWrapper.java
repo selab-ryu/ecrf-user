@@ -262,6 +262,11 @@ public class CRFLocalServiceWrapper
 	}
 
 	@Override
+	public ecrf.user.model.CRF getCRFByDataTypeId(long dataTypeId) {
+		return _crfLocalService.getCRFByDataTypeId(dataTypeId);
+	}
+
+	@Override
 	public java.util.List<ecrf.user.model.CRF> getCRFByGroupId(long groupId) {
 		return _crfLocalService.getCRFByGroupId(groupId);
 	}

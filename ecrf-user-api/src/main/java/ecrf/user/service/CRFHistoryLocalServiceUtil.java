@@ -14,16 +14,9 @@
 
 package ecrf.user.service;
 
-import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.model.PersistedModel;
-import com.liferay.portal.kernel.util.OrderByComparator;
-
-import ecrf.user.model.CRFHistory;
-
-import java.io.Serializable;
-
-import java.util.List;
+import org.osgi.framework.Bundle;
+import org.osgi.framework.FrameworkUtil;
+import org.osgi.util.tracker.ServiceTracker;
 
 /**
  * Provides the local service utility for CRFHistory. This utility wraps
@@ -55,16 +48,18 @@ public class CRFHistoryLocalServiceUtil {
 	 * @param crfHistory the crf history
 	 * @return the crf history that was added
 	 */
-	public static CRFHistory addCRFHistory(CRFHistory crfHistory) {
+	public static ecrf.user.model.CRFHistory addCRFHistory(
+		ecrf.user.model.CRFHistory crfHistory) {
+
 		return getService().addCRFHistory(crfHistory);
 	}
 
-	public static CRFHistory addCRFHistory(
+	public static ecrf.user.model.CRFHistory addCRFHistory(
 			String subjectName, long subjectId, String serialId,
 			long structuredDataId, long crfId, String previousJSON,
 			String currentJSON, int actionType, String historyVersion,
 			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().addCRFHistory(
 			subjectName, subjectId, serialId, structuredDataId, crfId,
@@ -106,7 +101,7 @@ public class CRFHistoryLocalServiceUtil {
 	 * @param historyId the primary key for the new crf history
 	 * @return the new crf history
 	 */
-	public static CRFHistory createCRFHistory(long historyId) {
+	public static ecrf.user.model.CRFHistory createCRFHistory(long historyId) {
 		return getService().createCRFHistory(historyId);
 	}
 
@@ -120,7 +115,9 @@ public class CRFHistoryLocalServiceUtil {
 	 * @param crfHistory the crf history
 	 * @return the crf history that was removed
 	 */
-	public static CRFHistory deleteCRFHistory(CRFHistory crfHistory) {
+	public static ecrf.user.model.CRFHistory deleteCRFHistory(
+		ecrf.user.model.CRFHistory crfHistory) {
+
 		return getService().deleteCRFHistory(crfHistory);
 	}
 
@@ -135,14 +132,14 @@ public class CRFHistoryLocalServiceUtil {
 	 * @return the crf history that was removed
 	 * @throws PortalException if a crf history with the primary key could not be found
 	 */
-	public static CRFHistory deleteCRFHistory(long historyId)
-		throws PortalException {
+	public static ecrf.user.model.CRFHistory deleteCRFHistory(long historyId)
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().deleteCRFHistory(historyId);
 	}
 
 	public static void deleteCRFHistorys(long[] historyIds)
-		throws PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		getService().deleteCRFHistorys(historyIds);
 	}
@@ -150,14 +147,17 @@ public class CRFHistoryLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static PersistedModel deletePersistedModel(
-			PersistedModel persistedModel)
-		throws PortalException {
+	public static com.liferay.portal.kernel.model.PersistedModel
+			deletePersistedModel(
+				com.liferay.portal.kernel.model.PersistedModel persistedModel)
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
 
-	public static DynamicQuery dynamicQuery() {
+	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
+		dynamicQuery() {
+
 		return getService().dynamicQuery();
 	}
 
@@ -167,7 +167,9 @@ public class CRFHistoryLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
+	public static <T> java.util.List<T> dynamicQuery(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
+
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -183,8 +185,9 @@ public class CRFHistoryLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> List<T> dynamicQuery(
-		DynamicQuery dynamicQuery, int start, int end) {
+	public static <T> java.util.List<T> dynamicQuery(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
+		int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -202,9 +205,10 @@ public class CRFHistoryLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> List<T> dynamicQuery(
-		DynamicQuery dynamicQuery, int start, int end,
-		OrderByComparator<T> orderByComparator) {
+	public static <T> java.util.List<T> dynamicQuery(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
+		int end,
+		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -216,7 +220,9 @@ public class CRFHistoryLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
+	public static long dynamicQueryCount(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
+
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -228,13 +234,13 @@ public class CRFHistoryLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		DynamicQuery dynamicQuery,
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static CRFHistory fetchCRFHistory(long historyId) {
+	public static ecrf.user.model.CRFHistory fetchCRFHistory(long historyId) {
 		return getService().fetchCRFHistory(historyId);
 	}
 
@@ -245,7 +251,7 @@ public class CRFHistoryLocalServiceUtil {
 	 * @param groupId the primary key of the group
 	 * @return the matching crf history, or <code>null</code> if a matching crf history could not be found
 	 */
-	public static CRFHistory fetchCRFHistoryByUuidAndGroupId(
+	public static ecrf.user.model.CRFHistory fetchCRFHistoryByUuidAndGroupId(
 		String uuid, long groupId) {
 
 		return getService().fetchCRFHistoryByUuidAndGroupId(uuid, groupId);
@@ -257,16 +263,22 @@ public class CRFHistoryLocalServiceUtil {
 		return getService().getActionableDynamicQuery();
 	}
 
-	public static List<CRFHistory> getAllCRFHistory() {
+	public static java.util.List<ecrf.user.model.CRFHistory>
+		getAllCRFHistory() {
+
 		return getService().getAllCRFHistory();
 	}
 
-	public static List<CRFHistory> getAllCRFHistory(int start, int end) {
+	public static java.util.List<ecrf.user.model.CRFHistory> getAllCRFHistory(
+		int start, int end) {
+
 		return getService().getAllCRFHistory(start, end);
 	}
 
-	public static List<CRFHistory> getAllCRFHistory(
-		int start, int end, OrderByComparator<CRFHistory> comparator) {
+	public static java.util.List<ecrf.user.model.CRFHistory> getAllCRFHistory(
+		int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator
+			<ecrf.user.model.CRFHistory> comparator) {
 
 		return getService().getAllCRFHistory(start, end, comparator);
 	}
@@ -282,7 +294,9 @@ public class CRFHistoryLocalServiceUtil {
 	 * @param end the upper bound of the range of crf histories (not inclusive)
 	 * @return the range of crf histories
 	 */
-	public static List<CRFHistory> getCRFHistories(int start, int end) {
+	public static java.util.List<ecrf.user.model.CRFHistory> getCRFHistories(
+		int start, int end) {
+
 		return getService().getCRFHistories(start, end);
 	}
 
@@ -293,8 +307,8 @@ public class CRFHistoryLocalServiceUtil {
 	 * @param companyId the primary key of the company
 	 * @return the matching crf histories, or an empty list if no matches were found
 	 */
-	public static List<CRFHistory> getCRFHistoriesByUuidAndCompanyId(
-		String uuid, long companyId) {
+	public static java.util.List<ecrf.user.model.CRFHistory>
+		getCRFHistoriesByUuidAndCompanyId(String uuid, long companyId) {
 
 		return getService().getCRFHistoriesByUuidAndCompanyId(uuid, companyId);
 	}
@@ -309,9 +323,11 @@ public class CRFHistoryLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the range of matching crf histories, or an empty list if no matches were found
 	 */
-	public static List<CRFHistory> getCRFHistoriesByUuidAndCompanyId(
-		String uuid, long companyId, int start, int end,
-		OrderByComparator<CRFHistory> orderByComparator) {
+	public static java.util.List<ecrf.user.model.CRFHistory>
+		getCRFHistoriesByUuidAndCompanyId(
+			String uuid, long companyId, int start, int end,
+			com.liferay.portal.kernel.util.OrderByComparator
+				<ecrf.user.model.CRFHistory> orderByComparator) {
 
 		return getService().getCRFHistoriesByUuidAndCompanyId(
 			uuid, companyId, start, end, orderByComparator);
@@ -333,118 +349,138 @@ public class CRFHistoryLocalServiceUtil {
 	 * @return the crf history
 	 * @throws PortalException if a crf history with the primary key could not be found
 	 */
-	public static CRFHistory getCRFHistory(long historyId)
-		throws PortalException {
+	public static ecrf.user.model.CRFHistory getCRFHistory(long historyId)
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().getCRFHistory(historyId);
 	}
 
-	public static List<CRFHistory> getCRFHistoryByC_S(
+	public static java.util.List<ecrf.user.model.CRFHistory> getCRFHistoryByC_S(
 		long crfId, long subjectId) {
 
 		return getService().getCRFHistoryByC_S(crfId, subjectId);
 	}
 
-	public static List<CRFHistory> getCRFHistoryByG_C(
+	public static java.util.List<ecrf.user.model.CRFHistory> getCRFHistoryByG_C(
 		long groupId, long crfId) {
 
 		return getService().getCRFHistoryByG_C(groupId, crfId);
 	}
 
-	public static List<CRFHistory> getCRFHistoryByG_S_C(
-		long groupId, long subjectId, long crfId) {
+	public static java.util.List<ecrf.user.model.CRFHistory>
+		getCRFHistoryByG_S_C(long groupId, long subjectId, long crfId) {
 
 		return getService().getCRFHistoryByG_S_C(groupId, subjectId, crfId);
 	}
 
-	public static List<CRFHistory> getCRFHistoryByG_S_C(
-		long groupId, long subjectId, long crfId, int start, int end) {
+	public static java.util.List<ecrf.user.model.CRFHistory>
+		getCRFHistoryByG_S_C(
+			long groupId, long subjectId, long crfId, int start, int end) {
 
 		return getService().getCRFHistoryByG_S_C(
 			groupId, subjectId, crfId, start, end);
 	}
 
-	public static List<CRFHistory> getCRFHistoryByG_S_C(
-		long groupId, long subjectId, long crfId, int start, int end,
-		OrderByComparator<CRFHistory> comparator) {
+	public static java.util.List<ecrf.user.model.CRFHistory>
+		getCRFHistoryByG_S_C(
+			long groupId, long subjectId, long crfId, int start, int end,
+			com.liferay.portal.kernel.util.OrderByComparator
+				<ecrf.user.model.CRFHistory> comparator) {
 
 		return getService().getCRFHistoryByG_S_C(
 			groupId, subjectId, crfId, start, end, comparator);
 	}
 
-	public static List<CRFHistory> getCRFHistoryByG_S_C_SD(
-		long groupId, long subjectId, long crfId, long structuredDataId) {
+	public static java.util.List<ecrf.user.model.CRFHistory>
+		getCRFHistoryByG_S_C_SD(
+			long groupId, long subjectId, long crfId, long structuredDataId) {
 
 		return getService().getCRFHistoryByG_S_C_SD(
 			groupId, subjectId, crfId, structuredDataId);
 	}
 
-	public static List<CRFHistory> getCRFHistoryByG_S_C_SD(
-		long groupId, long subjectId, long crfId, long structuredDataId,
-		int start, int end) {
+	public static java.util.List<ecrf.user.model.CRFHistory>
+		getCRFHistoryByG_S_C_SD(
+			long groupId, long subjectId, long crfId, long structuredDataId,
+			int start, int end) {
 
 		return getService().getCRFHistoryByG_S_C_SD(
 			groupId, subjectId, crfId, structuredDataId, start, end);
 	}
 
-	public static List<CRFHistory> getCRFHistoryByG_S_C_SD(
-		long groupId, long subjectId, long crfId, long structuredDataId,
-		int start, int end, OrderByComparator<CRFHistory> comparator) {
+	public static java.util.List<ecrf.user.model.CRFHistory>
+		getCRFHistoryByG_S_C_SD(
+			long groupId, long subjectId, long crfId, long structuredDataId,
+			int start, int end,
+			com.liferay.portal.kernel.util.OrderByComparator
+				<ecrf.user.model.CRFHistory> comparator) {
 
 		return getService().getCRFHistoryByG_S_C_SD(
 			groupId, subjectId, crfId, structuredDataId, start, end,
 			comparator);
 	}
 
-	public static List<CRFHistory> getCRFHistoryByGroupId(long groupId) {
+	public static java.util.List<ecrf.user.model.CRFHistory>
+		getCRFHistoryByGroupId(long groupId) {
+
 		return getService().getCRFHistoryByGroupId(groupId);
 	}
 
-	public static List<CRFHistory> getCRFHistoryByGroupId(
-		long groupId, int start, int end) {
+	public static java.util.List<ecrf.user.model.CRFHistory>
+		getCRFHistoryByGroupId(long groupId, int start, int end) {
 
 		return getService().getCRFHistoryByGroupId(groupId, start, end);
 	}
 
-	public static List<CRFHistory> getCRFHistoryByGroupId(
-		long groupId, int start, int end,
-		OrderByComparator<CRFHistory> comparator) {
+	public static java.util.List<ecrf.user.model.CRFHistory>
+		getCRFHistoryByGroupId(
+			long groupId, int start, int end,
+			com.liferay.portal.kernel.util.OrderByComparator
+				<ecrf.user.model.CRFHistory> comparator) {
 
 		return getService().getCRFHistoryByGroupId(
 			groupId, start, end, comparator);
 	}
 
-	public static List<CRFHistory> getCRFHistoryByHistoryId(long historyId) {
+	public static java.util.List<ecrf.user.model.CRFHistory>
+		getCRFHistoryByHistoryId(long historyId) {
+
 		return getService().getCRFHistoryByHistoryId(historyId);
 	}
 
-	public static List<CRFHistory> getCRFHistoryByHistoryId(
-		long historyId, int start, int end) {
+	public static java.util.List<ecrf.user.model.CRFHistory>
+		getCRFHistoryByHistoryId(long historyId, int start, int end) {
 
 		return getService().getCRFHistoryByHistoryId(historyId, start, end);
 	}
 
-	public static List<CRFHistory> getCRFHistoryByHistoryId(
-		long historyId, int start, int end,
-		OrderByComparator<CRFHistory> comparator) {
+	public static java.util.List<ecrf.user.model.CRFHistory>
+		getCRFHistoryByHistoryId(
+			long historyId, int start, int end,
+			com.liferay.portal.kernel.util.OrderByComparator
+				<ecrf.user.model.CRFHistory> comparator) {
 
 		return getService().getCRFHistoryByHistoryId(
 			historyId, start, end, comparator);
 	}
 
-	public static List<CRFHistory> getCRFHistoryBySubjectId(long subjectId) {
+	public static java.util.List<ecrf.user.model.CRFHistory>
+		getCRFHistoryBySubjectId(long subjectId) {
+
 		return getService().getCRFHistoryBySubjectId(subjectId);
 	}
 
-	public static List<CRFHistory> getCRFHistoryBySubjectId(
-		long subjectId, int start, int end) {
+	public static java.util.List<ecrf.user.model.CRFHistory>
+		getCRFHistoryBySubjectId(long subjectId, int start, int end) {
 
 		return getService().getCRFHistoryBySubjectId(subjectId, start, end);
 	}
 
-	public static List<CRFHistory> getCRFHistoryBySubjectId(
-		long subjectId, int start, int end,
-		OrderByComparator<CRFHistory> comparator) {
+	public static java.util.List<ecrf.user.model.CRFHistory>
+		getCRFHistoryBySubjectId(
+			long subjectId, int start, int end,
+			com.liferay.portal.kernel.util.OrderByComparator
+				<ecrf.user.model.CRFHistory> comparator) {
 
 		return getService().getCRFHistoryBySubjectId(
 			subjectId, start, end, comparator);
@@ -458,9 +494,9 @@ public class CRFHistoryLocalServiceUtil {
 	 * @return the matching crf history
 	 * @throws PortalException if a matching crf history could not be found
 	 */
-	public static CRFHistory getCRFHistoryByUuidAndGroupId(
+	public static ecrf.user.model.CRFHistory getCRFHistoryByUuidAndGroupId(
 			String uuid, long groupId)
-		throws PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().getCRFHistoryByUuidAndGroupId(uuid, groupId);
 	}
@@ -492,8 +528,9 @@ public class CRFHistoryLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
-		throws PortalException {
+	public static com.liferay.portal.kernel.model.PersistedModel
+			getPersistedModel(java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -508,17 +545,19 @@ public class CRFHistoryLocalServiceUtil {
 	 * @param crfHistory the crf history
 	 * @return the crf history that was updated
 	 */
-	public static CRFHistory updateCRFHistory(CRFHistory crfHistory) {
+	public static ecrf.user.model.CRFHistory updateCRFHistory(
+		ecrf.user.model.CRFHistory crfHistory) {
+
 		return getService().updateCRFHistory(crfHistory);
 	}
 
-	public static CRFHistory updateCRFHistory(
+	public static ecrf.user.model.CRFHistory updateCRFHistory(
 			long historyId, String subjectName, long subjectId, String serialId,
 			long structuredDataId, long crfId, String previousJSON,
 			String currentJSON, int actionType, String historyVersion,
 			String previousVersion,
 			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().updateCRFHistory(
 			historyId, subjectName, subjectId, serialId, structuredDataId,
@@ -527,9 +566,25 @@ public class CRFHistoryLocalServiceUtil {
 	}
 
 	public static CRFHistoryLocalService getService() {
-		return _service;
+		return _serviceTracker.getService();
 	}
 
-	private static volatile CRFHistoryLocalService _service;
+	private static ServiceTracker
+		<CRFHistoryLocalService, CRFHistoryLocalService> _serviceTracker;
+
+	static {
+		Bundle bundle = FrameworkUtil.getBundle(CRFHistoryLocalService.class);
+
+		ServiceTracker<CRFHistoryLocalService, CRFHistoryLocalService>
+			serviceTracker =
+				new ServiceTracker
+					<CRFHistoryLocalService, CRFHistoryLocalService>(
+						bundle.getBundleContext(), CRFHistoryLocalService.class,
+						null);
+
+		serviceTracker.open();
+
+		_serviceTracker = serviceTracker;
+	}
 
 }

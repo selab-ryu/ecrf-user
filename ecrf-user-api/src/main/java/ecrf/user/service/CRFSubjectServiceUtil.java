@@ -14,6 +14,10 @@
 
 package ecrf.user.service;
 
+import org.osgi.framework.Bundle;
+import org.osgi.framework.FrameworkUtil;
+import org.osgi.util.tracker.ServiceTracker;
+
 /**
  * Provides the remote service utility for CRFSubject. This utility wraps
  * <code>ecrf.user.service.impl.CRFSubjectServiceImpl</code> and is an
@@ -40,8 +44,7 @@ public class CRFSubjectServiceUtil {
 	}
 
 	public static java.util.ArrayList<ecrf.user.model.Subject>
-		getCRFSubjectByExGroup(
-			long groupId, long crfId, java.lang.String exGroup) {
+		getCRFSubjectByExGroup(long groupId, long crfId, String exGroup) {
 
 		return getService().getCRFSubjectByExGroup(groupId, crfId, exGroup);
 	}
@@ -63,7 +66,7 @@ public class CRFSubjectServiceUtil {
 	 *
 	 * @return the OSGi service identifier
 	 */
-	public static java.lang.String getOSGiServiceIdentifier() {
+	public static String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
 	}
 
@@ -74,9 +77,22 @@ public class CRFSubjectServiceUtil {
 	}
 
 	public static CRFSubjectService getService() {
-		return _service;
+		return _serviceTracker.getService();
 	}
 
-	private static volatile CRFSubjectService _service;
+	private static ServiceTracker<CRFSubjectService, CRFSubjectService>
+		_serviceTracker;
+
+	static {
+		Bundle bundle = FrameworkUtil.getBundle(CRFSubjectService.class);
+
+		ServiceTracker<CRFSubjectService, CRFSubjectService> serviceTracker =
+			new ServiceTracker<CRFSubjectService, CRFSubjectService>(
+				bundle.getBundleContext(), CRFSubjectService.class, null);
+
+		serviceTracker.open();
+
+		_serviceTracker = serviceTracker;
+	}
 
 }

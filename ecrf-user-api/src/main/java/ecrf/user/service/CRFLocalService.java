@@ -227,6 +227,9 @@ public interface CRFLocalService
 	public CRF getCRF(long crfId) throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public CRF getCRFByDataTypeId(long dataTypeId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<CRF> getCRFByGroupId(long groupId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
