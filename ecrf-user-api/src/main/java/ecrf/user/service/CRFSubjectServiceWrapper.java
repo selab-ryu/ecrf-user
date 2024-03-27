@@ -53,6 +53,14 @@ public class CRFSubjectServiceWrapper
 	}
 
 	@Override
+	public java.util.ArrayList<ecrf.user.model.custom.CRFSubjectInfo>
+		getCRFSubjectList(long groupId, long crfId, boolean isUpdateLock) {
+
+		return _crfSubjectService.getCRFSubjectList(
+			groupId, crfId, isUpdateLock);
+	}
+
+	@Override
 	public java.util.ArrayList<ecrf.user.model.Subject>
 		getCRFSubjectListNotIncluded(long groupId, long crfId) {
 

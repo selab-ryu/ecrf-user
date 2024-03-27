@@ -34,6 +34,8 @@ import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -44,10 +46,12 @@ import ecrf.user.model.Researcher;
 import ecrf.user.model.impl.ResearcherImpl;
 import ecrf.user.model.impl.ResearcherModelImpl;
 import ecrf.user.service.persistence.ResearcherPersistence;
+import ecrf.user.service.persistence.ResearcherUtil;
 import ecrf.user.service.persistence.impl.constants.ECPersistenceConstants;
 
 import java.io.Serializable;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Date;
@@ -4990,6 +4994,8 @@ public class ResearcherPersistenceImpl
 		researcher.resetOriginalValues();
 	}
 
+	private int _valueObjectFinderCacheListThreshold;
+
 	/**
 	 * Caches the researchers in the entity cache if it is enabled.
 	 *
@@ -4997,6 +5003,13 @@ public class ResearcherPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<Researcher> researchers) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (researchers.size() > _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (Researcher researcher : researchers) {
 			if (entityCache.getResult(
 					entityCacheEnabled, ResearcherImpl.class,
@@ -5247,23 +5260,24 @@ public class ResearcherPersistenceImpl
 		ServiceContext serviceContext =
 			ServiceContextThreadLocal.getServiceContext();
 
-		Date now = new Date();
+		Date date = new Date();
 
 		if (isNew && (researcher.getCreateDate() == null)) {
 			if (serviceContext == null) {
-				researcher.setCreateDate(now);
+				researcher.setCreateDate(date);
 			}
 			else {
-				researcher.setCreateDate(serviceContext.getCreateDate(now));
+				researcher.setCreateDate(serviceContext.getCreateDate(date));
 			}
 		}
 
 		if (!researcherModelImpl.hasSetModifiedDate()) {
 			if (serviceContext == null) {
-				researcher.setModifiedDate(now);
+				researcher.setModifiedDate(date);
 			}
 			else {
-				researcher.setModifiedDate(serviceContext.getModifiedDate(now));
+				researcher.setModifiedDate(
+					serviceContext.getModifiedDate(date));
 			}
 		}
 
@@ -5272,7 +5286,7 @@ public class ResearcherPersistenceImpl
 		try {
 			session = openSession();
 
-			if (researcher.isNew()) {
+			if (isNew) {
 				session.save(researcher);
 
 				researcher.setNew(false);
@@ -5713,6 +5727,9 @@ public class ResearcherPersistenceImpl
 		ResearcherModelImpl.setEntityCacheEnabled(entityCacheEnabled);
 		ResearcherModelImpl.setFinderCacheEnabled(finderCacheEnabled);
 
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, ResearcherImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
@@ -5839,14 +5856,34 @@ public class ResearcherPersistenceImpl
 			entityCacheEnabled, finderCacheEnabled, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByResearcherUserId", new String[] {Long.class.getName()});
+
+		_setResearcherUtilPersistence(this);
 	}
 
 	@Deactivate
 	public void deactivate() {
+		_setResearcherUtilPersistence(null);
+
 		entityCache.removeCache(ResearcherImpl.class.getName());
+
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+	}
+
+	private void _setResearcherUtilPersistence(
+		ResearcherPersistence researcherPersistence) {
+
+		try {
+			Field field = ResearcherUtil.class.getDeclaredField("_persistence");
+
+			field.setAccessible(true);
+
+			field.set(null, researcherPersistence);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
+		}
 	}
 
 	@Override
@@ -5937,14 +5974,5 @@ public class ResearcherPersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid"});
-
-	static {
-		try {
-			Class.forName(ECPersistenceConstants.class.getName());
-		}
-		catch (ClassNotFoundException classNotFoundException) {
-			throw new ExceptionInInitializerError(classNotFoundException);
-		}
-	}
 
 }

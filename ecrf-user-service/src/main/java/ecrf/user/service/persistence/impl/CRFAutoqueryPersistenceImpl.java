@@ -32,6 +32,8 @@ import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -43,10 +45,12 @@ import ecrf.user.model.CRFAutoquery;
 import ecrf.user.model.impl.CRFAutoqueryImpl;
 import ecrf.user.model.impl.CRFAutoqueryModelImpl;
 import ecrf.user.service.persistence.CRFAutoqueryPersistence;
+import ecrf.user.service.persistence.CRFAutoqueryUtil;
 import ecrf.user.service.persistence.impl.constants.ECPersistenceConstants;
 
 import java.io.Serializable;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
@@ -6263,6 +6267,8 @@ public class CRFAutoqueryPersistenceImpl
 		crfAutoquery.resetOriginalValues();
 	}
 
+	private int _valueObjectFinderCacheListThreshold;
+
 	/**
 	 * Caches the crf autoqueries in the entity cache if it is enabled.
 	 *
@@ -6270,6 +6276,13 @@ public class CRFAutoqueryPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<CRFAutoquery> crfAutoqueries) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (crfAutoqueries.size() > _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (CRFAutoquery crfAutoquery : crfAutoqueries) {
 			if (entityCache.getResult(
 					entityCacheEnabled, CRFAutoqueryImpl.class,
@@ -6597,24 +6610,24 @@ public class CRFAutoqueryPersistenceImpl
 		ServiceContext serviceContext =
 			ServiceContextThreadLocal.getServiceContext();
 
-		Date now = new Date();
+		Date date = new Date();
 
 		if (isNew && (crfAutoquery.getCreateDate() == null)) {
 			if (serviceContext == null) {
-				crfAutoquery.setCreateDate(now);
+				crfAutoquery.setCreateDate(date);
 			}
 			else {
-				crfAutoquery.setCreateDate(serviceContext.getCreateDate(now));
+				crfAutoquery.setCreateDate(serviceContext.getCreateDate(date));
 			}
 		}
 
 		if (!crfAutoqueryModelImpl.hasSetModifiedDate()) {
 			if (serviceContext == null) {
-				crfAutoquery.setModifiedDate(now);
+				crfAutoquery.setModifiedDate(date);
 			}
 			else {
 				crfAutoquery.setModifiedDate(
-					serviceContext.getModifiedDate(now));
+					serviceContext.getModifiedDate(date));
 			}
 		}
 
@@ -6623,7 +6636,7 @@ public class CRFAutoqueryPersistenceImpl
 		try {
 			session = openSession();
 
-			if (crfAutoquery.isNew()) {
+			if (isNew) {
 				session.save(crfAutoquery);
 
 				crfAutoquery.setNew(false);
@@ -7216,6 +7229,9 @@ public class CRFAutoqueryPersistenceImpl
 		CRFAutoqueryModelImpl.setEntityCacheEnabled(entityCacheEnabled);
 		CRFAutoqueryModelImpl.setFinderCacheEnabled(finderCacheEnabled);
 
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, CRFAutoqueryImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
@@ -7494,14 +7510,35 @@ public class CRFAutoqueryPersistenceImpl
 			entityCacheEnabled, finderCacheEnabled, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countBySIdTN",
 			new String[] {Long.class.getName(), String.class.getName()});
+
+		_setCRFAutoqueryUtilPersistence(this);
 	}
 
 	@Deactivate
 	public void deactivate() {
+		_setCRFAutoqueryUtilPersistence(null);
+
 		entityCache.removeCache(CRFAutoqueryImpl.class.getName());
+
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+	}
+
+	private void _setCRFAutoqueryUtilPersistence(
+		CRFAutoqueryPersistence crfAutoqueryPersistence) {
+
+		try {
+			Field field = CRFAutoqueryUtil.class.getDeclaredField(
+				"_persistence");
+
+			field.setAccessible(true);
+
+			field.set(null, crfAutoqueryPersistence);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
+		}
 	}
 
 	@Override
@@ -7569,14 +7606,5 @@ public class CRFAutoqueryPersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid"});
-
-	static {
-		try {
-			Class.forName(ECPersistenceConstants.class.getName());
-		}
-		catch (ClassNotFoundException classNotFoundException) {
-			throw new ExceptionInInitializerError(classNotFoundException);
-		}
-	}
 
 }

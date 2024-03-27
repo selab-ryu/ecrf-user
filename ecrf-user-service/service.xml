@@ -305,6 +305,7 @@
 		<column name="participationStatus" type="int" />
 		<column name="participationStartDate" type="Date" />	
 		<column name="experimentalGroup" type="String" />
+		<column name="updateLock" type="boolean" />
         
         <!-- Order fields -->
 		<order>
@@ -324,6 +325,17 @@
 			<finder-column name="groupId" />
 			<finder-column name="subjectId" />
 		</finder>
+		
+		<finder name="G_C_EXP" return-type="Collection">
+			<finder-column name="groupId" />
+			<finder-column name="crfId" />
+			<finder-column name="experimentalGroup" />
+		</finder>
+		<finder name="G_C_UL" return-type="Collection">
+			<finder-column name="groupId" />
+			<finder-column name="crfId" />
+			<finder-column name="updateLock" />
+		</finder>		
 
 		<!-- References -->
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />

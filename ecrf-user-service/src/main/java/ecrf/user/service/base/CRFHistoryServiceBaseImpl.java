@@ -26,6 +26,7 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 import ecrf.user.model.CRFHistory;
 import ecrf.user.service.CRFHistoryService;
+import ecrf.user.service.CRFHistoryServiceUtil;
 import ecrf.user.service.persistence.CRFAutoqueryPersistence;
 import ecrf.user.service.persistence.CRFHistoryPersistence;
 import ecrf.user.service.persistence.CRFPersistence;
@@ -39,8 +40,11 @@ import ecrf.user.service.persistence.ResearcherPersistence;
 import ecrf.user.service.persistence.SubjectFinder;
 import ecrf.user.service.persistence.SubjectPersistence;
 
+import java.lang.reflect.Field;
+
 import javax.sql.DataSource;
 
+import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 
 /**
@@ -61,8 +65,13 @@ public abstract class CRFHistoryServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>CRFHistoryService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>ecrf.user.service.CRFHistoryServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>CRFHistoryService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>CRFHistoryServiceUtil</code>.
 	 */
+	@Deactivate
+	protected void deactivate() {
+		_setServiceUtilService(null);
+	}
+
 	@Override
 	public Class<?>[] getAopInterfaces() {
 		return new Class<?>[] {
@@ -73,6 +82,8 @@ public abstract class CRFHistoryServiceBaseImpl
 	@Override
 	public void setAopProxy(Object aopProxy) {
 		crfHistoryService = (CRFHistoryService)aopProxy;
+
+		_setServiceUtilService(crfHistoryService);
 	}
 
 	/**
@@ -114,6 +125,20 @@ public abstract class CRFHistoryServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
+		}
+	}
+
+	private void _setServiceUtilService(CRFHistoryService crfHistoryService) {
+		try {
+			Field field = CRFHistoryServiceUtil.class.getDeclaredField(
+				"_service");
+
+			field.setAccessible(true);
+
+			field.set(null, crfHistoryService);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

@@ -54,6 +54,7 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import ecrf.user.model.CRFAutoquery;
 import ecrf.user.service.CRFAutoqueryLocalService;
+import ecrf.user.service.CRFAutoqueryLocalServiceUtil;
 import ecrf.user.service.persistence.CRFAutoqueryPersistence;
 import ecrf.user.service.persistence.CRFHistoryPersistence;
 import ecrf.user.service.persistence.CRFPersistence;
@@ -69,10 +70,13 @@ import ecrf.user.service.persistence.SubjectPersistence;
 
 import java.io.Serializable;
 
+import java.lang.reflect.Field;
+
 import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 
 /**
@@ -93,7 +97,7 @@ public abstract class CRFAutoqueryLocalServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>CRFAutoqueryLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>ecrf.user.service.CRFAutoqueryLocalServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>CRFAutoqueryLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>CRFAutoqueryLocalServiceUtil</code>.
 	 */
 
 	/**
@@ -540,6 +544,11 @@ public abstract class CRFAutoqueryLocalServiceBaseImpl
 		return crfAutoqueryPersistence.update(crfAutoquery);
 	}
 
+	@Deactivate
+	protected void deactivate() {
+		_setLocalServiceUtilService(null);
+	}
+
 	@Override
 	public Class<?>[] getAopInterfaces() {
 		return new Class<?>[] {
@@ -551,6 +560,8 @@ public abstract class CRFAutoqueryLocalServiceBaseImpl
 	@Override
 	public void setAopProxy(Object aopProxy) {
 		crfAutoqueryLocalService = (CRFAutoqueryLocalService)aopProxy;
+
+		_setLocalServiceUtilService(crfAutoqueryLocalService);
 	}
 
 	/**
@@ -592,6 +603,22 @@ public abstract class CRFAutoqueryLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
+		}
+	}
+
+	private void _setLocalServiceUtilService(
+		CRFAutoqueryLocalService crfAutoqueryLocalService) {
+
+		try {
+			Field field = CRFAutoqueryLocalServiceUtil.class.getDeclaredField(
+				"_service");
+
+			field.setAccessible(true);
+
+			field.set(null, crfAutoqueryLocalService);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

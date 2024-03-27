@@ -125,6 +125,7 @@
 		<field name="participationStatus" type="int" />
 		<field name="participationStartDate" type="Date" />
 		<field name="experimentalGroup" type="String" />
+		<field name="updateLock" type="boolean" />
 	</model>
 	<model name="ecrf.user.model.LinkCRF">
 		<field name="mvccVersion" type="long" />

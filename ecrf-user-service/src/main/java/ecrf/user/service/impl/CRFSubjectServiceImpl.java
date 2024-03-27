@@ -104,6 +104,52 @@ public class CRFSubjectServiceImpl extends CRFSubjectServiceBaseImpl {
 					info.setParticipationStatus(crfSubject.getParticipationStatus());
 					info.setParticipationStartDate(crfSubject.getParticipationStartDate());
 					info.setExperimentalGroup(crfSubject.getExperimentalGroup());
+					info.setUpdateLock(crfSubject.isUpdateLock());
+					
+					crfSubjectInfoList.add(info);
+				} catch(Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		return crfSubjectInfoList;
+	}
+	
+	@JSONWebService("get-crf-subject-info-list-by-update-lock")
+	public ArrayList<CRFSubjectInfo> getCRFSubjectList(long groupId, long crfId, boolean isUpdateLock) {
+		_log.info("get crf subject list by update lock");
+		
+		ArrayList<Subject> subjectList = new ArrayList<>();
+		ArrayList<CRFSubject> crfSubjectList = new ArrayList<>();
+		crfSubjectList.addAll(_crfSubjectLocalService.getCRFSubjectByG_C_UL(groupId, crfId, isUpdateLock));
+		
+		ArrayList<CRFSubjectInfo> crfSubjectInfoList = new ArrayList<>();
+		
+		int crfSubjectListSize = crfSubjectList.size();
+		if(crfSubjectListSize > 0) {
+			
+			for(CRFSubject crfSubject : crfSubjectList) {
+				try {
+					long subjectId = crfSubject.getSubjectId();
+					Subject subject = _subjectLocalService.getSubject(subjectId);		
+					CRF crf = _crfLocalService.getCRF(crfId);
+					DataType dataType = _dataTypeLocalService.getDataType(crf.getDatatypeId());
+					
+					CRFSubjectInfo info = new CRFSubjectInfo(crfSubject.getCrfSubjectId(), crfSubject.getCrfId(), crfSubject.getSubjectId());
+					
+					info.setCrfName(dataType.getDisplayName(Locale.ENGLISH));
+					info.setCrfStatus(crf.getCrfStatus());
+					
+					info.setSubjectName(subject.getName());
+					info.setSerialId(subject.getSerialId());
+					info.setSubjectBirth(subject.getBirth());
+					info.setSubjectGender(subject.getGender());
+					
+					info.setParticipationStatus(crfSubject.getParticipationStatus());
+					info.setParticipationStartDate(crfSubject.getParticipationStartDate());
+					info.setExperimentalGroup(crfSubject.getExperimentalGroup());
+					info.setUpdateLock(crfSubject.isUpdateLock());
 					
 					crfSubjectInfoList.add(info);
 				} catch(Exception e) {

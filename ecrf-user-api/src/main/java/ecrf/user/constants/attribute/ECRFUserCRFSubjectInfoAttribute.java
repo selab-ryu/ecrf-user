@@ -18,4 +18,5 @@ public class ECRFUserCRFSubjectInfoAttribute {
 	public static final String PARTICIPATION_STATUS = "participationStatus";
 	public static final String PARTICIPATION_START_DATE = "participationStartDate";
 	public static final String EXPERIMENTAL_GROUP = "experimentalGroup";
+	public static final String UPDATE_LOCK = "updateLock";
 }

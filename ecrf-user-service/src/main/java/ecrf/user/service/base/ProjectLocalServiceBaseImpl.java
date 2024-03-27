@@ -54,6 +54,7 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import ecrf.user.model.Project;
 import ecrf.user.service.ProjectLocalService;
+import ecrf.user.service.ProjectLocalServiceUtil;
 import ecrf.user.service.persistence.CRFAutoqueryPersistence;
 import ecrf.user.service.persistence.CRFHistoryPersistence;
 import ecrf.user.service.persistence.CRFPersistence;
@@ -69,10 +70,13 @@ import ecrf.user.service.persistence.SubjectPersistence;
 
 import java.io.Serializable;
 
+import java.lang.reflect.Field;
+
 import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 
 /**
@@ -93,7 +97,7 @@ public abstract class ProjectLocalServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>ProjectLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>ecrf.user.service.ProjectLocalServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>ProjectLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>ProjectLocalServiceUtil</code>.
 	 */
 
 	/**
@@ -531,6 +535,11 @@ public abstract class ProjectLocalServiceBaseImpl
 		return projectPersistence.update(project);
 	}
 
+	@Deactivate
+	protected void deactivate() {
+		_setLocalServiceUtilService(null);
+	}
+
 	@Override
 	public Class<?>[] getAopInterfaces() {
 		return new Class<?>[] {
@@ -542,6 +551,8 @@ public abstract class ProjectLocalServiceBaseImpl
 	@Override
 	public void setAopProxy(Object aopProxy) {
 		projectLocalService = (ProjectLocalService)aopProxy;
+
+		_setLocalServiceUtilService(projectLocalService);
 	}
 
 	/**
@@ -583,6 +594,22 @@ public abstract class ProjectLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
+		}
+	}
+
+	private void _setLocalServiceUtilService(
+		ProjectLocalService projectLocalService) {
+
+		try {
+			Field field = ProjectLocalServiceUtil.class.getDeclaredField(
+				"_service");
+
+			field.setAccessible(true);
+
+			field.set(null, projectLocalService);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

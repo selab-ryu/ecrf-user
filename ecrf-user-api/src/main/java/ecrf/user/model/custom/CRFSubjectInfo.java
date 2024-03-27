@@ -19,6 +19,7 @@ public class CRFSubjectInfo {
 	private int participationStatus;
 	private Date participationStartDate;
 	private String experimentalGroup;
+	private boolean updateLock;
 	
 	public CRFSubjectInfo() {
 		
@@ -32,7 +33,7 @@ public class CRFSubjectInfo {
 	
 	public CRFSubjectInfo(long crfSubjectId, long groupId, long crfId, String crfName, int crfStatus,
 			long subjectId, String subjectName, String serialId, Date subjectBirth, int subjectGender,
-			int participationStatus, Date participationStartDate, String experimentalGroup) {
+			int participationStatus, Date participationStartDate, String experimentalGroup, boolean updateLock) {
 		super();
 		this.crfSubjectId = crfSubjectId;
 		this.groupId = groupId;
@@ -47,6 +48,7 @@ public class CRFSubjectInfo {
 		this.participationStatus = participationStatus;
 		this.participationStartDate = participationStartDate;
 		this.experimentalGroup = experimentalGroup;
+		this.updateLock = updateLock;
 	}
 		
 	@Override
@@ -54,11 +56,11 @@ public class CRFSubjectInfo {
 		String str = String.format("{ crfSubjectId : %s, groupId : %s, "
 				+ "crfId : %s, crfName : %s, crfStatus : %s, "
 				+ "subjectId : %s, subjectName : %s, serialId : %s, subjectBirth : %s, subjectGender : %s, "
-				+ "ppStatus : %s, ppStartDate : %s, expGroup : %s } ", 
+				+ "ppStatus : %s, ppStartDate : %s, expGroup : %s, isLock : %s } ", 
 				String.valueOf(crfSubjectId), String.valueOf(groupId),
 				String.valueOf(crfId), String.valueOf(crfName), String.valueOf(crfStatus),
 				String.valueOf(subjectId), String.valueOf(subjectName), String.valueOf(serialId), String.valueOf(subjectBirth), String.valueOf(subjectGender),
-				String.valueOf(participationStatus), String.valueOf(participationStartDate), String.valueOf(experimentalGroup));
+				String.valueOf(participationStatus), String.valueOf(participationStartDate), String.valueOf(experimentalGroup), String.valueOf(updateLock));
 		
 		return str;
 	}
@@ -141,4 +143,11 @@ public class CRFSubjectInfo {
 	public void setExperimentalGroup(String experimentalGroup) {
 		this.experimentalGroup = experimentalGroup;
 	}
+	public boolean isUpdateLock() {
+		return updateLock;
+	}
+	public void setUpdateLock(boolean isUpdateLock) {
+		this.updateLock = isUpdateLock;
+	}
+	
 }

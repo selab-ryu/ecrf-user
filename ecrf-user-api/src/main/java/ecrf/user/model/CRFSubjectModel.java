@@ -292,4 +292,25 @@ public interface CRFSubjectModel
 	 */
 	public void setExperimentalGroup(String experimentalGroup);
 
+	/**
+	 * Returns the update lock of this crf subject.
+	 *
+	 * @return the update lock of this crf subject
+	 */
+	public boolean getUpdateLock();
+
+	/**
+	 * Returns <code>true</code> if this crf subject is update lock.
+	 *
+	 * @return <code>true</code> if this crf subject is update lock; <code>false</code> otherwise
+	 */
+	public boolean isUpdateLock();
+
+	/**
+	 * Sets whether this crf subject is update lock.
+	 *
+	 * @param updateLock the update lock of this crf subject
+	 */
+	public void setUpdateLock(boolean updateLock);
+
 }

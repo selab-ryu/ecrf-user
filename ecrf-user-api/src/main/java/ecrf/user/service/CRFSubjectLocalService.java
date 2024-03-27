@@ -85,6 +85,9 @@ public interface CRFSubjectLocalService
 
 	public int countCRFSubjectByCRFId(long groupId, long crfId);
 
+	public int countCRFSubjectByG_C_UL(
+		long groupId, long crfId, boolean updateLock);
+
 	public int countCRFSubjectByGroupId(long groupId);
 
 	public int countCRFSubjectBySubjectId(long groupId, long subjectId);
@@ -237,6 +240,14 @@ public interface CRFSubjectLocalService
 	public List<CRFSubject> getCRFSubjectByCRFId(
 		long groupId, long crfId, int start, int end,
 		OrderByComparator comparator);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<CRFSubject> getCRFSubjectByG_C_UL(
+		long groupId, long crfId, boolean updateLock);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<CRFSubject> getCRFSubjectByG_C_UL(
+		long groupId, long crfId, boolean updateLock, int start, int end);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<CRFSubject> getCRFSubjectByGroupId(long groupId);

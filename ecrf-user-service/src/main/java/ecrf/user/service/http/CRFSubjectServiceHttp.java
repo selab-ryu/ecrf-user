@@ -121,13 +121,48 @@ public class CRFSubjectServiceHttp {
 	}
 
 	public static java.util.ArrayList<ecrf.user.model.custom.CRFSubjectInfo>
+		getCRFSubjectList(
+			HttpPrincipal httpPrincipal, long groupId, long crfId,
+			boolean isUpdateLock) {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				CRFSubjectServiceUtil.class, "getCRFSubjectList",
+				_getCRFSubjectListParameterTypes2);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, groupId, crfId, isUpdateLock);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+
+			return (java.util.ArrayList<ecrf.user.model.custom.CRFSubjectInfo>)
+				returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
+	public static java.util.ArrayList<ecrf.user.model.custom.CRFSubjectInfo>
 		getAllCRFSubjectInfoList(
 			HttpPrincipal httpPrincipal, long groupId, long crfId) {
 
 		try {
 			MethodKey methodKey = new MethodKey(
 				CRFSubjectServiceUtil.class, "getAllCRFSubjectInfoList",
-				_getAllCRFSubjectInfoListParameterTypes2);
+				_getAllCRFSubjectInfoListParameterTypes3);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, groupId, crfId);
@@ -161,7 +196,7 @@ public class CRFSubjectServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				CRFSubjectServiceUtil.class, "getCRFSubjectListNotIncluded",
-				_getCRFSubjectListNotIncludedParameterTypes3);
+				_getCRFSubjectListNotIncludedParameterTypes4);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, groupId, crfId);
@@ -193,7 +228,7 @@ public class CRFSubjectServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				CRFSubjectServiceUtil.class, "getSubjectList",
-				_getSubjectListParameterTypes5);
+				_getSubjectListParameterTypes6);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, groupId);
 
@@ -225,13 +260,15 @@ public class CRFSubjectServiceHttp {
 		new Class[] {long.class, long.class, String.class};
 	private static final Class<?>[] _getCRFSubjectListParameterTypes1 =
 		new Class[] {long.class, long.class};
-	private static final Class<?>[] _getAllCRFSubjectInfoListParameterTypes2 =
+	private static final Class<?>[] _getCRFSubjectListParameterTypes2 =
+		new Class[] {long.class, long.class, boolean.class};
+	private static final Class<?>[] _getAllCRFSubjectInfoListParameterTypes3 =
 		new Class[] {long.class, long.class};
 	private static final Class<?>[]
-		_getCRFSubjectListNotIncludedParameterTypes3 = new Class[] {
+		_getCRFSubjectListNotIncludedParameterTypes4 = new Class[] {
 			long.class, long.class
 		};
-	private static final Class<?>[] _getSubjectListParameterTypes5 =
+	private static final Class<?>[] _getSubjectListParameterTypes6 =
 		new Class[] {long.class};
 
 }

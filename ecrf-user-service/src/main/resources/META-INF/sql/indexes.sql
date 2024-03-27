@@ -31,7 +31,8 @@ create unique index IX_15C0647A on EC_CRFResearcher (uuid_[$COLUMN_LENGTH:75$], 
 create index IX_E0074FC0 on EC_CRFSearchLog (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_3EA0C642 on EC_CRFSearchLog (uuid_[$COLUMN_LENGTH:75$], groupId);
 
-create index IX_C09E8394 on EC_CRFSubject (groupId, crfId);
+create index IX_F1D20E53 on EC_CRFSubject (groupId, crfId, experimentalGroup[$COLUMN_LENGTH:75$]);
+create index IX_ED2F489C on EC_CRFSubject (groupId, crfId, updateLock);
 create index IX_590C5C69 on EC_CRFSubject (groupId, subjectId);
 create index IX_6D622F0 on EC_CRFSubject (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_B06AA572 on EC_CRFSubject (uuid_[$COLUMN_LENGTH:75$], groupId);

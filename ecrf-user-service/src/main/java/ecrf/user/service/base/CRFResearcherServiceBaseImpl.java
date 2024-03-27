@@ -26,6 +26,7 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 import ecrf.user.model.CRFResearcher;
 import ecrf.user.service.CRFResearcherService;
+import ecrf.user.service.CRFResearcherServiceUtil;
 import ecrf.user.service.persistence.CRFAutoqueryPersistence;
 import ecrf.user.service.persistence.CRFHistoryPersistence;
 import ecrf.user.service.persistence.CRFPersistence;
@@ -39,8 +40,11 @@ import ecrf.user.service.persistence.ResearcherPersistence;
 import ecrf.user.service.persistence.SubjectFinder;
 import ecrf.user.service.persistence.SubjectPersistence;
 
+import java.lang.reflect.Field;
+
 import javax.sql.DataSource;
 
+import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 
 /**
@@ -61,8 +65,13 @@ public abstract class CRFResearcherServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>CRFResearcherService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>ecrf.user.service.CRFResearcherServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>CRFResearcherService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>CRFResearcherServiceUtil</code>.
 	 */
+	@Deactivate
+	protected void deactivate() {
+		_setServiceUtilService(null);
+	}
+
 	@Override
 	public Class<?>[] getAopInterfaces() {
 		return new Class<?>[] {
@@ -73,6 +82,8 @@ public abstract class CRFResearcherServiceBaseImpl
 	@Override
 	public void setAopProxy(Object aopProxy) {
 		crfResearcherService = (CRFResearcherService)aopProxy;
+
+		_setServiceUtilService(crfResearcherService);
 	}
 
 	/**
@@ -114,6 +125,22 @@ public abstract class CRFResearcherServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
+		}
+	}
+
+	private void _setServiceUtilService(
+		CRFResearcherService crfResearcherService) {
+
+		try {
+			Field field = CRFResearcherServiceUtil.class.getDeclaredField(
+				"_service");
+
+			field.setAccessible(true);
+
+			field.set(null, crfResearcherService);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

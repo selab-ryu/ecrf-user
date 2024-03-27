@@ -32,6 +32,8 @@ import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -42,10 +44,12 @@ import ecrf.user.model.Subject;
 import ecrf.user.model.impl.SubjectImpl;
 import ecrf.user.model.impl.SubjectModelImpl;
 import ecrf.user.service.persistence.SubjectPersistence;
+import ecrf.user.service.persistence.SubjectUtil;
 import ecrf.user.service.persistence.impl.constants.ECPersistenceConstants;
 
 import java.io.Serializable;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Date;
@@ -2968,6 +2972,8 @@ public class SubjectPersistenceImpl
 		subject.resetOriginalValues();
 	}
 
+	private int _valueObjectFinderCacheListThreshold;
+
 	/**
 	 * Caches the subjects in the entity cache if it is enabled.
 	 *
@@ -2975,6 +2981,13 @@ public class SubjectPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<Subject> subjects) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (subjects.size() > _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (Subject subject : subjects) {
 			if (entityCache.getResult(
 					entityCacheEnabled, SubjectImpl.class,
@@ -3268,23 +3281,23 @@ public class SubjectPersistenceImpl
 		ServiceContext serviceContext =
 			ServiceContextThreadLocal.getServiceContext();
 
-		Date now = new Date();
+		Date date = new Date();
 
 		if (isNew && (subject.getCreateDate() == null)) {
 			if (serviceContext == null) {
-				subject.setCreateDate(now);
+				subject.setCreateDate(date);
 			}
 			else {
-				subject.setCreateDate(serviceContext.getCreateDate(now));
+				subject.setCreateDate(serviceContext.getCreateDate(date));
 			}
 		}
 
 		if (!subjectModelImpl.hasSetModifiedDate()) {
 			if (serviceContext == null) {
-				subject.setModifiedDate(now);
+				subject.setModifiedDate(date);
 			}
 			else {
-				subject.setModifiedDate(serviceContext.getModifiedDate(now));
+				subject.setModifiedDate(serviceContext.getModifiedDate(date));
 			}
 		}
 
@@ -3293,7 +3306,7 @@ public class SubjectPersistenceImpl
 		try {
 			session = openSession();
 
-			if (subject.isNew()) {
+			if (isNew) {
 				session.save(subject);
 
 				subject.setNew(false);
@@ -3707,6 +3720,9 @@ public class SubjectPersistenceImpl
 		SubjectModelImpl.setEntityCacheEnabled(entityCacheEnabled);
 		SubjectModelImpl.setFinderCacheEnabled(finderCacheEnabled);
 
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SubjectImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
@@ -3839,14 +3855,34 @@ public class SubjectPersistenceImpl
 			entityCacheEnabled, finderCacheEnabled, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
 			new String[] {Long.class.getName()});
+
+		_setSubjectUtilPersistence(this);
 	}
 
 	@Deactivate
 	public void deactivate() {
+		_setSubjectUtilPersistence(null);
+
 		entityCache.removeCache(SubjectImpl.class.getName());
+
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+	}
+
+	private void _setSubjectUtilPersistence(
+		SubjectPersistence subjectPersistence) {
+
+		try {
+			Field field = SubjectUtil.class.getDeclaredField("_persistence");
+
+			field.setAccessible(true);
+
+			field.set(null, subjectPersistence);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
+		}
 	}
 
 	@Override
@@ -3914,14 +3950,5 @@ public class SubjectPersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid"});
-
-	static {
-		try {
-			Class.forName(ECPersistenceConstants.class.getName());
-		}
-		catch (ClassNotFoundException classNotFoundException) {
-			throw new ExceptionInInitializerError(classNotFoundException);
-		}
-	}
 
 }

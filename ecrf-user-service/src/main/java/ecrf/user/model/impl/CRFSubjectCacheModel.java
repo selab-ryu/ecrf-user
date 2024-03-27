@@ -78,7 +78,7 @@ public class CRFSubjectCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(29);
+		StringBundler sb = new StringBundler(31);
 
 		sb.append("{mvccVersion=");
 		sb.append(mvccVersion);
@@ -108,6 +108,8 @@ public class CRFSubjectCacheModel
 		sb.append(participationStartDate);
 		sb.append(", experimentalGroup=");
 		sb.append(experimentalGroup);
+		sb.append(", updateLock=");
+		sb.append(updateLock);
 		sb.append("}");
 
 		return sb.toString();
@@ -171,6 +173,8 @@ public class CRFSubjectCacheModel
 			crfSubjectImpl.setExperimentalGroup(experimentalGroup);
 		}
 
+		crfSubjectImpl.setUpdateLock(updateLock);
+
 		crfSubjectImpl.resetOriginalValues();
 
 		return crfSubjectImpl;
@@ -199,6 +203,8 @@ public class CRFSubjectCacheModel
 		participationStatus = objectInput.readInt();
 		participationStartDate = objectInput.readLong();
 		experimentalGroup = objectInput.readUTF();
+
+		updateLock = objectInput.readBoolean();
 	}
 
 	@Override
@@ -243,6 +249,8 @@ public class CRFSubjectCacheModel
 		else {
 			objectOutput.writeUTF(experimentalGroup);
 		}
+
+		objectOutput.writeBoolean(updateLock);
 	}
 
 	public long mvccVersion;
@@ -259,5 +267,6 @@ public class CRFSubjectCacheModel
 	public int participationStatus;
 	public long participationStartDate;
 	public String experimentalGroup;
+	public boolean updateLock;
 
 }

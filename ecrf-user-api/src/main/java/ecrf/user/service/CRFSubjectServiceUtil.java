@@ -14,10 +14,6 @@
 
 package ecrf.user.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
-
 /**
  * Provides the remote service utility for CRFSubject. This utility wraps
  * <code>ecrf.user.service.impl.CRFSubjectServiceImpl</code> and is an
@@ -44,7 +40,8 @@ public class CRFSubjectServiceUtil {
 	}
 
 	public static java.util.ArrayList<ecrf.user.model.Subject>
-		getCRFSubjectByExGroup(long groupId, long crfId, String exGroup) {
+		getCRFSubjectByExGroup(
+			long groupId, long crfId, java.lang.String exGroup) {
 
 		return getService().getCRFSubjectByExGroup(groupId, crfId, exGroup);
 	}
@@ -53,6 +50,12 @@ public class CRFSubjectServiceUtil {
 		getCRFSubjectList(long groupId, long crfId) {
 
 		return getService().getCRFSubjectList(groupId, crfId);
+	}
+
+	public static java.util.ArrayList<ecrf.user.model.custom.CRFSubjectInfo>
+		getCRFSubjectList(long groupId, long crfId, boolean isUpdateLock) {
+
+		return getService().getCRFSubjectList(groupId, crfId, isUpdateLock);
 	}
 
 	public static java.util.ArrayList<ecrf.user.model.Subject>
@@ -66,7 +69,7 @@ public class CRFSubjectServiceUtil {
 	 *
 	 * @return the OSGi service identifier
 	 */
-	public static String getOSGiServiceIdentifier() {
+	public static java.lang.String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
 	}
 
@@ -77,22 +80,9 @@ public class CRFSubjectServiceUtil {
 	}
 
 	public static CRFSubjectService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<CRFSubjectService, CRFSubjectService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(CRFSubjectService.class);
-
-		ServiceTracker<CRFSubjectService, CRFSubjectService> serviceTracker =
-			new ServiceTracker<CRFSubjectService, CRFSubjectService>(
-				bundle.getBundleContext(), CRFSubjectService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile CRFSubjectService _service;
 
 }

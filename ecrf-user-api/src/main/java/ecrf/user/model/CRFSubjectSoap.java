@@ -45,6 +45,7 @@ public class CRFSubjectSoap implements Serializable {
 		soapModel.setParticipationStatus(model.getParticipationStatus());
 		soapModel.setParticipationStartDate(model.getParticipationStartDate());
 		soapModel.setExperimentalGroup(model.getExperimentalGroup());
+		soapModel.setUpdateLock(model.isUpdateLock());
 
 		return soapModel;
 	}
@@ -210,6 +211,18 @@ public class CRFSubjectSoap implements Serializable {
 		_experimentalGroup = experimentalGroup;
 	}
 
+	public boolean getUpdateLock() {
+		return _updateLock;
+	}
+
+	public boolean isUpdateLock() {
+		return _updateLock;
+	}
+
+	public void setUpdateLock(boolean updateLock) {
+		_updateLock = updateLock;
+	}
+
 	private long _mvccVersion;
 	private String _uuid;
 	private long _crfSubjectId;
@@ -224,5 +237,6 @@ public class CRFSubjectSoap implements Serializable {
 	private int _participationStatus;
 	private Date _participationStartDate;
 	private String _experimentalGroup;
+	private boolean _updateLock;
 
 }

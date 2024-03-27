@@ -32,6 +32,8 @@ import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -43,10 +45,12 @@ import ecrf.user.model.CRF;
 import ecrf.user.model.impl.CRFImpl;
 import ecrf.user.model.impl.CRFModelImpl;
 import ecrf.user.service.persistence.CRFPersistence;
+import ecrf.user.service.persistence.CRFUtil;
 import ecrf.user.service.persistence.impl.constants.ECPersistenceConstants;
 
 import java.io.Serializable;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
@@ -2200,14 +2204,23 @@ public class CRFPersistenceImpl
 		crf.resetOriginalValues();
 	}
 
+	private int _valueObjectFinderCacheListThreshold;
+
 	/**
 	 * Caches the crfs in the entity cache if it is enabled.
 	 *
-	 * @param crFs the crfs
+	 * @param crfs the crfs
 	 */
 	@Override
-	public void cacheResult(List<CRF> crFs) {
-		for (CRF crf : crFs) {
+	public void cacheResult(List<CRF> crfs) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (crfs.size() > _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
+		for (CRF crf : crfs) {
 			if (entityCache.getResult(
 					entityCacheEnabled, CRFImpl.class, crf.getPrimaryKey()) ==
 						null) {
@@ -2255,11 +2268,11 @@ public class CRFPersistenceImpl
 	}
 
 	@Override
-	public void clearCache(List<CRF> crFs) {
+	public void clearCache(List<CRF> crfs) {
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
-		for (CRF crf : crFs) {
+		for (CRF crf : crfs) {
 			entityCache.removeResult(
 				entityCacheEnabled, CRFImpl.class, crf.getPrimaryKey());
 
@@ -2469,23 +2482,23 @@ public class CRFPersistenceImpl
 		ServiceContext serviceContext =
 			ServiceContextThreadLocal.getServiceContext();
 
-		Date now = new Date();
+		Date date = new Date();
 
 		if (isNew && (crf.getCreateDate() == null)) {
 			if (serviceContext == null) {
-				crf.setCreateDate(now);
+				crf.setCreateDate(date);
 			}
 			else {
-				crf.setCreateDate(serviceContext.getCreateDate(now));
+				crf.setCreateDate(serviceContext.getCreateDate(date));
 			}
 		}
 
 		if (!crfModelImpl.hasSetModifiedDate()) {
 			if (serviceContext == null) {
-				crf.setModifiedDate(now);
+				crf.setModifiedDate(date);
 			}
 			else {
-				crf.setModifiedDate(serviceContext.getModifiedDate(now));
+				crf.setModifiedDate(serviceContext.getModifiedDate(date));
 			}
 		}
 
@@ -2494,7 +2507,7 @@ public class CRFPersistenceImpl
 		try {
 			session = openSession();
 
-			if (crf.isNew()) {
+			if (isNew) {
 				session.save(crf);
 
 				crf.setNew(false);
@@ -2878,6 +2891,9 @@ public class CRFPersistenceImpl
 		CRFModelImpl.setEntityCacheEnabled(entityCacheEnabled);
 		CRFModelImpl.setFinderCacheEnabled(finderCacheEnabled);
 
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, CRFImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
@@ -2976,14 +2992,32 @@ public class CRFPersistenceImpl
 			entityCacheEnabled, finderCacheEnabled, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByDataTypeId",
 			new String[] {Long.class.getName()});
+
+		_setCRFUtilPersistence(this);
 	}
 
 	@Deactivate
 	public void deactivate() {
+		_setCRFUtilPersistence(null);
+
 		entityCache.removeCache(CRFImpl.class.getName());
+
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+	}
+
+	private void _setCRFUtilPersistence(CRFPersistence crfPersistence) {
+		try {
+			Field field = CRFUtil.class.getDeclaredField("_persistence");
+
+			field.setAccessible(true);
+
+			field.set(null, crfPersistence);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
+		}
 	}
 
 	@Override
@@ -3050,14 +3084,5 @@ public class CRFPersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid"});
-
-	static {
-		try {
-			Class.forName(ECPersistenceConstants.class.getName());
-		}
-		catch (ClassNotFoundException classNotFoundException) {
-			throw new ExceptionInInitializerError(classNotFoundException);
-		}
-	}
 
 }

@@ -31,6 +31,7 @@ import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import ecrf.user.model.CRFAutoquery;
@@ -39,9 +40,9 @@ import ecrf.user.model.CRFAutoquerySoap;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
 import java.util.ArrayList;
@@ -320,34 +321,6 @@ public class CRFAutoqueryModelImpl
 		getAttributeSetterBiConsumers() {
 
 		return _attributeSetterBiConsumers;
-	}
-
-	private static Function<InvocationHandler, CRFAutoquery>
-		_getProxyProviderFunction() {
-
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			CRFAutoquery.class.getClassLoader(), CRFAutoquery.class,
-			ModelWrapper.class);
-
-		try {
-			Constructor<CRFAutoquery> constructor =
-				(Constructor<CRFAutoquery>)proxyClass.getConstructor(
-					InvocationHandler.class);
-
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
-
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
-		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
 	}
 
 	private static final Map<String, Function<CRFAutoquery, Object>>
@@ -1176,51 +1149,43 @@ public class CRFAutoqueryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		CRFAutoqueryModelImpl crfAutoqueryModelImpl = this;
+		_originalUuid = _uuid;
 
-		crfAutoqueryModelImpl._originalUuid = crfAutoqueryModelImpl._uuid;
+		_originalAutoQueryId = _autoQueryId;
 
-		crfAutoqueryModelImpl._originalAutoQueryId =
-			crfAutoqueryModelImpl._autoQueryId;
+		_setOriginalAutoQueryId = false;
 
-		crfAutoqueryModelImpl._setOriginalAutoQueryId = false;
+		_originalGroupId = _groupId;
 
-		crfAutoqueryModelImpl._originalGroupId = crfAutoqueryModelImpl._groupId;
+		_setOriginalGroupId = false;
 
-		crfAutoqueryModelImpl._setOriginalGroupId = false;
+		_originalCompanyId = _companyId;
 
-		crfAutoqueryModelImpl._originalCompanyId =
-			crfAutoqueryModelImpl._companyId;
+		_setOriginalCompanyId = false;
 
-		crfAutoqueryModelImpl._setOriginalCompanyId = false;
+		_originalUserId = _userId;
 
-		crfAutoqueryModelImpl._originalUserId = crfAutoqueryModelImpl._userId;
+		_setOriginalUserId = false;
 
-		crfAutoqueryModelImpl._setOriginalUserId = false;
+		_setModifiedDate = false;
 
-		crfAutoqueryModelImpl._setModifiedDate = false;
+		_originalSubjectId = _subjectId;
 
-		crfAutoqueryModelImpl._originalSubjectId =
-			crfAutoqueryModelImpl._subjectId;
+		_setOriginalSubjectId = false;
 
-		crfAutoqueryModelImpl._setOriginalSubjectId = false;
+		_originalCrfId = _crfId;
 
-		crfAutoqueryModelImpl._originalCrfId = crfAutoqueryModelImpl._crfId;
+		_setOriginalCrfId = false;
 
-		crfAutoqueryModelImpl._setOriginalCrfId = false;
+		_originalQueryTermId = _queryTermId;
 
-		crfAutoqueryModelImpl._originalQueryTermId =
-			crfAutoqueryModelImpl._queryTermId;
+		_setOriginalQueryTermId = false;
 
-		crfAutoqueryModelImpl._setOriginalQueryTermId = false;
+		_originalQueryTermName = _queryTermName;
 
-		crfAutoqueryModelImpl._originalQueryTermName =
-			crfAutoqueryModelImpl._queryTermName;
+		_originalQueryValue = _queryValue;
 
-		crfAutoqueryModelImpl._originalQueryValue =
-			crfAutoqueryModelImpl._queryValue;
-
-		crfAutoqueryModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -1369,7 +1334,7 @@ public class CRFAutoqueryModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -1380,9 +1345,26 @@ public class CRFAutoqueryModelImpl
 			Function<CRFAutoquery, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((CRFAutoquery)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((CRFAutoquery)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -1401,7 +1383,7 @@ public class CRFAutoqueryModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
+			(5 * attributeGetterFunctions.size()) + 4);
 
 		sb.append("<model><model-name>");
 		sb.append(getModelClassName());
@@ -1429,7 +1411,9 @@ public class CRFAutoqueryModelImpl
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, CRFAutoquery>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					CRFAutoquery.class, ModelWrapper.class);
 
 	}
 

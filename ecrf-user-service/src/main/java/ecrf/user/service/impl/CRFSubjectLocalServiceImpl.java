@@ -105,16 +105,18 @@ public class CRFSubjectLocalServiceImpl extends CRFSubjectLocalServiceBaseImpl {
 			 
 			long subjectId = crfSubject.getSubjectId();
 			String experimentalGroup = crfSubject.getExperimentalGroup();
+			boolean updateLock = crfSubject.isUpdateLock();
 			
 			// current crf-subject vs new crf-subject 
 			Optional<CRFSubject> crfSubjectOpt = wholeCRFSubjectList.stream()
 					.filter(x -> subjectId == x.getSubjectId())
 					.findFirst();
 			
-			// if matched (e:e) : do nothing
+			// if matched (e:e) : update info
 			if(crfSubjectOpt.isPresent()) {
 				CRFSubject tempCRFSubject = crfSubjectOpt.get();
 				tempCRFSubject.setExperimentalGroup(experimentalGroup);
+				tempCRFSubject.setUpdateLock(updateLock);
 				
 				super.crfSubjectPersistence.update(tempCRFSubject);
 				
@@ -136,6 +138,7 @@ public class CRFSubjectLocalServiceImpl extends CRFSubjectLocalServiceBaseImpl {
 				tempCRFSubject.setParticipationStartDate(now);
 				tempCRFSubject.setParticipationStatus(0);
 				tempCRFSubject.setExperimentalGroup(experimentalGroup);
+				tempCRFSubject.setUpdateLock(updateLock);
 				
 				super.crfSubjectPersistence.update(tempCRFSubject);
 			}	
@@ -223,6 +226,17 @@ public class CRFSubjectLocalServiceImpl extends CRFSubjectLocalServiceBaseImpl {
 	}
 	public int countCRFSubjectBySubjectId(long groupId, long subjectId) {
 		return super.crfSubjectPersistence.countByG_S(groupId, subjectId);
+	}
+	
+	// get crf-subject by update lock
+	public List<CRFSubject> getCRFSubjectByG_C_UL(long groupId, long crfId, boolean updateLock) {
+		return super.crfSubjectPersistence.findByG_C_UL(groupId, crfId, updateLock);
+	}
+	public List<CRFSubject> getCRFSubjectByG_C_UL(long groupId, long crfId, boolean updateLock, int start, int end) {
+		return super.crfSubjectPersistence.findByG_C_UL(groupId, crfId, updateLock, start, end);
+	}
+	public int countCRFSubjectByG_C_UL(long groupId, long crfId, boolean updateLock) {
+		return super.crfSubjectPersistence.countByG_C_UL(groupId, crfId, updateLock);
 	}
 	
 	@Reference

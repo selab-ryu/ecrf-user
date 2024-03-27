@@ -57,6 +57,7 @@ public class CRFSubjectWrapper
 		attributes.put("participationStatus", getParticipationStatus());
 		attributes.put("participationStartDate", getParticipationStartDate());
 		attributes.put("experimentalGroup", getExperimentalGroup());
+		attributes.put("updateLock", isUpdateLock());
 
 		return attributes;
 	}
@@ -147,6 +148,12 @@ public class CRFSubjectWrapper
 
 		if (experimentalGroup != null) {
 			setExperimentalGroup(experimentalGroup);
+		}
+
+		Boolean updateLock = (Boolean)attributes.get("updateLock");
+
+		if (updateLock != null) {
+			setUpdateLock(updateLock);
 		}
 	}
 
@@ -271,6 +278,16 @@ public class CRFSubjectWrapper
 	}
 
 	/**
+	 * Returns the update lock of this crf subject.
+	 *
+	 * @return the update lock of this crf subject
+	 */
+	@Override
+	public boolean getUpdateLock() {
+		return model.getUpdateLock();
+	}
+
+	/**
 	 * Returns the user ID of this crf subject.
 	 *
 	 * @return the user ID of this crf subject
@@ -308,6 +325,16 @@ public class CRFSubjectWrapper
 	@Override
 	public String getUuid() {
 		return model.getUuid();
+	}
+
+	/**
+	 * Returns <code>true</code> if this crf subject is update lock.
+	 *
+	 * @return <code>true</code> if this crf subject is update lock; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isUpdateLock() {
+		return model.isUpdateLock();
 	}
 
 	@Override
@@ -433,6 +460,16 @@ public class CRFSubjectWrapper
 	@Override
 	public void setSubjectId(long subjectId) {
 		model.setSubjectId(subjectId);
+	}
+
+	/**
+	 * Sets whether this crf subject is update lock.
+	 *
+	 * @param updateLock the update lock of this crf subject
+	 */
+	@Override
+	public void setUpdateLock(boolean updateLock) {
+		model.setUpdateLock(updateLock);
 	}
 
 	/**

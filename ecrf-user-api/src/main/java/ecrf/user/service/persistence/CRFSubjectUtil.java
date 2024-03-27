@@ -26,10 +26,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
-
 /**
  * The persistence utility for the crf subject service. This utility wraps <code>ecrf.user.service.persistence.impl.CRFSubjectPersistenceImpl</code> and provides direct access to the database for CRUD operations. This utility should only be used by the service layer, as it must operate within a transaction. Never access this utility in a JSP, controller, model, or other front-end class.
  *
@@ -1068,6 +1064,416 @@ public class CRFSubjectUtil {
 	}
 
 	/**
+	 * Returns all the crf subjects where groupId = &#63; and crfId = &#63; and experimentalGroup = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param crfId the crf ID
+	 * @param experimentalGroup the experimental group
+	 * @return the matching crf subjects
+	 */
+	public static List<CRFSubject> findByG_C_EXP(
+		long groupId, long crfId, String experimentalGroup) {
+
+		return getPersistence().findByG_C_EXP(
+			groupId, crfId, experimentalGroup);
+	}
+
+	/**
+	 * Returns a range of all the crf subjects where groupId = &#63; and crfId = &#63; and experimentalGroup = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFSubjectModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param crfId the crf ID
+	 * @param experimentalGroup the experimental group
+	 * @param start the lower bound of the range of crf subjects
+	 * @param end the upper bound of the range of crf subjects (not inclusive)
+	 * @return the range of matching crf subjects
+	 */
+	public static List<CRFSubject> findByG_C_EXP(
+		long groupId, long crfId, String experimentalGroup, int start,
+		int end) {
+
+		return getPersistence().findByG_C_EXP(
+			groupId, crfId, experimentalGroup, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the crf subjects where groupId = &#63; and crfId = &#63; and experimentalGroup = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFSubjectModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param crfId the crf ID
+	 * @param experimentalGroup the experimental group
+	 * @param start the lower bound of the range of crf subjects
+	 * @param end the upper bound of the range of crf subjects (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching crf subjects
+	 */
+	public static List<CRFSubject> findByG_C_EXP(
+		long groupId, long crfId, String experimentalGroup, int start, int end,
+		OrderByComparator<CRFSubject> orderByComparator) {
+
+		return getPersistence().findByG_C_EXP(
+			groupId, crfId, experimentalGroup, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns an ordered range of all the crf subjects where groupId = &#63; and crfId = &#63; and experimentalGroup = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFSubjectModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param crfId the crf ID
+	 * @param experimentalGroup the experimental group
+	 * @param start the lower bound of the range of crf subjects
+	 * @param end the upper bound of the range of crf subjects (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching crf subjects
+	 */
+	public static List<CRFSubject> findByG_C_EXP(
+		long groupId, long crfId, String experimentalGroup, int start, int end,
+		OrderByComparator<CRFSubject> orderByComparator,
+		boolean useFinderCache) {
+
+		return getPersistence().findByG_C_EXP(
+			groupId, crfId, experimentalGroup, start, end, orderByComparator,
+			useFinderCache);
+	}
+
+	/**
+	 * Returns the first crf subject in the ordered set where groupId = &#63; and crfId = &#63; and experimentalGroup = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param crfId the crf ID
+	 * @param experimentalGroup the experimental group
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching crf subject
+	 * @throws NoSuchCRFSubjectException if a matching crf subject could not be found
+	 */
+	public static CRFSubject findByG_C_EXP_First(
+			long groupId, long crfId, String experimentalGroup,
+			OrderByComparator<CRFSubject> orderByComparator)
+		throws ecrf.user.exception.NoSuchCRFSubjectException {
+
+		return getPersistence().findByG_C_EXP_First(
+			groupId, crfId, experimentalGroup, orderByComparator);
+	}
+
+	/**
+	 * Returns the first crf subject in the ordered set where groupId = &#63; and crfId = &#63; and experimentalGroup = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param crfId the crf ID
+	 * @param experimentalGroup the experimental group
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching crf subject, or <code>null</code> if a matching crf subject could not be found
+	 */
+	public static CRFSubject fetchByG_C_EXP_First(
+		long groupId, long crfId, String experimentalGroup,
+		OrderByComparator<CRFSubject> orderByComparator) {
+
+		return getPersistence().fetchByG_C_EXP_First(
+			groupId, crfId, experimentalGroup, orderByComparator);
+	}
+
+	/**
+	 * Returns the last crf subject in the ordered set where groupId = &#63; and crfId = &#63; and experimentalGroup = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param crfId the crf ID
+	 * @param experimentalGroup the experimental group
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching crf subject
+	 * @throws NoSuchCRFSubjectException if a matching crf subject could not be found
+	 */
+	public static CRFSubject findByG_C_EXP_Last(
+			long groupId, long crfId, String experimentalGroup,
+			OrderByComparator<CRFSubject> orderByComparator)
+		throws ecrf.user.exception.NoSuchCRFSubjectException {
+
+		return getPersistence().findByG_C_EXP_Last(
+			groupId, crfId, experimentalGroup, orderByComparator);
+	}
+
+	/**
+	 * Returns the last crf subject in the ordered set where groupId = &#63; and crfId = &#63; and experimentalGroup = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param crfId the crf ID
+	 * @param experimentalGroup the experimental group
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching crf subject, or <code>null</code> if a matching crf subject could not be found
+	 */
+	public static CRFSubject fetchByG_C_EXP_Last(
+		long groupId, long crfId, String experimentalGroup,
+		OrderByComparator<CRFSubject> orderByComparator) {
+
+		return getPersistence().fetchByG_C_EXP_Last(
+			groupId, crfId, experimentalGroup, orderByComparator);
+	}
+
+	/**
+	 * Returns the crf subjects before and after the current crf subject in the ordered set where groupId = &#63; and crfId = &#63; and experimentalGroup = &#63;.
+	 *
+	 * @param crfSubjectId the primary key of the current crf subject
+	 * @param groupId the group ID
+	 * @param crfId the crf ID
+	 * @param experimentalGroup the experimental group
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next crf subject
+	 * @throws NoSuchCRFSubjectException if a crf subject with the primary key could not be found
+	 */
+	public static CRFSubject[] findByG_C_EXP_PrevAndNext(
+			long crfSubjectId, long groupId, long crfId,
+			String experimentalGroup,
+			OrderByComparator<CRFSubject> orderByComparator)
+		throws ecrf.user.exception.NoSuchCRFSubjectException {
+
+		return getPersistence().findByG_C_EXP_PrevAndNext(
+			crfSubjectId, groupId, crfId, experimentalGroup, orderByComparator);
+	}
+
+	/**
+	 * Removes all the crf subjects where groupId = &#63; and crfId = &#63; and experimentalGroup = &#63; from the database.
+	 *
+	 * @param groupId the group ID
+	 * @param crfId the crf ID
+	 * @param experimentalGroup the experimental group
+	 */
+	public static void removeByG_C_EXP(
+		long groupId, long crfId, String experimentalGroup) {
+
+		getPersistence().removeByG_C_EXP(groupId, crfId, experimentalGroup);
+	}
+
+	/**
+	 * Returns the number of crf subjects where groupId = &#63; and crfId = &#63; and experimentalGroup = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param crfId the crf ID
+	 * @param experimentalGroup the experimental group
+	 * @return the number of matching crf subjects
+	 */
+	public static int countByG_C_EXP(
+		long groupId, long crfId, String experimentalGroup) {
+
+		return getPersistence().countByG_C_EXP(
+			groupId, crfId, experimentalGroup);
+	}
+
+	/**
+	 * Returns all the crf subjects where groupId = &#63; and crfId = &#63; and updateLock = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param crfId the crf ID
+	 * @param updateLock the update lock
+	 * @return the matching crf subjects
+	 */
+	public static List<CRFSubject> findByG_C_UL(
+		long groupId, long crfId, boolean updateLock) {
+
+		return getPersistence().findByG_C_UL(groupId, crfId, updateLock);
+	}
+
+	/**
+	 * Returns a range of all the crf subjects where groupId = &#63; and crfId = &#63; and updateLock = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFSubjectModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param crfId the crf ID
+	 * @param updateLock the update lock
+	 * @param start the lower bound of the range of crf subjects
+	 * @param end the upper bound of the range of crf subjects (not inclusive)
+	 * @return the range of matching crf subjects
+	 */
+	public static List<CRFSubject> findByG_C_UL(
+		long groupId, long crfId, boolean updateLock, int start, int end) {
+
+		return getPersistence().findByG_C_UL(
+			groupId, crfId, updateLock, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the crf subjects where groupId = &#63; and crfId = &#63; and updateLock = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFSubjectModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param crfId the crf ID
+	 * @param updateLock the update lock
+	 * @param start the lower bound of the range of crf subjects
+	 * @param end the upper bound of the range of crf subjects (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching crf subjects
+	 */
+	public static List<CRFSubject> findByG_C_UL(
+		long groupId, long crfId, boolean updateLock, int start, int end,
+		OrderByComparator<CRFSubject> orderByComparator) {
+
+		return getPersistence().findByG_C_UL(
+			groupId, crfId, updateLock, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns an ordered range of all the crf subjects where groupId = &#63; and crfId = &#63; and updateLock = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFSubjectModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param crfId the crf ID
+	 * @param updateLock the update lock
+	 * @param start the lower bound of the range of crf subjects
+	 * @param end the upper bound of the range of crf subjects (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching crf subjects
+	 */
+	public static List<CRFSubject> findByG_C_UL(
+		long groupId, long crfId, boolean updateLock, int start, int end,
+		OrderByComparator<CRFSubject> orderByComparator,
+		boolean useFinderCache) {
+
+		return getPersistence().findByG_C_UL(
+			groupId, crfId, updateLock, start, end, orderByComparator,
+			useFinderCache);
+	}
+
+	/**
+	 * Returns the first crf subject in the ordered set where groupId = &#63; and crfId = &#63; and updateLock = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param crfId the crf ID
+	 * @param updateLock the update lock
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching crf subject
+	 * @throws NoSuchCRFSubjectException if a matching crf subject could not be found
+	 */
+	public static CRFSubject findByG_C_UL_First(
+			long groupId, long crfId, boolean updateLock,
+			OrderByComparator<CRFSubject> orderByComparator)
+		throws ecrf.user.exception.NoSuchCRFSubjectException {
+
+		return getPersistence().findByG_C_UL_First(
+			groupId, crfId, updateLock, orderByComparator);
+	}
+
+	/**
+	 * Returns the first crf subject in the ordered set where groupId = &#63; and crfId = &#63; and updateLock = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param crfId the crf ID
+	 * @param updateLock the update lock
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching crf subject, or <code>null</code> if a matching crf subject could not be found
+	 */
+	public static CRFSubject fetchByG_C_UL_First(
+		long groupId, long crfId, boolean updateLock,
+		OrderByComparator<CRFSubject> orderByComparator) {
+
+		return getPersistence().fetchByG_C_UL_First(
+			groupId, crfId, updateLock, orderByComparator);
+	}
+
+	/**
+	 * Returns the last crf subject in the ordered set where groupId = &#63; and crfId = &#63; and updateLock = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param crfId the crf ID
+	 * @param updateLock the update lock
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching crf subject
+	 * @throws NoSuchCRFSubjectException if a matching crf subject could not be found
+	 */
+	public static CRFSubject findByG_C_UL_Last(
+			long groupId, long crfId, boolean updateLock,
+			OrderByComparator<CRFSubject> orderByComparator)
+		throws ecrf.user.exception.NoSuchCRFSubjectException {
+
+		return getPersistence().findByG_C_UL_Last(
+			groupId, crfId, updateLock, orderByComparator);
+	}
+
+	/**
+	 * Returns the last crf subject in the ordered set where groupId = &#63; and crfId = &#63; and updateLock = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param crfId the crf ID
+	 * @param updateLock the update lock
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching crf subject, or <code>null</code> if a matching crf subject could not be found
+	 */
+	public static CRFSubject fetchByG_C_UL_Last(
+		long groupId, long crfId, boolean updateLock,
+		OrderByComparator<CRFSubject> orderByComparator) {
+
+		return getPersistence().fetchByG_C_UL_Last(
+			groupId, crfId, updateLock, orderByComparator);
+	}
+
+	/**
+	 * Returns the crf subjects before and after the current crf subject in the ordered set where groupId = &#63; and crfId = &#63; and updateLock = &#63;.
+	 *
+	 * @param crfSubjectId the primary key of the current crf subject
+	 * @param groupId the group ID
+	 * @param crfId the crf ID
+	 * @param updateLock the update lock
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next crf subject
+	 * @throws NoSuchCRFSubjectException if a crf subject with the primary key could not be found
+	 */
+	public static CRFSubject[] findByG_C_UL_PrevAndNext(
+			long crfSubjectId, long groupId, long crfId, boolean updateLock,
+			OrderByComparator<CRFSubject> orderByComparator)
+		throws ecrf.user.exception.NoSuchCRFSubjectException {
+
+		return getPersistence().findByG_C_UL_PrevAndNext(
+			crfSubjectId, groupId, crfId, updateLock, orderByComparator);
+	}
+
+	/**
+	 * Removes all the crf subjects where groupId = &#63; and crfId = &#63; and updateLock = &#63; from the database.
+	 *
+	 * @param groupId the group ID
+	 * @param crfId the crf ID
+	 * @param updateLock the update lock
+	 */
+	public static void removeByG_C_UL(
+		long groupId, long crfId, boolean updateLock) {
+
+		getPersistence().removeByG_C_UL(groupId, crfId, updateLock);
+	}
+
+	/**
+	 * Returns the number of crf subjects where groupId = &#63; and crfId = &#63; and updateLock = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param crfId the crf ID
+	 * @param updateLock the update lock
+	 * @return the number of matching crf subjects
+	 */
+	public static int countByG_C_UL(
+		long groupId, long crfId, boolean updateLock) {
+
+		return getPersistence().countByG_C_UL(groupId, crfId, updateLock);
+	}
+
+	/**
 	 * Caches the crf subject in the entity cache if it is enabled.
 	 *
 	 * @param crfSubject the crf subject
@@ -1215,25 +1621,9 @@ public class CRFSubjectUtil {
 	}
 
 	public static CRFSubjectPersistence getPersistence() {
-		return _serviceTracker.getService();
+		return _persistence;
 	}
 
-	private static ServiceTracker<CRFSubjectPersistence, CRFSubjectPersistence>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(CRFSubjectPersistence.class);
-
-		ServiceTracker<CRFSubjectPersistence, CRFSubjectPersistence>
-			serviceTracker =
-				new ServiceTracker
-					<CRFSubjectPersistence, CRFSubjectPersistence>(
-						bundle.getBundleContext(), CRFSubjectPersistence.class,
-						null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile CRFSubjectPersistence _persistence;
 
 }

@@ -99,6 +99,24 @@ public class CRFSubjectServiceSoap {
 	}
 
 	public static java.util.ArrayList<ecrf.user.model.custom.CRFSubjectInfo>
+			getCRFSubjectList(long groupId, long crfId, boolean isUpdateLock)
+		throws RemoteException {
+
+		try {
+			java.util.ArrayList<ecrf.user.model.custom.CRFSubjectInfo>
+				returnValue = CRFSubjectServiceUtil.getCRFSubjectList(
+					groupId, crfId, isUpdateLock);
+
+			return returnValue;
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static java.util.ArrayList<ecrf.user.model.custom.CRFSubjectInfo>
 			getAllCRFSubjectInfoList(long groupId, long crfId)
 		throws RemoteException {
 

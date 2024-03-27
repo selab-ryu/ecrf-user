@@ -64,6 +64,14 @@ public class CRFSubjectLocalServiceWrapper
 	}
 
 	@Override
+	public int countCRFSubjectByG_C_UL(
+		long groupId, long crfId, boolean updateLock) {
+
+		return _crfSubjectLocalService.countCRFSubjectByG_C_UL(
+			groupId, crfId, updateLock);
+	}
+
+	@Override
 	public int countCRFSubjectByGroupId(long groupId) {
 		return _crfSubjectLocalService.countCRFSubjectByGroupId(groupId);
 	}
@@ -284,6 +292,22 @@ public class CRFSubjectLocalServiceWrapper
 
 		return _crfSubjectLocalService.getCRFSubjectByCRFId(
 			groupId, crfId, start, end, comparator);
+	}
+
+	@Override
+	public java.util.List<ecrf.user.model.CRFSubject> getCRFSubjectByG_C_UL(
+		long groupId, long crfId, boolean updateLock) {
+
+		return _crfSubjectLocalService.getCRFSubjectByG_C_UL(
+			groupId, crfId, updateLock);
+	}
+
+	@Override
+	public java.util.List<ecrf.user.model.CRFSubject> getCRFSubjectByG_C_UL(
+		long groupId, long crfId, boolean updateLock, int start, int end) {
+
+		return _crfSubjectLocalService.getCRFSubjectByG_C_UL(
+			groupId, crfId, updateLock, start, end);
 	}
 
 	@Override

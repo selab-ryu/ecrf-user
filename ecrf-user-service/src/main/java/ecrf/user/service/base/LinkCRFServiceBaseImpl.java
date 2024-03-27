@@ -26,6 +26,7 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 import ecrf.user.model.LinkCRF;
 import ecrf.user.service.LinkCRFService;
+import ecrf.user.service.LinkCRFServiceUtil;
 import ecrf.user.service.persistence.CRFAutoqueryPersistence;
 import ecrf.user.service.persistence.CRFHistoryPersistence;
 import ecrf.user.service.persistence.CRFPersistence;
@@ -39,8 +40,11 @@ import ecrf.user.service.persistence.ResearcherPersistence;
 import ecrf.user.service.persistence.SubjectFinder;
 import ecrf.user.service.persistence.SubjectPersistence;
 
+import java.lang.reflect.Field;
+
 import javax.sql.DataSource;
 
+import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 
 /**
@@ -61,8 +65,13 @@ public abstract class LinkCRFServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>LinkCRFService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>ecrf.user.service.LinkCRFServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>LinkCRFService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>LinkCRFServiceUtil</code>.
 	 */
+	@Deactivate
+	protected void deactivate() {
+		_setServiceUtilService(null);
+	}
+
 	@Override
 	public Class<?>[] getAopInterfaces() {
 		return new Class<?>[] {
@@ -73,6 +82,8 @@ public abstract class LinkCRFServiceBaseImpl
 	@Override
 	public void setAopProxy(Object aopProxy) {
 		linkCRFService = (LinkCRFService)aopProxy;
+
+		_setServiceUtilService(linkCRFService);
 	}
 
 	/**
@@ -114,6 +125,19 @@ public abstract class LinkCRFServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
+		}
+	}
+
+	private void _setServiceUtilService(LinkCRFService linkCRFService) {
+		try {
+			Field field = LinkCRFServiceUtil.class.getDeclaredField("_service");
+
+			field.setAccessible(true);
+
+			field.set(null, linkCRFService);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

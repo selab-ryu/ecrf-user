@@ -68,6 +68,11 @@ public interface CRFSubjectService extends BaseService {
 	public ArrayList<CRFSubjectInfo> getCRFSubjectList(
 		long groupId, long crfId);
 
+	@JSONWebService(value = "get-crf-subject-info-list-by-update-lock")
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public ArrayList<CRFSubjectInfo> getCRFSubjectList(
+		long groupId, long crfId, boolean isUpdateLock);
+
 	@JSONWebService(value = "get-crf-subject-list-not-included")
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ArrayList<Subject> getCRFSubjectListNotIncluded(

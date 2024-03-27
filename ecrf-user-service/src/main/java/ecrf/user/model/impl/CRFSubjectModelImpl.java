@@ -31,6 +31,7 @@ import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 
 import ecrf.user.model.CRFSubject;
 import ecrf.user.model.CRFSubjectModel;
@@ -38,9 +39,9 @@ import ecrf.user.model.CRFSubjectSoap;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
 import java.util.ArrayList;
@@ -83,7 +84,7 @@ public class CRFSubjectModelImpl
 		{"modifiedDate", Types.TIMESTAMP}, {"crfId", Types.BIGINT},
 		{"subjectId", Types.BIGINT}, {"participationStatus", Types.INTEGER},
 		{"participationStartDate", Types.TIMESTAMP},
-		{"experimentalGroup", Types.VARCHAR}
+		{"experimentalGroup", Types.VARCHAR}, {"updateLock", Types.BOOLEAN}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -104,10 +105,11 @@ public class CRFSubjectModelImpl
 		TABLE_COLUMNS_MAP.put("participationStatus", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("participationStartDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("experimentalGroup", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("updateLock", Types.BOOLEAN);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table EC_CRFSubject (mvccVersion LONG default 0 not null,uuid_ VARCHAR(75) null,crfSubjectId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,crfId LONG,subjectId LONG,participationStatus INTEGER,participationStartDate DATE null,experimentalGroup VARCHAR(75) null)";
+		"create table EC_CRFSubject (mvccVersion LONG default 0 not null,uuid_ VARCHAR(75) null,crfSubjectId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,crfId LONG,subjectId LONG,participationStatus INTEGER,participationStartDate DATE null,experimentalGroup VARCHAR(75) null,updateLock BOOLEAN)";
 
 	public static final String TABLE_SQL_DROP = "drop table EC_CRFSubject";
 
@@ -127,13 +129,17 @@ public class CRFSubjectModelImpl
 
 	public static final long CRFID_COLUMN_BITMASK = 2L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 4L;
+	public static final long EXPERIMENTALGROUP_COLUMN_BITMASK = 4L;
 
-	public static final long SUBJECTID_COLUMN_BITMASK = 8L;
+	public static final long GROUPID_COLUMN_BITMASK = 8L;
 
-	public static final long UUID_COLUMN_BITMASK = 16L;
+	public static final long SUBJECTID_COLUMN_BITMASK = 16L;
 
-	public static final long CREATEDATE_COLUMN_BITMASK = 32L;
+	public static final long UPDATELOCK_COLUMN_BITMASK = 32L;
+
+	public static final long UUID_COLUMN_BITMASK = 64L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 128L;
 
 	public static void setEntityCacheEnabled(boolean entityCacheEnabled) {
 		_entityCacheEnabled = entityCacheEnabled;
@@ -170,6 +176,7 @@ public class CRFSubjectModelImpl
 		model.setParticipationStatus(soapModel.getParticipationStatus());
 		model.setParticipationStartDate(soapModel.getParticipationStartDate());
 		model.setExperimentalGroup(soapModel.getExperimentalGroup());
+		model.setUpdateLock(soapModel.isUpdateLock());
 
 		return model;
 	}
@@ -281,34 +288,6 @@ public class CRFSubjectModelImpl
 		return _attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, CRFSubject>
-		_getProxyProviderFunction() {
-
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			CRFSubject.class.getClassLoader(), CRFSubject.class,
-			ModelWrapper.class);
-
-		try {
-			Constructor<CRFSubject> constructor =
-				(Constructor<CRFSubject>)proxyClass.getConstructor(
-					InvocationHandler.class);
-
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
-
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
-		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
-	}
-
 	private static final Map<String, Function<CRFSubject, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<CRFSubject, Object>>
@@ -379,6 +358,10 @@ public class CRFSubjectModelImpl
 		attributeSetterBiConsumers.put(
 			"experimentalGroup",
 			(BiConsumer<CRFSubject, String>)CRFSubject::setExperimentalGroup);
+		attributeGetterFunctions.put("updateLock", CRFSubject::getUpdateLock);
+		attributeSetterBiConsumers.put(
+			"updateLock",
+			(BiConsumer<CRFSubject, Boolean>)CRFSubject::setUpdateLock);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -634,7 +617,46 @@ public class CRFSubjectModelImpl
 
 	@Override
 	public void setExperimentalGroup(String experimentalGroup) {
+		_columnBitmask |= EXPERIMENTALGROUP_COLUMN_BITMASK;
+
+		if (_originalExperimentalGroup == null) {
+			_originalExperimentalGroup = _experimentalGroup;
+		}
+
 		_experimentalGroup = experimentalGroup;
+	}
+
+	public String getOriginalExperimentalGroup() {
+		return GetterUtil.getString(_originalExperimentalGroup);
+	}
+
+	@JSON
+	@Override
+	public boolean getUpdateLock() {
+		return _updateLock;
+	}
+
+	@JSON
+	@Override
+	public boolean isUpdateLock() {
+		return _updateLock;
+	}
+
+	@Override
+	public void setUpdateLock(boolean updateLock) {
+		_columnBitmask |= UPDATELOCK_COLUMN_BITMASK;
+
+		if (!_setOriginalUpdateLock) {
+			_setOriginalUpdateLock = true;
+
+			_originalUpdateLock = _updateLock;
+		}
+
+		_updateLock = updateLock;
+	}
+
+	public boolean getOriginalUpdateLock() {
+		return _originalUpdateLock;
 	}
 
 	@Override
@@ -693,6 +715,7 @@ public class CRFSubjectModelImpl
 		crfSubjectImpl.setParticipationStatus(getParticipationStatus());
 		crfSubjectImpl.setParticipationStartDate(getParticipationStartDate());
 		crfSubjectImpl.setExperimentalGroup(getExperimentalGroup());
+		crfSubjectImpl.setUpdateLock(isUpdateLock());
 
 		crfSubjectImpl.resetOriginalValues();
 
@@ -767,29 +790,32 @@ public class CRFSubjectModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		CRFSubjectModelImpl crfSubjectModelImpl = this;
+		_originalUuid = _uuid;
 
-		crfSubjectModelImpl._originalUuid = crfSubjectModelImpl._uuid;
+		_originalGroupId = _groupId;
 
-		crfSubjectModelImpl._originalGroupId = crfSubjectModelImpl._groupId;
+		_setOriginalGroupId = false;
 
-		crfSubjectModelImpl._setOriginalGroupId = false;
+		_originalCompanyId = _companyId;
 
-		crfSubjectModelImpl._originalCompanyId = crfSubjectModelImpl._companyId;
+		_setOriginalCompanyId = false;
 
-		crfSubjectModelImpl._setOriginalCompanyId = false;
+		_setModifiedDate = false;
+		_originalCrfId = _crfId;
 
-		crfSubjectModelImpl._setModifiedDate = false;
+		_setOriginalCrfId = false;
 
-		crfSubjectModelImpl._originalCrfId = crfSubjectModelImpl._crfId;
+		_originalSubjectId = _subjectId;
 
-		crfSubjectModelImpl._setOriginalCrfId = false;
+		_setOriginalSubjectId = false;
 
-		crfSubjectModelImpl._originalSubjectId = crfSubjectModelImpl._subjectId;
+		_originalExperimentalGroup = _experimentalGroup;
 
-		crfSubjectModelImpl._setOriginalSubjectId = false;
+		_originalUpdateLock = _updateLock;
 
-		crfSubjectModelImpl._columnBitmask = 0;
+		_setOriginalUpdateLock = false;
+
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -864,6 +890,8 @@ public class CRFSubjectModelImpl
 			crfSubjectCacheModel.experimentalGroup = null;
 		}
 
+		crfSubjectCacheModel.updateLock = isUpdateLock();
+
 		return crfSubjectCacheModel;
 	}
 
@@ -873,7 +901,7 @@ public class CRFSubjectModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -884,9 +912,26 @@ public class CRFSubjectModelImpl
 			Function<CRFSubject, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((CRFSubject)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((CRFSubject)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -905,7 +950,7 @@ public class CRFSubjectModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
+			(5 * attributeGetterFunctions.size()) + 4);
 
 		sb.append("<model><model-name>");
 		sb.append(getModelClassName());
@@ -933,7 +978,9 @@ public class CRFSubjectModelImpl
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, CRFSubject>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					CRFSubject.class, ModelWrapper.class);
 
 	}
 
@@ -964,6 +1011,10 @@ public class CRFSubjectModelImpl
 	private int _participationStatus;
 	private Date _participationStartDate;
 	private String _experimentalGroup;
+	private String _originalExperimentalGroup;
+	private boolean _updateLock;
+	private boolean _originalUpdateLock;
+	private boolean _setOriginalUpdateLock;
 	private long _columnBitmask;
 	private CRFSubject _escapedModel;
 

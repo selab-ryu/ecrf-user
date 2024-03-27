@@ -577,9 +577,9 @@ public interface CRFPersistence extends BasePersistence<CRF> {
 	/**
 	 * Caches the crfs in the entity cache if it is enabled.
 	 *
-	 * @param crFs the crfs
+	 * @param crfs the crfs
 	 */
-	public void cacheResult(java.util.List<CRF> crFs);
+	public void cacheResult(java.util.List<CRF> crfs);
 
 	/**
 	 * Creates a new crf with the primary key. Does not add the crf to the database.

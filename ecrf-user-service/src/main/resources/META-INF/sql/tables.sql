@@ -113,7 +113,8 @@ create table EC_CRFSubject (
 	subjectId LONG,
 	participationStatus INTEGER,
 	participationStartDate DATE null,
-	experimentalGroup VARCHAR(75) null
+	experimentalGroup VARCHAR(75) null,
+	updateLock BOOLEAN
 );
 
 create table EC_LinkCRF (

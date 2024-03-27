@@ -32,6 +32,8 @@ import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -43,10 +45,12 @@ import ecrf.user.model.LinkCRF;
 import ecrf.user.model.impl.LinkCRFImpl;
 import ecrf.user.model.impl.LinkCRFModelImpl;
 import ecrf.user.service.persistence.LinkCRFPersistence;
+import ecrf.user.service.persistence.LinkCRFUtil;
 import ecrf.user.service.persistence.impl.constants.ECPersistenceConstants;
 
 import java.io.Serializable;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
@@ -6706,6 +6710,8 @@ public class LinkCRFPersistenceImpl
 		linkCRF.resetOriginalValues();
 	}
 
+	private int _valueObjectFinderCacheListThreshold;
+
 	/**
 	 * Caches the link crfs in the entity cache if it is enabled.
 	 *
@@ -6713,6 +6719,13 @@ public class LinkCRFPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<LinkCRF> linkCRFs) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (linkCRFs.size() > _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (LinkCRF linkCRF : linkCRFs) {
 			if (entityCache.getResult(
 					entityCacheEnabled, LinkCRFImpl.class,
@@ -7132,23 +7145,23 @@ public class LinkCRFPersistenceImpl
 		ServiceContext serviceContext =
 			ServiceContextThreadLocal.getServiceContext();
 
-		Date now = new Date();
+		Date date = new Date();
 
 		if (isNew && (linkCRF.getCreateDate() == null)) {
 			if (serviceContext == null) {
-				linkCRF.setCreateDate(now);
+				linkCRF.setCreateDate(date);
 			}
 			else {
-				linkCRF.setCreateDate(serviceContext.getCreateDate(now));
+				linkCRF.setCreateDate(serviceContext.getCreateDate(date));
 			}
 		}
 
 		if (!linkCRFModelImpl.hasSetModifiedDate()) {
 			if (serviceContext == null) {
-				linkCRF.setModifiedDate(now);
+				linkCRF.setModifiedDate(date);
 			}
 			else {
-				linkCRF.setModifiedDate(serviceContext.getModifiedDate(now));
+				linkCRF.setModifiedDate(serviceContext.getModifiedDate(date));
 			}
 		}
 
@@ -7157,7 +7170,7 @@ public class LinkCRFPersistenceImpl
 		try {
 			session = openSession();
 
-			if (linkCRF.isNew()) {
+			if (isNew) {
 				session.save(linkCRF);
 
 				linkCRF.setNew(false);
@@ -7720,6 +7733,9 @@ public class LinkCRFPersistenceImpl
 		LinkCRFModelImpl.setEntityCacheEnabled(entityCacheEnabled);
 		LinkCRFModelImpl.setFinderCacheEnabled(finderCacheEnabled);
 
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, LinkCRFImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
@@ -8040,14 +8056,34 @@ public class LinkCRFPersistenceImpl
 			entityCacheEnabled, finderCacheEnabled, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByLinkSdId",
 			new String[] {Long.class.getName()});
+
+		_setLinkCRFUtilPersistence(this);
 	}
 
 	@Deactivate
 	public void deactivate() {
+		_setLinkCRFUtilPersistence(null);
+
 		entityCache.removeCache(LinkCRFImpl.class.getName());
+
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+	}
+
+	private void _setLinkCRFUtilPersistence(
+		LinkCRFPersistence linkCRFPersistence) {
+
+		try {
+			Field field = LinkCRFUtil.class.getDeclaredField("_persistence");
+
+			field.setAccessible(true);
+
+			field.set(null, linkCRFPersistence);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
+		}
 	}
 
 	@Override
@@ -8115,14 +8151,5 @@ public class LinkCRFPersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid"});
-
-	static {
-		try {
-			Class.forName(ECPersistenceConstants.class.getName());
-		}
-		catch (ClassNotFoundException classNotFoundException) {
-			throw new ExceptionInInitializerError(classNotFoundException);
-		}
-	}
 
 }
