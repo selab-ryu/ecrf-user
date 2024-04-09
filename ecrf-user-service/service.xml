@@ -325,6 +325,10 @@
 			<finder-column name="groupId" />
 			<finder-column name="subjectId" />
 		</finder>
+		<finder name="C_S" return-type="CRFSubject" unique="true">
+			<finder-column name="crfId" />
+			<finder-column name="subjectId" />
+		</finder>		
 		
 		<finder name="G_C_EXP" return-type="Collection">
 			<finder-column name="groupId" />

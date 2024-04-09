@@ -249,6 +249,10 @@ public class CRFSubjectLocalServiceUtil {
 		return getService().getCRFSubject(crfSubjectId);
 	}
 
+	public static CRFSubject getCRFSubjectByC_S(long crfId, long subjectId) {
+		return getService().getCRFSubjectByC_S(crfId, subjectId);
+	}
+
 	public static List<CRFSubject> getCRFSubjectByCRFId(
 		long groupId, long crfId) {
 
@@ -421,6 +425,10 @@ public class CRFSubjectLocalServiceUtil {
 		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
+	}
+
+	public static boolean getUpdateLockByC_S(long crfId, long subjectId) {
+		return getService().getUpdateLockByC_S(crfId, subjectId);
 	}
 
 	/**

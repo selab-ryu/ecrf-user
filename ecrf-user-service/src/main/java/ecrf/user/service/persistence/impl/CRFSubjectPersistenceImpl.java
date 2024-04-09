@@ -3052,6 +3052,231 @@ public class CRFSubjectPersistenceImpl
 	private static final String _FINDER_COLUMN_G_S_SUBJECTID_2 =
 		"crfSubject.subjectId = ?";
 
+	private FinderPath _finderPathFetchByC_S;
+	private FinderPath _finderPathCountByC_S;
+
+	/**
+	 * Returns the crf subject where crfId = &#63; and subjectId = &#63; or throws a <code>NoSuchCRFSubjectException</code> if it could not be found.
+	 *
+	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
+	 * @return the matching crf subject
+	 * @throws NoSuchCRFSubjectException if a matching crf subject could not be found
+	 */
+	@Override
+	public CRFSubject findByC_S(long crfId, long subjectId)
+		throws NoSuchCRFSubjectException {
+
+		CRFSubject crfSubject = fetchByC_S(crfId, subjectId);
+
+		if (crfSubject == null) {
+			StringBundler sb = new StringBundler(6);
+
+			sb.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			sb.append("crfId=");
+			sb.append(crfId);
+
+			sb.append(", subjectId=");
+			sb.append(subjectId);
+
+			sb.append("}");
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(sb.toString());
+			}
+
+			throw new NoSuchCRFSubjectException(sb.toString());
+		}
+
+		return crfSubject;
+	}
+
+	/**
+	 * Returns the crf subject where crfId = &#63; and subjectId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
+	 * @return the matching crf subject, or <code>null</code> if a matching crf subject could not be found
+	 */
+	@Override
+	public CRFSubject fetchByC_S(long crfId, long subjectId) {
+		return fetchByC_S(crfId, subjectId, true);
+	}
+
+	/**
+	 * Returns the crf subject where crfId = &#63; and subjectId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the matching crf subject, or <code>null</code> if a matching crf subject could not be found
+	 */
+	@Override
+	public CRFSubject fetchByC_S(
+		long crfId, long subjectId, boolean useFinderCache) {
+
+		Object[] finderArgs = null;
+
+		if (useFinderCache) {
+			finderArgs = new Object[] {crfId, subjectId};
+		}
+
+		Object result = null;
+
+		if (useFinderCache) {
+			result = finderCache.getResult(
+				_finderPathFetchByC_S, finderArgs, this);
+		}
+
+		if (result instanceof CRFSubject) {
+			CRFSubject crfSubject = (CRFSubject)result;
+
+			if ((crfId != crfSubject.getCrfId()) ||
+				(subjectId != crfSubject.getSubjectId())) {
+
+				result = null;
+			}
+		}
+
+		if (result == null) {
+			StringBundler sb = new StringBundler(4);
+
+			sb.append(_SQL_SELECT_CRFSUBJECT_WHERE);
+
+			sb.append(_FINDER_COLUMN_C_S_CRFID_2);
+
+			sb.append(_FINDER_COLUMN_C_S_SUBJECTID_2);
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				queryPos.add(crfId);
+
+				queryPos.add(subjectId);
+
+				List<CRFSubject> list = query.list();
+
+				if (list.isEmpty()) {
+					if (useFinderCache) {
+						finderCache.putResult(
+							_finderPathFetchByC_S, finderArgs, list);
+					}
+				}
+				else {
+					CRFSubject crfSubject = list.get(0);
+
+					result = crfSubject;
+
+					cacheResult(crfSubject);
+				}
+			}
+			catch (Exception exception) {
+				if (useFinderCache) {
+					finderCache.removeResult(_finderPathFetchByC_S, finderArgs);
+				}
+
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		if (result instanceof List<?>) {
+			return null;
+		}
+		else {
+			return (CRFSubject)result;
+		}
+	}
+
+	/**
+	 * Removes the crf subject where crfId = &#63; and subjectId = &#63; from the database.
+	 *
+	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
+	 * @return the crf subject that was removed
+	 */
+	@Override
+	public CRFSubject removeByC_S(long crfId, long subjectId)
+		throws NoSuchCRFSubjectException {
+
+		CRFSubject crfSubject = findByC_S(crfId, subjectId);
+
+		return remove(crfSubject);
+	}
+
+	/**
+	 * Returns the number of crf subjects where crfId = &#63; and subjectId = &#63;.
+	 *
+	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
+	 * @return the number of matching crf subjects
+	 */
+	@Override
+	public int countByC_S(long crfId, long subjectId) {
+		FinderPath finderPath = _finderPathCountByC_S;
+
+		Object[] finderArgs = new Object[] {crfId, subjectId};
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler sb = new StringBundler(3);
+
+			sb.append(_SQL_COUNT_CRFSUBJECT_WHERE);
+
+			sb.append(_FINDER_COLUMN_C_S_CRFID_2);
+
+			sb.append(_FINDER_COLUMN_C_S_SUBJECTID_2);
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				queryPos.add(crfId);
+
+				queryPos.add(subjectId);
+
+				count = (Long)query.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception exception) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_C_S_CRFID_2 =
+		"crfSubject.crfId = ? AND ";
+
+	private static final String _FINDER_COLUMN_C_S_SUBJECTID_2 =
+		"crfSubject.subjectId = ?";
+
 	private FinderPath _finderPathWithPaginationFindByG_C_EXP;
 	private FinderPath _finderPathWithoutPaginationFindByG_C_EXP;
 	private FinderPath _finderPathCountByG_C_EXP;
@@ -4295,6 +4520,11 @@ public class CRFSubjectPersistenceImpl
 			new Object[] {crfSubject.getUuid(), crfSubject.getGroupId()},
 			crfSubject);
 
+		finderCache.putResult(
+			_finderPathFetchByC_S,
+			new Object[] {crfSubject.getCrfId(), crfSubject.getSubjectId()},
+			crfSubject);
+
 		crfSubject.resetOriginalValues();
 	}
 
@@ -4398,6 +4628,15 @@ public class CRFSubjectPersistenceImpl
 			_finderPathCountByUUID_G, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByUUID_G, args, crfSubjectModelImpl, false);
+
+		args = new Object[] {
+			crfSubjectModelImpl.getCrfId(), crfSubjectModelImpl.getSubjectId()
+		};
+
+		finderCache.putResult(
+			_finderPathCountByC_S, args, Long.valueOf(1), false);
+		finderCache.putResult(
+			_finderPathFetchByC_S, args, crfSubjectModelImpl, false);
 	}
 
 	protected void clearUniqueFindersCache(
@@ -4422,6 +4661,28 @@ public class CRFSubjectPersistenceImpl
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
 			finderCache.removeResult(_finderPathFetchByUUID_G, args);
+		}
+
+		if (clearCurrent) {
+			Object[] args = new Object[] {
+				crfSubjectModelImpl.getCrfId(),
+				crfSubjectModelImpl.getSubjectId()
+			};
+
+			finderCache.removeResult(_finderPathCountByC_S, args);
+			finderCache.removeResult(_finderPathFetchByC_S, args);
+		}
+
+		if ((crfSubjectModelImpl.getColumnBitmask() &
+			 _finderPathFetchByC_S.getColumnBitmask()) != 0) {
+
+			Object[] args = new Object[] {
+				crfSubjectModelImpl.getOriginalCrfId(),
+				crfSubjectModelImpl.getOriginalSubjectId()
+			};
+
+			finderCache.removeResult(_finderPathCountByC_S, args);
+			finderCache.removeResult(_finderPathFetchByC_S, args);
 		}
 	}
 
@@ -5251,6 +5512,18 @@ public class CRFSubjectPersistenceImpl
 		_finderPathCountByG_S = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_S",
+			new String[] {Long.class.getName(), Long.class.getName()});
+
+		_finderPathFetchByC_S = new FinderPath(
+			entityCacheEnabled, finderCacheEnabled, CRFSubjectImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByC_S",
+			new String[] {Long.class.getName(), Long.class.getName()},
+			CRFSubjectModelImpl.CRFID_COLUMN_BITMASK |
+			CRFSubjectModelImpl.SUBJECTID_COLUMN_BITMASK);
+
+		_finderPathCountByC_S = new FinderPath(
+			entityCacheEnabled, finderCacheEnabled, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_S",
 			new String[] {Long.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByG_C_EXP = new FinderPath(

@@ -21,6 +21,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.Validator;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -226,6 +227,16 @@ public class CRFSubjectLocalServiceImpl extends CRFSubjectLocalServiceBaseImpl {
 	}
 	public int countCRFSubjectBySubjectId(long groupId, long subjectId) {
 		return super.crfSubjectPersistence.countByG_S(groupId, subjectId);
+	}
+	
+	public CRFSubject getCRFSubjectByC_S(long crfId, long subjectId) {
+		return super.crfSubjectPersistence.fetchByC_S(crfId, subjectId);
+	}
+	
+	public boolean getUpdateLockByC_S(long crfId, long subjectId) {
+		CRFSubject crfSubject = super.crfSubjectPersistence.fetchByC_S(crfId, subjectId);
+		if(Validator.isNull(crfSubject)) return false;
+		return crfSubject.getUpdateLock();
 	}
 	
 	// get crf-subject by update lock

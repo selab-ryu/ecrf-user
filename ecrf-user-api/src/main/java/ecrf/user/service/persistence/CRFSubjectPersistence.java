@@ -840,6 +840,56 @@ public interface CRFSubjectPersistence extends BasePersistence<CRFSubject> {
 	public int countByG_S(long groupId, long subjectId);
 
 	/**
+	 * Returns the crf subject where crfId = &#63; and subjectId = &#63; or throws a <code>NoSuchCRFSubjectException</code> if it could not be found.
+	 *
+	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
+	 * @return the matching crf subject
+	 * @throws NoSuchCRFSubjectException if a matching crf subject could not be found
+	 */
+	public CRFSubject findByC_S(long crfId, long subjectId)
+		throws NoSuchCRFSubjectException;
+
+	/**
+	 * Returns the crf subject where crfId = &#63; and subjectId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
+	 * @return the matching crf subject, or <code>null</code> if a matching crf subject could not be found
+	 */
+	public CRFSubject fetchByC_S(long crfId, long subjectId);
+
+	/**
+	 * Returns the crf subject where crfId = &#63; and subjectId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the matching crf subject, or <code>null</code> if a matching crf subject could not be found
+	 */
+	public CRFSubject fetchByC_S(
+		long crfId, long subjectId, boolean useFinderCache);
+
+	/**
+	 * Removes the crf subject where crfId = &#63; and subjectId = &#63; from the database.
+	 *
+	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
+	 * @return the crf subject that was removed
+	 */
+	public CRFSubject removeByC_S(long crfId, long subjectId)
+		throws NoSuchCRFSubjectException;
+
+	/**
+	 * Returns the number of crf subjects where crfId = &#63; and subjectId = &#63;.
+	 *
+	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
+	 * @return the number of matching crf subjects
+	 */
+	public int countByC_S(long crfId, long subjectId);
+
+	/**
 	 * Returns all the crf subjects where groupId = &#63; and crfId = &#63; and experimentalGroup = &#63;.
 	 *
 	 * @param groupId the group ID
