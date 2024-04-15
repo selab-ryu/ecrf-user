@@ -32,11 +32,15 @@ create index IX_E0074FC0 on EC_CRFSearchLog (uuid_[$COLUMN_LENGTH:75$], companyI
 create unique index IX_3EA0C642 on EC_CRFSearchLog (uuid_[$COLUMN_LENGTH:75$], groupId);
 
 create unique index IX_876AED91 on EC_CRFSubject (crfId, subjectId);
-create index IX_F1D20E53 on EC_CRFSubject (groupId, crfId, experimentalGroup[$COLUMN_LENGTH:75$]);
 create index IX_ED2F489C on EC_CRFSubject (groupId, crfId, updateLock);
 create index IX_590C5C69 on EC_CRFSubject (groupId, subjectId);
 create index IX_6D622F0 on EC_CRFSubject (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_B06AA572 on EC_CRFSubject (uuid_[$COLUMN_LENGTH:75$], groupId);
+
+create index IX_54A4B8EE on EC_ExperimentalGroup (groupId);
+create index IX_7B4711FB on EC_ExperimentalGroup (name[$COLUMN_LENGTH:75$]);
+create index IX_A6C9CA30 on EC_ExperimentalGroup (uuid_[$COLUMN_LENGTH:75$], companyId);
+create unique index IX_4B9F1CB2 on EC_ExperimentalGroup (uuid_[$COLUMN_LENGTH:75$], groupId);
 
 create index IX_12A03061 on EC_LinkCRF (crfId, subjectId, structuredDataId);
 create index IX_FD215524 on EC_LinkCRF (groupId, crfId, structuredDataId);

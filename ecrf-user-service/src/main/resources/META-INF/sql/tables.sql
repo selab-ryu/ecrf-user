@@ -113,8 +113,27 @@ create table EC_CRFSubject (
 	subjectId LONG,
 	participationStatus INTEGER,
 	participationStartDate DATE null,
-	experimentalGroup VARCHAR(75) null,
 	updateLock BOOLEAN
+);
+
+create table EC_ExperimentalGroup (
+	mvccVersion LONG default 0 not null,
+	uuid_ VARCHAR(75) null,
+	experimentalGroupId LONG not null primary key,
+	companyId LONG,
+	groupId LONG,
+	userId LONG,
+	userName VARCHAR(75) null,
+	createDate DATE null,
+	modifiedDate DATE null,
+	status INTEGER,
+	statusByUserId LONG,
+	statusByUserName VARCHAR(75) null,
+	statusDate DATE null,
+	name VARCHAR(75) null,
+	abbr VARCHAR(75) null,
+	description VARCHAR(75) null,
+	type_ INTEGER
 );
 
 create table EC_LinkCRF (

@@ -105,7 +105,7 @@ public class CRFSubjectLocalServiceImpl extends CRFSubjectLocalServiceBaseImpl {
 			_log.info(crfSubject.toString());
 			 
 			long subjectId = crfSubject.getSubjectId();
-			String experimentalGroup = crfSubject.getExperimentalGroup();
+			
 			boolean updateLock = crfSubject.isUpdateLock();
 			
 			// current crf-subject vs new crf-subject 
@@ -116,7 +116,6 @@ public class CRFSubjectLocalServiceImpl extends CRFSubjectLocalServiceBaseImpl {
 			// if matched (e:e) : update info
 			if(crfSubjectOpt.isPresent()) {
 				CRFSubject tempCRFSubject = crfSubjectOpt.get();
-				tempCRFSubject.setExperimentalGroup(experimentalGroup);
 				tempCRFSubject.setUpdateLock(updateLock);
 				
 				super.crfSubjectPersistence.update(tempCRFSubject);
@@ -138,7 +137,6 @@ public class CRFSubjectLocalServiceImpl extends CRFSubjectLocalServiceBaseImpl {
 				tempCRFSubject.setSubjectId(subjectId);
 				tempCRFSubject.setParticipationStartDate(now);
 				tempCRFSubject.setParticipationStatus(0);
-				tempCRFSubject.setExperimentalGroup(experimentalGroup);
 				tempCRFSubject.setUpdateLock(updateLock);
 				
 				super.crfSubjectPersistence.update(tempCRFSubject);

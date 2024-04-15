@@ -105,7 +105,6 @@ public class ECRFUserUtil {
 			
 			info.setParticipationStatus(obj.getInt(ECRFUserCRFSubjectInfoAttribute.PARTICIPATION_STATUS));
 			info.setParticipationStartDate(new Date(obj.getLong(ECRFUserCRFSubjectInfoAttribute.PARTICIPATION_START_DATE)));
-			info.setExperimentalGroup(obj.getString(ECRFUserCRFSubjectInfoAttribute.EXPERIMENTAL_GROUP));
 			info.setUpdateLock(obj.getBoolean(ECRFUserCRFSubjectInfoAttribute.UPDATE_LOCK));
 			
 			crfSubjectInfoList.add(info);
@@ -128,7 +127,6 @@ public class ECRFUserUtil {
 			
 			crfSubject.setParticipationStatus(obj.getInt(ECRFUserCRFSubjectInfoAttribute.PARTICIPATION_STATUS));
 			crfSubject.setParticipationStartDate(new Date(obj.getLong(ECRFUserCRFSubjectInfoAttribute.PARTICIPATION_START_DATE)));
-			crfSubject.setExperimentalGroup(obj.getString(ECRFUserCRFSubjectInfoAttribute.EXPERIMENTAL_GROUP));
 			crfSubject.setUpdateLock(obj.getBoolean(ECRFUserCRFSubjectInfoAttribute.UPDATE_LOCK));
 			
 			crfSubjectList.add(crfSubject);
