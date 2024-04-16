@@ -67,6 +67,12 @@ public class CRFSubjectLocalServiceUtil {
 		return getService().addCRFSubject(crfId, subjectId, sc);
 	}
 
+	public static CRFSubject changeUpdateLock(
+		long crfId, long subjectId, boolean updateLock) {
+
+		return getService().changeUpdateLock(crfId, subjectId, updateLock);
+	}
+
 	public static int countCRFSubjectByCRFId(long groupId, long crfId) {
 		return getService().countCRFSubjectByCRFId(groupId, crfId);
 	}

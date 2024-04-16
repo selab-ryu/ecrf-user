@@ -83,6 +83,9 @@ public interface CRFSubjectLocalService
 			long crfId, long subjectId, ServiceContext sc)
 		throws PortalException;
 
+	public CRFSubject changeUpdateLock(
+		long crfId, long subjectId, boolean updateLock);
+
 	public int countCRFSubjectByCRFId(long groupId, long crfId);
 
 	public int countCRFSubjectByG_C_UL(

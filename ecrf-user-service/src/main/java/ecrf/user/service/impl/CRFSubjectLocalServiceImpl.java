@@ -248,6 +248,16 @@ public class CRFSubjectLocalServiceImpl extends CRFSubjectLocalServiceBaseImpl {
 		return super.crfSubjectPersistence.countByG_C_UL(groupId, crfId, updateLock);
 	}
 	
+	public CRFSubject changeUpdateLock(long crfId, long subjectId, boolean updateLock) {
+		CRFSubject crfSubject = super.crfSubjectPersistence.fetchByC_S(crfId, subjectId);
+		
+		crfSubject.setUpdateLock(updateLock);
+		
+		super.crfSubjectPersistence.update(crfSubject);
+		
+		return crfSubject;
+	}
+	
 	@Reference
 	private CRFAutoqueryLocalService _crfAutoQueryLocalService;
 	

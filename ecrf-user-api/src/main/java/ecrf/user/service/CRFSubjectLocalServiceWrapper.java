@@ -59,6 +59,14 @@ public class CRFSubjectLocalServiceWrapper
 	}
 
 	@Override
+	public ecrf.user.model.CRFSubject changeUpdateLock(
+		long crfId, long subjectId, boolean updateLock) {
+
+		return _crfSubjectLocalService.changeUpdateLock(
+			crfId, subjectId, updateLock);
+	}
+
+	@Override
 	public int countCRFSubjectByCRFId(long groupId, long crfId) {
 		return _crfSubjectLocalService.countCRFSubjectByCRFId(groupId, crfId);
 	}

@@ -73,6 +73,8 @@ public class ECRFUserMVCCommand {
 	public static final String ACTION_DELETE_CRF_DATA = "/action/crf-data/delete-crf-data";
 	public static final String ACTION_DELETE_ALL_CRF_DATA = "/action/crf-data/delete-all-crf-data";
 	
+	public static final String ACTION_CHANGE_UPDATE_LOCK= "/action/crf-data/change-update-lock";
+	
 	public static final String RENDER_VIEW_AUDIT = "/render/crf-data/view-audit";
 	
 	public static final String RENDER_DIALOG_AUDIT = "/render/crf-data/dialog-audit";
@@ -106,5 +108,4 @@ public class ECRFUserMVCCommand {
 	public static final String RENDER_MANAGE_FORM = "/render/crf-form/manage-form";
 	public static final String RENDER_CRF_FORM_PDF_DOWNLOAD = "/render/crf-form/pdf-download";
 	
-
 }
