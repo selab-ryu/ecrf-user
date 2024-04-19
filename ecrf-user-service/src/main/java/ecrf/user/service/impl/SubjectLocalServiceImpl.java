@@ -138,6 +138,10 @@ public class SubjectLocalServiceImpl extends SubjectLocalServiceBaseImpl {
 			for(CRFSubject crfSubject : crfSubjectList) {
 				_crfSubjectLocalService.deleteCRFSubject(crfSubject);
 			}
+			
+			// remove link crf
+			
+			// remove structured data
 		}
 		
 		return subject;
@@ -150,6 +154,10 @@ public class SubjectLocalServiceImpl extends SubjectLocalServiceBaseImpl {
 		for(CRFSubject crfSubject : crfSubjectList) {
 			_crfSubjectLocalService.deleteCRFSubject(crfSubject);
 		}
+		
+		// remove link crf
+		
+		// remove structured data
 		
 		return subject;
 	}
