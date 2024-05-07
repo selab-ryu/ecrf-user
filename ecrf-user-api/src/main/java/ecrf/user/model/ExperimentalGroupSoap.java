@@ -45,7 +45,7 @@ public class ExperimentalGroupSoap implements Serializable {
 		soapModel.setStatusByUserName(model.getStatusByUserName());
 		soapModel.setStatusDate(model.getStatusDate());
 		soapModel.setName(model.getName());
-		soapModel.setAbbr(model.getAbbr());
+		soapModel.setAbbreviation(model.getAbbreviation());
 		soapModel.setDescription(model.getDescription());
 		soapModel.setType(model.getType());
 
@@ -221,12 +221,12 @@ public class ExperimentalGroupSoap implements Serializable {
 		_name = name;
 	}
 
-	public String getAbbr() {
-		return _abbr;
+	public String getAbbreviation() {
+		return _abbreviation;
 	}
 
-	public void setAbbr(String abbr) {
-		_abbr = abbr;
+	public void setAbbreviation(String abbreviation) {
+		_abbreviation = abbreviation;
 	}
 
 	public String getDescription() {
@@ -259,7 +259,7 @@ public class ExperimentalGroupSoap implements Serializable {
 	private String _statusByUserName;
 	private Date _statusDate;
 	private String _name;
-	private String _abbr;
+	private String _abbreviation;
 	private String _description;
 	private int _type;
 

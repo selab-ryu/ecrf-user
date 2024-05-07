@@ -319,19 +319,19 @@ public interface ExperimentalGroupModel
 	public void setName(String name);
 
 	/**
-	 * Returns the abbr of this experimental group.
+	 * Returns the abbreviation of this experimental group.
 	 *
-	 * @return the abbr of this experimental group
+	 * @return the abbreviation of this experimental group
 	 */
 	@AutoEscape
-	public String getAbbr();
+	public String getAbbreviation();
 
 	/**
-	 * Sets the abbr of this experimental group.
+	 * Sets the abbreviation of this experimental group.
 	 *
-	 * @param abbr the abbr of this experimental group
+	 * @param abbreviation the abbreviation of this experimental group
 	 */
-	public void setAbbr(String abbr);
+	public void setAbbreviation(String abbreviation);
 
 	/**
 	 * Returns the description of this experimental group.

@@ -109,8 +109,8 @@ public class ExperimentalGroupCacheModel
 		sb.append(statusDate);
 		sb.append(", name=");
 		sb.append(name);
-		sb.append(", abbr=");
-		sb.append(abbr);
+		sb.append(", abbreviation=");
+		sb.append(abbreviation);
 		sb.append(", description=");
 		sb.append(description);
 		sb.append(", type=");
@@ -184,11 +184,11 @@ public class ExperimentalGroupCacheModel
 			experimentalGroupImpl.setName(name);
 		}
 
-		if (abbr == null) {
-			experimentalGroupImpl.setAbbr("");
+		if (abbreviation == null) {
+			experimentalGroupImpl.setAbbreviation("");
 		}
 		else {
-			experimentalGroupImpl.setAbbr(abbr);
+			experimentalGroupImpl.setAbbreviation(abbreviation);
 		}
 
 		if (description == null) {
@@ -227,7 +227,7 @@ public class ExperimentalGroupCacheModel
 		statusByUserName = objectInput.readUTF();
 		statusDate = objectInput.readLong();
 		name = objectInput.readUTF();
-		abbr = objectInput.readUTF();
+		abbreviation = objectInput.readUTF();
 		description = objectInput.readUTF();
 
 		type = objectInput.readInt();
@@ -282,11 +282,11 @@ public class ExperimentalGroupCacheModel
 			objectOutput.writeUTF(name);
 		}
 
-		if (abbr == null) {
+		if (abbreviation == null) {
 			objectOutput.writeUTF("");
 		}
 		else {
-			objectOutput.writeUTF(abbr);
+			objectOutput.writeUTF(abbreviation);
 		}
 
 		if (description == null) {
@@ -313,7 +313,7 @@ public class ExperimentalGroupCacheModel
 	public String statusByUserName;
 	public long statusDate;
 	public String name;
-	public String abbr;
+	public String abbreviation;
 	public String description;
 	public int type;
 

@@ -97,6 +97,8 @@
 		<column name="serialId" type="String"/> <!-- subjectIdStr  -->
 		<column name="hospitalCode" type="int" />
 		
+		<column name="expGroupId" type="long" />
+		
 		<!-- Order -->
 		<order>
 			<order-column name="subjectId" order-by="desc" />
@@ -674,7 +676,7 @@
 		
 		<!-- Other fields -->
 		<column name="name" type="String" />
-		<column name="abbr" type="String" />
+		<column name="abbreviation" type="String" />
 		<column name="description" type="String" />
 		<column name="type" type="int" />
 		
@@ -686,7 +688,7 @@
 		</order>
 
 		<!-- Finder methods -->
-		<finder name="ExperimentalGroupId" return-type="Subject" unique="true">
+		<finder name="ExperimentalGroupId" return-type="ExperimentalGroup" unique="true">
 			<finder-column name="experimentalGroupId" />
 		</finder>
 		
@@ -695,6 +697,10 @@
 		</finder>
 		<finder name="GroupId" return-type="Collection">
 			<finder-column name="groupId" />
+		</finder>
+		<finder name="G_N" return-type="ExperimentalGroup">
+			<finder-column name="groupId" />
+			<finder-column name="name" />
 		</finder>
 		
 		<!-- References -->

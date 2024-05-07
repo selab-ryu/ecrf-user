@@ -67,7 +67,8 @@ public interface SubjectLocalService
 	public Subject addSubject(
 			String name, int birthYear, int birthMonth, int birthDay,
 			int gender, String phone, String phone2, String address,
-			String serialId, int hospitalCode, ServiceContext sc)
+			String serialId, int hospitalCode, long expGroupId,
+			ServiceContext sc)
 		throws PortalException;
 
 	/**
@@ -320,7 +321,7 @@ public interface SubjectLocalService
 	public Subject updateSubject(
 			long subjectId, String name, int birthYear, int birthMonth,
 			int birthDay, int gender, String phone, String phone2,
-			String address, String serialId, int hospitalCode,
+			String address, String serialId, int hospitalCode, long expGroupId,
 			ServiceContext sc)
 		throws PortalException;
 

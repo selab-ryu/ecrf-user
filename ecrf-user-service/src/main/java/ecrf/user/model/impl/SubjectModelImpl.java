@@ -88,7 +88,7 @@ public class SubjectModelImpl
 		{"birth", Types.TIMESTAMP}, {"gender", Types.INTEGER},
 		{"phone", Types.VARCHAR}, {"phone2", Types.VARCHAR},
 		{"address", Types.VARCHAR}, {"serialId", Types.VARCHAR},
-		{"hospitalCode", Types.INTEGER}
+		{"hospitalCode", Types.INTEGER}, {"expGroupId", Types.BIGINT}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -116,10 +116,11 @@ public class SubjectModelImpl
 		TABLE_COLUMNS_MAP.put("address", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("serialId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("hospitalCode", Types.INTEGER);
+		TABLE_COLUMNS_MAP.put("expGroupId", Types.BIGINT);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table EC_Subject (mvccVersion LONG default 0 not null,uuid_ VARCHAR(75) null,subjectId LONG not null primary key,companyId LONG,groupId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,name VARCHAR(75) null,birth DATE null,gender INTEGER,phone VARCHAR(75) null,phone2 VARCHAR(75) null,address VARCHAR(75) null,serialId VARCHAR(75) null,hospitalCode INTEGER)";
+		"create table EC_Subject (mvccVersion LONG default 0 not null,uuid_ VARCHAR(75) null,subjectId LONG not null primary key,companyId LONG,groupId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,name VARCHAR(75) null,birth DATE null,gender INTEGER,phone VARCHAR(75) null,phone2 VARCHAR(75) null,address VARCHAR(75) null,serialId VARCHAR(75) null,hospitalCode INTEGER,expGroupId LONG)";
 
 	public static final String TABLE_SQL_DROP = "drop table EC_Subject";
 
@@ -191,6 +192,7 @@ public class SubjectModelImpl
 		model.setAddress(soapModel.getAddress());
 		model.setSerialId(soapModel.getSerialId());
 		model.setHospitalCode(soapModel.getHospitalCode());
+		model.setExpGroupId(soapModel.getExpGroupId());
 
 		return model;
 	}
@@ -382,6 +384,9 @@ public class SubjectModelImpl
 		attributeSetterBiConsumers.put(
 			"hospitalCode",
 			(BiConsumer<Subject, Integer>)Subject::setHospitalCode);
+		attributeGetterFunctions.put("expGroupId", Subject::getExpGroupId);
+		attributeSetterBiConsumers.put(
+			"expGroupId", (BiConsumer<Subject, Long>)Subject::setExpGroupId);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -766,6 +771,17 @@ public class SubjectModelImpl
 		_hospitalCode = hospitalCode;
 	}
 
+	@JSON
+	@Override
+	public long getExpGroupId() {
+		return _expGroupId;
+	}
+
+	@Override
+	public void setExpGroupId(long expGroupId) {
+		_expGroupId = expGroupId;
+	}
+
 	@Override
 	public StagedModelType getStagedModelType() {
 		return new StagedModelType(
@@ -909,6 +925,7 @@ public class SubjectModelImpl
 		subjectImpl.setAddress(getAddress());
 		subjectImpl.setSerialId(getSerialId());
 		subjectImpl.setHospitalCode(getHospitalCode());
+		subjectImpl.setExpGroupId(getExpGroupId());
 
 		subjectImpl.resetOriginalValues();
 
@@ -1136,6 +1153,8 @@ public class SubjectModelImpl
 
 		subjectCacheModel.hospitalCode = getHospitalCode();
 
+		subjectCacheModel.expGroupId = getExpGroupId();
+
 		return subjectCacheModel;
 	}
 
@@ -1262,6 +1281,7 @@ public class SubjectModelImpl
 	private String _serialId;
 	private String _originalSerialId;
 	private int _hospitalCode;
+	private long _expGroupId;
 	private long _columnBitmask;
 	private Subject _escapedModel;
 

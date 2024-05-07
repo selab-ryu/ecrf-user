@@ -37,7 +37,7 @@ create index IX_590C5C69 on EC_CRFSubject (groupId, subjectId);
 create index IX_6D622F0 on EC_CRFSubject (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_B06AA572 on EC_CRFSubject (uuid_[$COLUMN_LENGTH:75$], groupId);
 
-create index IX_54A4B8EE on EC_ExperimentalGroup (groupId);
+create index IX_56E01E2D on EC_ExperimentalGroup (groupId, name[$COLUMN_LENGTH:75$]);
 create index IX_7B4711FB on EC_ExperimentalGroup (name[$COLUMN_LENGTH:75$]);
 create index IX_A6C9CA30 on EC_ExperimentalGroup (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_4B9F1CB2 on EC_ExperimentalGroup (uuid_[$COLUMN_LENGTH:75$], groupId);

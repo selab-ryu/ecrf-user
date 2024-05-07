@@ -47,6 +47,7 @@ public class SubjectLocalServiceImpl extends SubjectLocalServiceBaseImpl {
 			int birthYear, int birthMonth, int birthDay,
 			int gender, String phone, String phone2, String address, 
 			String serialId, int hospitalCode,
+			long expGroupId,
 			ServiceContext sc) throws PortalException {
 		_log.info("Service : Add Subject Start");
 		
@@ -81,6 +82,8 @@ public class SubjectLocalServiceImpl extends SubjectLocalServiceBaseImpl {
 		subject.setSerialId(serialId);
 		subject.setHospitalCode(hospitalCode);
 		
+		subject.setExpGroupId(expGroupId);
+		
 		// other liferay frameworks
 		
 		subject.setExpandoBridgeAttributes(sc);
@@ -101,6 +104,7 @@ public class SubjectLocalServiceImpl extends SubjectLocalServiceBaseImpl {
 			int birthYear, int birthMonth, int birthDay,
 			int gender, String phone, String phone2, String address, 
 			String serialId, int hospitalCode,
+			long expGroupId,
 			ServiceContext sc) throws PortalException {
 		_log.info("Service : Update Subject Start");
 		
@@ -122,7 +126,9 @@ public class SubjectLocalServiceImpl extends SubjectLocalServiceBaseImpl {
 		
 		subject.setSerialId(serialId);
 		subject.setHospitalCode(hospitalCode);
-				
+		
+		subject.setExpGroupId(expGroupId);
+		
 		super.subjectPersistence.update(subject);
 		
 		return subject;

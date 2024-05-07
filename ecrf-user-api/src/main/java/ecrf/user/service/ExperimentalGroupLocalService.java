@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -78,6 +79,11 @@ public interface ExperimentalGroupLocalService
 	public ExperimentalGroup addExperimentalGroup(
 		ExperimentalGroup experimentalGroup);
 
+	public ExperimentalGroup addExpGroup(
+			String name, String abbr, String description, int type,
+			ServiceContext sc)
+		throws PortalException;
+
 	/**
 	 * Creates a new experimental group with the primary key. Does not add the experimental group to the database.
 	 *
@@ -115,6 +121,8 @@ public interface ExperimentalGroupLocalService
 	@Indexable(type = IndexableType.DELETE)
 	public ExperimentalGroup deleteExperimentalGroup(long experimentalGroupId)
 		throws PortalException;
+
+	public ExperimentalGroup deleteExpGroup(long expGroupId);
 
 	/**
 	 * @throws PortalException
@@ -279,6 +287,15 @@ public interface ExperimentalGroupLocalService
 	public int getExperimentalGroupsCount();
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public ExperimentalGroup getExpGroupByG_N(long groupId, String name);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<ExperimentalGroup> getExpGroupByGroupId(long groupId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<ExperimentalGroup> getExpGroupByName(String name);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ExportActionableDynamicQuery getExportActionableDynamicQuery(
 		PortletDataContext portletDataContext);
 
@@ -313,5 +330,10 @@ public interface ExperimentalGroupLocalService
 	@Indexable(type = IndexableType.REINDEX)
 	public ExperimentalGroup updateExperimentalGroup(
 		ExperimentalGroup experimentalGroup);
+
+	public ExperimentalGroup updateExpGroup(
+			long expGroupId, String name, String abbr, String description,
+			int type, ServiceContext sc)
+		throws PortalException;
 
 }

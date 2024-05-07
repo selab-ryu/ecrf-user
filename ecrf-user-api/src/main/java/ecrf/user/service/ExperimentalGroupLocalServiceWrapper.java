@@ -51,6 +51,16 @@ public class ExperimentalGroupLocalServiceWrapper
 			experimentalGroup);
 	}
 
+	@Override
+	public ecrf.user.model.ExperimentalGroup addExpGroup(
+			String name, String abbr, String description, int type,
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _experimentalGroupLocalService.addExpGroup(
+			name, abbr, description, type, sc);
+	}
+
 	/**
 	 * Creates a new experimental group with the primary key. Does not add the experimental group to the database.
 	 *
@@ -101,6 +111,11 @@ public class ExperimentalGroupLocalServiceWrapper
 
 		return _experimentalGroupLocalService.deleteExperimentalGroup(
 			experimentalGroupId);
+	}
+
+	@Override
+	public ecrf.user.model.ExperimentalGroup deleteExpGroup(long expGroupId) {
+		return _experimentalGroupLocalService.deleteExpGroup(expGroupId);
 	}
 
 	/**
@@ -335,6 +350,27 @@ public class ExperimentalGroupLocalServiceWrapper
 	}
 
 	@Override
+	public ecrf.user.model.ExperimentalGroup getExpGroupByG_N(
+		long groupId, String name) {
+
+		return _experimentalGroupLocalService.getExpGroupByG_N(groupId, name);
+	}
+
+	@Override
+	public java.util.List<ecrf.user.model.ExperimentalGroup>
+		getExpGroupByGroupId(long groupId) {
+
+		return _experimentalGroupLocalService.getExpGroupByGroupId(groupId);
+	}
+
+	@Override
+	public java.util.List<ecrf.user.model.ExperimentalGroup> getExpGroupByName(
+		String name) {
+
+		return _experimentalGroupLocalService.getExpGroupByName(name);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery
 		getExportActionableDynamicQuery(
 			com.liferay.exportimport.kernel.lar.PortletDataContext
@@ -389,6 +425,16 @@ public class ExperimentalGroupLocalServiceWrapper
 
 		return _experimentalGroupLocalService.updateExperimentalGroup(
 			experimentalGroup);
+	}
+
+	@Override
+	public ecrf.user.model.ExperimentalGroup updateExpGroup(
+			long expGroupId, String name, String abbr, String description,
+			int type, com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _experimentalGroupLocalService.updateExpGroup(
+			expGroupId, name, abbr, description, type, sc);
 	}
 
 	@Override

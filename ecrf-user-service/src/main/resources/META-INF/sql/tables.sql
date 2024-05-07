@@ -131,7 +131,7 @@ create table EC_ExperimentalGroup (
 	statusByUserName VARCHAR(75) null,
 	statusDate DATE null,
 	name VARCHAR(75) null,
-	abbr VARCHAR(75) null,
+	abbreviation VARCHAR(75) null,
 	description VARCHAR(75) null,
 	type_ INTEGER
 );
@@ -220,5 +220,6 @@ create table EC_Subject (
 	phone2 VARCHAR(75) null,
 	address VARCHAR(75) null,
 	serialId VARCHAR(75) null,
-	hospitalCode INTEGER
+	hospitalCode INTEGER,
+	expGroupId LONG
 );

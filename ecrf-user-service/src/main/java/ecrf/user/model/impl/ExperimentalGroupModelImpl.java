@@ -85,7 +85,7 @@ public class ExperimentalGroupModelImpl
 		{"modifiedDate", Types.TIMESTAMP}, {"status", Types.INTEGER},
 		{"statusByUserId", Types.BIGINT}, {"statusByUserName", Types.VARCHAR},
 		{"statusDate", Types.TIMESTAMP}, {"name", Types.VARCHAR},
-		{"abbr", Types.VARCHAR}, {"description", Types.VARCHAR},
+		{"abbreviation", Types.VARCHAR}, {"description", Types.VARCHAR},
 		{"type_", Types.INTEGER}
 	};
 
@@ -107,13 +107,13 @@ public class ExperimentalGroupModelImpl
 		TABLE_COLUMNS_MAP.put("statusByUserName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("name", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("abbr", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("abbreviation", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("description", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("type_", Types.INTEGER);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table EC_ExperimentalGroup (mvccVersion LONG default 0 not null,uuid_ VARCHAR(75) null,experimentalGroupId LONG not null primary key,companyId LONG,groupId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,name VARCHAR(75) null,abbr VARCHAR(75) null,description VARCHAR(75) null,type_ INTEGER)";
+		"create table EC_ExperimentalGroup (mvccVersion LONG default 0 not null,uuid_ VARCHAR(75) null,experimentalGroupId LONG not null primary key,companyId LONG,groupId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,name VARCHAR(75) null,abbreviation VARCHAR(75) null,description VARCHAR(75) null,type_ INTEGER)";
 
 	public static final String TABLE_SQL_DROP =
 		"drop table EC_ExperimentalGroup";
@@ -177,7 +177,7 @@ public class ExperimentalGroupModelImpl
 		model.setStatusByUserName(soapModel.getStatusByUserName());
 		model.setStatusDate(soapModel.getStatusDate());
 		model.setName(soapModel.getName());
-		model.setAbbr(soapModel.getAbbr());
+		model.setAbbreviation(soapModel.getAbbreviation());
 		model.setDescription(soapModel.getDescription());
 		model.setType(soapModel.getType());
 
@@ -384,10 +384,12 @@ public class ExperimentalGroupModelImpl
 		attributeSetterBiConsumers.put(
 			"name",
 			(BiConsumer<ExperimentalGroup, String>)ExperimentalGroup::setName);
-		attributeGetterFunctions.put("abbr", ExperimentalGroup::getAbbr);
+		attributeGetterFunctions.put(
+			"abbreviation", ExperimentalGroup::getAbbreviation);
 		attributeSetterBiConsumers.put(
-			"abbr",
-			(BiConsumer<ExperimentalGroup, String>)ExperimentalGroup::setAbbr);
+			"abbreviation",
+			(BiConsumer<ExperimentalGroup, String>)
+				ExperimentalGroup::setAbbreviation);
 		attributeGetterFunctions.put(
 			"description", ExperimentalGroup::getDescription);
 		attributeSetterBiConsumers.put(
@@ -677,18 +679,18 @@ public class ExperimentalGroupModelImpl
 
 	@JSON
 	@Override
-	public String getAbbr() {
-		if (_abbr == null) {
+	public String getAbbreviation() {
+		if (_abbreviation == null) {
 			return "";
 		}
 		else {
-			return _abbr;
+			return _abbreviation;
 		}
 	}
 
 	@Override
-	public void setAbbr(String abbr) {
-		_abbr = abbr;
+	public void setAbbreviation(String abbreviation) {
+		_abbreviation = abbreviation;
 	}
 
 	@JSON
@@ -855,7 +857,7 @@ public class ExperimentalGroupModelImpl
 		experimentalGroupImpl.setStatusByUserName(getStatusByUserName());
 		experimentalGroupImpl.setStatusDate(getStatusDate());
 		experimentalGroupImpl.setName(getName());
-		experimentalGroupImpl.setAbbr(getAbbr());
+		experimentalGroupImpl.setAbbreviation(getAbbreviation());
 		experimentalGroupImpl.setDescription(getDescription());
 		experimentalGroupImpl.setType(getType());
 
@@ -1045,12 +1047,12 @@ public class ExperimentalGroupModelImpl
 			experimentalGroupCacheModel.name = null;
 		}
 
-		experimentalGroupCacheModel.abbr = getAbbr();
+		experimentalGroupCacheModel.abbreviation = getAbbreviation();
 
-		String abbr = experimentalGroupCacheModel.abbr;
+		String abbreviation = experimentalGroupCacheModel.abbreviation;
 
-		if ((abbr != null) && (abbr.length() == 0)) {
-			experimentalGroupCacheModel.abbr = null;
+		if ((abbreviation != null) && (abbreviation.length() == 0)) {
+			experimentalGroupCacheModel.abbreviation = null;
 		}
 
 		experimentalGroupCacheModel.description = getDescription();
@@ -1182,7 +1184,7 @@ public class ExperimentalGroupModelImpl
 	private Date _statusDate;
 	private String _name;
 	private String _originalName;
-	private String _abbr;
+	private String _abbreviation;
 	private String _description;
 	private int _type;
 	private long _columnBitmask;

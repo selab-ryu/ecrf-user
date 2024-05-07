@@ -141,7 +141,7 @@
 		<field name="statusByUserName" type="String" />
 		<field name="statusDate" type="Date" />
 		<field name="name" type="String" />
-		<field name="abbr" type="String" />
+		<field name="abbreviation" type="String" />
 		<field name="description" type="String" />
 		<field name="type" type="int" />
 	</model>
@@ -229,5 +229,6 @@
 		<field name="address" type="String" />
 		<field name="serialId" type="String" />
 		<field name="hospitalCode" type="int" />
+		<field name="expGroupId" type="long" />
 	</model>
 </model-hints>

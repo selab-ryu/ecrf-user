@@ -61,6 +61,14 @@ public class ExperimentalGroupLocalServiceUtil {
 		return getService().addExperimentalGroup(experimentalGroup);
 	}
 
+	public static ExperimentalGroup addExpGroup(
+			String name, String abbr, String description, int type,
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
+
+		return getService().addExpGroup(name, abbr, description, type, sc);
+	}
+
 	/**
 	 * Creates a new experimental group with the primary key. Does not add the experimental group to the database.
 	 *
@@ -105,6 +113,10 @@ public class ExperimentalGroupLocalServiceUtil {
 		throws PortalException {
 
 		return getService().deleteExperimentalGroup(experimentalGroupId);
+	}
+
+	public static ExperimentalGroup deleteExpGroup(long expGroupId) {
+		return getService().deleteExpGroup(expGroupId);
 	}
 
 	/**
@@ -308,6 +320,20 @@ public class ExperimentalGroupLocalServiceUtil {
 		return getService().getExperimentalGroupsCount();
 	}
 
+	public static ExperimentalGroup getExpGroupByG_N(
+		long groupId, String name) {
+
+		return getService().getExpGroupByG_N(groupId, name);
+	}
+
+	public static List<ExperimentalGroup> getExpGroupByGroupId(long groupId) {
+		return getService().getExpGroupByGroupId(groupId);
+	}
+
+	public static List<ExperimentalGroup> getExpGroupByName(String name) {
+		return getService().getExpGroupByName(name);
+	}
+
 	public static com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery
 		getExportActionableDynamicQuery(
 			com.liferay.exportimport.kernel.lar.PortletDataContext
@@ -355,6 +381,15 @@ public class ExperimentalGroupLocalServiceUtil {
 		ExperimentalGroup experimentalGroup) {
 
 		return getService().updateExperimentalGroup(experimentalGroup);
+	}
+
+	public static ExperimentalGroup updateExpGroup(
+			long expGroupId, String name, String abbr, String description,
+			int type, com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
+
+		return getService().updateExpGroup(
+			expGroupId, name, abbr, description, type, sc);
 	}
 
 	public static ExperimentalGroupLocalService getService() {

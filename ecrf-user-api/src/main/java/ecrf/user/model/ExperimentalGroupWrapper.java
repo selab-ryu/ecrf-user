@@ -57,7 +57,7 @@ public class ExperimentalGroupWrapper
 		attributes.put("statusByUserName", getStatusByUserName());
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("name", getName());
-		attributes.put("abbr", getAbbr());
+		attributes.put("abbreviation", getAbbreviation());
 		attributes.put("description", getDescription());
 		attributes.put("type", getType());
 
@@ -150,10 +150,10 @@ public class ExperimentalGroupWrapper
 			setName(name);
 		}
 
-		String abbr = (String)attributes.get("abbr");
+		String abbreviation = (String)attributes.get("abbreviation");
 
-		if (abbr != null) {
-			setAbbr(abbr);
+		if (abbreviation != null) {
+			setAbbreviation(abbreviation);
 		}
 
 		String description = (String)attributes.get("description");
@@ -170,13 +170,13 @@ public class ExperimentalGroupWrapper
 	}
 
 	/**
-	 * Returns the abbr of this experimental group.
+	 * Returns the abbreviation of this experimental group.
 	 *
-	 * @return the abbr of this experimental group
+	 * @return the abbreviation of this experimental group
 	 */
 	@Override
-	public String getAbbr() {
-		return model.getAbbr();
+	public String getAbbreviation() {
+		return model.getAbbreviation();
 	}
 
 	/**
@@ -455,13 +455,13 @@ public class ExperimentalGroupWrapper
 	}
 
 	/**
-	 * Sets the abbr of this experimental group.
+	 * Sets the abbreviation of this experimental group.
 	 *
-	 * @param abbr the abbr of this experimental group
+	 * @param abbreviation the abbreviation of this experimental group
 	 */
 	@Override
-	public void setAbbr(String abbr) {
-		model.setAbbr(abbr);
+	public void setAbbreviation(String abbreviation) {
+		model.setAbbreviation(abbreviation);
 	}
 
 	/**

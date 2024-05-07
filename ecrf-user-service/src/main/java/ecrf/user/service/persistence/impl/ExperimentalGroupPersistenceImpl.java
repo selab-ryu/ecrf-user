@@ -36,6 +36,7 @@ import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 
@@ -52,6 +53,7 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -2743,6 +2745,275 @@ public class ExperimentalGroupPersistenceImpl
 	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 =
 		"experimentalGroup.groupId = ?";
 
+	private FinderPath _finderPathFetchByG_N;
+	private FinderPath _finderPathCountByG_N;
+
+	/**
+	 * Returns the experimental group where groupId = &#63; and name = &#63; or throws a <code>NoSuchExperimentalGroupException</code> if it could not be found.
+	 *
+	 * @param groupId the group ID
+	 * @param name the name
+	 * @return the matching experimental group
+	 * @throws NoSuchExperimentalGroupException if a matching experimental group could not be found
+	 */
+	@Override
+	public ExperimentalGroup findByG_N(long groupId, String name)
+		throws NoSuchExperimentalGroupException {
+
+		ExperimentalGroup experimentalGroup = fetchByG_N(groupId, name);
+
+		if (experimentalGroup == null) {
+			StringBundler sb = new StringBundler(6);
+
+			sb.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			sb.append("groupId=");
+			sb.append(groupId);
+
+			sb.append(", name=");
+			sb.append(name);
+
+			sb.append("}");
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(sb.toString());
+			}
+
+			throw new NoSuchExperimentalGroupException(sb.toString());
+		}
+
+		return experimentalGroup;
+	}
+
+	/**
+	 * Returns the experimental group where groupId = &#63; and name = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param groupId the group ID
+	 * @param name the name
+	 * @return the matching experimental group, or <code>null</code> if a matching experimental group could not be found
+	 */
+	@Override
+	public ExperimentalGroup fetchByG_N(long groupId, String name) {
+		return fetchByG_N(groupId, name, true);
+	}
+
+	/**
+	 * Returns the experimental group where groupId = &#63; and name = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param groupId the group ID
+	 * @param name the name
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the matching experimental group, or <code>null</code> if a matching experimental group could not be found
+	 */
+	@Override
+	public ExperimentalGroup fetchByG_N(
+		long groupId, String name, boolean useFinderCache) {
+
+		name = Objects.toString(name, "");
+
+		Object[] finderArgs = null;
+
+		if (useFinderCache) {
+			finderArgs = new Object[] {groupId, name};
+		}
+
+		Object result = null;
+
+		if (useFinderCache) {
+			result = finderCache.getResult(
+				_finderPathFetchByG_N, finderArgs, this);
+		}
+
+		if (result instanceof ExperimentalGroup) {
+			ExperimentalGroup experimentalGroup = (ExperimentalGroup)result;
+
+			if ((groupId != experimentalGroup.getGroupId()) ||
+				!Objects.equals(name, experimentalGroup.getName())) {
+
+				result = null;
+			}
+		}
+
+		if (result == null) {
+			StringBundler sb = new StringBundler(4);
+
+			sb.append(_SQL_SELECT_EXPERIMENTALGROUP_WHERE);
+
+			sb.append(_FINDER_COLUMN_G_N_GROUPID_2);
+
+			boolean bindName = false;
+
+			if (name.isEmpty()) {
+				sb.append(_FINDER_COLUMN_G_N_NAME_3);
+			}
+			else {
+				bindName = true;
+
+				sb.append(_FINDER_COLUMN_G_N_NAME_2);
+			}
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				queryPos.add(groupId);
+
+				if (bindName) {
+					queryPos.add(name);
+				}
+
+				List<ExperimentalGroup> list = query.list();
+
+				if (list.isEmpty()) {
+					if (useFinderCache) {
+						finderCache.putResult(
+							_finderPathFetchByG_N, finderArgs, list);
+					}
+				}
+				else {
+					if (list.size() > 1) {
+						Collections.sort(list, Collections.reverseOrder());
+
+						if (_log.isWarnEnabled()) {
+							if (!useFinderCache) {
+								finderArgs = new Object[] {groupId, name};
+							}
+
+							_log.warn(
+								"ExperimentalGroupPersistenceImpl.fetchByG_N(long, String, boolean) with parameters (" +
+									StringUtil.merge(finderArgs) +
+										") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+						}
+					}
+
+					ExperimentalGroup experimentalGroup = list.get(0);
+
+					result = experimentalGroup;
+
+					cacheResult(experimentalGroup);
+				}
+			}
+			catch (Exception exception) {
+				if (useFinderCache) {
+					finderCache.removeResult(_finderPathFetchByG_N, finderArgs);
+				}
+
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		if (result instanceof List<?>) {
+			return null;
+		}
+		else {
+			return (ExperimentalGroup)result;
+		}
+	}
+
+	/**
+	 * Removes the experimental group where groupId = &#63; and name = &#63; from the database.
+	 *
+	 * @param groupId the group ID
+	 * @param name the name
+	 * @return the experimental group that was removed
+	 */
+	@Override
+	public ExperimentalGroup removeByG_N(long groupId, String name)
+		throws NoSuchExperimentalGroupException {
+
+		ExperimentalGroup experimentalGroup = findByG_N(groupId, name);
+
+		return remove(experimentalGroup);
+	}
+
+	/**
+	 * Returns the number of experimental groups where groupId = &#63; and name = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param name the name
+	 * @return the number of matching experimental groups
+	 */
+	@Override
+	public int countByG_N(long groupId, String name) {
+		name = Objects.toString(name, "");
+
+		FinderPath finderPath = _finderPathCountByG_N;
+
+		Object[] finderArgs = new Object[] {groupId, name};
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler sb = new StringBundler(3);
+
+			sb.append(_SQL_COUNT_EXPERIMENTALGROUP_WHERE);
+
+			sb.append(_FINDER_COLUMN_G_N_GROUPID_2);
+
+			boolean bindName = false;
+
+			if (name.isEmpty()) {
+				sb.append(_FINDER_COLUMN_G_N_NAME_3);
+			}
+			else {
+				bindName = true;
+
+				sb.append(_FINDER_COLUMN_G_N_NAME_2);
+			}
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				queryPos.add(groupId);
+
+				if (bindName) {
+					queryPos.add(name);
+				}
+
+				count = (Long)query.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception exception) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_G_N_GROUPID_2 =
+		"experimentalGroup.groupId = ? AND ";
+
+	private static final String _FINDER_COLUMN_G_N_NAME_2 =
+		"experimentalGroup.name = ?";
+
+	private static final String _FINDER_COLUMN_G_N_NAME_3 =
+		"(experimentalGroup.name IS NULL OR experimentalGroup.name = '')";
+
 	public ExperimentalGroupPersistenceImpl() {
 		Map<String, String> dbColumnNames = new HashMap<String, String>();
 
@@ -2778,6 +3049,13 @@ public class ExperimentalGroupPersistenceImpl
 		finderCache.putResult(
 			_finderPathFetchByExperimentalGroupId,
 			new Object[] {experimentalGroup.getExperimentalGroupId()},
+			experimentalGroup);
+
+		finderCache.putResult(
+			_finderPathFetchByG_N,
+			new Object[] {
+				experimentalGroup.getGroupId(), experimentalGroup.getName()
+			},
 			experimentalGroup);
 
 		experimentalGroup.resetOriginalValues();
@@ -2898,6 +3176,16 @@ public class ExperimentalGroupPersistenceImpl
 		finderCache.putResult(
 			_finderPathFetchByExperimentalGroupId, args,
 			experimentalGroupModelImpl, false);
+
+		args = new Object[] {
+			experimentalGroupModelImpl.getGroupId(),
+			experimentalGroupModelImpl.getName()
+		};
+
+		finderCache.putResult(
+			_finderPathCountByG_N, args, Long.valueOf(1), false);
+		finderCache.putResult(
+			_finderPathFetchByG_N, args, experimentalGroupModelImpl, false);
 	}
 
 	protected void clearUniqueFindersCache(
@@ -2948,6 +3236,28 @@ public class ExperimentalGroupPersistenceImpl
 				_finderPathCountByExperimentalGroupId, args);
 			finderCache.removeResult(
 				_finderPathFetchByExperimentalGroupId, args);
+		}
+
+		if (clearCurrent) {
+			Object[] args = new Object[] {
+				experimentalGroupModelImpl.getGroupId(),
+				experimentalGroupModelImpl.getName()
+			};
+
+			finderCache.removeResult(_finderPathCountByG_N, args);
+			finderCache.removeResult(_finderPathFetchByG_N, args);
+		}
+
+		if ((experimentalGroupModelImpl.getColumnBitmask() &
+			 _finderPathFetchByG_N.getColumnBitmask()) != 0) {
+
+			Object[] args = new Object[] {
+				experimentalGroupModelImpl.getOriginalGroupId(),
+				experimentalGroupModelImpl.getOriginalName()
+			};
+
+			finderCache.removeResult(_finderPathCountByG_N, args);
+			finderCache.removeResult(_finderPathFetchByG_N, args);
 		}
 	}
 
@@ -3665,6 +3975,18 @@ public class ExperimentalGroupPersistenceImpl
 			entityCacheEnabled, finderCacheEnabled, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
 			new String[] {Long.class.getName()});
+
+		_finderPathFetchByG_N = new FinderPath(
+			entityCacheEnabled, finderCacheEnabled, ExperimentalGroupImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByG_N",
+			new String[] {Long.class.getName(), String.class.getName()},
+			ExperimentalGroupModelImpl.GROUPID_COLUMN_BITMASK |
+			ExperimentalGroupModelImpl.NAME_COLUMN_BITMASK);
+
+		_finderPathCountByG_N = new FinderPath(
+			entityCacheEnabled, finderCacheEnabled, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_N",
+			new String[] {Long.class.getName(), String.class.getName()});
 
 		_setExperimentalGroupUtilPersistence(this);
 	}
