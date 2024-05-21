@@ -2,39 +2,119 @@
 <!DOCTYPE resource-action-mapping PUBLIC "-//Liferay//DTD Resource Action Mapping 7.2.0//EN" "http://www.liferay.com/dtd/liferay-resource-action-mapping_7_2_0.dtd">
 
 <resource-action-mapping>
+	
 	<model-resource>
-	    <model-name>ecrf.user</model-name>
+		<model-name>ecrf.user</model-name>
+		<portlet-ref>
+			<portlet-name>ecrf_user_approve_ApprovePortlet</portlet-name>
+			<portlet-name>ecrf_user_project_ProjectPortlet</portlet-name>
+		</portlet-ref>
+		<root>true</root>
+		<permissions>
+			<supports>
+				<action-key>VIEW</action-key>
+			</supports>
+			<site-member-defaults>
+				<action-key>VIEW</action-key>
+			</site-member-defaults>
+			<guest-defaults>
+				<action-key>VIEW</action-key>
+			</guest-defaults>
+			<guest-unsupported>
+			</guest-unsupported>
+		</permissions>
+	</model-resource>
+	
+	<model-resource>
+		<model-name>com.liferay.portal.kernel.model.Group</model-name>
 	    <portlet-ref>
-	        <portlet-name>ecrf_user_researcher_ResearcherPortlet</portlet-name>
-   	        <portlet-name>ecrf_user_project_ProjectPortlet</portlet-name>
-   	        <portlet-name>ecrf_user_approve_ApprovePortlet</portlet-name>
+	        <portlet-name>ecrf_user_approve_ApprovePortlet</portlet-name>
 	    </portlet-ref>
-	    <root>true</root>
-	    <weight>1</weight>
+	    <weight>2</weight>
 	    <permissions>
 	        <supports>
-	            <action-key>ADD_RESEARCHER</action-key>
-	            <action-key>ADD_PROJECT</action-key>
-	            <action-key>ADD_PATIENT</action-key>
-	            <action-key>ADD_CRF</action-key>
-	            <action-key>ADD_CRF_RESEARCHER</action-key>
-	            <action-key>APPROVE_MEMBERSHIP</action-key>
-	            <action-key>PERMISSIONS</action-key>
+	            <action-key>ASSIGN_MEMBERS</action-key>
+	            <action-key>VIEW_REQUEST</action-key>
+	            <action-key>VIEW_REQUEST_LIST</action-key>
 	        </supports>
 	        <site-member-defaults>
+	        	<action-key>ASSIGN_MEMBERS</action-key>
+	            <action-key>VIEW_REQUEST</action-key>
+	            <action-key>VIEW_REQUEST_LIST</action-key>
 	        </site-member-defaults>
-	        <guest-defaults/>
+	        <guest-defaults>
+	        </guest-defaults>
 	        <guest-unsupported>
-	            <action-key>ADD_RESEARCHER</action-key>
-	            <action-key>ADD_PROJECT</action-key>
-	            <action-key>ADD_PATIENT</action-key>
-	            <action-key>ADD_CRF</action-key>
-	            <action-key>ADD_CRF_RESEARCHER</action-key>
-	            <action-key>APPROVE_MEMBERSHIP</action-key>
-	            <action-key>PERMISSIONS</action-key>
+	        	<action-key>ASSIGN_MEMBERS</action-key>
+	            <action-key>VIEW_REQUEST</action-key>
+	            <action-key>VIEW_REQUEST_LIST</action-key>
 	        </guest-unsupported>
 	    </permissions>
 	</model-resource>
+	
+	
+	<model-resource>
+	    <model-name>ecrf.user.model.Project</model-name>
+	    <portlet-ref>
+	        <portlet-name>ecrf_user_project_ProjectPortlet</portlet-name>
+	    </portlet-ref>
+	    <weight>2</weight>
+	    <permissions>
+	        <supports>
+	            <action-key>PERMISSIONS</action-key>
+	            <action-key>UPDATE</action-key>
+	            <action-key>DELETE</action-key>
+	            <action-key>VIEW</action-key>
+	        </supports>
+	        <site-member-defaults>
+	            <action-key>UPDATE</action-key>
+	            <action-key>DELETE</action-key>
+	            <action-key>VIEW</action-key>
+	        </site-member-defaults>
+	        <guest-defaults>
+	            <action-key>VIEW</action-key>
+	        </guest-defaults>
+	        <guest-unsupported>
+	            <action-key>PERMISSIONS</action-key>
+	            <action-key>UPDATE</action-key>
+	            <action-key>DELETE</action-key>
+	        </guest-unsupported>
+	    </permissions>
+	</model-resource>
+	
+	<model-resource>
+	    <model-name>ecrf.user.model.EXPERIMENTAL_GROUP</model-name>
+	    <portlet-ref>
+	        <portlet-name>ecrf_user_project_ProjectPortlet</portlet-name>
+	        <portlet-name>ecrf_user_subject_SubjectPortlet</portlet-name>
+	    </portlet-ref>
+	    <weight>2</weight>
+	    <permissions>
+	        <supports>
+	            <action-key>PERMISSIONS</action-key>
+	            <action-key>UPDATE</action-key>
+	            <action-key>DELETE</action-key>
+	            <action-key>VIEW</action-key>
+	            <action-key>VIEW_LIST</action-key>
+	        </supports>
+	        <site-member-defaults>
+	            <action-key>UPDATE</action-key>
+	            <action-key>DELETE</action-key>
+	            <action-key>VIEW</action-key>
+	            <action-key>VIEW_LIST</action-key>
+	        </site-member-defaults>
+	        <guest-defaults>
+	            <action-key>VIEW</action-key>
+	        </guest-defaults>
+	        <guest-unsupported>
+	        	<action-key>PERMISSIONS</action-key>
+	            <action-key>UPDATE</action-key>
+	            <action-key>DELETE</action-key>
+	            <action-key>VIEW_LIST</action-key>
+	        </guest-unsupported>
+	    </permissions>
+	</model-resource>
+	
 	
 	<model-resource>
 	    <model-name>ecrf.user.model.Researcher</model-name>
@@ -48,6 +128,7 @@
 	            <action-key>UPDATE</action-key>
 	            <action-key>DELETE</action-key>
 	            <action-key>VIEW</action-key>
+	            <action-key>VIEW_LIST</action-key>
 	        </supports>
 	        <site-member-defaults>
 	            <action-key>UPDATE</action-key>
@@ -58,37 +139,240 @@
 	            <action-key>VIEW</action-key>
 	        </guest-defaults>
 	        <guest-unsupported>
+	        	<action-key>PERMISSIONS</action-key>
 	            <action-key>UPDATE</action-key>
 	            <action-key>DELETE</action-key>
-	            <action-key>PERMISSIONS</action-key>
 	        </guest-unsupported>
 	    </permissions>
 	</model-resource>
 	
 	<model-resource>
-	    <model-name>ecrf.user.model.Project</model-name>
+	    <model-name>ecrf.user.model.Subject</model-name>
 	    <portlet-ref>
-	        <portlet-name>ecrf_user_project_ProjectPortlet</portlet-name>
+	        <portlet-name>ecrf_user_subject_SubjectPortlet</portlet-name>
+	        <portlet-name>ecrf_user_crf_CRFWebPortlet</portlet-name>
+	        <portlet-name>ecrf_user_crf_data_CRFDataPortlet</portlet-name>
+	        <portlet-name>ecrf_user_crf_query_CRFQueryPortlet</portlet-name>
 	    </portlet-ref>
 	    <weight>2</weight>
 	    <permissions>
 	        <supports>
 	            <action-key>PERMISSIONS</action-key>
 	            <action-key>UPDATE</action-key>
+	            <action-key>DELETE</action-key>
 	            <action-key>VIEW</action-key>
+	            <action-key>VIEW_LIST</action-key>
 	        </supports>
 	        <site-member-defaults>
 	            <action-key>UPDATE</action-key>
+	            <action-key>DELETE</action-key>
 	            <action-key>VIEW</action-key>
 	        </site-member-defaults>
 	        <guest-defaults>
 	            <action-key>VIEW</action-key>
 	        </guest-defaults>
 	        <guest-unsupported>
+	        	<action-key>PERMISSIONS</action-key>
 	            <action-key>UPDATE</action-key>
-	            <action-key>PERMISSIONS</action-key>
+	            <action-key>DELETE</action-key>
 	        </guest-unsupported>
 	    </permissions>
 	</model-resource>
+	
+	
+	<model-resource>
+	    <model-name>ecrf.user.model.CRF</model-name>
+	    <portlet-ref>
+	        <portlet-name>ecrf_user_crf_CRFWebPortlet</portlet-name>
+	    </portlet-ref>
+	    <weight>2</weight>
+	    <permissions>
+	        <supports>
+	            <action-key>PERMISSIONS</action-key>
+	            <action-key>UPDATE</action-key>
+	            <action-key>DELETE</action-key>
+	            <action-key>VIEW</action-key>
+	            <action-key>VIEW_LIST</action-key>
+	        </supports>
+	        <site-member-defaults>
+	            <action-key>UPDATE</action-key>
+	            <action-key>DELETE</action-key>
+	            <action-key>VIEW</action-key>
+	        </site-member-defaults>
+	        <guest-defaults>
+	        </guest-defaults>
+	        <guest-unsupported>
+	        	<action-key>PERMISSIONS</action-key>
+	            <action-key>UPDATE</action-key>
+	            <action-key>DELETE</action-key>
+	            <action-key>VIEW</action-key>
+	            <action-key>VIEW_LIST</action-key>
+	        </guest-unsupported>
+	    </permissions>
+   	</model-resource>
+   	
+   	<model-resource>
+	    <model-name>ecrf.user.model.CRFResearcher</model-name>
+	    <portlet-ref>
+	        <portlet-name>ecrf_user_crf_CRFWebPortlet</portlet-name>
+	        <portlet-name>ecrf_user_crf_data_CRFDataPortlet</portlet-name>
+     	    <portlet-name>ecrf_user_crf_query_CRFQueryPortlet</portlet-name>
+	    </portlet-ref>
+	    <weight>2</weight>
+	    <permissions>
+	        <supports>
+	            <action-key>PERMISSIONS</action-key>
+	            <action-key>UPDATE</action-key>
+	            <action-key>DELETE</action-key>
+	            <action-key>VIEW</action-key>
+	            <action-key>VIEW_LIST</action-key>
+	        </supports>
+	        <site-member-defaults>
+	            <action-key>UPDATE</action-key>
+	            <action-key>DELETE</action-key>
+	            <action-key>VIEW</action-key>
+	        </site-member-defaults>
+	        <guest-defaults>
+	        </guest-defaults>
+	        <guest-unsupported>
+	        	<action-key>PERMISSIONS</action-key>
+	            <action-key>UPDATE</action-key>
+	            <action-key>DELETE</action-key>
+	            <action-key>VIEW</action-key>
+	            <action-key>VIEW_LIST</action-key>
+	        </guest-unsupported>
+	    </permissions>
+   	</model-resource>
+   	
+   	<model-resource>
+	    <model-name>ecrf.user.model.CRFSubject</model-name>
+	    <portlet-ref>
+	        <portlet-name>ecrf_user_crf_CRFWebPortlet</portlet-name>
+	        <portlet-name>ecrf_user_crf_data_CRFDataPortlet</portlet-name>
+	        <portlet-name>ecrf_user_crf_query_CRFQueryPortlet</portlet-name>
+	    </portlet-ref>
+	    <weight>2</weight>
+	    <permissions>
+	        <supports>
+	            <action-key>PERMISSIONS</action-key>
+	            <action-key>UPDATE</action-key>
+	            <action-key>DELETE</action-key>
+	            <action-key>VIEW</action-key>
+	            <action-key>VIEW_LIST</action-key>
+	        </supports>
+	        <site-member-defaults>
+	            <action-key>UPDATE</action-key>
+	            <action-key>DELETE</action-key>
+	            <action-key>VIEW</action-key>
+	        </site-member-defaults>
+	        <guest-defaults>
+	        </guest-defaults>
+	        <guest-unsupported>
+	        	<action-key>PERMISSIONS</action-key>
+	            <action-key>UPDATE</action-key>
+	            <action-key>DELETE</action-key>
+	            <action-key>VIEW</action-key>
+	            <action-key>VIEW_LIST</action-key>
+	        </guest-unsupported>
+	    </permissions>
+   	</model-resource>
+   	
+   	<model-resource>
+	    <model-name>ecrf.user.model.LinkCRF</model-name>
+	    <portlet-ref>
+	        <portlet-name>ecrf_user_crf_data_CRFDataPortlet</portlet-name>
+	        <portlet-name>ecrf_user_crf_query_CRFQueryPortlet</portlet-name>
+	    </portlet-ref>
+	    <weight>2</weight>
+	    <permissions>
+	        <supports>
+	            <action-key>PERMISSIONS</action-key>
+	            <action-key>UPDATE</action-key>
+	            <action-key>DELETE</action-key>
+	            <action-key>VIEW</action-key>
+	            <action-key>VIEW_LIST</action-key>
+	        </supports>
+	        <site-member-defaults>
+	            <action-key>UPDATE</action-key>
+	            <action-key>DELETE</action-key>
+	            <action-key>VIEW</action-key>
+	        </site-member-defaults>
+	        <guest-defaults>
+	        </guest-defaults>
+	        <guest-unsupported>
+	        	<action-key>PERMISSIONS</action-key>
+	            <action-key>UPDATE</action-key>
+	            <action-key>DELETE</action-key>
+	            <action-key>VIEW</action-key>
+	            <action-key>VIEW_LIST</action-key>
+	        </guest-unsupported>
+	    </permissions>
+   	</model-resource>
+   	
+   	<model-resource>
+	    <model-name>ecrf.user.model.CRFHistory</model-name>
+	    <portlet-ref>
+	        <portlet-name>ecrf_user_crf_data_CRFDataPortlet</portlet-name>
+	    </portlet-ref>
+	    <weight>2</weight>
+	    <permissions>
+	        <supports>
+	            <action-key>PERMISSIONS</action-key>
+	            <action-key>UPDATE</action-key>
+	            <action-key>DELETE</action-key>
+	            <action-key>VIEW</action-key>
+	            <action-key>VIEW_LIST</action-key>
+	        </supports>
+	        <site-member-defaults>
+	            <action-key>UPDATE</action-key>
+	            <action-key>DELETE</action-key>
+	            <action-key>VIEW</action-key>
+	        </site-member-defaults>
+	        <guest-defaults>
+	        </guest-defaults>
+	        <guest-unsupported>
+	        	<action-key>PERMISSIONS</action-key>
+	            <action-key>UPDATE</action-key>
+	            <action-key>DELETE</action-key>
+        		<action-key>VIEW</action-key>
+        		<action-key>VIEW_LIST</action-key>
+	        </guest-unsupported>
+	    </permissions>
+   	</model-resource>
+	
+	<model-resource>
+	    <model-name>ecrf.user.model.CRFAutoquery</model-name>
+	    <portlet-ref>
+	        <portlet-name>ecrf_user_crf_data_CRFDataPortlet</portlet-name>
+	        <portlet-name>ecrf_user_crf_query_CRFQueryPortlet</portlet-name>
+	    </portlet-ref>
+	    <weight>2</weight>
+	    <permissions>
+	        <supports>
+	            <action-key>PERMISSIONS</action-key>
+	            <action-key>ADD</action-key>
+	            <action-key>VALIDATE</action-key>
+	            <action-key>DELETE</action-key>
+	            <action-key>VIEW</action-key>
+	            <action-key>VIEW_LIST</action-key>
+	        </supports>
+	        <site-member-defaults>
+	            <action-key>ADD</action-key>
+	            <action-key>DELETE</action-key>
+	            <action-key>VIEW</action-key>
+	        </site-member-defaults>
+	        <guest-defaults>
+	            
+	        </guest-defaults>
+	        <guest-unsupported>
+	        	<action-key>PERMISSIONS</action-key>
+	            <action-key>ADD</action-key>
+	            <action-key>VALIDATE</action-key>
+	            <action-key>DELETE</action-key>
+	            <action-key>VIEW</action-key>
+        		<action-key>VIEW_LIST</action-key>
+	        </guest-unsupported>
+	    </permissions>
+   	</model-resource>
 	
 </resource-action-mapping>
