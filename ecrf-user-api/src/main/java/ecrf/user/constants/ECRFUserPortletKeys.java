@@ -15,7 +15,7 @@ public class ECRFUserPortletKeys {
 	public static final String ACCOUNT = "ecrf_user_account_AccountPortlet";
 	public static final String RESEARCHER ="ecrf_user_researcher_ResearcherPortlet";
 	
-	public static final String CRF = "ecrf_user_crf_CRFWebPortlet";;
+	public static final String CRF = "ecrf_user_crf_CRFPortlet";;
 	public static final String SUBJECT = "ecrf_user_subject_SubjectPortlet";
 	
 	public static final String CRF_QUERY = "ecrf_user_crf_query_CRFQueryPortlet";
