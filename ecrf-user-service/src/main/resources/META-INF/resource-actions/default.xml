@@ -83,7 +83,7 @@
 	</model-resource>
 	
 	<model-resource>
-	    <model-name>ecrf.user.model.EXPERIMENTAL_GROUP</model-name>
+	    <model-name>ecrf.user.model.ExperimentalGroup</model-name>
 	    <portlet-ref>
 	        <portlet-name>ecrf_user_project_ProjectPortlet</portlet-name>
 	        <portlet-name>ecrf_user_subject_SubjectPortlet</portlet-name>
@@ -150,7 +150,7 @@
 	    <model-name>ecrf.user.model.Subject</model-name>
 	    <portlet-ref>
 	        <portlet-name>ecrf_user_subject_SubjectPortlet</portlet-name>
-	        <portlet-name>ecrf_user_crf_CRFWebPortlet</portlet-name>
+	        <portlet-name>ecrf_user_crf_CRFPortlet</portlet-name>
 	        <portlet-name>ecrf_user_crf_data_CRFDataPortlet</portlet-name>
 	        <portlet-name>ecrf_user_crf_query_CRFQueryPortlet</portlet-name>
 	    </portlet-ref>
@@ -183,7 +183,7 @@
 	<model-resource>
 	    <model-name>ecrf.user.model.CRF</model-name>
 	    <portlet-ref>
-	        <portlet-name>ecrf_user_crf_CRFWebPortlet</portlet-name>
+	        <portlet-name>ecrf_user_crf_CRFPortlet</portlet-name>
 	    </portlet-ref>
 	    <weight>2</weight>
 	    <permissions>
@@ -214,7 +214,7 @@
    	<model-resource>
 	    <model-name>ecrf.user.model.CRFResearcher</model-name>
 	    <portlet-ref>
-	        <portlet-name>ecrf_user_crf_CRFWebPortlet</portlet-name>
+	        <portlet-name>ecrf_user_crf_CRFPortlet</portlet-name>
 	        <portlet-name>ecrf_user_crf_data_CRFDataPortlet</portlet-name>
      	    <portlet-name>ecrf_user_crf_query_CRFQueryPortlet</portlet-name>
 	    </portlet-ref>
@@ -247,7 +247,7 @@
    	<model-resource>
 	    <model-name>ecrf.user.model.CRFSubject</model-name>
 	    <portlet-ref>
-	        <portlet-name>ecrf_user_crf_CRFWebPortlet</portlet-name>
+	        <portlet-name>ecrf_user_crf_CRFPortlet</portlet-name>
 	        <portlet-name>ecrf_user_crf_data_CRFDataPortlet</portlet-name>
 	        <portlet-name>ecrf_user_crf_query_CRFQueryPortlet</portlet-name>
 	    </portlet-ref>
