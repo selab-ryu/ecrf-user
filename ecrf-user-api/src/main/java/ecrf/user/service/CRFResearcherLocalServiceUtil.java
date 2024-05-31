@@ -14,9 +14,16 @@
 
 package ecrf.user.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import ecrf.user.model.CRFResearcher;
+
+import java.io.Serializable;
+
+import java.util.List;
 
 /**
  * Provides the local service utility for CRFResearcher. This utility wraps
@@ -48,16 +55,14 @@ public class CRFResearcherLocalServiceUtil {
 	 * @param crfResearcher the crf researcher
 	 * @return the crf researcher that was added
 	 */
-	public static ecrf.user.model.CRFResearcher addCRFResearcher(
-		ecrf.user.model.CRFResearcher crfResearcher) {
-
+	public static CRFResearcher addCRFResearcher(CRFResearcher crfResearcher) {
 		return getService().addCRFResearcher(crfResearcher);
 	}
 
-	public static ecrf.user.model.CRFResearcher addCRFResearcher(
+	public static CRFResearcher addCRFResearcher(
 			long researcherId, long crfId, String jobTitle,
 			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().addCRFResearcher(researcherId, crfId, jobTitle, sc);
 	}
@@ -76,9 +81,7 @@ public class CRFResearcherLocalServiceUtil {
 	 * @param crfResearcherId the primary key for the new crf researcher
 	 * @return the new crf researcher
 	 */
-	public static ecrf.user.model.CRFResearcher createCRFResearcher(
-		long crfResearcherId) {
-
+	public static CRFResearcher createCRFResearcher(long crfResearcherId) {
 		return getService().createCRFResearcher(crfResearcherId);
 	}
 
@@ -92,8 +95,8 @@ public class CRFResearcherLocalServiceUtil {
 	 * @param crfResearcher the crf researcher
 	 * @return the crf researcher that was removed
 	 */
-	public static ecrf.user.model.CRFResearcher deleteCRFResearcher(
-		ecrf.user.model.CRFResearcher crfResearcher) {
+	public static CRFResearcher deleteCRFResearcher(
+		CRFResearcher crfResearcher) {
 
 		return getService().deleteCRFResearcher(crfResearcher);
 	}
@@ -109,9 +112,8 @@ public class CRFResearcherLocalServiceUtil {
 	 * @return the crf researcher that was removed
 	 * @throws PortalException if a crf researcher with the primary key could not be found
 	 */
-	public static ecrf.user.model.CRFResearcher deleteCRFResearcher(
-			long crfResearcherId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static CRFResearcher deleteCRFResearcher(long crfResearcherId)
+		throws PortalException {
 
 		return getService().deleteCRFResearcher(crfResearcherId);
 	}
@@ -119,17 +121,14 @@ public class CRFResearcherLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
-
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -139,9 +138,7 @@ public class CRFResearcherLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -157,9 +154,8 @@ public class CRFResearcherLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -177,10 +173,9 @@ public class CRFResearcherLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -192,9 +187,7 @@ public class CRFResearcherLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -206,15 +199,13 @@ public class CRFResearcherLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static ecrf.user.model.CRFResearcher fetchCRFResearcher(
-		long crfResearcherId) {
-
+	public static CRFResearcher fetchCRFResearcher(long crfResearcherId) {
 		return getService().fetchCRFResearcher(crfResearcherId);
 	}
 
@@ -225,8 +216,8 @@ public class CRFResearcherLocalServiceUtil {
 	 * @param groupId the primary key of the group
 	 * @return the matching crf researcher, or <code>null</code> if a matching crf researcher could not be found
 	 */
-	public static ecrf.user.model.CRFResearcher
-		fetchCRFResearcherByUuidAndGroupId(String uuid, long groupId) {
+	public static CRFResearcher fetchCRFResearcherByUuidAndGroupId(
+		String uuid, long groupId) {
 
 		return getService().fetchCRFResearcherByUuidAndGroupId(uuid, groupId);
 	}
@@ -244,92 +235,82 @@ public class CRFResearcherLocalServiceUtil {
 	 * @return the crf researcher
 	 * @throws PortalException if a crf researcher with the primary key could not be found
 	 */
-	public static ecrf.user.model.CRFResearcher getCRFResearcher(
-			long crfResearcherId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static CRFResearcher getCRFResearcher(long crfResearcherId)
+		throws PortalException {
 
 		return getService().getCRFResearcher(crfResearcherId);
 	}
 
-	public static ecrf.user.model.CRFResearcher getCRFResearcherByC_R(
+	public static CRFResearcher getCRFResearcherByC_R(
 		long crfId, long researcherId) {
 
 		return getService().getCRFResearcherByC_R(crfId, researcherId);
 	}
 
-	public static java.util.List<ecrf.user.model.CRFResearcher>
-		getCRFResearcherByCRFId(long crfId) {
-
+	public static List<CRFResearcher> getCRFResearcherByCRFId(long crfId) {
 		return getService().getCRFResearcherByCRFId(crfId);
 	}
 
-	public static java.util.List<ecrf.user.model.CRFResearcher>
-		getCRFResearcherByG_C(long groupId, long crfId) {
+	public static List<CRFResearcher> getCRFResearcherByG_C(
+		long groupId, long crfId) {
 
 		return getService().getCRFResearcherByG_C(groupId, crfId);
 	}
 
-	public static java.util.List<ecrf.user.model.CRFResearcher>
-		getCRFResearcherByG_C(long groupId, long crfId, int start, int end) {
+	public static List<CRFResearcher> getCRFResearcherByG_C(
+		long groupId, long crfId, int start, int end) {
 
 		return getService().getCRFResearcherByG_C(groupId, crfId, start, end);
 	}
 
-	public static java.util.List<ecrf.user.model.CRFResearcher>
-		getCRFResearcherByG_C(
-			long groupId, long crfId, int start, int end,
-			com.liferay.portal.kernel.util.OrderByComparator comparator) {
+	public static List<CRFResearcher> getCRFResearcherByG_C(
+		long groupId, long crfId, int start, int end,
+		OrderByComparator comparator) {
 
 		return getService().getCRFResearcherByG_C(
 			groupId, crfId, start, end, comparator);
 	}
 
-	public static java.util.List<ecrf.user.model.CRFResearcher>
-		getCRFResearcherByG_R(long groupId, long researcherId) {
+	public static List<CRFResearcher> getCRFResearcherByG_R(
+		long groupId, long researcherId) {
 
 		return getService().getCRFResearcherByG_R(groupId, researcherId);
 	}
 
-	public static java.util.List<ecrf.user.model.CRFResearcher>
-		getCRFResearcherByG_R(
-			long groupId, long researcherId, int start, int end) {
+	public static List<CRFResearcher> getCRFResearcherByG_R(
+		long groupId, long researcherId, int start, int end) {
 
 		return getService().getCRFResearcherByG_R(
 			groupId, researcherId, start, end);
 	}
 
-	public static java.util.List<ecrf.user.model.CRFResearcher>
-		getCRFResearcherByG_R(
-			long groupId, long researcherId, int start, int end,
-			com.liferay.portal.kernel.util.OrderByComparator comparator) {
+	public static List<CRFResearcher> getCRFResearcherByG_R(
+		long groupId, long researcherId, int start, int end,
+		OrderByComparator comparator) {
 
 		return getService().getCRFResearcherByG_R(
 			groupId, researcherId, start, end, comparator);
 	}
 
-	public static java.util.List<ecrf.user.model.CRFResearcher>
-		getCRFResearcherByGroupId(long groupId) {
-
+	public static List<CRFResearcher> getCRFResearcherByGroupId(long groupId) {
 		return getService().getCRFResearcherByGroupId(groupId);
 	}
 
-	public static java.util.List<ecrf.user.model.CRFResearcher>
-		getCRFResearcherByGroupId(long groupId, int start, int end) {
+	public static List<CRFResearcher> getCRFResearcherByGroupId(
+		long groupId, int start, int end) {
 
 		return getService().getCRFResearcherByGroupId(groupId, start, end);
 	}
 
-	public static java.util.List<ecrf.user.model.CRFResearcher>
-		getCRFResearcherByGroupId(
-			long groupId, int start, int end,
-			com.liferay.portal.kernel.util.OrderByComparator comparator) {
+	public static List<CRFResearcher> getCRFResearcherByGroupId(
+		long groupId, int start, int end, OrderByComparator comparator) {
 
 		return getService().getCRFResearcherByGroupId(
 			groupId, start, end, comparator);
 	}
 
-	public static java.util.List<ecrf.user.model.CRFResearcher>
-		getCRFResearcherByResearcherId(long researcherId) {
+	public static List<CRFResearcher> getCRFResearcherByResearcherId(
+		long researcherId) {
 
 		return getService().getCRFResearcherByResearcherId(researcherId);
 	}
@@ -342,9 +323,9 @@ public class CRFResearcherLocalServiceUtil {
 	 * @return the matching crf researcher
 	 * @throws PortalException if a matching crf researcher could not be found
 	 */
-	public static ecrf.user.model.CRFResearcher
-			getCRFResearcherByUuidAndGroupId(String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static CRFResearcher getCRFResearcherByUuidAndGroupId(
+			String uuid, long groupId)
+		throws PortalException {
 
 		return getService().getCRFResearcherByUuidAndGroupId(uuid, groupId);
 	}
@@ -364,9 +345,7 @@ public class CRFResearcherLocalServiceUtil {
 	 * @param end the upper bound of the range of crf researchers (not inclusive)
 	 * @return the range of crf researchers
 	 */
-	public static java.util.List<ecrf.user.model.CRFResearcher>
-		getCRFResearchers(int start, int end) {
-
+	public static List<CRFResearcher> getCRFResearchers(int start, int end) {
 		return getService().getCRFResearchers(start, end);
 	}
 
@@ -377,8 +356,8 @@ public class CRFResearcherLocalServiceUtil {
 	 * @param companyId the primary key of the company
 	 * @return the matching crf researchers, or an empty list if no matches were found
 	 */
-	public static java.util.List<ecrf.user.model.CRFResearcher>
-		getCRFResearchersByUuidAndCompanyId(String uuid, long companyId) {
+	public static List<CRFResearcher> getCRFResearchersByUuidAndCompanyId(
+		String uuid, long companyId) {
 
 		return getService().getCRFResearchersByUuidAndCompanyId(
 			uuid, companyId);
@@ -394,11 +373,9 @@ public class CRFResearcherLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the range of matching crf researchers, or an empty list if no matches were found
 	 */
-	public static java.util.List<ecrf.user.model.CRFResearcher>
-		getCRFResearchersByUuidAndCompanyId(
-			String uuid, long companyId, int start, int end,
-			com.liferay.portal.kernel.util.OrderByComparator
-				<ecrf.user.model.CRFResearcher> orderByComparator) {
+	public static List<CRFResearcher> getCRFResearchersByUuidAndCompanyId(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<CRFResearcher> orderByComparator) {
 
 		return getService().getCRFResearchersByUuidAndCompanyId(
 			uuid, companyId, start, end, orderByComparator);
@@ -440,9 +417,8 @@ public class CRFResearcherLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -461,43 +437,24 @@ public class CRFResearcherLocalServiceUtil {
 	 * @param crfResearcher the crf researcher
 	 * @return the crf researcher that was updated
 	 */
-	public static ecrf.user.model.CRFResearcher updateCRFResearcher(
-		ecrf.user.model.CRFResearcher crfResearcher) {
+	public static CRFResearcher updateCRFResearcher(
+		CRFResearcher crfResearcher) {
 
 		return getService().updateCRFResearcher(crfResearcher);
 	}
 
 	public static void updateCRFResearchers(
-			long crfId,
-			java.util.ArrayList<ecrf.user.model.CRFResearcher>
-				crfResearcherList,
+			long crfId, java.util.ArrayList<CRFResearcher> crfResearcherList,
 			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		getService().updateCRFResearchers(crfId, crfResearcherList, sc);
 	}
 
 	public static CRFResearcherLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<CRFResearcherLocalService, CRFResearcherLocalService> _serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(
-			CRFResearcherLocalService.class);
-
-		ServiceTracker<CRFResearcherLocalService, CRFResearcherLocalService>
-			serviceTracker =
-				new ServiceTracker
-					<CRFResearcherLocalService, CRFResearcherLocalService>(
-						bundle.getBundleContext(),
-						CRFResearcherLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile CRFResearcherLocalService _service;
 
 }

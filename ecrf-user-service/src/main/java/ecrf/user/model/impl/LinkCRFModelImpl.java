@@ -31,6 +31,7 @@ import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 
 import ecrf.user.model.LinkCRF;
 import ecrf.user.model.LinkCRFModel;
@@ -38,9 +39,9 @@ import ecrf.user.model.LinkCRFSoap;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
 import java.util.ArrayList;
@@ -277,33 +278,6 @@ public class LinkCRFModelImpl
 		getAttributeSetterBiConsumers() {
 
 		return _attributeSetterBiConsumers;
-	}
-
-	private static Function<InvocationHandler, LinkCRF>
-		_getProxyProviderFunction() {
-
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			LinkCRF.class.getClassLoader(), LinkCRF.class, ModelWrapper.class);
-
-		try {
-			Constructor<LinkCRF> constructor =
-				(Constructor<LinkCRF>)proxyClass.getConstructor(
-					InvocationHandler.class);
-
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
-
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
-		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
 	}
 
 	private static final Map<String, Function<LinkCRF, Object>>
@@ -767,38 +741,34 @@ public class LinkCRFModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		LinkCRFModelImpl linkCRFModelImpl = this;
+		_originalUuid = _uuid;
 
-		linkCRFModelImpl._originalUuid = linkCRFModelImpl._uuid;
+		_originalLinkId = _linkId;
 
-		linkCRFModelImpl._originalLinkId = linkCRFModelImpl._linkId;
+		_setOriginalLinkId = false;
 
-		linkCRFModelImpl._setOriginalLinkId = false;
+		_originalGroupId = _groupId;
 
-		linkCRFModelImpl._originalGroupId = linkCRFModelImpl._groupId;
+		_setOriginalGroupId = false;
 
-		linkCRFModelImpl._setOriginalGroupId = false;
+		_originalCompanyId = _companyId;
 
-		linkCRFModelImpl._originalCompanyId = linkCRFModelImpl._companyId;
+		_setOriginalCompanyId = false;
 
-		linkCRFModelImpl._setOriginalCompanyId = false;
+		_setModifiedDate = false;
+		_originalSubjectId = _subjectId;
 
-		linkCRFModelImpl._setModifiedDate = false;
+		_setOriginalSubjectId = false;
 
-		linkCRFModelImpl._originalSubjectId = linkCRFModelImpl._subjectId;
+		_originalCrfId = _crfId;
 
-		linkCRFModelImpl._setOriginalSubjectId = false;
+		_setOriginalCrfId = false;
 
-		linkCRFModelImpl._originalCrfId = linkCRFModelImpl._crfId;
+		_originalStructuredDataId = _structuredDataId;
 
-		linkCRFModelImpl._setOriginalCrfId = false;
+		_setOriginalStructuredDataId = false;
 
-		linkCRFModelImpl._originalStructuredDataId =
-			linkCRFModelImpl._structuredDataId;
-
-		linkCRFModelImpl._setOriginalStructuredDataId = false;
-
-		linkCRFModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -864,7 +834,7 @@ public class LinkCRFModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -875,9 +845,26 @@ public class LinkCRFModelImpl
 			Function<LinkCRF, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((LinkCRF)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((LinkCRF)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -896,7 +883,7 @@ public class LinkCRFModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
+			(5 * attributeGetterFunctions.size()) + 4);
 
 		sb.append("<model><model-name>");
 		sb.append(getModelClassName());
@@ -924,7 +911,9 @@ public class LinkCRFModelImpl
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, LinkCRF>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					LinkCRF.class, ModelWrapper.class);
 
 	}
 
