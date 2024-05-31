@@ -14,16 +14,9 @@
 
 package ecrf.user.service;
 
-import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.model.PersistedModel;
-import com.liferay.portal.kernel.util.OrderByComparator;
-
-import ecrf.user.model.CRFAutoquery;
-
-import java.io.Serializable;
-
-import java.util.List;
+import org.osgi.framework.Bundle;
+import org.osgi.framework.FrameworkUtil;
+import org.osgi.util.tracker.ServiceTracker;
 
 /**
  * Provides the local service utility for CRFAutoquery. This utility wraps
@@ -55,16 +48,18 @@ public class CRFAutoqueryLocalServiceUtil {
 	 * @param crfAutoquery the crf autoquery
 	 * @return the crf autoquery that was added
 	 */
-	public static CRFAutoquery addCRFAutoquery(CRFAutoquery crfAutoquery) {
+	public static ecrf.user.model.CRFAutoquery addCRFAutoquery(
+		ecrf.user.model.CRFAutoquery crfAutoquery) {
+
 		return getService().addCRFAutoquery(crfAutoquery);
 	}
 
-	public static CRFAutoquery addCRFAutoquery(
+	public static ecrf.user.model.CRFAutoquery addCRFAutoquery(
 			long queryTermId, String queryTermName, String queryValue,
 			String queryPreviousValue, long subjectId, long crfId,
 			int queryType, String queryComment,
 			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().addCRFAutoquery(
 			queryTermId, queryTermName, queryValue, queryPreviousValue,
@@ -82,17 +77,17 @@ public class CRFAutoqueryLocalServiceUtil {
 			com.liferay.portal.kernel.json.JSONObject answerForm,
 			long subjectId, long crfId,
 			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		getService().checkQuery(
 			sdId, crfForm, answerForm, subjectId, crfId, sc);
 	}
 
-	public static CRFAutoquery comfirmAutoquery(
+	public static ecrf.user.model.CRFAutoquery comfirmAutoquery(
 			long autoQueryId, int queryComfirm, String queryValue,
 			String queryChangeValue, String queryComment,
 			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().comfirmAutoquery(
 			autoQueryId, queryComfirm, queryValue, queryChangeValue,
@@ -116,18 +111,20 @@ public class CRFAutoqueryLocalServiceUtil {
 	 * @param autoQueryId the primary key for the new crf autoquery
 	 * @return the new crf autoquery
 	 */
-	public static CRFAutoquery createCRFAutoquery(long autoQueryId) {
+	public static ecrf.user.model.CRFAutoquery createCRFAutoquery(
+		long autoQueryId) {
+
 		return getService().createCRFAutoquery(autoQueryId);
 	}
 
-	public static CRFAutoquery deleteAutoquery(long autoQueryId)
-		throws PortalException {
+	public static ecrf.user.model.CRFAutoquery deleteAutoquery(long autoQueryId)
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().deleteAutoquery(autoQueryId);
 	}
 
 	public static void deleteCRFAutoqueries(long[] autoQueryIds)
-		throws PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		getService().deleteCRFAutoqueries(autoQueryIds);
 	}
@@ -142,7 +139,9 @@ public class CRFAutoqueryLocalServiceUtil {
 	 * @param crfAutoquery the crf autoquery
 	 * @return the crf autoquery that was removed
 	 */
-	public static CRFAutoquery deleteCRFAutoquery(CRFAutoquery crfAutoquery) {
+	public static ecrf.user.model.CRFAutoquery deleteCRFAutoquery(
+		ecrf.user.model.CRFAutoquery crfAutoquery) {
+
 		return getService().deleteCRFAutoquery(crfAutoquery);
 	}
 
@@ -157,8 +156,9 @@ public class CRFAutoqueryLocalServiceUtil {
 	 * @return the crf autoquery that was removed
 	 * @throws PortalException if a crf autoquery with the primary key could not be found
 	 */
-	public static CRFAutoquery deleteCRFAutoquery(long autoQueryId)
-		throws PortalException {
+	public static ecrf.user.model.CRFAutoquery deleteCRFAutoquery(
+			long autoQueryId)
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().deleteCRFAutoquery(autoQueryId);
 	}
@@ -166,14 +166,17 @@ public class CRFAutoqueryLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static PersistedModel deletePersistedModel(
-			PersistedModel persistedModel)
-		throws PortalException {
+	public static com.liferay.portal.kernel.model.PersistedModel
+			deletePersistedModel(
+				com.liferay.portal.kernel.model.PersistedModel persistedModel)
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
 
-	public static DynamicQuery dynamicQuery() {
+	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
+		dynamicQuery() {
+
 		return getService().dynamicQuery();
 	}
 
@@ -183,7 +186,9 @@ public class CRFAutoqueryLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
+	public static <T> java.util.List<T> dynamicQuery(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
+
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -199,8 +204,9 @@ public class CRFAutoqueryLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> List<T> dynamicQuery(
-		DynamicQuery dynamicQuery, int start, int end) {
+	public static <T> java.util.List<T> dynamicQuery(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
+		int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -218,9 +224,10 @@ public class CRFAutoqueryLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> List<T> dynamicQuery(
-		DynamicQuery dynamicQuery, int start, int end,
-		OrderByComparator<T> orderByComparator) {
+	public static <T> java.util.List<T> dynamicQuery(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
+		int end,
+		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -232,7 +239,9 @@ public class CRFAutoqueryLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
+	public static long dynamicQueryCount(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
+
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -244,13 +253,15 @@ public class CRFAutoqueryLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		DynamicQuery dynamicQuery,
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static CRFAutoquery fetchCRFAutoquery(long autoQueryId) {
+	public static ecrf.user.model.CRFAutoquery fetchCRFAutoquery(
+		long autoQueryId) {
+
 		return getService().fetchCRFAutoquery(autoQueryId);
 	}
 
@@ -261,8 +272,8 @@ public class CRFAutoqueryLocalServiceUtil {
 	 * @param groupId the primary key of the group
 	 * @return the matching crf autoquery, or <code>null</code> if a matching crf autoquery could not be found
 	 */
-	public static CRFAutoquery fetchCRFAutoqueryByUuidAndGroupId(
-		String uuid, long groupId) {
+	public static ecrf.user.model.CRFAutoquery
+		fetchCRFAutoqueryByUuidAndGroupId(String uuid, long groupId) {
 
 		return getService().fetchCRFAutoqueryByUuidAndGroupId(uuid, groupId);
 	}
@@ -273,7 +284,7 @@ public class CRFAutoqueryLocalServiceUtil {
 		return getService().getActionableDynamicQuery();
 	}
 
-	public static List<CRFAutoquery> getAllQuery() {
+	public static java.util.List<ecrf.user.model.CRFAutoquery> getAllQuery() {
 		return getService().getAllQuery();
 	}
 
@@ -288,7 +299,9 @@ public class CRFAutoqueryLocalServiceUtil {
 	 * @param end the upper bound of the range of crf autoqueries (not inclusive)
 	 * @return the range of crf autoqueries
 	 */
-	public static List<CRFAutoquery> getCRFAutoqueries(int start, int end) {
+	public static java.util.List<ecrf.user.model.CRFAutoquery>
+		getCRFAutoqueries(int start, int end) {
+
 		return getService().getCRFAutoqueries(start, end);
 	}
 
@@ -299,8 +312,8 @@ public class CRFAutoqueryLocalServiceUtil {
 	 * @param companyId the primary key of the company
 	 * @return the matching crf autoqueries, or an empty list if no matches were found
 	 */
-	public static List<CRFAutoquery> getCRFAutoqueriesByUuidAndCompanyId(
-		String uuid, long companyId) {
+	public static java.util.List<ecrf.user.model.CRFAutoquery>
+		getCRFAutoqueriesByUuidAndCompanyId(String uuid, long companyId) {
 
 		return getService().getCRFAutoqueriesByUuidAndCompanyId(
 			uuid, companyId);
@@ -316,9 +329,11 @@ public class CRFAutoqueryLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the range of matching crf autoqueries, or an empty list if no matches were found
 	 */
-	public static List<CRFAutoquery> getCRFAutoqueriesByUuidAndCompanyId(
-		String uuid, long companyId, int start, int end,
-		OrderByComparator<CRFAutoquery> orderByComparator) {
+	public static java.util.List<ecrf.user.model.CRFAutoquery>
+		getCRFAutoqueriesByUuidAndCompanyId(
+			String uuid, long companyId, int start, int end,
+			com.liferay.portal.kernel.util.OrderByComparator
+				<ecrf.user.model.CRFAutoquery> orderByComparator) {
 
 		return getService().getCRFAutoqueriesByUuidAndCompanyId(
 			uuid, companyId, start, end, orderByComparator);
@@ -340,8 +355,8 @@ public class CRFAutoqueryLocalServiceUtil {
 	 * @return the crf autoquery
 	 * @throws PortalException if a crf autoquery with the primary key could not be found
 	 */
-	public static CRFAutoquery getCRFAutoquery(long autoQueryId)
-		throws PortalException {
+	public static ecrf.user.model.CRFAutoquery getCRFAutoquery(long autoQueryId)
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().getCRFAutoquery(autoQueryId);
 	}
@@ -354,9 +369,9 @@ public class CRFAutoqueryLocalServiceUtil {
 	 * @return the matching crf autoquery
 	 * @throws PortalException if a matching crf autoquery could not be found
 	 */
-	public static CRFAutoquery getCRFAutoqueryByUuidAndGroupId(
+	public static ecrf.user.model.CRFAutoquery getCRFAutoqueryByUuidAndGroupId(
 			String uuid, long groupId)
-		throws PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().getCRFAutoqueryByUuidAndGroupId(uuid, groupId);
 	}
@@ -388,40 +403,46 @@ public class CRFAutoqueryLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
-		throws PortalException {
+	public static com.liferay.portal.kernel.model.PersistedModel
+			getPersistedModel(java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
 
-	public static List<CRFAutoquery> getQueryByG_C_S(
+	public static java.util.List<ecrf.user.model.CRFAutoquery> getQueryByG_C_S(
 		long groupId, long crfId, long subjectId) {
 
 		return getService().getQueryByG_C_S(groupId, crfId, subjectId);
 	}
 
-	public static List<CRFAutoquery> getQueryByGroupCRF(
-		long groupId, long crfId) {
+	public static java.util.List<ecrf.user.model.CRFAutoquery>
+		getQueryByGroupCRF(long groupId, long crfId) {
 
 		return getService().getQueryByGroupCRF(groupId, crfId);
 	}
 
-	public static List<CRFAutoquery> getQueryByGroupId(long groupId) {
+	public static java.util.List<ecrf.user.model.CRFAutoquery>
+		getQueryByGroupId(long groupId) {
+
 		return getService().getQueryByGroupId(groupId);
 	}
 
-	public static CRFAutoquery getQueryBySdIdSIdValue(
+	public static ecrf.user.model.CRFAutoquery getQueryBySdIdSIdValue(
 			long sdId, long sId, String termName, String value)
 		throws ecrf.user.exception.NoSuchCRFAutoqueryException {
 
 		return getService().getQueryBySdIdSIdValue(sdId, sId, termName, value);
 	}
 
-	public static List<CRFAutoquery> getQueryBySId(long sId) {
+	public static java.util.List<ecrf.user.model.CRFAutoquery> getQueryBySId(
+		long sId) {
+
 		return getService().getQueryBySId(sId);
 	}
 
-	public static CRFAutoquery getQueryBySIdTermName(long sId, String termName)
+	public static ecrf.user.model.CRFAutoquery getQueryBySIdTermName(
+			long sId, String termName)
 		throws ecrf.user.exception.NoSuchCRFAutoqueryException {
 
 		return getService().getQueryBySIdTermName(sId, termName);
@@ -437,14 +458,32 @@ public class CRFAutoqueryLocalServiceUtil {
 	 * @param crfAutoquery the crf autoquery
 	 * @return the crf autoquery that was updated
 	 */
-	public static CRFAutoquery updateCRFAutoquery(CRFAutoquery crfAutoquery) {
+	public static ecrf.user.model.CRFAutoquery updateCRFAutoquery(
+		ecrf.user.model.CRFAutoquery crfAutoquery) {
+
 		return getService().updateCRFAutoquery(crfAutoquery);
 	}
 
 	public static CRFAutoqueryLocalService getService() {
-		return _service;
+		return _serviceTracker.getService();
 	}
 
-	private static volatile CRFAutoqueryLocalService _service;
+	private static ServiceTracker
+		<CRFAutoqueryLocalService, CRFAutoqueryLocalService> _serviceTracker;
+
+	static {
+		Bundle bundle = FrameworkUtil.getBundle(CRFAutoqueryLocalService.class);
+
+		ServiceTracker<CRFAutoqueryLocalService, CRFAutoqueryLocalService>
+			serviceTracker =
+				new ServiceTracker
+					<CRFAutoqueryLocalService, CRFAutoqueryLocalService>(
+						bundle.getBundleContext(),
+						CRFAutoqueryLocalService.class, null);
+
+		serviceTracker.open();
+
+		_serviceTracker = serviceTracker;
+	}
 
 }

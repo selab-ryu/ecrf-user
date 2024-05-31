@@ -54,7 +54,6 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import ecrf.user.model.CRFHistory;
 import ecrf.user.service.CRFHistoryLocalService;
-import ecrf.user.service.CRFHistoryLocalServiceUtil;
 import ecrf.user.service.persistence.CRFAutoqueryPersistence;
 import ecrf.user.service.persistence.CRFHistoryPersistence;
 import ecrf.user.service.persistence.CRFPersistence;
@@ -70,13 +69,10 @@ import ecrf.user.service.persistence.SubjectPersistence;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
 
-import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 
 /**
@@ -97,7 +93,7 @@ public abstract class CRFHistoryLocalServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>CRFHistoryLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>CRFHistoryLocalServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>CRFHistoryLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>ecrf.user.service.CRFHistoryLocalServiceUtil</code>.
 	 */
 
 	/**
@@ -538,11 +534,6 @@ public abstract class CRFHistoryLocalServiceBaseImpl
 		return crfHistoryPersistence.update(crfHistory);
 	}
 
-	@Deactivate
-	protected void deactivate() {
-		_setLocalServiceUtilService(null);
-	}
-
 	@Override
 	public Class<?>[] getAopInterfaces() {
 		return new Class<?>[] {
@@ -554,8 +545,6 @@ public abstract class CRFHistoryLocalServiceBaseImpl
 	@Override
 	public void setAopProxy(Object aopProxy) {
 		crfHistoryLocalService = (CRFHistoryLocalService)aopProxy;
-
-		_setLocalServiceUtilService(crfHistoryLocalService);
 	}
 
 	/**
@@ -597,22 +586,6 @@ public abstract class CRFHistoryLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		CRFHistoryLocalService crfHistoryLocalService) {
-
-		try {
-			Field field = CRFHistoryLocalServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, crfHistoryLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

@@ -54,7 +54,6 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import ecrf.user.model.CRF;
 import ecrf.user.service.CRFLocalService;
-import ecrf.user.service.CRFLocalServiceUtil;
 import ecrf.user.service.persistence.CRFAutoqueryPersistence;
 import ecrf.user.service.persistence.CRFHistoryPersistence;
 import ecrf.user.service.persistence.CRFPersistence;
@@ -70,13 +69,10 @@ import ecrf.user.service.persistence.SubjectPersistence;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
 
-import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 
 /**
@@ -97,7 +93,7 @@ public abstract class CRFLocalServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>CRFLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>CRFLocalServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>CRFLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>ecrf.user.service.CRFLocalServiceUtil</code>.
 	 */
 
 	/**
@@ -527,11 +523,6 @@ public abstract class CRFLocalServiceBaseImpl
 		return crfPersistence.update(crf);
 	}
 
-	@Deactivate
-	protected void deactivate() {
-		_setLocalServiceUtilService(null);
-	}
-
 	@Override
 	public Class<?>[] getAopInterfaces() {
 		return new Class<?>[] {
@@ -543,8 +534,6 @@ public abstract class CRFLocalServiceBaseImpl
 	@Override
 	public void setAopProxy(Object aopProxy) {
 		crfLocalService = (CRFLocalService)aopProxy;
-
-		_setLocalServiceUtilService(crfLocalService);
 	}
 
 	/**
@@ -586,20 +575,6 @@ public abstract class CRFLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(CRFLocalService crfLocalService) {
-		try {
-			Field field = CRFLocalServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, crfLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 
