@@ -54,7 +54,6 @@ public class ECRFUserMVCCommand {
 	public static final String ACTION_ADD_SUBJECTS_FILE = "/action/subject/add-subjects-file";
 	public static final String RENDER_DEBUG_PAGE = "/render/debug-page";
 	
-	
 	public static final String RENDER_VIEW_CRF = "/render/crf/view-crf";
 	public static final String RENDER_ADD_CRF = "/render/crf/add-crf";
 	public static final String RENDER_UPDATE_CRF = "/render/crf/update-crf";
@@ -63,6 +62,10 @@ public class ECRFUserMVCCommand {
 	public static final String ACTION_ADD_CRF = "/action/crf/add-crf";
 	public static final String ACTION_UPDATE_CRF = "/action/crf/update-crf";
 	public static final String ACTION_DELETE_CRF = "/action/crf/delete-crf";
+	
+	public static final String ACTION_ADD_CRF_VIEWER = "/action/crf/add-crf-viewer";
+	public static final String ACTION_UPDATE_CRF_VIEWER = "/action/crf/update-crf-viewer";
+	
 	
 	public static final String ACTION_MOVE_CRF = "/action/crf/move-crf";
 	public static final String ACTION_MOVE_CRF_FORM = "/action/crf/move-crf-form";
@@ -73,6 +76,7 @@ public class ECRFUserMVCCommand {
 	public static final String RENDER_LIST_CRF_DATA = "/render/crf-data/list-crf-data";
 	public static final String RENDER_UPDATE_CRF_DATA = "/render/crf-data/update-crf-data";
 	public static final String RENDER_VIEW_CRF_DATA = "/render/crf-data/view-crf-data";
+	public static final String RENDER_CRF_VIEWER = "/render/crf-data/crf-viewer";
 	
 	public static final String ACTION_ADD_CRF_DATA = "/action/crf-data/add-crf-data";
 	public static final String ACTION_UPDATE_CRF_DATA = "/action/crf-data/update-crf-data";
