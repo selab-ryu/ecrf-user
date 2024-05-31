@@ -59,6 +59,14 @@ public class CRFSubjectLocalServiceWrapper
 	}
 
 	@Override
+	public ecrf.user.model.CRFSubject changeUpdateLock(
+		long crfId, long subjectId, boolean updateLock) {
+
+		return _crfSubjectLocalService.changeUpdateLock(
+			crfId, subjectId, updateLock);
+	}
+
+	@Override
 	public int countCRFSubjectByCRFId(long groupId, long crfId) {
 		return _crfSubjectLocalService.countCRFSubjectByCRFId(groupId, crfId);
 	}
@@ -271,6 +279,13 @@ public class CRFSubjectLocalServiceWrapper
 	}
 
 	@Override
+	public ecrf.user.model.CRFSubject getCRFSubjectByC_S(
+		long crfId, long subjectId) {
+
+		return _crfSubjectLocalService.getCRFSubjectByC_S(crfId, subjectId);
+	}
+
+	@Override
 	public java.util.List<ecrf.user.model.CRFSubject> getCRFSubjectByCRFId(
 		long groupId, long crfId) {
 
@@ -476,6 +491,11 @@ public class CRFSubjectLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _crfSubjectLocalService.getPersistedModel(primaryKeyObj);
+	}
+
+	@Override
+	public boolean getUpdateLockByC_S(long crfId, long subjectId) {
+		return _crfSubjectLocalService.getUpdateLockByC_S(crfId, subjectId);
 	}
 
 	/**

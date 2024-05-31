@@ -8,6 +8,11 @@ public class ECRFUserJspPaths {
 	public static final String JSP_VIEW_PROJECT = JSP_ROOT_PROJECT + "view-project.jsp";
 	public static final String JSP_UPDATE_PROJECT = JSP_ROOT_PROJECT + "update-project.jsp";
 	
+	public static final String JSP_ROOT_EXP_GROUP = "/html/project/exp-group/";
+	public static final String JSP_LIST_EXP_GROUP = JSP_ROOT_EXP_GROUP + "list-exp-group.jsp";
+	public static final String JSP_ADD_EXP_GROUP = JSP_ROOT_EXP_GROUP + "add-exp-group.jsp";
+	public static final String JSP_UPDATE_EXP_GROUP = JSP_ROOT_EXP_GROUP + "update-exp-group.jsp";
+	
 	
 	public static final String JSP_ROOT_APPROVE = "/html/approve/";
 	public static final String JSP_APPROVE_MEMBERSHIP = JSP_ROOT_APPROVE + "approve-membership-request.jsp";

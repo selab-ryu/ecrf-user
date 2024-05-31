@@ -83,7 +83,7 @@ public class CRFSubjectModelImpl
 		{"modifiedDate", Types.TIMESTAMP}, {"crfId", Types.BIGINT},
 		{"subjectId", Types.BIGINT}, {"participationStatus", Types.INTEGER},
 		{"participationStartDate", Types.TIMESTAMP},
-		{"experimentalGroup", Types.VARCHAR}, {"updateLock", Types.BOOLEAN}
+		{"updateLock", Types.BOOLEAN}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -103,12 +103,11 @@ public class CRFSubjectModelImpl
 		TABLE_COLUMNS_MAP.put("subjectId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("participationStatus", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("participationStartDate", Types.TIMESTAMP);
-		TABLE_COLUMNS_MAP.put("experimentalGroup", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("updateLock", Types.BOOLEAN);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table EC_CRFSubject (mvccVersion LONG default 0 not null,uuid_ VARCHAR(75) null,crfSubjectId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,crfId LONG,subjectId LONG,participationStatus INTEGER,participationStartDate DATE null,experimentalGroup VARCHAR(75) null,updateLock BOOLEAN)";
+		"create table EC_CRFSubject (mvccVersion LONG default 0 not null,uuid_ VARCHAR(75) null,crfSubjectId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,crfId LONG,subjectId LONG,participationStatus INTEGER,participationStartDate DATE null,updateLock BOOLEAN)";
 
 	public static final String TABLE_SQL_DROP = "drop table EC_CRFSubject";
 
@@ -128,17 +127,15 @@ public class CRFSubjectModelImpl
 
 	public static final long CRFID_COLUMN_BITMASK = 2L;
 
-	public static final long EXPERIMENTALGROUP_COLUMN_BITMASK = 4L;
+	public static final long GROUPID_COLUMN_BITMASK = 4L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 8L;
+	public static final long SUBJECTID_COLUMN_BITMASK = 8L;
 
-	public static final long SUBJECTID_COLUMN_BITMASK = 16L;
+	public static final long UPDATELOCK_COLUMN_BITMASK = 16L;
 
-	public static final long UPDATELOCK_COLUMN_BITMASK = 32L;
+	public static final long UUID_COLUMN_BITMASK = 32L;
 
-	public static final long UUID_COLUMN_BITMASK = 64L;
-
-	public static final long CREATEDATE_COLUMN_BITMASK = 128L;
+	public static final long CREATEDATE_COLUMN_BITMASK = 64L;
 
 	public static void setEntityCacheEnabled(boolean entityCacheEnabled) {
 		_entityCacheEnabled = entityCacheEnabled;
@@ -174,7 +171,6 @@ public class CRFSubjectModelImpl
 		model.setSubjectId(soapModel.getSubjectId());
 		model.setParticipationStatus(soapModel.getParticipationStatus());
 		model.setParticipationStartDate(soapModel.getParticipationStartDate());
-		model.setExperimentalGroup(soapModel.getExperimentalGroup());
 		model.setUpdateLock(soapModel.isUpdateLock());
 
 		return model;
@@ -380,11 +376,6 @@ public class CRFSubjectModelImpl
 			"participationStartDate",
 			(BiConsumer<CRFSubject, Date>)
 				CRFSubject::setParticipationStartDate);
-		attributeGetterFunctions.put(
-			"experimentalGroup", CRFSubject::getExperimentalGroup);
-		attributeSetterBiConsumers.put(
-			"experimentalGroup",
-			(BiConsumer<CRFSubject, String>)CRFSubject::setExperimentalGroup);
 		attributeGetterFunctions.put("updateLock", CRFSubject::getUpdateLock);
 		attributeSetterBiConsumers.put(
 			"updateLock",
@@ -633,32 +624,6 @@ public class CRFSubjectModelImpl
 
 	@JSON
 	@Override
-	public String getExperimentalGroup() {
-		if (_experimentalGroup == null) {
-			return "";
-		}
-		else {
-			return _experimentalGroup;
-		}
-	}
-
-	@Override
-	public void setExperimentalGroup(String experimentalGroup) {
-		_columnBitmask |= EXPERIMENTALGROUP_COLUMN_BITMASK;
-
-		if (_originalExperimentalGroup == null) {
-			_originalExperimentalGroup = _experimentalGroup;
-		}
-
-		_experimentalGroup = experimentalGroup;
-	}
-
-	public String getOriginalExperimentalGroup() {
-		return GetterUtil.getString(_originalExperimentalGroup);
-	}
-
-	@JSON
-	@Override
 	public boolean getUpdateLock() {
 		return _updateLock;
 	}
@@ -741,7 +706,6 @@ public class CRFSubjectModelImpl
 		crfSubjectImpl.setSubjectId(getSubjectId());
 		crfSubjectImpl.setParticipationStatus(getParticipationStatus());
 		crfSubjectImpl.setParticipationStartDate(getParticipationStartDate());
-		crfSubjectImpl.setExperimentalGroup(getExperimentalGroup());
 		crfSubjectImpl.setUpdateLock(isUpdateLock());
 
 		crfSubjectImpl.resetOriginalValues();
@@ -839,11 +803,7 @@ public class CRFSubjectModelImpl
 
 		crfSubjectModelImpl._setOriginalSubjectId = false;
 
-		crfSubjectModelImpl._originalExperimentalGroup =
-			crfSubjectModelImpl._experimentalGroup;
-
-		crfSubjectModelImpl._originalUpdateLock =
-			crfSubjectModelImpl._updateLock;
+    _originalUpdateLock = _updateLock;
 
 		crfSubjectModelImpl._setOriginalUpdateLock = false;
 
@@ -912,14 +872,6 @@ public class CRFSubjectModelImpl
 		}
 		else {
 			crfSubjectCacheModel.participationStartDate = Long.MIN_VALUE;
-		}
-
-		crfSubjectCacheModel.experimentalGroup = getExperimentalGroup();
-
-		String experimentalGroup = crfSubjectCacheModel.experimentalGroup;
-
-		if ((experimentalGroup != null) && (experimentalGroup.length() == 0)) {
-			crfSubjectCacheModel.experimentalGroup = null;
 		}
 
 		crfSubjectCacheModel.updateLock = isUpdateLock();
@@ -1023,8 +975,6 @@ public class CRFSubjectModelImpl
 	private boolean _setOriginalSubjectId;
 	private int _participationStatus;
 	private Date _participationStartDate;
-	private String _experimentalGroup;
-	private String _originalExperimentalGroup;
 	private boolean _updateLock;
 	private boolean _originalUpdateLock;
 	private boolean _setOriginalUpdateLock;

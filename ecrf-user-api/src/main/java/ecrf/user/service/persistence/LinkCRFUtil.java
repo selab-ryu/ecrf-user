@@ -734,6 +734,73 @@ public class LinkCRFUtil {
 	}
 
 	/**
+	 * Returns all the link crfs that the user has permission to view where groupId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @return the matching link crfs that the user has permission to view
+	 */
+	public static List<LinkCRF> filterFindByGroupId(long groupId) {
+		return getPersistence().filterFindByGroupId(groupId);
+	}
+
+	/**
+	 * Returns a range of all the link crfs that the user has permission to view where groupId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>LinkCRFModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param start the lower bound of the range of link crfs
+	 * @param end the upper bound of the range of link crfs (not inclusive)
+	 * @return the range of matching link crfs that the user has permission to view
+	 */
+	public static List<LinkCRF> filterFindByGroupId(
+		long groupId, int start, int end) {
+
+		return getPersistence().filterFindByGroupId(groupId, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the link crfs that the user has permissions to view where groupId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>LinkCRFModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param start the lower bound of the range of link crfs
+	 * @param end the upper bound of the range of link crfs (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching link crfs that the user has permission to view
+	 */
+	public static List<LinkCRF> filterFindByGroupId(
+		long groupId, int start, int end,
+		OrderByComparator<LinkCRF> orderByComparator) {
+
+		return getPersistence().filterFindByGroupId(
+			groupId, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns the link crfs before and after the current link crf in the ordered set of link crfs that the user has permission to view where groupId = &#63;.
+	 *
+	 * @param linkId the primary key of the current link crf
+	 * @param groupId the group ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next link crf
+	 * @throws NoSuchLinkCRFException if a link crf with the primary key could not be found
+	 */
+	public static LinkCRF[] filterFindByGroupId_PrevAndNext(
+			long linkId, long groupId,
+			OrderByComparator<LinkCRF> orderByComparator)
+		throws ecrf.user.exception.NoSuchLinkCRFException {
+
+		return getPersistence().filterFindByGroupId_PrevAndNext(
+			linkId, groupId, orderByComparator);
+	}
+
+	/**
 	 * Removes all the link crfs where groupId = &#63; from the database.
 	 *
 	 * @param groupId the group ID
@@ -750,6 +817,16 @@ public class LinkCRFUtil {
 	 */
 	public static int countByGroupId(long groupId) {
 		return getPersistence().countByGroupId(groupId);
+	}
+
+	/**
+	 * Returns the number of link crfs that the user has permission to view where groupId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @return the number of matching link crfs that the user has permission to view
+	 */
+	public static int filterCountByGroupId(long groupId) {
+		return getPersistence().filterCountByGroupId(groupId);
 	}
 
 	/**
@@ -1083,6 +1160,77 @@ public class LinkCRFUtil {
 	}
 
 	/**
+	 * Returns all the link crfs that the user has permission to view where groupId = &#63; and subjectId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param subjectId the subject ID
+	 * @return the matching link crfs that the user has permission to view
+	 */
+	public static List<LinkCRF> filterFindByG_S(long groupId, long subjectId) {
+		return getPersistence().filterFindByG_S(groupId, subjectId);
+	}
+
+	/**
+	 * Returns a range of all the link crfs that the user has permission to view where groupId = &#63; and subjectId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>LinkCRFModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param subjectId the subject ID
+	 * @param start the lower bound of the range of link crfs
+	 * @param end the upper bound of the range of link crfs (not inclusive)
+	 * @return the range of matching link crfs that the user has permission to view
+	 */
+	public static List<LinkCRF> filterFindByG_S(
+		long groupId, long subjectId, int start, int end) {
+
+		return getPersistence().filterFindByG_S(groupId, subjectId, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the link crfs that the user has permissions to view where groupId = &#63; and subjectId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>LinkCRFModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param subjectId the subject ID
+	 * @param start the lower bound of the range of link crfs
+	 * @param end the upper bound of the range of link crfs (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching link crfs that the user has permission to view
+	 */
+	public static List<LinkCRF> filterFindByG_S(
+		long groupId, long subjectId, int start, int end,
+		OrderByComparator<LinkCRF> orderByComparator) {
+
+		return getPersistence().filterFindByG_S(
+			groupId, subjectId, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns the link crfs before and after the current link crf in the ordered set of link crfs that the user has permission to view where groupId = &#63; and subjectId = &#63;.
+	 *
+	 * @param linkId the primary key of the current link crf
+	 * @param groupId the group ID
+	 * @param subjectId the subject ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next link crf
+	 * @throws NoSuchLinkCRFException if a link crf with the primary key could not be found
+	 */
+	public static LinkCRF[] filterFindByG_S_PrevAndNext(
+			long linkId, long groupId, long subjectId,
+			OrderByComparator<LinkCRF> orderByComparator)
+		throws ecrf.user.exception.NoSuchLinkCRFException {
+
+		return getPersistence().filterFindByG_S_PrevAndNext(
+			linkId, groupId, subjectId, orderByComparator);
+	}
+
+	/**
 	 * Removes all the link crfs where groupId = &#63; and subjectId = &#63; from the database.
 	 *
 	 * @param groupId the group ID
@@ -1101,6 +1249,17 @@ public class LinkCRFUtil {
 	 */
 	public static int countByG_S(long groupId, long subjectId) {
 		return getPersistence().countByG_S(groupId, subjectId);
+	}
+
+	/**
+	 * Returns the number of link crfs that the user has permission to view where groupId = &#63; and subjectId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param subjectId the subject ID
+	 * @return the number of matching link crfs that the user has permission to view
+	 */
+	public static int filterCountByG_S(long groupId, long subjectId) {
+		return getPersistence().filterCountByG_S(groupId, subjectId);
 	}
 
 	/**
@@ -1266,6 +1425,77 @@ public class LinkCRFUtil {
 	}
 
 	/**
+	 * Returns all the link crfs that the user has permission to view where groupId = &#63; and crfId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param crfId the crf ID
+	 * @return the matching link crfs that the user has permission to view
+	 */
+	public static List<LinkCRF> filterFindByG_C(long groupId, long crfId) {
+		return getPersistence().filterFindByG_C(groupId, crfId);
+	}
+
+	/**
+	 * Returns a range of all the link crfs that the user has permission to view where groupId = &#63; and crfId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>LinkCRFModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param crfId the crf ID
+	 * @param start the lower bound of the range of link crfs
+	 * @param end the upper bound of the range of link crfs (not inclusive)
+	 * @return the range of matching link crfs that the user has permission to view
+	 */
+	public static List<LinkCRF> filterFindByG_C(
+		long groupId, long crfId, int start, int end) {
+
+		return getPersistence().filterFindByG_C(groupId, crfId, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the link crfs that the user has permissions to view where groupId = &#63; and crfId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>LinkCRFModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param crfId the crf ID
+	 * @param start the lower bound of the range of link crfs
+	 * @param end the upper bound of the range of link crfs (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching link crfs that the user has permission to view
+	 */
+	public static List<LinkCRF> filterFindByG_C(
+		long groupId, long crfId, int start, int end,
+		OrderByComparator<LinkCRF> orderByComparator) {
+
+		return getPersistence().filterFindByG_C(
+			groupId, crfId, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns the link crfs before and after the current link crf in the ordered set of link crfs that the user has permission to view where groupId = &#63; and crfId = &#63;.
+	 *
+	 * @param linkId the primary key of the current link crf
+	 * @param groupId the group ID
+	 * @param crfId the crf ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next link crf
+	 * @throws NoSuchLinkCRFException if a link crf with the primary key could not be found
+	 */
+	public static LinkCRF[] filterFindByG_C_PrevAndNext(
+			long linkId, long groupId, long crfId,
+			OrderByComparator<LinkCRF> orderByComparator)
+		throws ecrf.user.exception.NoSuchLinkCRFException {
+
+		return getPersistence().filterFindByG_C_PrevAndNext(
+			linkId, groupId, crfId, orderByComparator);
+	}
+
+	/**
 	 * Removes all the link crfs where groupId = &#63; and crfId = &#63; from the database.
 	 *
 	 * @param groupId the group ID
@@ -1284,6 +1514,17 @@ public class LinkCRFUtil {
 	 */
 	public static int countByG_C(long groupId, long crfId) {
 		return getPersistence().countByG_C(groupId, crfId);
+	}
+
+	/**
+	 * Returns the number of link crfs that the user has permission to view where groupId = &#63; and crfId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param crfId the crf ID
+	 * @return the number of matching link crfs that the user has permission to view
+	 */
+	public static int filterCountByG_C(long groupId, long crfId) {
+		return getPersistence().filterCountByG_C(groupId, crfId);
 	}
 
 	/**
@@ -1462,6 +1703,84 @@ public class LinkCRFUtil {
 	}
 
 	/**
+	 * Returns all the link crfs that the user has permission to view where groupId = &#63; and subjectId = &#63; and crfId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param subjectId the subject ID
+	 * @param crfId the crf ID
+	 * @return the matching link crfs that the user has permission to view
+	 */
+	public static List<LinkCRF> filterFindByG_S_C(
+		long groupId, long subjectId, long crfId) {
+
+		return getPersistence().filterFindByG_S_C(groupId, subjectId, crfId);
+	}
+
+	/**
+	 * Returns a range of all the link crfs that the user has permission to view where groupId = &#63; and subjectId = &#63; and crfId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>LinkCRFModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param subjectId the subject ID
+	 * @param crfId the crf ID
+	 * @param start the lower bound of the range of link crfs
+	 * @param end the upper bound of the range of link crfs (not inclusive)
+	 * @return the range of matching link crfs that the user has permission to view
+	 */
+	public static List<LinkCRF> filterFindByG_S_C(
+		long groupId, long subjectId, long crfId, int start, int end) {
+
+		return getPersistence().filterFindByG_S_C(
+			groupId, subjectId, crfId, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the link crfs that the user has permissions to view where groupId = &#63; and subjectId = &#63; and crfId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>LinkCRFModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param subjectId the subject ID
+	 * @param crfId the crf ID
+	 * @param start the lower bound of the range of link crfs
+	 * @param end the upper bound of the range of link crfs (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching link crfs that the user has permission to view
+	 */
+	public static List<LinkCRF> filterFindByG_S_C(
+		long groupId, long subjectId, long crfId, int start, int end,
+		OrderByComparator<LinkCRF> orderByComparator) {
+
+		return getPersistence().filterFindByG_S_C(
+			groupId, subjectId, crfId, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns the link crfs before and after the current link crf in the ordered set of link crfs that the user has permission to view where groupId = &#63; and subjectId = &#63; and crfId = &#63;.
+	 *
+	 * @param linkId the primary key of the current link crf
+	 * @param groupId the group ID
+	 * @param subjectId the subject ID
+	 * @param crfId the crf ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next link crf
+	 * @throws NoSuchLinkCRFException if a link crf with the primary key could not be found
+	 */
+	public static LinkCRF[] filterFindByG_S_C_PrevAndNext(
+			long linkId, long groupId, long subjectId, long crfId,
+			OrderByComparator<LinkCRF> orderByComparator)
+		throws ecrf.user.exception.NoSuchLinkCRFException {
+
+		return getPersistence().filterFindByG_S_C_PrevAndNext(
+			linkId, groupId, subjectId, crfId, orderByComparator);
+	}
+
+	/**
 	 * Removes all the link crfs where groupId = &#63; and subjectId = &#63; and crfId = &#63; from the database.
 	 *
 	 * @param groupId the group ID
@@ -1482,6 +1801,20 @@ public class LinkCRFUtil {
 	 */
 	public static int countByG_S_C(long groupId, long subjectId, long crfId) {
 		return getPersistence().countByG_S_C(groupId, subjectId, crfId);
+	}
+
+	/**
+	 * Returns the number of link crfs that the user has permission to view where groupId = &#63; and subjectId = &#63; and crfId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param subjectId the subject ID
+	 * @param crfId the crf ID
+	 * @return the number of matching link crfs that the user has permission to view
+	 */
+	public static int filterCountByG_S_C(
+		long groupId, long subjectId, long crfId) {
+
+		return getPersistence().filterCountByG_S_C(groupId, subjectId, crfId);
 	}
 
 	/**

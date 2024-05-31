@@ -23,6 +23,12 @@ public class ECRFUserMVCCommand {
 	public static final String ACTION_UPDATE_PROJECT = "/action/project/update-project";
 	public static final String ACTION_DELETE_PROJECT = "/action/project/delete-project";
 	
+	public static final String RENDER_LIST_EXP_GROUP = "/render/project/list-exp-group";
+	public static final String RENDER_ADD_EXP_GROUP = "/render/project/add-exp-group";
+	public static final String RENDER_UPDATE_EXP_GROUP = "/render/project/update-exp-group";
+	public static final String ACTION_ADD_EXP_GROUP = "/action/project/add-exp-group";
+	public static final String ACTION_UPDATE_EXP_GROUP = "/action/project/update-exp-group";
+	public static final String ACTION_DELETE_EXP_GROUP = "/action/project/delete-exp-group";
 	
 	public static final String RENDER_VIEW_MEMBERSHIP = "/render/approve/view-membership";
 	public static final String RENDER_APPROVE_MEMBERSHIP = "/render/approve/approve-membership";
@@ -77,6 +83,8 @@ public class ECRFUserMVCCommand {
 	public static final String ACTION_DELETE_CRF_DATA = "/action/crf-data/delete-crf-data";
 	public static final String ACTION_DELETE_ALL_CRF_DATA = "/action/crf-data/delete-all-crf-data";
 	
+	public static final String ACTION_CHANGE_UPDATE_LOCK= "/action/crf-data/change-update-lock";
+	
 	public static final String RENDER_VIEW_AUDIT = "/render/crf-data/view-audit";
 	
 	public static final String RENDER_DIALOG_AUDIT = "/render/crf-data/dialog-audit";
@@ -110,5 +118,4 @@ public class ECRFUserMVCCommand {
 	public static final String RENDER_MANAGE_FORM = "/render/crf-form/manage-form";
 	public static final String RENDER_CRF_FORM_PDF_DOWNLOAD = "/render/crf-form/pdf-download";
 	
-
 }

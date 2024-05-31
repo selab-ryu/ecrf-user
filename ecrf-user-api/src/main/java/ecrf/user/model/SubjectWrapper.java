@@ -64,6 +64,7 @@ public class SubjectWrapper
 		attributes.put("address", getAddress());
 		attributes.put("serialId", getSerialId());
 		attributes.put("hospitalCode", getHospitalCode());
+		attributes.put("expGroupId", getExpGroupId());
 
 		return attributes;
 	}
@@ -195,6 +196,12 @@ public class SubjectWrapper
 		if (hospitalCode != null) {
 			setHospitalCode(hospitalCode);
 		}
+
+		Long expGroupId = (Long)attributes.get("expGroupId");
+
+		if (expGroupId != null) {
+			setExpGroupId(expGroupId);
+		}
 	}
 
 	/**
@@ -235,6 +242,16 @@ public class SubjectWrapper
 	@Override
 	public Date getCreateDate() {
 		return model.getCreateDate();
+	}
+
+	/**
+	 * Returns the exp group ID of this subject.
+	 *
+	 * @return the exp group ID of this subject
+	 */
+	@Override
+	public long getExpGroupId() {
+		return model.getExpGroupId();
 	}
 
 	/**
@@ -560,6 +577,16 @@ public class SubjectWrapper
 	@Override
 	public void setCreateDate(Date createDate) {
 		model.setCreateDate(createDate);
+	}
+
+	/**
+	 * Sets the exp group ID of this subject.
+	 *
+	 * @param expGroupId the exp group ID of this subject
+	 */
+	@Override
+	public void setExpGroupId(long expGroupId) {
+		model.setExpGroupId(expGroupId);
 	}
 
 	/**

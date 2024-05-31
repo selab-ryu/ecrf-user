@@ -62,6 +62,12 @@ public class CRFSubjectLocalServiceUtil {
 		return getService().addCRFSubject(crfId, subjectId, sc);
 	}
 
+	public static CRFSubject changeUpdateLock(
+		long crfId, long subjectId, boolean updateLock) {
+
+		return getService().changeUpdateLock(crfId, subjectId, updateLock);
+	}
+
 	public static int countCRFSubjectByCRFId(long groupId, long crfId) {
 		return getService().countCRFSubjectByCRFId(groupId, crfId);
 	}
@@ -259,8 +265,12 @@ public class CRFSubjectLocalServiceUtil {
 		return getService().getCRFSubject(crfSubjectId);
 	}
 
-	public static java.util.List<ecrf.user.model.CRFSubject>
-		getCRFSubjectByCRFId(long groupId, long crfId) {
+	public static CRFSubject getCRFSubjectByC_S(long crfId, long subjectId) {
+		return getService().getCRFSubjectByC_S(crfId, subjectId);
+	}
+
+	public static List<CRFSubject> getCRFSubjectByCRFId(
+		long groupId, long crfId) {
 
 		return getService().getCRFSubjectByCRFId(groupId, crfId);
 	}
@@ -444,6 +454,10 @@ public class CRFSubjectLocalServiceUtil {
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
+	}
+
+	public static boolean getUpdateLockByC_S(long crfId, long subjectId) {
+		return getService().getUpdateLockByC_S(crfId, subjectId);
 	}
 
 	/**

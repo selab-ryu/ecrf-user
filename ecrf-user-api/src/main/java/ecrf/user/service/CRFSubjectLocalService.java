@@ -83,6 +83,9 @@ public interface CRFSubjectLocalService
 			long crfId, long subjectId, ServiceContext sc)
 		throws PortalException;
 
+	public CRFSubject changeUpdateLock(
+		long crfId, long subjectId, boolean updateLock);
+
 	public int countCRFSubjectByCRFId(long groupId, long crfId);
 
 	public int countCRFSubjectByG_C_UL(
@@ -230,6 +233,9 @@ public interface CRFSubjectLocalService
 	public CRFSubject getCRFSubject(long crfSubjectId) throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public CRFSubject getCRFSubjectByC_S(long crfId, long subjectId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<CRFSubject> getCRFSubjectByCRFId(long groupId, long crfId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
@@ -354,6 +360,9 @@ public interface CRFSubjectLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
 		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public boolean getUpdateLockByC_S(long crfId, long subjectId);
 
 	/**
 	 * Updates the crf subject in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.

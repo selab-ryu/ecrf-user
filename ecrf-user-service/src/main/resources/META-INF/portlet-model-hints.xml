@@ -124,8 +124,26 @@
 		<field name="subjectId" type="long" />
 		<field name="participationStatus" type="int" />
 		<field name="participationStartDate" type="Date" />
-		<field name="experimentalGroup" type="String" />
 		<field name="updateLock" type="boolean" />
+	</model>
+	<model name="ecrf.user.model.ExperimentalGroup">
+		<field name="mvccVersion" type="long" />
+		<field name="uuid" type="String" />
+		<field name="experimentalGroupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+		<field name="name" type="String" />
+		<field name="abbreviation" type="String" />
+		<field name="description" type="String" />
+		<field name="type" type="int" />
 	</model>
 	<model name="ecrf.user.model.LinkCRF">
 		<field name="mvccVersion" type="long" />
@@ -211,5 +229,6 @@
 		<field name="address" type="String" />
 		<field name="serialId" type="String" />
 		<field name="hospitalCode" type="int" />
+		<field name="expGroupId" type="long" />
 	</model>
 </model-hints>

@@ -40,13 +40,13 @@ public class SubjectLocalServiceUtil {
 	public static ecrf.user.model.Subject addSubject(
 			String name, int birthYear, int birthMonth, int birthDay,
 			int gender, String phone, String phone2, String address,
-			String serialId, int hospitalCode,
+			String serialId, int hospitalCode, long expGroupId,
 			com.liferay.portal.kernel.service.ServiceContext sc)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().addSubject(
 			name, birthYear, birthMonth, birthDay, gender, phone, phone2,
-			address, serialId, hospitalCode, sc);
+			address, serialId, hospitalCode, expGroupId, sc);
 	}
 
 	/**
@@ -387,13 +387,13 @@ public class SubjectLocalServiceUtil {
 	public static ecrf.user.model.Subject updateSubject(
 			long subjectId, String name, int birthYear, int birthMonth,
 			int birthDay, int gender, String phone, String phone2,
-			String address, String serialId, int hospitalCode,
+			String address, String serialId, int hospitalCode, long expGroupId,
 			com.liferay.portal.kernel.service.ServiceContext sc)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().updateSubject(
 			subjectId, name, birthYear, birthMonth, birthDay, gender, phone,
-			phone2, address, serialId, hospitalCode, sc);
+			phone2, address, serialId, hospitalCode, expGroupId, sc);
 	}
 
 	/**

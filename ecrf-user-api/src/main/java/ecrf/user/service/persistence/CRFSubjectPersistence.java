@@ -517,6 +517,62 @@ public interface CRFSubjectPersistence extends BasePersistence<CRFSubject> {
 		throws NoSuchCRFSubjectException;
 
 	/**
+	 * Returns all the crf subjects that the user has permission to view where groupId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @return the matching crf subjects that the user has permission to view
+	 */
+	public java.util.List<CRFSubject> filterFindByGroupId(long groupId);
+
+	/**
+	 * Returns a range of all the crf subjects that the user has permission to view where groupId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFSubjectModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param start the lower bound of the range of crf subjects
+	 * @param end the upper bound of the range of crf subjects (not inclusive)
+	 * @return the range of matching crf subjects that the user has permission to view
+	 */
+	public java.util.List<CRFSubject> filterFindByGroupId(
+		long groupId, int start, int end);
+
+	/**
+	 * Returns an ordered range of all the crf subjects that the user has permissions to view where groupId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFSubjectModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param start the lower bound of the range of crf subjects
+	 * @param end the upper bound of the range of crf subjects (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching crf subjects that the user has permission to view
+	 */
+	public java.util.List<CRFSubject> filterFindByGroupId(
+		long groupId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<CRFSubject>
+			orderByComparator);
+
+	/**
+	 * Returns the crf subjects before and after the current crf subject in the ordered set of crf subjects that the user has permission to view where groupId = &#63;.
+	 *
+	 * @param crfSubjectId the primary key of the current crf subject
+	 * @param groupId the group ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next crf subject
+	 * @throws NoSuchCRFSubjectException if a crf subject with the primary key could not be found
+	 */
+	public CRFSubject[] filterFindByGroupId_PrevAndNext(
+			long crfSubjectId, long groupId,
+			com.liferay.portal.kernel.util.OrderByComparator<CRFSubject>
+				orderByComparator)
+		throws NoSuchCRFSubjectException;
+
+	/**
 	 * Removes all the crf subjects where groupId = &#63; from the database.
 	 *
 	 * @param groupId the group ID
@@ -530,6 +586,14 @@ public interface CRFSubjectPersistence extends BasePersistence<CRFSubject> {
 	 * @return the number of matching crf subjects
 	 */
 	public int countByGroupId(long groupId);
+
+	/**
+	 * Returns the number of crf subjects that the user has permission to view where groupId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @return the number of matching crf subjects that the user has permission to view
+	 */
+	public int filterCountByGroupId(long groupId);
 
 	/**
 	 * Returns all the crf subjects where groupId = &#63; and crfId = &#63;.
@@ -669,6 +733,66 @@ public interface CRFSubjectPersistence extends BasePersistence<CRFSubject> {
 		throws NoSuchCRFSubjectException;
 
 	/**
+	 * Returns all the crf subjects that the user has permission to view where groupId = &#63; and crfId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param crfId the crf ID
+	 * @return the matching crf subjects that the user has permission to view
+	 */
+	public java.util.List<CRFSubject> filterFindByG_C(long groupId, long crfId);
+
+	/**
+	 * Returns a range of all the crf subjects that the user has permission to view where groupId = &#63; and crfId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFSubjectModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param crfId the crf ID
+	 * @param start the lower bound of the range of crf subjects
+	 * @param end the upper bound of the range of crf subjects (not inclusive)
+	 * @return the range of matching crf subjects that the user has permission to view
+	 */
+	public java.util.List<CRFSubject> filterFindByG_C(
+		long groupId, long crfId, int start, int end);
+
+	/**
+	 * Returns an ordered range of all the crf subjects that the user has permissions to view where groupId = &#63; and crfId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFSubjectModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param crfId the crf ID
+	 * @param start the lower bound of the range of crf subjects
+	 * @param end the upper bound of the range of crf subjects (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching crf subjects that the user has permission to view
+	 */
+	public java.util.List<CRFSubject> filterFindByG_C(
+		long groupId, long crfId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<CRFSubject>
+			orderByComparator);
+
+	/**
+	 * Returns the crf subjects before and after the current crf subject in the ordered set of crf subjects that the user has permission to view where groupId = &#63; and crfId = &#63;.
+	 *
+	 * @param crfSubjectId the primary key of the current crf subject
+	 * @param groupId the group ID
+	 * @param crfId the crf ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next crf subject
+	 * @throws NoSuchCRFSubjectException if a crf subject with the primary key could not be found
+	 */
+	public CRFSubject[] filterFindByG_C_PrevAndNext(
+			long crfSubjectId, long groupId, long crfId,
+			com.liferay.portal.kernel.util.OrderByComparator<CRFSubject>
+				orderByComparator)
+		throws NoSuchCRFSubjectException;
+
+	/**
 	 * Removes all the crf subjects where groupId = &#63; and crfId = &#63; from the database.
 	 *
 	 * @param groupId the group ID
@@ -684,6 +808,15 @@ public interface CRFSubjectPersistence extends BasePersistence<CRFSubject> {
 	 * @return the number of matching crf subjects
 	 */
 	public int countByG_C(long groupId, long crfId);
+
+	/**
+	 * Returns the number of crf subjects that the user has permission to view where groupId = &#63; and crfId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param crfId the crf ID
+	 * @return the number of matching crf subjects that the user has permission to view
+	 */
+	public int filterCountByG_C(long groupId, long crfId);
 
 	/**
 	 * Returns all the crf subjects where groupId = &#63; and subjectId = &#63;.
@@ -823,6 +956,67 @@ public interface CRFSubjectPersistence extends BasePersistence<CRFSubject> {
 		throws NoSuchCRFSubjectException;
 
 	/**
+	 * Returns all the crf subjects that the user has permission to view where groupId = &#63; and subjectId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param subjectId the subject ID
+	 * @return the matching crf subjects that the user has permission to view
+	 */
+	public java.util.List<CRFSubject> filterFindByG_S(
+		long groupId, long subjectId);
+
+	/**
+	 * Returns a range of all the crf subjects that the user has permission to view where groupId = &#63; and subjectId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFSubjectModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param subjectId the subject ID
+	 * @param start the lower bound of the range of crf subjects
+	 * @param end the upper bound of the range of crf subjects (not inclusive)
+	 * @return the range of matching crf subjects that the user has permission to view
+	 */
+	public java.util.List<CRFSubject> filterFindByG_S(
+		long groupId, long subjectId, int start, int end);
+
+	/**
+	 * Returns an ordered range of all the crf subjects that the user has permissions to view where groupId = &#63; and subjectId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFSubjectModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param subjectId the subject ID
+	 * @param start the lower bound of the range of crf subjects
+	 * @param end the upper bound of the range of crf subjects (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching crf subjects that the user has permission to view
+	 */
+	public java.util.List<CRFSubject> filterFindByG_S(
+		long groupId, long subjectId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<CRFSubject>
+			orderByComparator);
+
+	/**
+	 * Returns the crf subjects before and after the current crf subject in the ordered set of crf subjects that the user has permission to view where groupId = &#63; and subjectId = &#63;.
+	 *
+	 * @param crfSubjectId the primary key of the current crf subject
+	 * @param groupId the group ID
+	 * @param subjectId the subject ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next crf subject
+	 * @throws NoSuchCRFSubjectException if a crf subject with the primary key could not be found
+	 */
+	public CRFSubject[] filterFindByG_S_PrevAndNext(
+			long crfSubjectId, long groupId, long subjectId,
+			com.liferay.portal.kernel.util.OrderByComparator<CRFSubject>
+				orderByComparator)
+		throws NoSuchCRFSubjectException;
+
+	/**
 	 * Removes all the crf subjects where groupId = &#63; and subjectId = &#63; from the database.
 	 *
 	 * @param groupId the group ID
@@ -840,173 +1034,63 @@ public interface CRFSubjectPersistence extends BasePersistence<CRFSubject> {
 	public int countByG_S(long groupId, long subjectId);
 
 	/**
-	 * Returns all the crf subjects where groupId = &#63; and crfId = &#63; and experimentalGroup = &#63;.
+	 * Returns the number of crf subjects that the user has permission to view where groupId = &#63; and subjectId = &#63;.
 	 *
 	 * @param groupId the group ID
-	 * @param crfId the crf ID
-	 * @param experimentalGroup the experimental group
-	 * @return the matching crf subjects
+	 * @param subjectId the subject ID
+	 * @return the number of matching crf subjects that the user has permission to view
 	 */
-	public java.util.List<CRFSubject> findByG_C_EXP(
-		long groupId, long crfId, String experimentalGroup);
+	public int filterCountByG_S(long groupId, long subjectId);
 
 	/**
-	 * Returns a range of all the crf subjects where groupId = &#63; and crfId = &#63; and experimentalGroup = &#63;.
+	 * Returns the crf subject where crfId = &#63; and subjectId = &#63; or throws a <code>NoSuchCRFSubjectException</code> if it could not be found.
 	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFSubjectModelImpl</code>.
-	 * </p>
-	 *
-	 * @param groupId the group ID
 	 * @param crfId the crf ID
-	 * @param experimentalGroup the experimental group
-	 * @param start the lower bound of the range of crf subjects
-	 * @param end the upper bound of the range of crf subjects (not inclusive)
-	 * @return the range of matching crf subjects
+	 * @param subjectId the subject ID
+	 * @return the matching crf subject
+	 * @throws NoSuchCRFSubjectException if a matching crf subject could not be found
 	 */
-	public java.util.List<CRFSubject> findByG_C_EXP(
-		long groupId, long crfId, String experimentalGroup, int start, int end);
+	public CRFSubject findByC_S(long crfId, long subjectId)
+		throws NoSuchCRFSubjectException;
 
 	/**
-	 * Returns an ordered range of all the crf subjects where groupId = &#63; and crfId = &#63; and experimentalGroup = &#63;.
+	 * Returns the crf subject where crfId = &#63; and subjectId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
 	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFSubjectModelImpl</code>.
-	 * </p>
-	 *
-	 * @param groupId the group ID
 	 * @param crfId the crf ID
-	 * @param experimentalGroup the experimental group
-	 * @param start the lower bound of the range of crf subjects
-	 * @param end the upper bound of the range of crf subjects (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching crf subjects
+	 * @param subjectId the subject ID
+	 * @return the matching crf subject, or <code>null</code> if a matching crf subject could not be found
 	 */
-	public java.util.List<CRFSubject> findByG_C_EXP(
-		long groupId, long crfId, String experimentalGroup, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator<CRFSubject>
-			orderByComparator);
+	public CRFSubject fetchByC_S(long crfId, long subjectId);
 
 	/**
-	 * Returns an ordered range of all the crf subjects where groupId = &#63; and crfId = &#63; and experimentalGroup = &#63;.
+	 * Returns the crf subject where crfId = &#63; and subjectId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
 	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFSubjectModelImpl</code>.
-	 * </p>
-	 *
-	 * @param groupId the group ID
 	 * @param crfId the crf ID
-	 * @param experimentalGroup the experimental group
-	 * @param start the lower bound of the range of crf subjects
-	 * @param end the upper bound of the range of crf subjects (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param subjectId the subject ID
 	 * @param useFinderCache whether to use the finder cache
-	 * @return the ordered range of matching crf subjects
+	 * @return the matching crf subject, or <code>null</code> if a matching crf subject could not be found
 	 */
-	public java.util.List<CRFSubject> findByG_C_EXP(
-		long groupId, long crfId, String experimentalGroup, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator<CRFSubject>
-			orderByComparator,
-		boolean useFinderCache);
+	public CRFSubject fetchByC_S(
+		long crfId, long subjectId, boolean useFinderCache);
 
 	/**
-	 * Returns the first crf subject in the ordered set where groupId = &#63; and crfId = &#63; and experimentalGroup = &#63;.
+	 * Removes the crf subject where crfId = &#63; and subjectId = &#63; from the database.
 	 *
-	 * @param groupId the group ID
 	 * @param crfId the crf ID
-	 * @param experimentalGroup the experimental group
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching crf subject
-	 * @throws NoSuchCRFSubjectException if a matching crf subject could not be found
+	 * @param subjectId the subject ID
+	 * @return the crf subject that was removed
 	 */
-	public CRFSubject findByG_C_EXP_First(
-			long groupId, long crfId, String experimentalGroup,
-			com.liferay.portal.kernel.util.OrderByComparator<CRFSubject>
-				orderByComparator)
+	public CRFSubject removeByC_S(long crfId, long subjectId)
 		throws NoSuchCRFSubjectException;
 
 	/**
-	 * Returns the first crf subject in the ordered set where groupId = &#63; and crfId = &#63; and experimentalGroup = &#63;.
+	 * Returns the number of crf subjects where crfId = &#63; and subjectId = &#63;.
 	 *
-	 * @param groupId the group ID
 	 * @param crfId the crf ID
-	 * @param experimentalGroup the experimental group
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching crf subject, or <code>null</code> if a matching crf subject could not be found
-	 */
-	public CRFSubject fetchByG_C_EXP_First(
-		long groupId, long crfId, String experimentalGroup,
-		com.liferay.portal.kernel.util.OrderByComparator<CRFSubject>
-			orderByComparator);
-
-	/**
-	 * Returns the last crf subject in the ordered set where groupId = &#63; and crfId = &#63; and experimentalGroup = &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @param crfId the crf ID
-	 * @param experimentalGroup the experimental group
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching crf subject
-	 * @throws NoSuchCRFSubjectException if a matching crf subject could not be found
-	 */
-	public CRFSubject findByG_C_EXP_Last(
-			long groupId, long crfId, String experimentalGroup,
-			com.liferay.portal.kernel.util.OrderByComparator<CRFSubject>
-				orderByComparator)
-		throws NoSuchCRFSubjectException;
-
-	/**
-	 * Returns the last crf subject in the ordered set where groupId = &#63; and crfId = &#63; and experimentalGroup = &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @param crfId the crf ID
-	 * @param experimentalGroup the experimental group
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching crf subject, or <code>null</code> if a matching crf subject could not be found
-	 */
-	public CRFSubject fetchByG_C_EXP_Last(
-		long groupId, long crfId, String experimentalGroup,
-		com.liferay.portal.kernel.util.OrderByComparator<CRFSubject>
-			orderByComparator);
-
-	/**
-	 * Returns the crf subjects before and after the current crf subject in the ordered set where groupId = &#63; and crfId = &#63; and experimentalGroup = &#63;.
-	 *
-	 * @param crfSubjectId the primary key of the current crf subject
-	 * @param groupId the group ID
-	 * @param crfId the crf ID
-	 * @param experimentalGroup the experimental group
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the previous, current, and next crf subject
-	 * @throws NoSuchCRFSubjectException if a crf subject with the primary key could not be found
-	 */
-	public CRFSubject[] findByG_C_EXP_PrevAndNext(
-			long crfSubjectId, long groupId, long crfId,
-			String experimentalGroup,
-			com.liferay.portal.kernel.util.OrderByComparator<CRFSubject>
-				orderByComparator)
-		throws NoSuchCRFSubjectException;
-
-	/**
-	 * Removes all the crf subjects where groupId = &#63; and crfId = &#63; and experimentalGroup = &#63; from the database.
-	 *
-	 * @param groupId the group ID
-	 * @param crfId the crf ID
-	 * @param experimentalGroup the experimental group
-	 */
-	public void removeByG_C_EXP(
-		long groupId, long crfId, String experimentalGroup);
-
-	/**
-	 * Returns the number of crf subjects where groupId = &#63; and crfId = &#63; and experimentalGroup = &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @param crfId the crf ID
-	 * @param experimentalGroup the experimental group
+	 * @param subjectId the subject ID
 	 * @return the number of matching crf subjects
 	 */
-	public int countByG_C_EXP(
-		long groupId, long crfId, String experimentalGroup);
+	public int countByC_S(long crfId, long subjectId);
 
 	/**
 	 * Returns all the crf subjects where groupId = &#63; and crfId = &#63; and updateLock = &#63;.
@@ -1156,6 +1240,71 @@ public interface CRFSubjectPersistence extends BasePersistence<CRFSubject> {
 		throws NoSuchCRFSubjectException;
 
 	/**
+	 * Returns all the crf subjects that the user has permission to view where groupId = &#63; and crfId = &#63; and updateLock = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param crfId the crf ID
+	 * @param updateLock the update lock
+	 * @return the matching crf subjects that the user has permission to view
+	 */
+	public java.util.List<CRFSubject> filterFindByG_C_UL(
+		long groupId, long crfId, boolean updateLock);
+
+	/**
+	 * Returns a range of all the crf subjects that the user has permission to view where groupId = &#63; and crfId = &#63; and updateLock = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFSubjectModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param crfId the crf ID
+	 * @param updateLock the update lock
+	 * @param start the lower bound of the range of crf subjects
+	 * @param end the upper bound of the range of crf subjects (not inclusive)
+	 * @return the range of matching crf subjects that the user has permission to view
+	 */
+	public java.util.List<CRFSubject> filterFindByG_C_UL(
+		long groupId, long crfId, boolean updateLock, int start, int end);
+
+	/**
+	 * Returns an ordered range of all the crf subjects that the user has permissions to view where groupId = &#63; and crfId = &#63; and updateLock = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFSubjectModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param crfId the crf ID
+	 * @param updateLock the update lock
+	 * @param start the lower bound of the range of crf subjects
+	 * @param end the upper bound of the range of crf subjects (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching crf subjects that the user has permission to view
+	 */
+	public java.util.List<CRFSubject> filterFindByG_C_UL(
+		long groupId, long crfId, boolean updateLock, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<CRFSubject>
+			orderByComparator);
+
+	/**
+	 * Returns the crf subjects before and after the current crf subject in the ordered set of crf subjects that the user has permission to view where groupId = &#63; and crfId = &#63; and updateLock = &#63;.
+	 *
+	 * @param crfSubjectId the primary key of the current crf subject
+	 * @param groupId the group ID
+	 * @param crfId the crf ID
+	 * @param updateLock the update lock
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next crf subject
+	 * @throws NoSuchCRFSubjectException if a crf subject with the primary key could not be found
+	 */
+	public CRFSubject[] filterFindByG_C_UL_PrevAndNext(
+			long crfSubjectId, long groupId, long crfId, boolean updateLock,
+			com.liferay.portal.kernel.util.OrderByComparator<CRFSubject>
+				orderByComparator)
+		throws NoSuchCRFSubjectException;
+
+	/**
 	 * Removes all the crf subjects where groupId = &#63; and crfId = &#63; and updateLock = &#63; from the database.
 	 *
 	 * @param groupId the group ID
@@ -1173,6 +1322,17 @@ public interface CRFSubjectPersistence extends BasePersistence<CRFSubject> {
 	 * @return the number of matching crf subjects
 	 */
 	public int countByG_C_UL(long groupId, long crfId, boolean updateLock);
+
+	/**
+	 * Returns the number of crf subjects that the user has permission to view where groupId = &#63; and crfId = &#63; and updateLock = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param crfId the crf ID
+	 * @param updateLock the update lock
+	 * @return the number of matching crf subjects that the user has permission to view
+	 */
+	public int filterCountByG_C_UL(
+		long groupId, long crfId, boolean updateLock);
 
 	/**
 	 * Caches the crf subject in the entity cache if it is enabled.

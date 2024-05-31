@@ -21,6 +21,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.Validator;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -104,7 +105,7 @@ public class CRFSubjectLocalServiceImpl extends CRFSubjectLocalServiceBaseImpl {
 			_log.info(crfSubject.toString());
 			 
 			long subjectId = crfSubject.getSubjectId();
-			String experimentalGroup = crfSubject.getExperimentalGroup();
+			
 			boolean updateLock = crfSubject.isUpdateLock();
 			
 			// current crf-subject vs new crf-subject 
@@ -115,7 +116,6 @@ public class CRFSubjectLocalServiceImpl extends CRFSubjectLocalServiceBaseImpl {
 			// if matched (e:e) : update info
 			if(crfSubjectOpt.isPresent()) {
 				CRFSubject tempCRFSubject = crfSubjectOpt.get();
-				tempCRFSubject.setExperimentalGroup(experimentalGroup);
 				tempCRFSubject.setUpdateLock(updateLock);
 				
 				super.crfSubjectPersistence.update(tempCRFSubject);
@@ -137,7 +137,6 @@ public class CRFSubjectLocalServiceImpl extends CRFSubjectLocalServiceBaseImpl {
 				tempCRFSubject.setSubjectId(subjectId);
 				tempCRFSubject.setParticipationStartDate(now);
 				tempCRFSubject.setParticipationStatus(0);
-				tempCRFSubject.setExperimentalGroup(experimentalGroup);
 				tempCRFSubject.setUpdateLock(updateLock);
 				
 				super.crfSubjectPersistence.update(tempCRFSubject);
@@ -228,6 +227,16 @@ public class CRFSubjectLocalServiceImpl extends CRFSubjectLocalServiceBaseImpl {
 		return super.crfSubjectPersistence.countByG_S(groupId, subjectId);
 	}
 	
+	public CRFSubject getCRFSubjectByC_S(long crfId, long subjectId) {
+		return super.crfSubjectPersistence.fetchByC_S(crfId, subjectId);
+	}
+	
+	public boolean getUpdateLockByC_S(long crfId, long subjectId) {
+		CRFSubject crfSubject = super.crfSubjectPersistence.fetchByC_S(crfId, subjectId);
+		if(Validator.isNull(crfSubject)) return false;
+		return crfSubject.getUpdateLock();
+	}
+	
 	// get crf-subject by update lock
 	public List<CRFSubject> getCRFSubjectByG_C_UL(long groupId, long crfId, boolean updateLock) {
 		return super.crfSubjectPersistence.findByG_C_UL(groupId, crfId, updateLock);
@@ -237,6 +246,16 @@ public class CRFSubjectLocalServiceImpl extends CRFSubjectLocalServiceBaseImpl {
 	}
 	public int countCRFSubjectByG_C_UL(long groupId, long crfId, boolean updateLock) {
 		return super.crfSubjectPersistence.countByG_C_UL(groupId, crfId, updateLock);
+	}
+	
+	public CRFSubject changeUpdateLock(long crfId, long subjectId, boolean updateLock) {
+		CRFSubject crfSubject = super.crfSubjectPersistence.fetchByC_S(crfId, subjectId);
+		
+		crfSubject.setUpdateLock(updateLock);
+		
+		super.crfSubjectPersistence.update(crfSubject);
+		
+		return crfSubject;
 	}
 	
 	@Reference

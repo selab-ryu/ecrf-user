@@ -278,21 +278,6 @@ public interface CRFSubjectModel
 	public void setParticipationStartDate(Date participationStartDate);
 
 	/**
-	 * Returns the experimental group of this crf subject.
-	 *
-	 * @return the experimental group of this crf subject
-	 */
-	@AutoEscape
-	public String getExperimentalGroup();
-
-	/**
-	 * Sets the experimental group of this crf subject.
-	 *
-	 * @param experimentalGroup the experimental group of this crf subject
-	 */
-	public void setExperimentalGroup(String experimentalGroup);
-
-	/**
 	 * Returns the update lock of this crf subject.
 	 *
 	 * @return the update lock of this crf subject

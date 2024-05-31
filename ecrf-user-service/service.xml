@@ -97,6 +97,8 @@
 		<column name="serialId" type="String"/> <!-- subjectIdStr  -->
 		<column name="hospitalCode" type="int" />
 		
+		<column name="expGroupId" type="long" />
+		
 		<!-- Order -->
 		<order>
 			<order-column name="subjectId" order-by="desc" />
@@ -304,7 +306,6 @@
         
 		<column name="participationStatus" type="int" />
 		<column name="participationStartDate" type="Date" />	
-		<column name="experimentalGroup" type="String" />
 		<column name="updateLock" type="boolean" />
         
         <!-- Order fields -->
@@ -325,12 +326,11 @@
 			<finder-column name="groupId" />
 			<finder-column name="subjectId" />
 		</finder>
-		
-		<finder name="G_C_EXP" return-type="Collection">
-			<finder-column name="groupId" />
+		<finder name="C_S" return-type="CRFSubject" unique="true">
 			<finder-column name="crfId" />
-			<finder-column name="experimentalGroup" />
+			<finder-column name="subjectId" />
 		</finder>
+		
 		<finder name="G_C_UL" return-type="Collection">
 			<finder-column name="groupId" />
 			<finder-column name="crfId" />
@@ -643,6 +643,64 @@
 		<!-- Finder methods -->
 		<finder name="SearchLogId" return-type="CRFSearchLog" unique="true">
 			<finder-column name="searchLogId" />
+		</finder>
+		
+		<!-- References -->
+		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+		<reference entity="RatingsStats" package-path="com.liferay.portlet.ratings" />
+		<reference entity="TrashEntry" package-path="com.liferay.portlet.trash" />
+		<reference entity="TrashVersion" package-path="com.liferay.portlet.trash" />
+		<reference entity="WorkflowInstanceLink" package-path="com.liferay.portal" />
+	</entity>
+	
+	<entity name="ExperimentalGroup" local-service="true" uuid="true" remote-service="true">
+		<!-- PK fields -->
+		<column name="experimentalGroupId" primary="true" type="long" />
+		
+		<!-- Instance -->
+		<column name="companyId" type="long" />
+		<column name="groupId" type="long" />
+		
+		<!-- Audit fields -->
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+		
+		<!-- Status fields -->
+		<column name="status" type="int" />
+		<column name="statusByUserId" type="long" />
+		<column name="statusByUserName" type="String" />
+		<column name="statusDate" type="Date" />
+		
+		<!-- Other fields -->
+		<column name="name" type="String" />
+		<column name="abbreviation" type="String" />
+		<column name="description" type="String" />
+		<column name="type" type="int" />
+		
+		<!-- Order -->
+		<order>
+			<order-column name="experimentalGroupId" order-by="desc" />
+			<order-column name="name" order-by="asc" />
+			<order-column name="createDate" order-by="desc" />
+		</order>
+
+		<!-- Finder methods -->
+		<finder name="ExperimentalGroupId" return-type="ExperimentalGroup" unique="true">
+			<finder-column name="experimentalGroupId" />
+		</finder>
+		
+		<finder name="Name" return-type="Collection">
+			<finder-column name="name" />
+		</finder>
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
+		<finder name="G_N" return-type="ExperimentalGroup">
+			<finder-column name="groupId" />
+			<finder-column name="name" />
 		</finder>
 		
 		<!-- References -->

@@ -52,6 +52,7 @@ import ecrf.user.service.persistence.CRFPersistence;
 import ecrf.user.service.persistence.CRFResearcherPersistence;
 import ecrf.user.service.persistence.CRFSearchLogPersistence;
 import ecrf.user.service.persistence.CRFSubjectPersistence;
+import ecrf.user.service.persistence.ExperimentalGroupPersistence;
 import ecrf.user.service.persistence.LinkCRFPersistence;
 import ecrf.user.service.persistence.ProjectPersistence;
 import ecrf.user.service.persistence.ResearcherFinder;
@@ -568,6 +569,9 @@ public abstract class CRFSubjectLocalServiceBaseImpl
 
 	@Reference
 	protected CRFSubjectPersistence crfSubjectPersistence;
+
+	@Reference
+	protected ExperimentalGroupPersistence experimentalGroupPersistence;
 
 	@Reference
 	protected LinkCRFPersistence linkCRFPersistence;

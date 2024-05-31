@@ -37,6 +37,7 @@ public class ECRFUserSubjectAttributes {
 	
 	public static final String PARTICIPATION_STATUS = "participationStatus";
 	public static final String EXPERIMENTAL_GROUP = "experimentalGroup";
+	public static final String EXPERIMENTAL_GROUP_ID = "expGroupId";
 	
 	public static final String HAS_CRF = "hasCRF";
 	public static final String HAS_COHORT_STUDY = "hasCohortStudy";

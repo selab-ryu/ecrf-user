@@ -52,6 +52,7 @@ public class SubjectSoap implements Serializable {
 		soapModel.setAddress(model.getAddress());
 		soapModel.setSerialId(model.getSerialId());
 		soapModel.setHospitalCode(model.getHospitalCode());
+		soapModel.setExpGroupId(model.getExpGroupId());
 
 		return soapModel;
 	}
@@ -273,6 +274,14 @@ public class SubjectSoap implements Serializable {
 		_hospitalCode = hospitalCode;
 	}
 
+	public long getExpGroupId() {
+		return _expGroupId;
+	}
+
+	public void setExpGroupId(long expGroupId) {
+		_expGroupId = expGroupId;
+	}
+
 	private long _mvccVersion;
 	private String _uuid;
 	private long _subjectId;
@@ -294,5 +303,6 @@ public class SubjectSoap implements Serializable {
 	private String _address;
 	private String _serialId;
 	private int _hospitalCode;
+	private long _expGroupId;
 
 }

@@ -421,6 +421,20 @@ public interface SubjectModel
 	public void setHospitalCode(int hospitalCode);
 
 	/**
+	 * Returns the exp group ID of this subject.
+	 *
+	 * @return the exp group ID of this subject
+	 */
+	public long getExpGroupId();
+
+	/**
+	 * Sets the exp group ID of this subject.
+	 *
+	 * @param expGroupId the exp group ID of this subject
+	 */
+	public void setExpGroupId(long expGroupId);
+
+	/**
 	 * Returns <code>true</code> if this subject is approved.
 	 *
 	 * @return <code>true</code> if this subject is approved; <code>false</code> otherwise
