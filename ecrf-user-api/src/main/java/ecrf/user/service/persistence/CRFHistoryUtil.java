@@ -1173,6 +1173,73 @@ public class CRFHistoryUtil {
 	}
 
 	/**
+	 * Returns all the crf histories that the user has permission to view where groupId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @return the matching crf histories that the user has permission to view
+	 */
+	public static List<CRFHistory> filterFindByGroupId(long groupId) {
+		return getPersistence().filterFindByGroupId(groupId);
+	}
+
+	/**
+	 * Returns a range of all the crf histories that the user has permission to view where groupId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFHistoryModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param start the lower bound of the range of crf histories
+	 * @param end the upper bound of the range of crf histories (not inclusive)
+	 * @return the range of matching crf histories that the user has permission to view
+	 */
+	public static List<CRFHistory> filterFindByGroupId(
+		long groupId, int start, int end) {
+
+		return getPersistence().filterFindByGroupId(groupId, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the crf histories that the user has permissions to view where groupId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFHistoryModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param start the lower bound of the range of crf histories
+	 * @param end the upper bound of the range of crf histories (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching crf histories that the user has permission to view
+	 */
+	public static List<CRFHistory> filterFindByGroupId(
+		long groupId, int start, int end,
+		OrderByComparator<CRFHistory> orderByComparator) {
+
+		return getPersistence().filterFindByGroupId(
+			groupId, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns the crf histories before and after the current crf history in the ordered set of crf histories that the user has permission to view where groupId = &#63;.
+	 *
+	 * @param historyId the primary key of the current crf history
+	 * @param groupId the group ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next crf history
+	 * @throws NoSuchCRFHistoryException if a crf history with the primary key could not be found
+	 */
+	public static CRFHistory[] filterFindByGroupId_PrevAndNext(
+			long historyId, long groupId,
+			OrderByComparator<CRFHistory> orderByComparator)
+		throws ecrf.user.exception.NoSuchCRFHistoryException {
+
+		return getPersistence().filterFindByGroupId_PrevAndNext(
+			historyId, groupId, orderByComparator);
+	}
+
+	/**
 	 * Removes all the crf histories where groupId = &#63; from the database.
 	 *
 	 * @param groupId the group ID
@@ -1189,6 +1256,16 @@ public class CRFHistoryUtil {
 	 */
 	public static int countByGroupId(long groupId) {
 		return getPersistence().countByGroupId(groupId);
+	}
+
+	/**
+	 * Returns the number of crf histories that the user has permission to view where groupId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @return the number of matching crf histories that the user has permission to view
+	 */
+	public static int filterCountByGroupId(long groupId) {
+		return getPersistence().filterCountByGroupId(groupId);
 	}
 
 	/**
@@ -1520,6 +1597,77 @@ public class CRFHistoryUtil {
 	}
 
 	/**
+	 * Returns all the crf histories that the user has permission to view where groupId = &#63; and userId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param userId the user ID
+	 * @return the matching crf histories that the user has permission to view
+	 */
+	public static List<CRFHistory> filterFindByG_U(long groupId, long userId) {
+		return getPersistence().filterFindByG_U(groupId, userId);
+	}
+
+	/**
+	 * Returns a range of all the crf histories that the user has permission to view where groupId = &#63; and userId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFHistoryModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param userId the user ID
+	 * @param start the lower bound of the range of crf histories
+	 * @param end the upper bound of the range of crf histories (not inclusive)
+	 * @return the range of matching crf histories that the user has permission to view
+	 */
+	public static List<CRFHistory> filterFindByG_U(
+		long groupId, long userId, int start, int end) {
+
+		return getPersistence().filterFindByG_U(groupId, userId, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the crf histories that the user has permissions to view where groupId = &#63; and userId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFHistoryModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param userId the user ID
+	 * @param start the lower bound of the range of crf histories
+	 * @param end the upper bound of the range of crf histories (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching crf histories that the user has permission to view
+	 */
+	public static List<CRFHistory> filterFindByG_U(
+		long groupId, long userId, int start, int end,
+		OrderByComparator<CRFHistory> orderByComparator) {
+
+		return getPersistence().filterFindByG_U(
+			groupId, userId, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns the crf histories before and after the current crf history in the ordered set of crf histories that the user has permission to view where groupId = &#63; and userId = &#63;.
+	 *
+	 * @param historyId the primary key of the current crf history
+	 * @param groupId the group ID
+	 * @param userId the user ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next crf history
+	 * @throws NoSuchCRFHistoryException if a crf history with the primary key could not be found
+	 */
+	public static CRFHistory[] filterFindByG_U_PrevAndNext(
+			long historyId, long groupId, long userId,
+			OrderByComparator<CRFHistory> orderByComparator)
+		throws ecrf.user.exception.NoSuchCRFHistoryException {
+
+		return getPersistence().filterFindByG_U_PrevAndNext(
+			historyId, groupId, userId, orderByComparator);
+	}
+
+	/**
 	 * Removes all the crf histories where groupId = &#63; and userId = &#63; from the database.
 	 *
 	 * @param groupId the group ID
@@ -1538,6 +1686,17 @@ public class CRFHistoryUtil {
 	 */
 	public static int countByG_U(long groupId, long userId) {
 		return getPersistence().countByG_U(groupId, userId);
+	}
+
+	/**
+	 * Returns the number of crf histories that the user has permission to view where groupId = &#63; and userId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param userId the user ID
+	 * @return the number of matching crf histories that the user has permission to view
+	 */
+	public static int filterCountByG_U(long groupId, long userId) {
+		return getPersistence().filterCountByG_U(groupId, userId);
 	}
 
 	/**
@@ -1888,6 +2047,77 @@ public class CRFHistoryUtil {
 	}
 
 	/**
+	 * Returns all the crf histories that the user has permission to view where groupId = &#63; and crfId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param crfId the crf ID
+	 * @return the matching crf histories that the user has permission to view
+	 */
+	public static List<CRFHistory> filterFindByG_C(long groupId, long crfId) {
+		return getPersistence().filterFindByG_C(groupId, crfId);
+	}
+
+	/**
+	 * Returns a range of all the crf histories that the user has permission to view where groupId = &#63; and crfId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFHistoryModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param crfId the crf ID
+	 * @param start the lower bound of the range of crf histories
+	 * @param end the upper bound of the range of crf histories (not inclusive)
+	 * @return the range of matching crf histories that the user has permission to view
+	 */
+	public static List<CRFHistory> filterFindByG_C(
+		long groupId, long crfId, int start, int end) {
+
+		return getPersistence().filterFindByG_C(groupId, crfId, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the crf histories that the user has permissions to view where groupId = &#63; and crfId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFHistoryModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param crfId the crf ID
+	 * @param start the lower bound of the range of crf histories
+	 * @param end the upper bound of the range of crf histories (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching crf histories that the user has permission to view
+	 */
+	public static List<CRFHistory> filterFindByG_C(
+		long groupId, long crfId, int start, int end,
+		OrderByComparator<CRFHistory> orderByComparator) {
+
+		return getPersistence().filterFindByG_C(
+			groupId, crfId, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns the crf histories before and after the current crf history in the ordered set of crf histories that the user has permission to view where groupId = &#63; and crfId = &#63;.
+	 *
+	 * @param historyId the primary key of the current crf history
+	 * @param groupId the group ID
+	 * @param crfId the crf ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next crf history
+	 * @throws NoSuchCRFHistoryException if a crf history with the primary key could not be found
+	 */
+	public static CRFHistory[] filterFindByG_C_PrevAndNext(
+			long historyId, long groupId, long crfId,
+			OrderByComparator<CRFHistory> orderByComparator)
+		throws ecrf.user.exception.NoSuchCRFHistoryException {
+
+		return getPersistence().filterFindByG_C_PrevAndNext(
+			historyId, groupId, crfId, orderByComparator);
+	}
+
+	/**
 	 * Removes all the crf histories where groupId = &#63; and crfId = &#63; from the database.
 	 *
 	 * @param groupId the group ID
@@ -1906,6 +2136,17 @@ public class CRFHistoryUtil {
 	 */
 	public static int countByG_C(long groupId, long crfId) {
 		return getPersistence().countByG_C(groupId, crfId);
+	}
+
+	/**
+	 * Returns the number of crf histories that the user has permission to view where groupId = &#63; and crfId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param crfId the crf ID
+	 * @return the number of matching crf histories that the user has permission to view
+	 */
+	public static int filterCountByG_C(long groupId, long crfId) {
+		return getPersistence().filterCountByG_C(groupId, crfId);
 	}
 
 	/**
@@ -2085,6 +2326,84 @@ public class CRFHistoryUtil {
 	}
 
 	/**
+	 * Returns all the crf histories that the user has permission to view where groupId = &#63; and subjectId = &#63; and crfId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param subjectId the subject ID
+	 * @param crfId the crf ID
+	 * @return the matching crf histories that the user has permission to view
+	 */
+	public static List<CRFHistory> filterFindByG_S_C(
+		long groupId, long subjectId, long crfId) {
+
+		return getPersistence().filterFindByG_S_C(groupId, subjectId, crfId);
+	}
+
+	/**
+	 * Returns a range of all the crf histories that the user has permission to view where groupId = &#63; and subjectId = &#63; and crfId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFHistoryModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param subjectId the subject ID
+	 * @param crfId the crf ID
+	 * @param start the lower bound of the range of crf histories
+	 * @param end the upper bound of the range of crf histories (not inclusive)
+	 * @return the range of matching crf histories that the user has permission to view
+	 */
+	public static List<CRFHistory> filterFindByG_S_C(
+		long groupId, long subjectId, long crfId, int start, int end) {
+
+		return getPersistence().filterFindByG_S_C(
+			groupId, subjectId, crfId, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the crf histories that the user has permissions to view where groupId = &#63; and subjectId = &#63; and crfId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFHistoryModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param subjectId the subject ID
+	 * @param crfId the crf ID
+	 * @param start the lower bound of the range of crf histories
+	 * @param end the upper bound of the range of crf histories (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching crf histories that the user has permission to view
+	 */
+	public static List<CRFHistory> filterFindByG_S_C(
+		long groupId, long subjectId, long crfId, int start, int end,
+		OrderByComparator<CRFHistory> orderByComparator) {
+
+		return getPersistence().filterFindByG_S_C(
+			groupId, subjectId, crfId, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns the crf histories before and after the current crf history in the ordered set of crf histories that the user has permission to view where groupId = &#63; and subjectId = &#63; and crfId = &#63;.
+	 *
+	 * @param historyId the primary key of the current crf history
+	 * @param groupId the group ID
+	 * @param subjectId the subject ID
+	 * @param crfId the crf ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next crf history
+	 * @throws NoSuchCRFHistoryException if a crf history with the primary key could not be found
+	 */
+	public static CRFHistory[] filterFindByG_S_C_PrevAndNext(
+			long historyId, long groupId, long subjectId, long crfId,
+			OrderByComparator<CRFHistory> orderByComparator)
+		throws ecrf.user.exception.NoSuchCRFHistoryException {
+
+		return getPersistence().filterFindByG_S_C_PrevAndNext(
+			historyId, groupId, subjectId, crfId, orderByComparator);
+	}
+
+	/**
 	 * Removes all the crf histories where groupId = &#63; and subjectId = &#63; and crfId = &#63; from the database.
 	 *
 	 * @param groupId the group ID
@@ -2105,6 +2424,20 @@ public class CRFHistoryUtil {
 	 */
 	public static int countByG_S_C(long groupId, long subjectId, long crfId) {
 		return getPersistence().countByG_S_C(groupId, subjectId, crfId);
+	}
+
+	/**
+	 * Returns the number of crf histories that the user has permission to view where groupId = &#63; and subjectId = &#63; and crfId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param subjectId the subject ID
+	 * @param crfId the crf ID
+	 * @return the number of matching crf histories that the user has permission to view
+	 */
+	public static int filterCountByG_S_C(
+		long groupId, long subjectId, long crfId) {
+
+		return getPersistence().filterCountByG_S_C(groupId, subjectId, crfId);
 	}
 
 	/**
@@ -2298,6 +2631,93 @@ public class CRFHistoryUtil {
 	}
 
 	/**
+	 * Returns all the crf histories that the user has permission to view where groupId = &#63; and subjectId = &#63; and crfId = &#63; and structuredDataId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param subjectId the subject ID
+	 * @param crfId the crf ID
+	 * @param structuredDataId the structured data ID
+	 * @return the matching crf histories that the user has permission to view
+	 */
+	public static List<CRFHistory> filterFindByG_S_C_SD(
+		long groupId, long subjectId, long crfId, long structuredDataId) {
+
+		return getPersistence().filterFindByG_S_C_SD(
+			groupId, subjectId, crfId, structuredDataId);
+	}
+
+	/**
+	 * Returns a range of all the crf histories that the user has permission to view where groupId = &#63; and subjectId = &#63; and crfId = &#63; and structuredDataId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFHistoryModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param subjectId the subject ID
+	 * @param crfId the crf ID
+	 * @param structuredDataId the structured data ID
+	 * @param start the lower bound of the range of crf histories
+	 * @param end the upper bound of the range of crf histories (not inclusive)
+	 * @return the range of matching crf histories that the user has permission to view
+	 */
+	public static List<CRFHistory> filterFindByG_S_C_SD(
+		long groupId, long subjectId, long crfId, long structuredDataId,
+		int start, int end) {
+
+		return getPersistence().filterFindByG_S_C_SD(
+			groupId, subjectId, crfId, structuredDataId, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the crf histories that the user has permissions to view where groupId = &#63; and subjectId = &#63; and crfId = &#63; and structuredDataId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFHistoryModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param subjectId the subject ID
+	 * @param crfId the crf ID
+	 * @param structuredDataId the structured data ID
+	 * @param start the lower bound of the range of crf histories
+	 * @param end the upper bound of the range of crf histories (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching crf histories that the user has permission to view
+	 */
+	public static List<CRFHistory> filterFindByG_S_C_SD(
+		long groupId, long subjectId, long crfId, long structuredDataId,
+		int start, int end, OrderByComparator<CRFHistory> orderByComparator) {
+
+		return getPersistence().filterFindByG_S_C_SD(
+			groupId, subjectId, crfId, structuredDataId, start, end,
+			orderByComparator);
+	}
+
+	/**
+	 * Returns the crf histories before and after the current crf history in the ordered set of crf histories that the user has permission to view where groupId = &#63; and subjectId = &#63; and crfId = &#63; and structuredDataId = &#63;.
+	 *
+	 * @param historyId the primary key of the current crf history
+	 * @param groupId the group ID
+	 * @param subjectId the subject ID
+	 * @param crfId the crf ID
+	 * @param structuredDataId the structured data ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next crf history
+	 * @throws NoSuchCRFHistoryException if a crf history with the primary key could not be found
+	 */
+	public static CRFHistory[] filterFindByG_S_C_SD_PrevAndNext(
+			long historyId, long groupId, long subjectId, long crfId,
+			long structuredDataId,
+			OrderByComparator<CRFHistory> orderByComparator)
+		throws ecrf.user.exception.NoSuchCRFHistoryException {
+
+		return getPersistence().filterFindByG_S_C_SD_PrevAndNext(
+			historyId, groupId, subjectId, crfId, structuredDataId,
+			orderByComparator);
+	}
+
+	/**
 	 * Removes all the crf histories where groupId = &#63; and subjectId = &#63; and crfId = &#63; and structuredDataId = &#63; from the database.
 	 *
 	 * @param groupId the group ID
@@ -2325,6 +2745,22 @@ public class CRFHistoryUtil {
 		long groupId, long subjectId, long crfId, long structuredDataId) {
 
 		return getPersistence().countByG_S_C_SD(
+			groupId, subjectId, crfId, structuredDataId);
+	}
+
+	/**
+	 * Returns the number of crf histories that the user has permission to view where groupId = &#63; and subjectId = &#63; and crfId = &#63; and structuredDataId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param subjectId the subject ID
+	 * @param crfId the crf ID
+	 * @param structuredDataId the structured data ID
+	 * @return the number of matching crf histories that the user has permission to view
+	 */
+	public static int filterCountByG_S_C_SD(
+		long groupId, long subjectId, long crfId, long structuredDataId) {
+
+		return getPersistence().filterCountByG_S_C_SD(
 			groupId, subjectId, crfId, structuredDataId);
 	}
 

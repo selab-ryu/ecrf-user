@@ -103,7 +103,6 @@ public class CRFSubjectServiceImpl extends CRFSubjectServiceBaseImpl {
 					
 					info.setParticipationStatus(crfSubject.getParticipationStatus());
 					info.setParticipationStartDate(crfSubject.getParticipationStartDate());
-					info.setExperimentalGroup(crfSubject.getExperimentalGroup());
 					info.setUpdateLock(crfSubject.isUpdateLock());
 					
 					crfSubjectInfoList.add(info);
@@ -148,7 +147,6 @@ public class CRFSubjectServiceImpl extends CRFSubjectServiceBaseImpl {
 					
 					info.setParticipationStatus(crfSubject.getParticipationStatus());
 					info.setParticipationStartDate(crfSubject.getParticipationStartDate());
-					info.setExperimentalGroup(crfSubject.getExperimentalGroup());
 					info.setUpdateLock(crfSubject.isUpdateLock());
 					
 					crfSubjectInfoList.add(info);

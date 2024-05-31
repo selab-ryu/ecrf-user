@@ -56,7 +56,6 @@ public class CRFSubjectWrapper
 		attributes.put("subjectId", getSubjectId());
 		attributes.put("participationStatus", getParticipationStatus());
 		attributes.put("participationStartDate", getParticipationStartDate());
-		attributes.put("experimentalGroup", getExperimentalGroup());
 		attributes.put("updateLock", isUpdateLock());
 
 		return attributes;
@@ -144,12 +143,6 @@ public class CRFSubjectWrapper
 			setParticipationStartDate(participationStartDate);
 		}
 
-		String experimentalGroup = (String)attributes.get("experimentalGroup");
-
-		if (experimentalGroup != null) {
-			setExperimentalGroup(experimentalGroup);
-		}
-
 		Boolean updateLock = (Boolean)attributes.get("updateLock");
 
 		if (updateLock != null) {
@@ -195,16 +188,6 @@ public class CRFSubjectWrapper
 	@Override
 	public long getCrfSubjectId() {
 		return model.getCrfSubjectId();
-	}
-
-	/**
-	 * Returns the experimental group of this crf subject.
-	 *
-	 * @return the experimental group of this crf subject
-	 */
-	@Override
-	public String getExperimentalGroup() {
-		return model.getExperimentalGroup();
 	}
 
 	/**
@@ -380,16 +363,6 @@ public class CRFSubjectWrapper
 	@Override
 	public void setCrfSubjectId(long crfSubjectId) {
 		model.setCrfSubjectId(crfSubjectId);
-	}
-
-	/**
-	 * Sets the experimental group of this crf subject.
-	 *
-	 * @param experimentalGroup the experimental group of this crf subject
-	 */
-	@Override
-	public void setExperimentalGroup(String experimentalGroup) {
-		model.setExperimentalGroup(experimentalGroup);
 	}
 
 	/**

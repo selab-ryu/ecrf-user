@@ -77,7 +77,7 @@ public class SubjectCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(43);
+		StringBundler sb = new StringBundler(45);
 
 		sb.append("{mvccVersion=");
 		sb.append(mvccVersion);
@@ -121,6 +121,8 @@ public class SubjectCacheModel
 		sb.append(serialId);
 		sb.append(", hospitalCode=");
 		sb.append(hospitalCode);
+		sb.append(", expGroupId=");
+		sb.append(expGroupId);
 		sb.append("}");
 
 		return sb.toString();
@@ -227,6 +229,7 @@ public class SubjectCacheModel
 		}
 
 		subjectImpl.setHospitalCode(hospitalCode);
+		subjectImpl.setExpGroupId(expGroupId);
 
 		subjectImpl.resetOriginalValues();
 
@@ -264,6 +267,8 @@ public class SubjectCacheModel
 		serialId = objectInput.readUTF();
 
 		hospitalCode = objectInput.readInt();
+
+		expGroupId = objectInput.readLong();
 	}
 
 	@Override
@@ -348,6 +353,8 @@ public class SubjectCacheModel
 		}
 
 		objectOutput.writeInt(hospitalCode);
+
+		objectOutput.writeLong(expGroupId);
 	}
 
 	public long mvccVersion;
@@ -371,5 +378,6 @@ public class SubjectCacheModel
 	public String address;
 	public String serialId;
 	public int hospitalCode;
+	public long expGroupId;
 
 }

@@ -511,6 +511,62 @@ public interface CRFPersistence extends BasePersistence<CRF> {
 		throws NoSuchCRFException;
 
 	/**
+	 * Returns all the crfs that the user has permission to view where groupId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @return the matching crfs that the user has permission to view
+	 */
+	public java.util.List<CRF> filterFindByGroupId(long groupId);
+
+	/**
+	 * Returns a range of all the crfs that the user has permission to view where groupId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param start the lower bound of the range of crfs
+	 * @param end the upper bound of the range of crfs (not inclusive)
+	 * @return the range of matching crfs that the user has permission to view
+	 */
+	public java.util.List<CRF> filterFindByGroupId(
+		long groupId, int start, int end);
+
+	/**
+	 * Returns an ordered range of all the crfs that the user has permissions to view where groupId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param start the lower bound of the range of crfs
+	 * @param end the upper bound of the range of crfs (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching crfs that the user has permission to view
+	 */
+	public java.util.List<CRF> filterFindByGroupId(
+		long groupId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<CRF>
+			orderByComparator);
+
+	/**
+	 * Returns the crfs before and after the current crf in the ordered set of crfs that the user has permission to view where groupId = &#63;.
+	 *
+	 * @param crfId the primary key of the current crf
+	 * @param groupId the group ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next crf
+	 * @throws NoSuchCRFException if a crf with the primary key could not be found
+	 */
+	public CRF[] filterFindByGroupId_PrevAndNext(
+			long crfId, long groupId,
+			com.liferay.portal.kernel.util.OrderByComparator<CRF>
+				orderByComparator)
+		throws NoSuchCRFException;
+
+	/**
 	 * Removes all the crfs where groupId = &#63; from the database.
 	 *
 	 * @param groupId the group ID
@@ -524,6 +580,14 @@ public interface CRFPersistence extends BasePersistence<CRF> {
 	 * @return the number of matching crfs
 	 */
 	public int countByGroupId(long groupId);
+
+	/**
+	 * Returns the number of crfs that the user has permission to view where groupId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @return the number of matching crfs that the user has permission to view
+	 */
+	public int filterCountByGroupId(long groupId);
 
 	/**
 	 * Returns the crf where datatypeId = &#63; or throws a <code>NoSuchCRFException</code> if it could not be found.

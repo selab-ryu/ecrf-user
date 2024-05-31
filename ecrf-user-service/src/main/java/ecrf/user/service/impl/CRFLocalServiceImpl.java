@@ -192,8 +192,10 @@ public class CRFLocalServiceImpl extends CRFLocalServiceBaseImpl {
 			long dataTypeId = 0;
 			dataTypeId = crf.getDatatypeId();
 			if(dataTypeId > 0) {
-				_dataTypeLocalService.deleteDataType(dataTypeId);
+				_dataTypeLocalService.removeDataType(dataTypeId);
 			}
+			
+			// remove all Structured data
 		}
 		
 		return crf;

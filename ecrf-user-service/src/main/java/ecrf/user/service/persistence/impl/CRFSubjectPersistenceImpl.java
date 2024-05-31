@@ -22,11 +22,13 @@ import com.liferay.portal.kernel.dao.orm.FinderPath;
 import com.liferay.portal.kernel.dao.orm.Query;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
+import com.liferay.portal.kernel.dao.orm.SQLQuery;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.dao.orm.SessionFactory;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
+import com.liferay.portal.kernel.security.permission.InlineSQLHelperUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
@@ -1899,6 +1901,330 @@ public class CRFSubjectPersistenceImpl
 	}
 
 	/**
+	 * Returns all the crf subjects that the user has permission to view where groupId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @return the matching crf subjects that the user has permission to view
+	 */
+	@Override
+	public List<CRFSubject> filterFindByGroupId(long groupId) {
+		return filterFindByGroupId(
+			groupId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the crf subjects that the user has permission to view where groupId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFSubjectModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param start the lower bound of the range of crf subjects
+	 * @param end the upper bound of the range of crf subjects (not inclusive)
+	 * @return the range of matching crf subjects that the user has permission to view
+	 */
+	@Override
+	public List<CRFSubject> filterFindByGroupId(
+		long groupId, int start, int end) {
+
+		return filterFindByGroupId(groupId, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the crf subjects that the user has permissions to view where groupId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFSubjectModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param start the lower bound of the range of crf subjects
+	 * @param end the upper bound of the range of crf subjects (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching crf subjects that the user has permission to view
+	 */
+	@Override
+	public List<CRFSubject> filterFindByGroupId(
+		long groupId, int start, int end,
+		OrderByComparator<CRFSubject> orderByComparator) {
+
+		if (!InlineSQLHelperUtil.isEnabled(groupId)) {
+			return findByGroupId(groupId, start, end, orderByComparator);
+		}
+
+		StringBundler sb = null;
+
+		if (orderByComparator != null) {
+			sb = new StringBundler(
+				3 + (orderByComparator.getOrderByFields().length * 2));
+		}
+		else {
+			sb = new StringBundler(4);
+		}
+
+		if (getDB().isSupportsInlineDistinct()) {
+			sb.append(_FILTER_SQL_SELECT_CRFSUBJECT_WHERE);
+		}
+		else {
+			sb.append(_FILTER_SQL_SELECT_CRFSUBJECT_NO_INLINE_DISTINCT_WHERE_1);
+		}
+
+		sb.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+
+		if (!getDB().isSupportsInlineDistinct()) {
+			sb.append(_FILTER_SQL_SELECT_CRFSUBJECT_NO_INLINE_DISTINCT_WHERE_2);
+		}
+
+		if (orderByComparator != null) {
+			if (getDB().isSupportsInlineDistinct()) {
+				appendOrderByComparator(
+					sb, _ORDER_BY_ENTITY_ALIAS, orderByComparator, true);
+			}
+			else {
+				appendOrderByComparator(
+					sb, _ORDER_BY_ENTITY_TABLE, orderByComparator, true);
+			}
+		}
+		else {
+			if (getDB().isSupportsInlineDistinct()) {
+				sb.append(CRFSubjectModelImpl.ORDER_BY_JPQL);
+			}
+			else {
+				sb.append(CRFSubjectModelImpl.ORDER_BY_SQL);
+			}
+		}
+
+		String sql = InlineSQLHelperUtil.replacePermissionCheck(
+			sb.toString(), CRFSubject.class.getName(),
+			_FILTER_ENTITY_TABLE_FILTER_PK_COLUMN, groupId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			SQLQuery sqlQuery = session.createSynchronizedSQLQuery(sql);
+
+			if (getDB().isSupportsInlineDistinct()) {
+				sqlQuery.addEntity(_FILTER_ENTITY_ALIAS, CRFSubjectImpl.class);
+			}
+			else {
+				sqlQuery.addEntity(_FILTER_ENTITY_TABLE, CRFSubjectImpl.class);
+			}
+
+			QueryPos queryPos = QueryPos.getInstance(sqlQuery);
+
+			queryPos.add(groupId);
+
+			return (List<CRFSubject>)QueryUtil.list(
+				sqlQuery, getDialect(), start, end);
+		}
+		catch (Exception exception) {
+			throw processException(exception);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	/**
+	 * Returns the crf subjects before and after the current crf subject in the ordered set of crf subjects that the user has permission to view where groupId = &#63;.
+	 *
+	 * @param crfSubjectId the primary key of the current crf subject
+	 * @param groupId the group ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next crf subject
+	 * @throws NoSuchCRFSubjectException if a crf subject with the primary key could not be found
+	 */
+	@Override
+	public CRFSubject[] filterFindByGroupId_PrevAndNext(
+			long crfSubjectId, long groupId,
+			OrderByComparator<CRFSubject> orderByComparator)
+		throws NoSuchCRFSubjectException {
+
+		if (!InlineSQLHelperUtil.isEnabled(groupId)) {
+			return findByGroupId_PrevAndNext(
+				crfSubjectId, groupId, orderByComparator);
+		}
+
+		CRFSubject crfSubject = findByPrimaryKey(crfSubjectId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			CRFSubject[] array = new CRFSubjectImpl[3];
+
+			array[0] = filterGetByGroupId_PrevAndNext(
+				session, crfSubject, groupId, orderByComparator, true);
+
+			array[1] = crfSubject;
+
+			array[2] = filterGetByGroupId_PrevAndNext(
+				session, crfSubject, groupId, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception exception) {
+			throw processException(exception);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected CRFSubject filterGetByGroupId_PrevAndNext(
+		Session session, CRFSubject crfSubject, long groupId,
+		OrderByComparator<CRFSubject> orderByComparator, boolean previous) {
+
+		StringBundler sb = null;
+
+		if (orderByComparator != null) {
+			sb = new StringBundler(
+				5 + (orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			sb = new StringBundler(4);
+		}
+
+		if (getDB().isSupportsInlineDistinct()) {
+			sb.append(_FILTER_SQL_SELECT_CRFSUBJECT_WHERE);
+		}
+		else {
+			sb.append(_FILTER_SQL_SELECT_CRFSUBJECT_NO_INLINE_DISTINCT_WHERE_1);
+		}
+
+		sb.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+
+		if (!getDB().isSupportsInlineDistinct()) {
+			sb.append(_FILTER_SQL_SELECT_CRFSUBJECT_NO_INLINE_DISTINCT_WHERE_2);
+		}
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				sb.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				if (getDB().isSupportsInlineDistinct()) {
+					sb.append(
+						getColumnName(
+							_ORDER_BY_ENTITY_ALIAS, orderByConditionFields[i],
+							true));
+				}
+				else {
+					sb.append(
+						getColumnName(
+							_ORDER_BY_ENTITY_TABLE, orderByConditionFields[i],
+							true));
+				}
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						sb.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(WHERE_GREATER_THAN);
+					}
+					else {
+						sb.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			sb.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				if (getDB().isSupportsInlineDistinct()) {
+					sb.append(
+						getColumnName(
+							_ORDER_BY_ENTITY_ALIAS, orderByFields[i], true));
+				}
+				else {
+					sb.append(
+						getColumnName(
+							_ORDER_BY_ENTITY_TABLE, orderByFields[i], true));
+				}
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						sb.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(ORDER_BY_ASC);
+					}
+					else {
+						sb.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			if (getDB().isSupportsInlineDistinct()) {
+				sb.append(CRFSubjectModelImpl.ORDER_BY_JPQL);
+			}
+			else {
+				sb.append(CRFSubjectModelImpl.ORDER_BY_SQL);
+			}
+		}
+
+		String sql = InlineSQLHelperUtil.replacePermissionCheck(
+			sb.toString(), CRFSubject.class.getName(),
+			_FILTER_ENTITY_TABLE_FILTER_PK_COLUMN, groupId);
+
+		SQLQuery sqlQuery = session.createSynchronizedSQLQuery(sql);
+
+		sqlQuery.setFirstResult(0);
+		sqlQuery.setMaxResults(2);
+
+		if (getDB().isSupportsInlineDistinct()) {
+			sqlQuery.addEntity(_FILTER_ENTITY_ALIAS, CRFSubjectImpl.class);
+		}
+		else {
+			sqlQuery.addEntity(_FILTER_ENTITY_TABLE, CRFSubjectImpl.class);
+		}
+
+		QueryPos queryPos = QueryPos.getInstance(sqlQuery);
+
+		queryPos.add(groupId);
+
+		if (orderByComparator != null) {
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(crfSubject)) {
+
+				queryPos.add(orderByConditionValue);
+			}
+		}
+
+		List<CRFSubject> list = sqlQuery.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
 	 * Removes all the crf subjects where groupId = &#63; from the database.
 	 *
 	 * @param groupId the group ID
@@ -1962,6 +2288,54 @@ public class CRFSubjectPersistenceImpl
 		}
 
 		return count.intValue();
+	}
+
+	/**
+	 * Returns the number of crf subjects that the user has permission to view where groupId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @return the number of matching crf subjects that the user has permission to view
+	 */
+	@Override
+	public int filterCountByGroupId(long groupId) {
+		if (!InlineSQLHelperUtil.isEnabled(groupId)) {
+			return countByGroupId(groupId);
+		}
+
+		StringBundler sb = new StringBundler(2);
+
+		sb.append(_FILTER_SQL_COUNT_CRFSUBJECT_WHERE);
+
+		sb.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+
+		String sql = InlineSQLHelperUtil.replacePermissionCheck(
+			sb.toString(), CRFSubject.class.getName(),
+			_FILTER_ENTITY_TABLE_FILTER_PK_COLUMN, groupId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			SQLQuery sqlQuery = session.createSynchronizedSQLQuery(sql);
+
+			sqlQuery.addScalar(
+				COUNT_COLUMN_NAME, com.liferay.portal.kernel.dao.orm.Type.LONG);
+
+			QueryPos queryPos = QueryPos.getInstance(sqlQuery);
+
+			queryPos.add(groupId);
+
+			Long count = (Long)sqlQuery.uniqueResult();
+
+			return count.intValue();
+		}
+		catch (Exception exception) {
+			throw processException(exception);
+		}
+		finally {
+			closeSession(session);
+		}
 	}
 
 	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 =
@@ -2430,6 +2804,342 @@ public class CRFSubjectPersistenceImpl
 	}
 
 	/**
+	 * Returns all the crf subjects that the user has permission to view where groupId = &#63; and crfId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param crfId the crf ID
+	 * @return the matching crf subjects that the user has permission to view
+	 */
+	@Override
+	public List<CRFSubject> filterFindByG_C(long groupId, long crfId) {
+		return filterFindByG_C(
+			groupId, crfId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the crf subjects that the user has permission to view where groupId = &#63; and crfId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFSubjectModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param crfId the crf ID
+	 * @param start the lower bound of the range of crf subjects
+	 * @param end the upper bound of the range of crf subjects (not inclusive)
+	 * @return the range of matching crf subjects that the user has permission to view
+	 */
+	@Override
+	public List<CRFSubject> filterFindByG_C(
+		long groupId, long crfId, int start, int end) {
+
+		return filterFindByG_C(groupId, crfId, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the crf subjects that the user has permissions to view where groupId = &#63; and crfId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFSubjectModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param crfId the crf ID
+	 * @param start the lower bound of the range of crf subjects
+	 * @param end the upper bound of the range of crf subjects (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching crf subjects that the user has permission to view
+	 */
+	@Override
+	public List<CRFSubject> filterFindByG_C(
+		long groupId, long crfId, int start, int end,
+		OrderByComparator<CRFSubject> orderByComparator) {
+
+		if (!InlineSQLHelperUtil.isEnabled(groupId)) {
+			return findByG_C(groupId, crfId, start, end, orderByComparator);
+		}
+
+		StringBundler sb = null;
+
+		if (orderByComparator != null) {
+			sb = new StringBundler(
+				4 + (orderByComparator.getOrderByFields().length * 2));
+		}
+		else {
+			sb = new StringBundler(5);
+		}
+
+		if (getDB().isSupportsInlineDistinct()) {
+			sb.append(_FILTER_SQL_SELECT_CRFSUBJECT_WHERE);
+		}
+		else {
+			sb.append(_FILTER_SQL_SELECT_CRFSUBJECT_NO_INLINE_DISTINCT_WHERE_1);
+		}
+
+		sb.append(_FINDER_COLUMN_G_C_GROUPID_2);
+
+		sb.append(_FINDER_COLUMN_G_C_CRFID_2);
+
+		if (!getDB().isSupportsInlineDistinct()) {
+			sb.append(_FILTER_SQL_SELECT_CRFSUBJECT_NO_INLINE_DISTINCT_WHERE_2);
+		}
+
+		if (orderByComparator != null) {
+			if (getDB().isSupportsInlineDistinct()) {
+				appendOrderByComparator(
+					sb, _ORDER_BY_ENTITY_ALIAS, orderByComparator, true);
+			}
+			else {
+				appendOrderByComparator(
+					sb, _ORDER_BY_ENTITY_TABLE, orderByComparator, true);
+			}
+		}
+		else {
+			if (getDB().isSupportsInlineDistinct()) {
+				sb.append(CRFSubjectModelImpl.ORDER_BY_JPQL);
+			}
+			else {
+				sb.append(CRFSubjectModelImpl.ORDER_BY_SQL);
+			}
+		}
+
+		String sql = InlineSQLHelperUtil.replacePermissionCheck(
+			sb.toString(), CRFSubject.class.getName(),
+			_FILTER_ENTITY_TABLE_FILTER_PK_COLUMN, groupId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			SQLQuery sqlQuery = session.createSynchronizedSQLQuery(sql);
+
+			if (getDB().isSupportsInlineDistinct()) {
+				sqlQuery.addEntity(_FILTER_ENTITY_ALIAS, CRFSubjectImpl.class);
+			}
+			else {
+				sqlQuery.addEntity(_FILTER_ENTITY_TABLE, CRFSubjectImpl.class);
+			}
+
+			QueryPos queryPos = QueryPos.getInstance(sqlQuery);
+
+			queryPos.add(groupId);
+
+			queryPos.add(crfId);
+
+			return (List<CRFSubject>)QueryUtil.list(
+				sqlQuery, getDialect(), start, end);
+		}
+		catch (Exception exception) {
+			throw processException(exception);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	/**
+	 * Returns the crf subjects before and after the current crf subject in the ordered set of crf subjects that the user has permission to view where groupId = &#63; and crfId = &#63;.
+	 *
+	 * @param crfSubjectId the primary key of the current crf subject
+	 * @param groupId the group ID
+	 * @param crfId the crf ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next crf subject
+	 * @throws NoSuchCRFSubjectException if a crf subject with the primary key could not be found
+	 */
+	@Override
+	public CRFSubject[] filterFindByG_C_PrevAndNext(
+			long crfSubjectId, long groupId, long crfId,
+			OrderByComparator<CRFSubject> orderByComparator)
+		throws NoSuchCRFSubjectException {
+
+		if (!InlineSQLHelperUtil.isEnabled(groupId)) {
+			return findByG_C_PrevAndNext(
+				crfSubjectId, groupId, crfId, orderByComparator);
+		}
+
+		CRFSubject crfSubject = findByPrimaryKey(crfSubjectId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			CRFSubject[] array = new CRFSubjectImpl[3];
+
+			array[0] = filterGetByG_C_PrevAndNext(
+				session, crfSubject, groupId, crfId, orderByComparator, true);
+
+			array[1] = crfSubject;
+
+			array[2] = filterGetByG_C_PrevAndNext(
+				session, crfSubject, groupId, crfId, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception exception) {
+			throw processException(exception);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected CRFSubject filterGetByG_C_PrevAndNext(
+		Session session, CRFSubject crfSubject, long groupId, long crfId,
+		OrderByComparator<CRFSubject> orderByComparator, boolean previous) {
+
+		StringBundler sb = null;
+
+		if (orderByComparator != null) {
+			sb = new StringBundler(
+				6 + (orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			sb = new StringBundler(5);
+		}
+
+		if (getDB().isSupportsInlineDistinct()) {
+			sb.append(_FILTER_SQL_SELECT_CRFSUBJECT_WHERE);
+		}
+		else {
+			sb.append(_FILTER_SQL_SELECT_CRFSUBJECT_NO_INLINE_DISTINCT_WHERE_1);
+		}
+
+		sb.append(_FINDER_COLUMN_G_C_GROUPID_2);
+
+		sb.append(_FINDER_COLUMN_G_C_CRFID_2);
+
+		if (!getDB().isSupportsInlineDistinct()) {
+			sb.append(_FILTER_SQL_SELECT_CRFSUBJECT_NO_INLINE_DISTINCT_WHERE_2);
+		}
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				sb.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				if (getDB().isSupportsInlineDistinct()) {
+					sb.append(
+						getColumnName(
+							_ORDER_BY_ENTITY_ALIAS, orderByConditionFields[i],
+							true));
+				}
+				else {
+					sb.append(
+						getColumnName(
+							_ORDER_BY_ENTITY_TABLE, orderByConditionFields[i],
+							true));
+				}
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						sb.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(WHERE_GREATER_THAN);
+					}
+					else {
+						sb.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			sb.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				if (getDB().isSupportsInlineDistinct()) {
+					sb.append(
+						getColumnName(
+							_ORDER_BY_ENTITY_ALIAS, orderByFields[i], true));
+				}
+				else {
+					sb.append(
+						getColumnName(
+							_ORDER_BY_ENTITY_TABLE, orderByFields[i], true));
+				}
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						sb.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(ORDER_BY_ASC);
+					}
+					else {
+						sb.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			if (getDB().isSupportsInlineDistinct()) {
+				sb.append(CRFSubjectModelImpl.ORDER_BY_JPQL);
+			}
+			else {
+				sb.append(CRFSubjectModelImpl.ORDER_BY_SQL);
+			}
+		}
+
+		String sql = InlineSQLHelperUtil.replacePermissionCheck(
+			sb.toString(), CRFSubject.class.getName(),
+			_FILTER_ENTITY_TABLE_FILTER_PK_COLUMN, groupId);
+
+		SQLQuery sqlQuery = session.createSynchronizedSQLQuery(sql);
+
+		sqlQuery.setFirstResult(0);
+		sqlQuery.setMaxResults(2);
+
+		if (getDB().isSupportsInlineDistinct()) {
+			sqlQuery.addEntity(_FILTER_ENTITY_ALIAS, CRFSubjectImpl.class);
+		}
+		else {
+			sqlQuery.addEntity(_FILTER_ENTITY_TABLE, CRFSubjectImpl.class);
+		}
+
+		QueryPos queryPos = QueryPos.getInstance(sqlQuery);
+
+		queryPos.add(groupId);
+
+		queryPos.add(crfId);
+
+		if (orderByComparator != null) {
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(crfSubject)) {
+
+				queryPos.add(orderByConditionValue);
+			}
+		}
+
+		List<CRFSubject> list = sqlQuery.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
 	 * Removes all the crf subjects where groupId = &#63; and crfId = &#63; from the database.
 	 *
 	 * @param groupId the group ID
@@ -2500,6 +3210,59 @@ public class CRFSubjectPersistenceImpl
 		}
 
 		return count.intValue();
+	}
+
+	/**
+	 * Returns the number of crf subjects that the user has permission to view where groupId = &#63; and crfId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param crfId the crf ID
+	 * @return the number of matching crf subjects that the user has permission to view
+	 */
+	@Override
+	public int filterCountByG_C(long groupId, long crfId) {
+		if (!InlineSQLHelperUtil.isEnabled(groupId)) {
+			return countByG_C(groupId, crfId);
+		}
+
+		StringBundler sb = new StringBundler(3);
+
+		sb.append(_FILTER_SQL_COUNT_CRFSUBJECT_WHERE);
+
+		sb.append(_FINDER_COLUMN_G_C_GROUPID_2);
+
+		sb.append(_FINDER_COLUMN_G_C_CRFID_2);
+
+		String sql = InlineSQLHelperUtil.replacePermissionCheck(
+			sb.toString(), CRFSubject.class.getName(),
+			_FILTER_ENTITY_TABLE_FILTER_PK_COLUMN, groupId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			SQLQuery sqlQuery = session.createSynchronizedSQLQuery(sql);
+
+			sqlQuery.addScalar(
+				COUNT_COLUMN_NAME, com.liferay.portal.kernel.dao.orm.Type.LONG);
+
+			QueryPos queryPos = QueryPos.getInstance(sqlQuery);
+
+			queryPos.add(groupId);
+
+			queryPos.add(crfId);
+
+			Long count = (Long)sqlQuery.uniqueResult();
+
+			return count.intValue();
+		}
+		catch (Exception exception) {
+			throw processException(exception);
+		}
+		finally {
+			closeSession(session);
+		}
 	}
 
 	private static final String _FINDER_COLUMN_G_C_GROUPID_2 =
@@ -2974,6 +3737,344 @@ public class CRFSubjectPersistenceImpl
 	}
 
 	/**
+	 * Returns all the crf subjects that the user has permission to view where groupId = &#63; and subjectId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param subjectId the subject ID
+	 * @return the matching crf subjects that the user has permission to view
+	 */
+	@Override
+	public List<CRFSubject> filterFindByG_S(long groupId, long subjectId) {
+		return filterFindByG_S(
+			groupId, subjectId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the crf subjects that the user has permission to view where groupId = &#63; and subjectId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFSubjectModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param subjectId the subject ID
+	 * @param start the lower bound of the range of crf subjects
+	 * @param end the upper bound of the range of crf subjects (not inclusive)
+	 * @return the range of matching crf subjects that the user has permission to view
+	 */
+	@Override
+	public List<CRFSubject> filterFindByG_S(
+		long groupId, long subjectId, int start, int end) {
+
+		return filterFindByG_S(groupId, subjectId, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the crf subjects that the user has permissions to view where groupId = &#63; and subjectId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFSubjectModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param subjectId the subject ID
+	 * @param start the lower bound of the range of crf subjects
+	 * @param end the upper bound of the range of crf subjects (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching crf subjects that the user has permission to view
+	 */
+	@Override
+	public List<CRFSubject> filterFindByG_S(
+		long groupId, long subjectId, int start, int end,
+		OrderByComparator<CRFSubject> orderByComparator) {
+
+		if (!InlineSQLHelperUtil.isEnabled(groupId)) {
+			return findByG_S(groupId, subjectId, start, end, orderByComparator);
+		}
+
+		StringBundler sb = null;
+
+		if (orderByComparator != null) {
+			sb = new StringBundler(
+				4 + (orderByComparator.getOrderByFields().length * 2));
+		}
+		else {
+			sb = new StringBundler(5);
+		}
+
+		if (getDB().isSupportsInlineDistinct()) {
+			sb.append(_FILTER_SQL_SELECT_CRFSUBJECT_WHERE);
+		}
+		else {
+			sb.append(_FILTER_SQL_SELECT_CRFSUBJECT_NO_INLINE_DISTINCT_WHERE_1);
+		}
+
+		sb.append(_FINDER_COLUMN_G_S_GROUPID_2);
+
+		sb.append(_FINDER_COLUMN_G_S_SUBJECTID_2);
+
+		if (!getDB().isSupportsInlineDistinct()) {
+			sb.append(_FILTER_SQL_SELECT_CRFSUBJECT_NO_INLINE_DISTINCT_WHERE_2);
+		}
+
+		if (orderByComparator != null) {
+			if (getDB().isSupportsInlineDistinct()) {
+				appendOrderByComparator(
+					sb, _ORDER_BY_ENTITY_ALIAS, orderByComparator, true);
+			}
+			else {
+				appendOrderByComparator(
+					sb, _ORDER_BY_ENTITY_TABLE, orderByComparator, true);
+			}
+		}
+		else {
+			if (getDB().isSupportsInlineDistinct()) {
+				sb.append(CRFSubjectModelImpl.ORDER_BY_JPQL);
+			}
+			else {
+				sb.append(CRFSubjectModelImpl.ORDER_BY_SQL);
+			}
+		}
+
+		String sql = InlineSQLHelperUtil.replacePermissionCheck(
+			sb.toString(), CRFSubject.class.getName(),
+			_FILTER_ENTITY_TABLE_FILTER_PK_COLUMN, groupId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			SQLQuery sqlQuery = session.createSynchronizedSQLQuery(sql);
+
+			if (getDB().isSupportsInlineDistinct()) {
+				sqlQuery.addEntity(_FILTER_ENTITY_ALIAS, CRFSubjectImpl.class);
+			}
+			else {
+				sqlQuery.addEntity(_FILTER_ENTITY_TABLE, CRFSubjectImpl.class);
+			}
+
+			QueryPos queryPos = QueryPos.getInstance(sqlQuery);
+
+			queryPos.add(groupId);
+
+			queryPos.add(subjectId);
+
+			return (List<CRFSubject>)QueryUtil.list(
+				sqlQuery, getDialect(), start, end);
+		}
+		catch (Exception exception) {
+			throw processException(exception);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	/**
+	 * Returns the crf subjects before and after the current crf subject in the ordered set of crf subjects that the user has permission to view where groupId = &#63; and subjectId = &#63;.
+	 *
+	 * @param crfSubjectId the primary key of the current crf subject
+	 * @param groupId the group ID
+	 * @param subjectId the subject ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next crf subject
+	 * @throws NoSuchCRFSubjectException if a crf subject with the primary key could not be found
+	 */
+	@Override
+	public CRFSubject[] filterFindByG_S_PrevAndNext(
+			long crfSubjectId, long groupId, long subjectId,
+			OrderByComparator<CRFSubject> orderByComparator)
+		throws NoSuchCRFSubjectException {
+
+		if (!InlineSQLHelperUtil.isEnabled(groupId)) {
+			return findByG_S_PrevAndNext(
+				crfSubjectId, groupId, subjectId, orderByComparator);
+		}
+
+		CRFSubject crfSubject = findByPrimaryKey(crfSubjectId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			CRFSubject[] array = new CRFSubjectImpl[3];
+
+			array[0] = filterGetByG_S_PrevAndNext(
+				session, crfSubject, groupId, subjectId, orderByComparator,
+				true);
+
+			array[1] = crfSubject;
+
+			array[2] = filterGetByG_S_PrevAndNext(
+				session, crfSubject, groupId, subjectId, orderByComparator,
+				false);
+
+			return array;
+		}
+		catch (Exception exception) {
+			throw processException(exception);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected CRFSubject filterGetByG_S_PrevAndNext(
+		Session session, CRFSubject crfSubject, long groupId, long subjectId,
+		OrderByComparator<CRFSubject> orderByComparator, boolean previous) {
+
+		StringBundler sb = null;
+
+		if (orderByComparator != null) {
+			sb = new StringBundler(
+				6 + (orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			sb = new StringBundler(5);
+		}
+
+		if (getDB().isSupportsInlineDistinct()) {
+			sb.append(_FILTER_SQL_SELECT_CRFSUBJECT_WHERE);
+		}
+		else {
+			sb.append(_FILTER_SQL_SELECT_CRFSUBJECT_NO_INLINE_DISTINCT_WHERE_1);
+		}
+
+		sb.append(_FINDER_COLUMN_G_S_GROUPID_2);
+
+		sb.append(_FINDER_COLUMN_G_S_SUBJECTID_2);
+
+		if (!getDB().isSupportsInlineDistinct()) {
+			sb.append(_FILTER_SQL_SELECT_CRFSUBJECT_NO_INLINE_DISTINCT_WHERE_2);
+		}
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				sb.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				if (getDB().isSupportsInlineDistinct()) {
+					sb.append(
+						getColumnName(
+							_ORDER_BY_ENTITY_ALIAS, orderByConditionFields[i],
+							true));
+				}
+				else {
+					sb.append(
+						getColumnName(
+							_ORDER_BY_ENTITY_TABLE, orderByConditionFields[i],
+							true));
+				}
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						sb.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(WHERE_GREATER_THAN);
+					}
+					else {
+						sb.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			sb.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				if (getDB().isSupportsInlineDistinct()) {
+					sb.append(
+						getColumnName(
+							_ORDER_BY_ENTITY_ALIAS, orderByFields[i], true));
+				}
+				else {
+					sb.append(
+						getColumnName(
+							_ORDER_BY_ENTITY_TABLE, orderByFields[i], true));
+				}
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						sb.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(ORDER_BY_ASC);
+					}
+					else {
+						sb.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			if (getDB().isSupportsInlineDistinct()) {
+				sb.append(CRFSubjectModelImpl.ORDER_BY_JPQL);
+			}
+			else {
+				sb.append(CRFSubjectModelImpl.ORDER_BY_SQL);
+			}
+		}
+
+		String sql = InlineSQLHelperUtil.replacePermissionCheck(
+			sb.toString(), CRFSubject.class.getName(),
+			_FILTER_ENTITY_TABLE_FILTER_PK_COLUMN, groupId);
+
+		SQLQuery sqlQuery = session.createSynchronizedSQLQuery(sql);
+
+		sqlQuery.setFirstResult(0);
+		sqlQuery.setMaxResults(2);
+
+		if (getDB().isSupportsInlineDistinct()) {
+			sqlQuery.addEntity(_FILTER_ENTITY_ALIAS, CRFSubjectImpl.class);
+		}
+		else {
+			sqlQuery.addEntity(_FILTER_ENTITY_TABLE, CRFSubjectImpl.class);
+		}
+
+		QueryPos queryPos = QueryPos.getInstance(sqlQuery);
+
+		queryPos.add(groupId);
+
+		queryPos.add(subjectId);
+
+		if (orderByComparator != null) {
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(crfSubject)) {
+
+				queryPos.add(orderByConditionValue);
+			}
+		}
+
+		List<CRFSubject> list = sqlQuery.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
 	 * Removes all the crf subjects where groupId = &#63; and subjectId = &#63; from the database.
 	 *
 	 * @param groupId the group ID
@@ -3046,400 +4147,50 @@ public class CRFSubjectPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_S_GROUPID_2 =
-		"crfSubject.groupId = ? AND ";
-
-	private static final String _FINDER_COLUMN_G_S_SUBJECTID_2 =
-		"crfSubject.subjectId = ?";
-
-	private FinderPath _finderPathWithPaginationFindByG_C_EXP;
-	private FinderPath _finderPathWithoutPaginationFindByG_C_EXP;
-	private FinderPath _finderPathCountByG_C_EXP;
-
 	/**
-	 * Returns all the crf subjects where groupId = &#63; and crfId = &#63; and experimentalGroup = &#63;.
+	 * Returns the number of crf subjects that the user has permission to view where groupId = &#63; and subjectId = &#63;.
 	 *
 	 * @param groupId the group ID
-	 * @param crfId the crf ID
-	 * @param experimentalGroup the experimental group
-	 * @return the matching crf subjects
+	 * @param subjectId the subject ID
+	 * @return the number of matching crf subjects that the user has permission to view
 	 */
 	@Override
-	public List<CRFSubject> findByG_C_EXP(
-		long groupId, long crfId, String experimentalGroup) {
-
-		return findByG_C_EXP(
-			groupId, crfId, experimentalGroup, QueryUtil.ALL_POS,
-			QueryUtil.ALL_POS, null);
-	}
-
-	/**
-	 * Returns a range of all the crf subjects where groupId = &#63; and crfId = &#63; and experimentalGroup = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFSubjectModelImpl</code>.
-	 * </p>
-	 *
-	 * @param groupId the group ID
-	 * @param crfId the crf ID
-	 * @param experimentalGroup the experimental group
-	 * @param start the lower bound of the range of crf subjects
-	 * @param end the upper bound of the range of crf subjects (not inclusive)
-	 * @return the range of matching crf subjects
-	 */
-	@Override
-	public List<CRFSubject> findByG_C_EXP(
-		long groupId, long crfId, String experimentalGroup, int start,
-		int end) {
-
-		return findByG_C_EXP(
-			groupId, crfId, experimentalGroup, start, end, null);
-	}
-
-	/**
-	 * Returns an ordered range of all the crf subjects where groupId = &#63; and crfId = &#63; and experimentalGroup = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFSubjectModelImpl</code>.
-	 * </p>
-	 *
-	 * @param groupId the group ID
-	 * @param crfId the crf ID
-	 * @param experimentalGroup the experimental group
-	 * @param start the lower bound of the range of crf subjects
-	 * @param end the upper bound of the range of crf subjects (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching crf subjects
-	 */
-	@Override
-	public List<CRFSubject> findByG_C_EXP(
-		long groupId, long crfId, String experimentalGroup, int start, int end,
-		OrderByComparator<CRFSubject> orderByComparator) {
-
-		return findByG_C_EXP(
-			groupId, crfId, experimentalGroup, start, end, orderByComparator,
-			true);
-	}
-
-	/**
-	 * Returns an ordered range of all the crf subjects where groupId = &#63; and crfId = &#63; and experimentalGroup = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFSubjectModelImpl</code>.
-	 * </p>
-	 *
-	 * @param groupId the group ID
-	 * @param crfId the crf ID
-	 * @param experimentalGroup the experimental group
-	 * @param start the lower bound of the range of crf subjects
-	 * @param end the upper bound of the range of crf subjects (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @param useFinderCache whether to use the finder cache
-	 * @return the ordered range of matching crf subjects
-	 */
-	@Override
-	public List<CRFSubject> findByG_C_EXP(
-		long groupId, long crfId, String experimentalGroup, int start, int end,
-		OrderByComparator<CRFSubject> orderByComparator,
-		boolean useFinderCache) {
-
-		experimentalGroup = Objects.toString(experimentalGroup, "");
-
-		FinderPath finderPath = null;
-		Object[] finderArgs = null;
-
-		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-			(orderByComparator == null)) {
-
-			if (useFinderCache) {
-				finderPath = _finderPathWithoutPaginationFindByG_C_EXP;
-				finderArgs = new Object[] {groupId, crfId, experimentalGroup};
-			}
-		}
-		else if (useFinderCache) {
-			finderPath = _finderPathWithPaginationFindByG_C_EXP;
-			finderArgs = new Object[] {
-				groupId, crfId, experimentalGroup, start, end, orderByComparator
-			};
+	public int filterCountByG_S(long groupId, long subjectId) {
+		if (!InlineSQLHelperUtil.isEnabled(groupId)) {
+			return countByG_S(groupId, subjectId);
 		}
 
-		List<CRFSubject> list = null;
+		StringBundler sb = new StringBundler(3);
 
-		if (useFinderCache) {
-			list = (List<CRFSubject>)finderCache.getResult(
-				finderPath, finderArgs, this);
+		sb.append(_FILTER_SQL_COUNT_CRFSUBJECT_WHERE);
 
-			if ((list != null) && !list.isEmpty()) {
-				for (CRFSubject crfSubject : list) {
-					if ((groupId != crfSubject.getGroupId()) ||
-						(crfId != crfSubject.getCrfId()) ||
-						!experimentalGroup.equals(
-							crfSubject.getExperimentalGroup())) {
+		sb.append(_FINDER_COLUMN_G_S_GROUPID_2);
 
-						list = null;
+		sb.append(_FINDER_COLUMN_G_S_SUBJECTID_2);
 
-						break;
-					}
-				}
-			}
-		}
-
-		if (list == null) {
-			StringBundler sb = null;
-
-			if (orderByComparator != null) {
-				sb = new StringBundler(
-					5 + (orderByComparator.getOrderByFields().length * 2));
-			}
-			else {
-				sb = new StringBundler(5);
-			}
-
-			sb.append(_SQL_SELECT_CRFSUBJECT_WHERE);
-
-			sb.append(_FINDER_COLUMN_G_C_EXP_GROUPID_2);
-
-			sb.append(_FINDER_COLUMN_G_C_EXP_CRFID_2);
-
-			boolean bindExperimentalGroup = false;
-
-			if (experimentalGroup.isEmpty()) {
-				sb.append(_FINDER_COLUMN_G_C_EXP_EXPERIMENTALGROUP_3);
-			}
-			else {
-				bindExperimentalGroup = true;
-
-				sb.append(_FINDER_COLUMN_G_C_EXP_EXPERIMENTALGROUP_2);
-			}
-
-			if (orderByComparator != null) {
-				appendOrderByComparator(
-					sb, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
-			}
-			else {
-				sb.append(CRFSubjectModelImpl.ORDER_BY_JPQL);
-			}
-
-			String sql = sb.toString();
-
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				Query query = session.createQuery(sql);
-
-				QueryPos queryPos = QueryPos.getInstance(query);
-
-				queryPos.add(groupId);
-
-				queryPos.add(crfId);
-
-				if (bindExperimentalGroup) {
-					queryPos.add(experimentalGroup);
-				}
-
-				list = (List<CRFSubject>)QueryUtil.list(
-					query, getDialect(), start, end);
-
-				cacheResult(list);
-
-				if (useFinderCache) {
-					finderCache.putResult(finderPath, finderArgs, list);
-				}
-			}
-			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return list;
-	}
-
-	/**
-	 * Returns the first crf subject in the ordered set where groupId = &#63; and crfId = &#63; and experimentalGroup = &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @param crfId the crf ID
-	 * @param experimentalGroup the experimental group
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching crf subject
-	 * @throws NoSuchCRFSubjectException if a matching crf subject could not be found
-	 */
-	@Override
-	public CRFSubject findByG_C_EXP_First(
-			long groupId, long crfId, String experimentalGroup,
-			OrderByComparator<CRFSubject> orderByComparator)
-		throws NoSuchCRFSubjectException {
-
-		CRFSubject crfSubject = fetchByG_C_EXP_First(
-			groupId, crfId, experimentalGroup, orderByComparator);
-
-		if (crfSubject != null) {
-			return crfSubject;
-		}
-
-		StringBundler sb = new StringBundler(8);
-
-		sb.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-		sb.append("groupId=");
-		sb.append(groupId);
-
-		sb.append(", crfId=");
-		sb.append(crfId);
-
-		sb.append(", experimentalGroup=");
-		sb.append(experimentalGroup);
-
-		sb.append("}");
-
-		throw new NoSuchCRFSubjectException(sb.toString());
-	}
-
-	/**
-	 * Returns the first crf subject in the ordered set where groupId = &#63; and crfId = &#63; and experimentalGroup = &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @param crfId the crf ID
-	 * @param experimentalGroup the experimental group
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching crf subject, or <code>null</code> if a matching crf subject could not be found
-	 */
-	@Override
-	public CRFSubject fetchByG_C_EXP_First(
-		long groupId, long crfId, String experimentalGroup,
-		OrderByComparator<CRFSubject> orderByComparator) {
-
-		List<CRFSubject> list = findByG_C_EXP(
-			groupId, crfId, experimentalGroup, 0, 1, orderByComparator);
-
-		if (!list.isEmpty()) {
-			return list.get(0);
-		}
-
-		return null;
-	}
-
-	/**
-	 * Returns the last crf subject in the ordered set where groupId = &#63; and crfId = &#63; and experimentalGroup = &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @param crfId the crf ID
-	 * @param experimentalGroup the experimental group
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching crf subject
-	 * @throws NoSuchCRFSubjectException if a matching crf subject could not be found
-	 */
-	@Override
-	public CRFSubject findByG_C_EXP_Last(
-			long groupId, long crfId, String experimentalGroup,
-			OrderByComparator<CRFSubject> orderByComparator)
-		throws NoSuchCRFSubjectException {
-
-		CRFSubject crfSubject = fetchByG_C_EXP_Last(
-			groupId, crfId, experimentalGroup, orderByComparator);
-
-		if (crfSubject != null) {
-			return crfSubject;
-		}
-
-		StringBundler sb = new StringBundler(8);
-
-		sb.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-		sb.append("groupId=");
-		sb.append(groupId);
-
-		sb.append(", crfId=");
-		sb.append(crfId);
-
-		sb.append(", experimentalGroup=");
-		sb.append(experimentalGroup);
-
-		sb.append("}");
-
-		throw new NoSuchCRFSubjectException(sb.toString());
-	}
-
-	/**
-	 * Returns the last crf subject in the ordered set where groupId = &#63; and crfId = &#63; and experimentalGroup = &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @param crfId the crf ID
-	 * @param experimentalGroup the experimental group
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching crf subject, or <code>null</code> if a matching crf subject could not be found
-	 */
-	@Override
-	public CRFSubject fetchByG_C_EXP_Last(
-		long groupId, long crfId, String experimentalGroup,
-		OrderByComparator<CRFSubject> orderByComparator) {
-
-		int count = countByG_C_EXP(groupId, crfId, experimentalGroup);
-
-		if (count == 0) {
-			return null;
-		}
-
-		List<CRFSubject> list = findByG_C_EXP(
-			groupId, crfId, experimentalGroup, count - 1, count,
-			orderByComparator);
-
-		if (!list.isEmpty()) {
-			return list.get(0);
-		}
-
-		return null;
-	}
-
-	/**
-	 * Returns the crf subjects before and after the current crf subject in the ordered set where groupId = &#63; and crfId = &#63; and experimentalGroup = &#63;.
-	 *
-	 * @param crfSubjectId the primary key of the current crf subject
-	 * @param groupId the group ID
-	 * @param crfId the crf ID
-	 * @param experimentalGroup the experimental group
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the previous, current, and next crf subject
-	 * @throws NoSuchCRFSubjectException if a crf subject with the primary key could not be found
-	 */
-	@Override
-	public CRFSubject[] findByG_C_EXP_PrevAndNext(
-			long crfSubjectId, long groupId, long crfId,
-			String experimentalGroup,
-			OrderByComparator<CRFSubject> orderByComparator)
-		throws NoSuchCRFSubjectException {
-
-		experimentalGroup = Objects.toString(experimentalGroup, "");
-
-		CRFSubject crfSubject = findByPrimaryKey(crfSubjectId);
+		String sql = InlineSQLHelperUtil.replacePermissionCheck(
+			sb.toString(), CRFSubject.class.getName(),
+			_FILTER_ENTITY_TABLE_FILTER_PK_COLUMN, groupId);
 
 		Session session = null;
 
 		try {
 			session = openSession();
 
-			CRFSubject[] array = new CRFSubjectImpl[3];
+			SQLQuery sqlQuery = session.createSynchronizedSQLQuery(sql);
 
-			array[0] = getByG_C_EXP_PrevAndNext(
-				session, crfSubject, groupId, crfId, experimentalGroup,
-				orderByComparator, true);
+			sqlQuery.addScalar(
+				COUNT_COLUMN_NAME, com.liferay.portal.kernel.dao.orm.Type.LONG);
 
-			array[1] = crfSubject;
+			QueryPos queryPos = QueryPos.getInstance(sqlQuery);
 
-			array[2] = getByG_C_EXP_PrevAndNext(
-				session, crfSubject, groupId, crfId, experimentalGroup,
-				orderByComparator, false);
+			queryPos.add(groupId);
 
-			return array;
+			queryPos.add(subjectId);
+
+			Long count = (Long)sqlQuery.uniqueResult();
+
+			return count.intValue();
 		}
 		catch (Exception exception) {
 			throw processException(exception);
@@ -3449,193 +4200,107 @@ public class CRFSubjectPersistenceImpl
 		}
 	}
 
-	protected CRFSubject getByG_C_EXP_PrevAndNext(
-		Session session, CRFSubject crfSubject, long groupId, long crfId,
-		String experimentalGroup,
-		OrderByComparator<CRFSubject> orderByComparator, boolean previous) {
+	private static final String _FINDER_COLUMN_G_S_GROUPID_2 =
+		"crfSubject.groupId = ? AND ";
 
-		StringBundler sb = null;
+	private static final String _FINDER_COLUMN_G_S_SUBJECTID_2 =
+		"crfSubject.subjectId = ?";
 
-		if (orderByComparator != null) {
-			sb = new StringBundler(
-				6 + (orderByComparator.getOrderByConditionFields().length * 3) +
-					(orderByComparator.getOrderByFields().length * 3));
-		}
-		else {
-			sb = new StringBundler(5);
-		}
+	private FinderPath _finderPathFetchByC_S;
+	private FinderPath _finderPathCountByC_S;
 
-		sb.append(_SQL_SELECT_CRFSUBJECT_WHERE);
+	/**
+	 * Returns the crf subject where crfId = &#63; and subjectId = &#63; or throws a <code>NoSuchCRFSubjectException</code> if it could not be found.
+	 *
+	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
+	 * @return the matching crf subject
+	 * @throws NoSuchCRFSubjectException if a matching crf subject could not be found
+	 */
+	@Override
+	public CRFSubject findByC_S(long crfId, long subjectId)
+		throws NoSuchCRFSubjectException {
 
-		sb.append(_FINDER_COLUMN_G_C_EXP_GROUPID_2);
+		CRFSubject crfSubject = fetchByC_S(crfId, subjectId);
 
-		sb.append(_FINDER_COLUMN_G_C_EXP_CRFID_2);
+		if (crfSubject == null) {
+			StringBundler sb = new StringBundler(6);
 
-		boolean bindExperimentalGroup = false;
+			sb.append(_NO_SUCH_ENTITY_WITH_KEY);
 
-		if (experimentalGroup.isEmpty()) {
-			sb.append(_FINDER_COLUMN_G_C_EXP_EXPERIMENTALGROUP_3);
-		}
-		else {
-			bindExperimentalGroup = true;
+			sb.append("crfId=");
+			sb.append(crfId);
 
-			sb.append(_FINDER_COLUMN_G_C_EXP_EXPERIMENTALGROUP_2);
-		}
+			sb.append(", subjectId=");
+			sb.append(subjectId);
 
-		if (orderByComparator != null) {
-			String[] orderByConditionFields =
-				orderByComparator.getOrderByConditionFields();
+			sb.append("}");
 
-			if (orderByConditionFields.length > 0) {
-				sb.append(WHERE_AND);
+			if (_log.isDebugEnabled()) {
+				_log.debug(sb.toString());
 			}
 
-			for (int i = 0; i < orderByConditionFields.length; i++) {
-				sb.append(_ORDER_BY_ENTITY_ALIAS);
-				sb.append(orderByConditionFields[i]);
-
-				if ((i + 1) < orderByConditionFields.length) {
-					if (orderByComparator.isAscending() ^ previous) {
-						sb.append(WHERE_GREATER_THAN_HAS_NEXT);
-					}
-					else {
-						sb.append(WHERE_LESSER_THAN_HAS_NEXT);
-					}
-				}
-				else {
-					if (orderByComparator.isAscending() ^ previous) {
-						sb.append(WHERE_GREATER_THAN);
-					}
-					else {
-						sb.append(WHERE_LESSER_THAN);
-					}
-				}
-			}
-
-			sb.append(ORDER_BY_CLAUSE);
-
-			String[] orderByFields = orderByComparator.getOrderByFields();
-
-			for (int i = 0; i < orderByFields.length; i++) {
-				sb.append(_ORDER_BY_ENTITY_ALIAS);
-				sb.append(orderByFields[i]);
-
-				if ((i + 1) < orderByFields.length) {
-					if (orderByComparator.isAscending() ^ previous) {
-						sb.append(ORDER_BY_ASC_HAS_NEXT);
-					}
-					else {
-						sb.append(ORDER_BY_DESC_HAS_NEXT);
-					}
-				}
-				else {
-					if (orderByComparator.isAscending() ^ previous) {
-						sb.append(ORDER_BY_ASC);
-					}
-					else {
-						sb.append(ORDER_BY_DESC);
-					}
-				}
-			}
-		}
-		else {
-			sb.append(CRFSubjectModelImpl.ORDER_BY_JPQL);
+			throw new NoSuchCRFSubjectException(sb.toString());
 		}
 
-		String sql = sb.toString();
-
-		Query query = session.createQuery(sql);
-
-		query.setFirstResult(0);
-		query.setMaxResults(2);
-
-		QueryPos queryPos = QueryPos.getInstance(query);
-
-		queryPos.add(groupId);
-
-		queryPos.add(crfId);
-
-		if (bindExperimentalGroup) {
-			queryPos.add(experimentalGroup);
-		}
-
-		if (orderByComparator != null) {
-			for (Object orderByConditionValue :
-					orderByComparator.getOrderByConditionValues(crfSubject)) {
-
-				queryPos.add(orderByConditionValue);
-			}
-		}
-
-		List<CRFSubject> list = query.list();
-
-		if (list.size() == 2) {
-			return list.get(1);
-		}
-		else {
-			return null;
-		}
+		return crfSubject;
 	}
 
 	/**
-	 * Removes all the crf subjects where groupId = &#63; and crfId = &#63; and experimentalGroup = &#63; from the database.
+	 * Returns the crf subject where crfId = &#63; and subjectId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
 	 *
-	 * @param groupId the group ID
 	 * @param crfId the crf ID
-	 * @param experimentalGroup the experimental group
+	 * @param subjectId the subject ID
+	 * @return the matching crf subject, or <code>null</code> if a matching crf subject could not be found
 	 */
 	@Override
-	public void removeByG_C_EXP(
-		long groupId, long crfId, String experimentalGroup) {
-
-		for (CRFSubject crfSubject :
-				findByG_C_EXP(
-					groupId, crfId, experimentalGroup, QueryUtil.ALL_POS,
-					QueryUtil.ALL_POS, null)) {
-
-			remove(crfSubject);
-		}
+	public CRFSubject fetchByC_S(long crfId, long subjectId) {
+		return fetchByC_S(crfId, subjectId, true);
 	}
 
 	/**
-	 * Returns the number of crf subjects where groupId = &#63; and crfId = &#63; and experimentalGroup = &#63;.
+	 * Returns the crf subject where crfId = &#63; and subjectId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
 	 *
-	 * @param groupId the group ID
 	 * @param crfId the crf ID
-	 * @param experimentalGroup the experimental group
-	 * @return the number of matching crf subjects
+	 * @param subjectId the subject ID
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the matching crf subject, or <code>null</code> if a matching crf subject could not be found
 	 */
 	@Override
-	public int countByG_C_EXP(
-		long groupId, long crfId, String experimentalGroup) {
+	public CRFSubject fetchByC_S(
+		long crfId, long subjectId, boolean useFinderCache) {
 
-		experimentalGroup = Objects.toString(experimentalGroup, "");
+		Object[] finderArgs = null;
 
-		FinderPath finderPath = _finderPathCountByG_C_EXP;
+		if (useFinderCache) {
+			finderArgs = new Object[] {crfId, subjectId};
+		}
 
-		Object[] finderArgs = new Object[] {groupId, crfId, experimentalGroup};
+		Object result = null;
 
-		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+		if (useFinderCache) {
+			result = finderCache.getResult(
+				_finderPathFetchByC_S, finderArgs, this);
+		}
 
-		if (count == null) {
+		if (result instanceof CRFSubject) {
+			CRFSubject crfSubject = (CRFSubject)result;
+
+			if ((crfId != crfSubject.getCrfId()) ||
+				(subjectId != crfSubject.getSubjectId())) {
+
+				result = null;
+			}
+		}
+
+		if (result == null) {
 			StringBundler sb = new StringBundler(4);
 
-			sb.append(_SQL_COUNT_CRFSUBJECT_WHERE);
+			sb.append(_SQL_SELECT_CRFSUBJECT_WHERE);
 
-			sb.append(_FINDER_COLUMN_G_C_EXP_GROUPID_2);
+			sb.append(_FINDER_COLUMN_C_S_CRFID_2);
 
-			sb.append(_FINDER_COLUMN_G_C_EXP_CRFID_2);
-
-			boolean bindExperimentalGroup = false;
-
-			if (experimentalGroup.isEmpty()) {
-				sb.append(_FINDER_COLUMN_G_C_EXP_EXPERIMENTALGROUP_3);
-			}
-			else {
-				bindExperimentalGroup = true;
-
-				sb.append(_FINDER_COLUMN_G_C_EXP_EXPERIMENTALGROUP_2);
-			}
+			sb.append(_FINDER_COLUMN_C_S_SUBJECTID_2);
 
 			String sql = sb.toString();
 
@@ -3648,13 +4313,100 @@ public class CRFSubjectPersistenceImpl
 
 				QueryPos queryPos = QueryPos.getInstance(query);
 
-				queryPos.add(groupId);
+				queryPos.add(crfId);
+
+				queryPos.add(subjectId);
+
+				List<CRFSubject> list = query.list();
+
+				if (list.isEmpty()) {
+					if (useFinderCache) {
+						finderCache.putResult(
+							_finderPathFetchByC_S, finderArgs, list);
+					}
+				}
+				else {
+					CRFSubject crfSubject = list.get(0);
+
+					result = crfSubject;
+
+					cacheResult(crfSubject);
+				}
+			}
+			catch (Exception exception) {
+				if (useFinderCache) {
+					finderCache.removeResult(_finderPathFetchByC_S, finderArgs);
+				}
+
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		if (result instanceof List<?>) {
+			return null;
+		}
+		else {
+			return (CRFSubject)result;
+		}
+	}
+
+	/**
+	 * Removes the crf subject where crfId = &#63; and subjectId = &#63; from the database.
+	 *
+	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
+	 * @return the crf subject that was removed
+	 */
+	@Override
+	public CRFSubject removeByC_S(long crfId, long subjectId)
+		throws NoSuchCRFSubjectException {
+
+		CRFSubject crfSubject = findByC_S(crfId, subjectId);
+
+		return remove(crfSubject);
+	}
+
+	/**
+	 * Returns the number of crf subjects where crfId = &#63; and subjectId = &#63;.
+	 *
+	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
+	 * @return the number of matching crf subjects
+	 */
+	@Override
+	public int countByC_S(long crfId, long subjectId) {
+		FinderPath finderPath = _finderPathCountByC_S;
+
+		Object[] finderArgs = new Object[] {crfId, subjectId};
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler sb = new StringBundler(3);
+
+			sb.append(_SQL_COUNT_CRFSUBJECT_WHERE);
+
+			sb.append(_FINDER_COLUMN_C_S_CRFID_2);
+
+			sb.append(_FINDER_COLUMN_C_S_SUBJECTID_2);
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
 
 				queryPos.add(crfId);
 
-				if (bindExperimentalGroup) {
-					queryPos.add(experimentalGroup);
-				}
+				queryPos.add(subjectId);
 
 				count = (Long)query.uniqueResult();
 
@@ -3673,17 +4425,11 @@ public class CRFSubjectPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_G_C_EXP_GROUPID_2 =
-		"crfSubject.groupId = ? AND ";
-
-	private static final String _FINDER_COLUMN_G_C_EXP_CRFID_2 =
+	private static final String _FINDER_COLUMN_C_S_CRFID_2 =
 		"crfSubject.crfId = ? AND ";
 
-	private static final String _FINDER_COLUMN_G_C_EXP_EXPERIMENTALGROUP_2 =
-		"crfSubject.experimentalGroup = ?";
-
-	private static final String _FINDER_COLUMN_G_C_EXP_EXPERIMENTALGROUP_3 =
-		"(crfSubject.experimentalGroup IS NULL OR crfSubject.experimentalGroup = '')";
+	private static final String _FINDER_COLUMN_C_S_SUBJECTID_2 =
+		"crfSubject.subjectId = ?";
 
 	private FinderPath _finderPathWithPaginationFindByG_C_UL;
 	private FinderPath _finderPathWithoutPaginationFindByG_C_UL;
@@ -4179,6 +4925,361 @@ public class CRFSubjectPersistenceImpl
 	}
 
 	/**
+	 * Returns all the crf subjects that the user has permission to view where groupId = &#63; and crfId = &#63; and updateLock = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param crfId the crf ID
+	 * @param updateLock the update lock
+	 * @return the matching crf subjects that the user has permission to view
+	 */
+	@Override
+	public List<CRFSubject> filterFindByG_C_UL(
+		long groupId, long crfId, boolean updateLock) {
+
+		return filterFindByG_C_UL(
+			groupId, crfId, updateLock, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+			null);
+	}
+
+	/**
+	 * Returns a range of all the crf subjects that the user has permission to view where groupId = &#63; and crfId = &#63; and updateLock = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFSubjectModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param crfId the crf ID
+	 * @param updateLock the update lock
+	 * @param start the lower bound of the range of crf subjects
+	 * @param end the upper bound of the range of crf subjects (not inclusive)
+	 * @return the range of matching crf subjects that the user has permission to view
+	 */
+	@Override
+	public List<CRFSubject> filterFindByG_C_UL(
+		long groupId, long crfId, boolean updateLock, int start, int end) {
+
+		return filterFindByG_C_UL(groupId, crfId, updateLock, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the crf subjects that the user has permissions to view where groupId = &#63; and crfId = &#63; and updateLock = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFSubjectModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param crfId the crf ID
+	 * @param updateLock the update lock
+	 * @param start the lower bound of the range of crf subjects
+	 * @param end the upper bound of the range of crf subjects (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching crf subjects that the user has permission to view
+	 */
+	@Override
+	public List<CRFSubject> filterFindByG_C_UL(
+		long groupId, long crfId, boolean updateLock, int start, int end,
+		OrderByComparator<CRFSubject> orderByComparator) {
+
+		if (!InlineSQLHelperUtil.isEnabled(groupId)) {
+			return findByG_C_UL(
+				groupId, crfId, updateLock, start, end, orderByComparator);
+		}
+
+		StringBundler sb = null;
+
+		if (orderByComparator != null) {
+			sb = new StringBundler(
+				5 + (orderByComparator.getOrderByFields().length * 2));
+		}
+		else {
+			sb = new StringBundler(6);
+		}
+
+		if (getDB().isSupportsInlineDistinct()) {
+			sb.append(_FILTER_SQL_SELECT_CRFSUBJECT_WHERE);
+		}
+		else {
+			sb.append(_FILTER_SQL_SELECT_CRFSUBJECT_NO_INLINE_DISTINCT_WHERE_1);
+		}
+
+		sb.append(_FINDER_COLUMN_G_C_UL_GROUPID_2);
+
+		sb.append(_FINDER_COLUMN_G_C_UL_CRFID_2);
+
+		sb.append(_FINDER_COLUMN_G_C_UL_UPDATELOCK_2);
+
+		if (!getDB().isSupportsInlineDistinct()) {
+			sb.append(_FILTER_SQL_SELECT_CRFSUBJECT_NO_INLINE_DISTINCT_WHERE_2);
+		}
+
+		if (orderByComparator != null) {
+			if (getDB().isSupportsInlineDistinct()) {
+				appendOrderByComparator(
+					sb, _ORDER_BY_ENTITY_ALIAS, orderByComparator, true);
+			}
+			else {
+				appendOrderByComparator(
+					sb, _ORDER_BY_ENTITY_TABLE, orderByComparator, true);
+			}
+		}
+		else {
+			if (getDB().isSupportsInlineDistinct()) {
+				sb.append(CRFSubjectModelImpl.ORDER_BY_JPQL);
+			}
+			else {
+				sb.append(CRFSubjectModelImpl.ORDER_BY_SQL);
+			}
+		}
+
+		String sql = InlineSQLHelperUtil.replacePermissionCheck(
+			sb.toString(), CRFSubject.class.getName(),
+			_FILTER_ENTITY_TABLE_FILTER_PK_COLUMN, groupId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			SQLQuery sqlQuery = session.createSynchronizedSQLQuery(sql);
+
+			if (getDB().isSupportsInlineDistinct()) {
+				sqlQuery.addEntity(_FILTER_ENTITY_ALIAS, CRFSubjectImpl.class);
+			}
+			else {
+				sqlQuery.addEntity(_FILTER_ENTITY_TABLE, CRFSubjectImpl.class);
+			}
+
+			QueryPos queryPos = QueryPos.getInstance(sqlQuery);
+
+			queryPos.add(groupId);
+
+			queryPos.add(crfId);
+
+			queryPos.add(updateLock);
+
+			return (List<CRFSubject>)QueryUtil.list(
+				sqlQuery, getDialect(), start, end);
+		}
+		catch (Exception exception) {
+			throw processException(exception);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	/**
+	 * Returns the crf subjects before and after the current crf subject in the ordered set of crf subjects that the user has permission to view where groupId = &#63; and crfId = &#63; and updateLock = &#63;.
+	 *
+	 * @param crfSubjectId the primary key of the current crf subject
+	 * @param groupId the group ID
+	 * @param crfId the crf ID
+	 * @param updateLock the update lock
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next crf subject
+	 * @throws NoSuchCRFSubjectException if a crf subject with the primary key could not be found
+	 */
+	@Override
+	public CRFSubject[] filterFindByG_C_UL_PrevAndNext(
+			long crfSubjectId, long groupId, long crfId, boolean updateLock,
+			OrderByComparator<CRFSubject> orderByComparator)
+		throws NoSuchCRFSubjectException {
+
+		if (!InlineSQLHelperUtil.isEnabled(groupId)) {
+			return findByG_C_UL_PrevAndNext(
+				crfSubjectId, groupId, crfId, updateLock, orderByComparator);
+		}
+
+		CRFSubject crfSubject = findByPrimaryKey(crfSubjectId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			CRFSubject[] array = new CRFSubjectImpl[3];
+
+			array[0] = filterGetByG_C_UL_PrevAndNext(
+				session, crfSubject, groupId, crfId, updateLock,
+				orderByComparator, true);
+
+			array[1] = crfSubject;
+
+			array[2] = filterGetByG_C_UL_PrevAndNext(
+				session, crfSubject, groupId, crfId, updateLock,
+				orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception exception) {
+			throw processException(exception);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected CRFSubject filterGetByG_C_UL_PrevAndNext(
+		Session session, CRFSubject crfSubject, long groupId, long crfId,
+		boolean updateLock, OrderByComparator<CRFSubject> orderByComparator,
+		boolean previous) {
+
+		StringBundler sb = null;
+
+		if (orderByComparator != null) {
+			sb = new StringBundler(
+				7 + (orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			sb = new StringBundler(6);
+		}
+
+		if (getDB().isSupportsInlineDistinct()) {
+			sb.append(_FILTER_SQL_SELECT_CRFSUBJECT_WHERE);
+		}
+		else {
+			sb.append(_FILTER_SQL_SELECT_CRFSUBJECT_NO_INLINE_DISTINCT_WHERE_1);
+		}
+
+		sb.append(_FINDER_COLUMN_G_C_UL_GROUPID_2);
+
+		sb.append(_FINDER_COLUMN_G_C_UL_CRFID_2);
+
+		sb.append(_FINDER_COLUMN_G_C_UL_UPDATELOCK_2);
+
+		if (!getDB().isSupportsInlineDistinct()) {
+			sb.append(_FILTER_SQL_SELECT_CRFSUBJECT_NO_INLINE_DISTINCT_WHERE_2);
+		}
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				sb.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				if (getDB().isSupportsInlineDistinct()) {
+					sb.append(
+						getColumnName(
+							_ORDER_BY_ENTITY_ALIAS, orderByConditionFields[i],
+							true));
+				}
+				else {
+					sb.append(
+						getColumnName(
+							_ORDER_BY_ENTITY_TABLE, orderByConditionFields[i],
+							true));
+				}
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						sb.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(WHERE_GREATER_THAN);
+					}
+					else {
+						sb.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			sb.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				if (getDB().isSupportsInlineDistinct()) {
+					sb.append(
+						getColumnName(
+							_ORDER_BY_ENTITY_ALIAS, orderByFields[i], true));
+				}
+				else {
+					sb.append(
+						getColumnName(
+							_ORDER_BY_ENTITY_TABLE, orderByFields[i], true));
+				}
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						sb.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(ORDER_BY_ASC);
+					}
+					else {
+						sb.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			if (getDB().isSupportsInlineDistinct()) {
+				sb.append(CRFSubjectModelImpl.ORDER_BY_JPQL);
+			}
+			else {
+				sb.append(CRFSubjectModelImpl.ORDER_BY_SQL);
+			}
+		}
+
+		String sql = InlineSQLHelperUtil.replacePermissionCheck(
+			sb.toString(), CRFSubject.class.getName(),
+			_FILTER_ENTITY_TABLE_FILTER_PK_COLUMN, groupId);
+
+		SQLQuery sqlQuery = session.createSynchronizedSQLQuery(sql);
+
+		sqlQuery.setFirstResult(0);
+		sqlQuery.setMaxResults(2);
+
+		if (getDB().isSupportsInlineDistinct()) {
+			sqlQuery.addEntity(_FILTER_ENTITY_ALIAS, CRFSubjectImpl.class);
+		}
+		else {
+			sqlQuery.addEntity(_FILTER_ENTITY_TABLE, CRFSubjectImpl.class);
+		}
+
+		QueryPos queryPos = QueryPos.getInstance(sqlQuery);
+
+		queryPos.add(groupId);
+
+		queryPos.add(crfId);
+
+		queryPos.add(updateLock);
+
+		if (orderByComparator != null) {
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(crfSubject)) {
+
+				queryPos.add(orderByConditionValue);
+			}
+		}
+
+		List<CRFSubject> list = sqlQuery.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
 	 * Removes all the crf subjects where groupId = &#63; and crfId = &#63; and updateLock = &#63; from the database.
 	 *
 	 * @param groupId the group ID
@@ -4257,6 +5358,66 @@ public class CRFSubjectPersistenceImpl
 		return count.intValue();
 	}
 
+	/**
+	 * Returns the number of crf subjects that the user has permission to view where groupId = &#63; and crfId = &#63; and updateLock = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param crfId the crf ID
+	 * @param updateLock the update lock
+	 * @return the number of matching crf subjects that the user has permission to view
+	 */
+	@Override
+	public int filterCountByG_C_UL(
+		long groupId, long crfId, boolean updateLock) {
+
+		if (!InlineSQLHelperUtil.isEnabled(groupId)) {
+			return countByG_C_UL(groupId, crfId, updateLock);
+		}
+
+		StringBundler sb = new StringBundler(4);
+
+		sb.append(_FILTER_SQL_COUNT_CRFSUBJECT_WHERE);
+
+		sb.append(_FINDER_COLUMN_G_C_UL_GROUPID_2);
+
+		sb.append(_FINDER_COLUMN_G_C_UL_CRFID_2);
+
+		sb.append(_FINDER_COLUMN_G_C_UL_UPDATELOCK_2);
+
+		String sql = InlineSQLHelperUtil.replacePermissionCheck(
+			sb.toString(), CRFSubject.class.getName(),
+			_FILTER_ENTITY_TABLE_FILTER_PK_COLUMN, groupId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			SQLQuery sqlQuery = session.createSynchronizedSQLQuery(sql);
+
+			sqlQuery.addScalar(
+				COUNT_COLUMN_NAME, com.liferay.portal.kernel.dao.orm.Type.LONG);
+
+			QueryPos queryPos = QueryPos.getInstance(sqlQuery);
+
+			queryPos.add(groupId);
+
+			queryPos.add(crfId);
+
+			queryPos.add(updateLock);
+
+			Long count = (Long)sqlQuery.uniqueResult();
+
+			return count.intValue();
+		}
+		catch (Exception exception) {
+			throw processException(exception);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
 	private static final String _FINDER_COLUMN_G_C_UL_GROUPID_2 =
 		"crfSubject.groupId = ? AND ";
 
@@ -4293,6 +5454,11 @@ public class CRFSubjectPersistenceImpl
 		finderCache.putResult(
 			_finderPathFetchByUUID_G,
 			new Object[] {crfSubject.getUuid(), crfSubject.getGroupId()},
+			crfSubject);
+
+		finderCache.putResult(
+			_finderPathFetchByC_S,
+			new Object[] {crfSubject.getCrfId(), crfSubject.getSubjectId()},
 			crfSubject);
 
 		crfSubject.resetOriginalValues();
@@ -4398,6 +5564,15 @@ public class CRFSubjectPersistenceImpl
 			_finderPathCountByUUID_G, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByUUID_G, args, crfSubjectModelImpl, false);
+
+		args = new Object[] {
+			crfSubjectModelImpl.getCrfId(), crfSubjectModelImpl.getSubjectId()
+		};
+
+		finderCache.putResult(
+			_finderPathCountByC_S, args, Long.valueOf(1), false);
+		finderCache.putResult(
+			_finderPathFetchByC_S, args, crfSubjectModelImpl, false);
 	}
 
 	protected void clearUniqueFindersCache(
@@ -4422,6 +5597,28 @@ public class CRFSubjectPersistenceImpl
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
 			finderCache.removeResult(_finderPathFetchByUUID_G, args);
+		}
+
+		if (clearCurrent) {
+			Object[] args = new Object[] {
+				crfSubjectModelImpl.getCrfId(),
+				crfSubjectModelImpl.getSubjectId()
+			};
+
+			finderCache.removeResult(_finderPathCountByC_S, args);
+			finderCache.removeResult(_finderPathFetchByC_S, args);
+		}
+
+		if ((crfSubjectModelImpl.getColumnBitmask() &
+			 _finderPathFetchByC_S.getColumnBitmask()) != 0) {
+
+			Object[] args = new Object[] {
+				crfSubjectModelImpl.getOriginalCrfId(),
+				crfSubjectModelImpl.getOriginalSubjectId()
+			};
+
+			finderCache.removeResult(_finderPathCountByC_S, args);
+			finderCache.removeResult(_finderPathFetchByC_S, args);
 		}
 	}
 
@@ -4653,16 +5850,6 @@ public class CRFSubjectPersistenceImpl
 			args = new Object[] {
 				crfSubjectModelImpl.getGroupId(),
 				crfSubjectModelImpl.getCrfId(),
-				crfSubjectModelImpl.getExperimentalGroup()
-			};
-
-			finderCache.removeResult(_finderPathCountByG_C_EXP, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByG_C_EXP, args);
-
-			args = new Object[] {
-				crfSubjectModelImpl.getGroupId(),
-				crfSubjectModelImpl.getCrfId(),
 				crfSubjectModelImpl.isUpdateLock()
 			};
 
@@ -4780,31 +5967,6 @@ public class CRFSubjectPersistenceImpl
 				finderCache.removeResult(_finderPathCountByG_S, args);
 				finderCache.removeResult(
 					_finderPathWithoutPaginationFindByG_S, args);
-			}
-
-			if ((crfSubjectModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByG_C_EXP.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					crfSubjectModelImpl.getOriginalGroupId(),
-					crfSubjectModelImpl.getOriginalCrfId(),
-					crfSubjectModelImpl.getOriginalExperimentalGroup()
-				};
-
-				finderCache.removeResult(_finderPathCountByG_C_EXP, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_C_EXP, args);
-
-				args = new Object[] {
-					crfSubjectModelImpl.getGroupId(),
-					crfSubjectModelImpl.getCrfId(),
-					crfSubjectModelImpl.getExperimentalGroup()
-				};
-
-				finderCache.removeResult(_finderPathCountByG_C_EXP, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_C_EXP, args);
 			}
 
 			if ((crfSubjectModelImpl.getColumnBitmask() &
@@ -5253,34 +6415,17 @@ public class CRFSubjectPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_S",
 			new String[] {Long.class.getName(), Long.class.getName()});
 
-		_finderPathWithPaginationFindByG_C_EXP = new FinderPath(
+		_finderPathFetchByC_S = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, CRFSubjectImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_C_EXP",
-			new String[] {
-				Long.class.getName(), Long.class.getName(),
-				String.class.getName(), Integer.class.getName(),
-				Integer.class.getName(), OrderByComparator.class.getName()
-			});
-
-		_finderPathWithoutPaginationFindByG_C_EXP = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, CRFSubjectImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_C_EXP",
-			new String[] {
-				Long.class.getName(), Long.class.getName(),
-				String.class.getName()
-			},
-			CRFSubjectModelImpl.GROUPID_COLUMN_BITMASK |
+			FINDER_CLASS_NAME_ENTITY, "fetchByC_S",
+			new String[] {Long.class.getName(), Long.class.getName()},
 			CRFSubjectModelImpl.CRFID_COLUMN_BITMASK |
-			CRFSubjectModelImpl.EXPERIMENTALGROUP_COLUMN_BITMASK |
-			CRFSubjectModelImpl.CREATEDATE_COLUMN_BITMASK);
+			CRFSubjectModelImpl.SUBJECTID_COLUMN_BITMASK);
 
-		_finderPathCountByG_C_EXP = new FinderPath(
+		_finderPathCountByC_S = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_C_EXP",
-			new String[] {
-				Long.class.getName(), Long.class.getName(),
-				String.class.getName()
-			});
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_S",
+			new String[] {Long.class.getName(), Long.class.getName()});
 
 		_finderPathWithPaginationFindByG_C_UL = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, CRFSubjectImpl.class,
@@ -5392,7 +6537,30 @@ public class CRFSubjectPersistenceImpl
 	private static final String _SQL_COUNT_CRFSUBJECT_WHERE =
 		"SELECT COUNT(crfSubject) FROM CRFSubject crfSubject WHERE ";
 
+	private static final String _FILTER_ENTITY_TABLE_FILTER_PK_COLUMN =
+		"crfSubject.crfSubjectId";
+
+	private static final String _FILTER_SQL_SELECT_CRFSUBJECT_WHERE =
+		"SELECT DISTINCT {crfSubject.*} FROM EC_CRFSubject crfSubject WHERE ";
+
+	private static final String
+		_FILTER_SQL_SELECT_CRFSUBJECT_NO_INLINE_DISTINCT_WHERE_1 =
+			"SELECT {EC_CRFSubject.*} FROM (SELECT DISTINCT crfSubject.crfSubjectId FROM EC_CRFSubject crfSubject WHERE ";
+
+	private static final String
+		_FILTER_SQL_SELECT_CRFSUBJECT_NO_INLINE_DISTINCT_WHERE_2 =
+			") TEMP_TABLE INNER JOIN EC_CRFSubject ON TEMP_TABLE.crfSubjectId = EC_CRFSubject.crfSubjectId";
+
+	private static final String _FILTER_SQL_COUNT_CRFSUBJECT_WHERE =
+		"SELECT COUNT(DISTINCT crfSubject.crfSubjectId) AS COUNT_VALUE FROM EC_CRFSubject crfSubject WHERE ";
+
+	private static final String _FILTER_ENTITY_ALIAS = "crfSubject";
+
+	private static final String _FILTER_ENTITY_TABLE = "EC_CRFSubject";
+
 	private static final String _ORDER_BY_ENTITY_ALIAS = "crfSubject.";
+
+	private static final String _ORDER_BY_ENTITY_TABLE = "EC_CRFSubject.";
 
 	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY =
 		"No CRFSubject exists with the primary key ";

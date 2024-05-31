@@ -78,7 +78,7 @@ public class CRFSubjectCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(31);
+		StringBundler sb = new StringBundler(29);
 
 		sb.append("{mvccVersion=");
 		sb.append(mvccVersion);
@@ -106,8 +106,6 @@ public class CRFSubjectCacheModel
 		sb.append(participationStatus);
 		sb.append(", participationStartDate=");
 		sb.append(participationStartDate);
-		sb.append(", experimentalGroup=");
-		sb.append(experimentalGroup);
 		sb.append(", updateLock=");
 		sb.append(updateLock);
 		sb.append("}");
@@ -166,13 +164,6 @@ public class CRFSubjectCacheModel
 				new Date(participationStartDate));
 		}
 
-		if (experimentalGroup == null) {
-			crfSubjectImpl.setExperimentalGroup("");
-		}
-		else {
-			crfSubjectImpl.setExperimentalGroup(experimentalGroup);
-		}
-
 		crfSubjectImpl.setUpdateLock(updateLock);
 
 		crfSubjectImpl.resetOriginalValues();
@@ -202,7 +193,6 @@ public class CRFSubjectCacheModel
 
 		participationStatus = objectInput.readInt();
 		participationStartDate = objectInput.readLong();
-		experimentalGroup = objectInput.readUTF();
 
 		updateLock = objectInput.readBoolean();
 	}
@@ -243,13 +233,6 @@ public class CRFSubjectCacheModel
 		objectOutput.writeInt(participationStatus);
 		objectOutput.writeLong(participationStartDate);
 
-		if (experimentalGroup == null) {
-			objectOutput.writeUTF("");
-		}
-		else {
-			objectOutput.writeUTF(experimentalGroup);
-		}
-
 		objectOutput.writeBoolean(updateLock);
 	}
 
@@ -266,7 +249,6 @@ public class CRFSubjectCacheModel
 	public long subjectId;
 	public int participationStatus;
 	public long participationStartDate;
-	public String experimentalGroup;
 	public boolean updateLock;
 
 }
