@@ -68,7 +68,6 @@ public class ECRFUserJspPaths {
 	public static final String JSP_LIST_CRF_DATA_DELETE = JSP_ROOT_CRF_DATA + "list-crf-data-delete.jsp";
 	public static final String JSP_VIEW_CRF_DATA = JSP_ROOT_CRF_DATA + "view-crf-data.jsp";
 	public static final String JSP_UPDATE_CRF_DATA = JSP_ROOT_CRF_DATA + "update-crf-data.jsp";
-	public static final String JSP_CRF_VIEWER = JSP_ROOT_CRF_DATA + "crf-data-viewer.jsp";
 	public static final String JSP_SEARCH_CRF_DATA = JSP_ROOT_CRF_DATA + "search-crf-data.jsp";
 	
 	public static final String JSP_ROOT_CRF_DATA_OTHER = "/html/crf-data/other/";

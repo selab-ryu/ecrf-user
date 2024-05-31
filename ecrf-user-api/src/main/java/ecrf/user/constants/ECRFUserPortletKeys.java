@@ -21,7 +21,6 @@ public class ECRFUserPortletKeys {
 	public static final String CRF_QUERY = "ecrf_user_crf_query_CRFQueryPortlet";
 	public static final String CRF_FORM = "ecrf_user_crf_form_CRFFormPortlet";
 	public static final String CRF_DATA = "ecrf_user_crf_data_CRFDataPortlet";
-	public static final String CRF_DATA_VIEWER = "ecrf_user_crf_data_viewer_CRFDataViewerPortlet";
 	
 	// get from com.liferay.users.admin.constants.UsersAdminPortletKeys at users_admin app
 	public static final String MY_ACCOUNT = "com_liferay_my_account_web_portlet_MyAccountPortlet";
