@@ -14,6 +14,10 @@
 
 package ecrf.user.service;
 
+import org.osgi.framework.Bundle;
+import org.osgi.framework.FrameworkUtil;
+import org.osgi.util.tracker.ServiceTracker;
+
 /**
  * Provides the remote service utility for Project. This utility wraps
  * <code>ecrf.user.service.impl.ProjectServiceImpl</code> and is an
@@ -39,14 +43,27 @@ public class ProjectServiceUtil {
 	 *
 	 * @return the OSGi service identifier
 	 */
-	public static java.lang.String getOSGiServiceIdentifier() {
+	public static String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
 	}
 
 	public static ProjectService getService() {
-		return _service;
+		return _serviceTracker.getService();
 	}
 
-	private static volatile ProjectService _service;
+	private static ServiceTracker<ProjectService, ProjectService>
+		_serviceTracker;
+
+	static {
+		Bundle bundle = FrameworkUtil.getBundle(ProjectService.class);
+
+		ServiceTracker<ProjectService, ProjectService> serviceTracker =
+			new ServiceTracker<ProjectService, ProjectService>(
+				bundle.getBundleContext(), ProjectService.class, null);
+
+		serviceTracker.open();
+
+		_serviceTracker = serviceTracker;
+	}
 
 }

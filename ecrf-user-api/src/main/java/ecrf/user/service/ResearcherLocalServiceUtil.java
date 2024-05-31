@@ -14,16 +14,9 @@
 
 package ecrf.user.service;
 
-import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.model.PersistedModel;
-import com.liferay.portal.kernel.util.OrderByComparator;
-
-import ecrf.user.model.Researcher;
-
-import java.io.Serializable;
-
-import java.util.List;
+import org.osgi.framework.Bundle;
+import org.osgi.framework.FrameworkUtil;
+import org.osgi.util.tracker.ServiceTracker;
 
 /**
  * Provides the local service utility for Researcher. This utility wraps
@@ -44,7 +37,7 @@ public class ResearcherLocalServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to <code>ecrf.user.service.impl.ResearcherLocalServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
-	public static Researcher addResarcherWithUser(
+	public static ecrf.user.model.Researcher addResarcherWithUser(
 			long companyId, long facebookId, String openId, String languageId,
 			boolean male, String jobTitle, long prefixId, long suffixId,
 			String emailAddress, String password1, String password2,
@@ -55,7 +48,7 @@ public class ResearcherLocalServiceUtil {
 			com.liferay.portal.kernel.service.ServiceContext userServiceContext,
 			com.liferay.portal.kernel.service.ServiceContext
 				researcherServiceContext)
-		throws PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().addResarcherWithUser(
 			companyId, facebookId, openId, languageId, male, jobTitle, prefixId,
@@ -75,13 +68,15 @@ public class ResearcherLocalServiceUtil {
 	 * @param researcher the researcher
 	 * @return the researcher that was added
 	 */
-	public static Researcher addResearcher(Researcher researcher) {
+	public static ecrf.user.model.Researcher addResearcher(
+		ecrf.user.model.Researcher researcher) {
+
 		return getService().addResearcher(researcher);
 	}
 
-	public static Researcher changeApproveStatus(
+	public static ecrf.user.model.Researcher changeApproveStatus(
 			long researcherId, int approveStatus)
-		throws PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().changeApproveStatus(researcherId, approveStatus);
 	}
@@ -92,16 +87,19 @@ public class ResearcherLocalServiceUtil {
 	 * @param researcherId the primary key for the new researcher
 	 * @return the new researcher
 	 */
-	public static Researcher createResearcher(long researcherId) {
+	public static ecrf.user.model.Researcher createResearcher(
+		long researcherId) {
+
 		return getService().createResearcher(researcherId);
 	}
 
 	/**
 	 * @throws PortalException
 	 */
-	public static PersistedModel deletePersistedModel(
-			PersistedModel persistedModel)
-		throws PortalException {
+	public static com.liferay.portal.kernel.model.PersistedModel
+			deletePersistedModel(
+				com.liferay.portal.kernel.model.PersistedModel persistedModel)
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
@@ -117,16 +115,16 @@ public class ResearcherLocalServiceUtil {
 	 * @return the researcher that was removed
 	 * @throws PortalException if a researcher with the primary key could not be found
 	 */
-	public static Researcher deleteResearcher(long researcherId)
-		throws PortalException {
+	public static ecrf.user.model.Researcher deleteResearcher(long researcherId)
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().deleteResearcher(researcherId);
 	}
 
-	public static Researcher deleteResearcher(
+	public static ecrf.user.model.Researcher deleteResearcher(
 			long researcherId,
 			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().deleteResearcher(researcherId, sc);
 	}
@@ -141,17 +139,22 @@ public class ResearcherLocalServiceUtil {
 	 * @param researcher the researcher
 	 * @return the researcher that was removed
 	 */
-	public static Researcher deleteResearcher(Researcher researcher) {
+	public static ecrf.user.model.Researcher deleteResearcher(
+		ecrf.user.model.Researcher researcher) {
+
 		return getService().deleteResearcher(researcher);
 	}
 
-	public static Researcher deleteResearcherWithUser(Researcher researcher)
-		throws PortalException {
+	public static ecrf.user.model.Researcher deleteResearcherWithUser(
+			ecrf.user.model.Researcher researcher)
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().deleteResearcherWithUser(researcher);
 	}
 
-	public static DynamicQuery dynamicQuery() {
+	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
+		dynamicQuery() {
+
 		return getService().dynamicQuery();
 	}
 
@@ -161,7 +164,9 @@ public class ResearcherLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
+	public static <T> java.util.List<T> dynamicQuery(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
+
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -177,8 +182,9 @@ public class ResearcherLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> List<T> dynamicQuery(
-		DynamicQuery dynamicQuery, int start, int end) {
+	public static <T> java.util.List<T> dynamicQuery(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
+		int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -196,9 +202,10 @@ public class ResearcherLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> List<T> dynamicQuery(
-		DynamicQuery dynamicQuery, int start, int end,
-		OrderByComparator<T> orderByComparator) {
+	public static <T> java.util.List<T> dynamicQuery(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
+		int end,
+		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -210,7 +217,9 @@ public class ResearcherLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
+	public static long dynamicQueryCount(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
+
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -222,13 +231,15 @@ public class ResearcherLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		DynamicQuery dynamicQuery,
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static Researcher fetchResearcher(long researcherId) {
+	public static ecrf.user.model.Researcher fetchResearcher(
+		long researcherId) {
+
 		return getService().fetchResearcher(researcherId);
 	}
 
@@ -239,7 +250,7 @@ public class ResearcherLocalServiceUtil {
 	 * @param companyId the primary key of the company
 	 * @return the matching researcher, or <code>null</code> if a matching researcher could not be found
 	 */
-	public static Researcher fetchResearcherByUuidAndCompanyId(
+	public static ecrf.user.model.Researcher fetchResearcherByUuidAndCompanyId(
 		String uuid, long companyId) {
 
 		return getService().fetchResearcherByUuidAndCompanyId(uuid, companyId);
@@ -278,8 +289,9 @@ public class ResearcherLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
-		throws PortalException {
+	public static com.liferay.portal.kernel.model.PersistedModel
+			getPersistedModel(java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -291,17 +303,19 @@ public class ResearcherLocalServiceUtil {
 	 * @return the researcher
 	 * @throws PortalException if a researcher with the primary key could not be found
 	 */
-	public static Researcher getResearcher(long researcherId)
-		throws PortalException {
+	public static ecrf.user.model.Researcher getResearcher(long researcherId)
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().getResearcher(researcherId);
 	}
 
-	public static List<Researcher> getResearcherBySite(long siteId) {
+	public static java.util.List<ecrf.user.model.Researcher>
+		getResearcherBySite(long siteId) {
+
 		return getService().getResearcherBySite(siteId);
 	}
 
-	public static Researcher getResearcherByUserId(long userId)
+	public static ecrf.user.model.Researcher getResearcherByUserId(long userId)
 		throws ecrf.user.exception.NoSuchResearcherException {
 
 		return getService().getResearcherByUserId(userId);
@@ -315,9 +329,9 @@ public class ResearcherLocalServiceUtil {
 	 * @return the matching researcher
 	 * @throws PortalException if a matching researcher could not be found
 	 */
-	public static Researcher getResearcherByUuidAndCompanyId(
+	public static ecrf.user.model.Researcher getResearcherByUuidAndCompanyId(
 			String uuid, long companyId)
-		throws PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().getResearcherByUuidAndCompanyId(uuid, companyId);
 	}
@@ -333,7 +347,9 @@ public class ResearcherLocalServiceUtil {
 	 * @param end the upper bound of the range of researchers (not inclusive)
 	 * @return the range of researchers
 	 */
-	public static List<Researcher> getResearchers(int start, int end) {
+	public static java.util.List<ecrf.user.model.Researcher> getResearchers(
+		int start, int end) {
+
 		return getService().getResearchers(start, end);
 	}
 
@@ -360,11 +376,13 @@ public class ResearcherLocalServiceUtil {
 	 * @param researcher the researcher
 	 * @return the researcher that was updated
 	 */
-	public static Researcher updateResearcher(Researcher researcher) {
+	public static ecrf.user.model.Researcher updateResearcher(
+		ecrf.user.model.Researcher researcher) {
+
 		return getService().updateResearcher(researcher);
 	}
 
-	public static Researcher updateResearcherWithUser(
+	public static ecrf.user.model.Researcher updateResearcherWithUser(
 			long researcherId, boolean male, String password1,
 			String screenName, String firstName, String lastName, int birthYear,
 			int birthMonth, int birthDay, int gender, String phone,
@@ -372,7 +390,7 @@ public class ResearcherLocalServiceUtil {
 			com.liferay.portal.kernel.service.ServiceContext userServiceContext,
 			com.liferay.portal.kernel.service.ServiceContext
 				researcherServiceContext)
-		throws PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().updateResearcherWithUser(
 			researcherId, male, password1, screenName, firstName, lastName,
@@ -382,9 +400,25 @@ public class ResearcherLocalServiceUtil {
 	}
 
 	public static ResearcherLocalService getService() {
-		return _service;
+		return _serviceTracker.getService();
 	}
 
-	private static volatile ResearcherLocalService _service;
+	private static ServiceTracker
+		<ResearcherLocalService, ResearcherLocalService> _serviceTracker;
+
+	static {
+		Bundle bundle = FrameworkUtil.getBundle(ResearcherLocalService.class);
+
+		ServiceTracker<ResearcherLocalService, ResearcherLocalService>
+			serviceTracker =
+				new ServiceTracker
+					<ResearcherLocalService, ResearcherLocalService>(
+						bundle.getBundleContext(), ResearcherLocalService.class,
+						null);
+
+		serviceTracker.open();
+
+		_serviceTracker = serviceTracker;
+	}
 
 }
