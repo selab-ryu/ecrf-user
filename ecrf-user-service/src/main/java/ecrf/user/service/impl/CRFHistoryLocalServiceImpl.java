@@ -18,6 +18,7 @@ import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
@@ -89,6 +90,11 @@ public class CRFHistoryLocalServiceImpl extends CRFHistoryLocalServiceBaseImpl {
 		crfHistory.setExpandoBridgeAttributes(sc);
 		super.crfHistoryPersistence.update(crfHistory);
 		
+		resourceLocalService.addResources(
+			companyId, groupId, userId,
+			CRFHistory.class.getName(), crfHistory.getHistoryId(), 
+			false, true, true);
+		
 		_log.info("End add History");
 
 		return crfHistory;		
@@ -136,6 +142,11 @@ public class CRFHistoryLocalServiceImpl extends CRFHistoryLocalServiceBaseImpl {
 	
 	public CRFHistory deleteCRFHistory(long historyId) throws PortalException {
 		CRFHistory crfHistory = super.crfHistoryPersistence.remove(historyId);
+		
+		resourceLocalService.deleteResource(
+			crfHistory.getCompanyId(), CRFHistory.class.getName(), 
+			ResourceConstants.SCOPE_INDIVIDUAL, crfHistory.getHistoryId());
+		
 		return crfHistory;
 	}
 	

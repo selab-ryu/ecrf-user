@@ -18,6 +18,7 @@ import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.PortalUtil;
@@ -30,6 +31,7 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 import ecrf.user.model.CRFSubject;
+import ecrf.user.model.Researcher;
 import ecrf.user.model.Subject;
 import ecrf.user.service.CRFSubjectLocalService;
 import ecrf.user.service.base.SubjectLocalServiceBaseImpl;
@@ -94,7 +96,11 @@ public class SubjectLocalServiceImpl extends SubjectLocalServiceBaseImpl {
 		
 		subject.setExpandoBridgeAttributes(sc);
 		super.subjectPersistence.update(subject);
-		_log.info("Service : Add Subject End");
+		
+		resourceLocalService.addResources(
+			subject.getCompanyId(), 0, userId,
+			Subject.class.getName(), subjectId,
+			false, true, true);
 		
 		return subject;
 	}
@@ -140,11 +146,16 @@ public class SubjectLocalServiceImpl extends SubjectLocalServiceBaseImpl {
 			subject = super.subjectLocalService.getSubject(subjectId);
 			super.subjectPersistence.remove(subjectId);
 			
+			resourceLocalService.deleteResource(
+				subject.getCompanyId(),
+				Subject.class.getName(), 
+				ResourceConstants.SCOPE_INDIVIDUAL, subject.getSubjectId());
+			
 			List<CRFSubject> crfSubjectList = _crfSubjectLocalService.getCRFSubjectBySubjectId(sc.getScopeGroupId(), subjectId);
 			for(CRFSubject crfSubject : crfSubjectList) {
 				_crfSubjectLocalService.deleteCRFSubject(crfSubject);
 			}
-			
+						
 			// remove link crf
 			
 			// remove structured data
@@ -155,6 +166,15 @@ public class SubjectLocalServiceImpl extends SubjectLocalServiceBaseImpl {
 	
 	public Subject deleteSubject(Subject subject, ServiceContext sc) {
 		super.subjectPersistence.remove(subject);
+		
+		try {
+			resourceLocalService.deleteResource(
+				subject.getCompanyId(),
+				Subject.class.getName(), 
+				ResourceConstants.SCOPE_INDIVIDUAL, subject.getSubjectId());
+		} catch (PortalException e) {
+			e.printStackTrace();
+		}
 		
 		List<CRFSubject> crfSubjectList = _crfSubjectLocalService.getCRFSubjectBySubjectId(sc.getScopeGroupId(), subject.getSubjectId());
 		for(CRFSubject crfSubject : crfSubjectList) {

@@ -114,7 +114,9 @@ public class ExperimentalGroupLocalServiceWrapper
 	}
 
 	@Override
-	public ecrf.user.model.ExperimentalGroup deleteExpGroup(long expGroupId) {
+	public ecrf.user.model.ExperimentalGroup deleteExpGroup(long expGroupId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
 		return _experimentalGroupLocalService.deleteExpGroup(expGroupId);
 	}
 

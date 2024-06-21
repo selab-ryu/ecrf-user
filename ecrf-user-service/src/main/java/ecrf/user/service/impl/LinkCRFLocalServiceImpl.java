@@ -18,6 +18,7 @@ import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
@@ -72,6 +73,11 @@ public class LinkCRFLocalServiceImpl extends LinkCRFLocalServiceBaseImpl {
 		
 		super.linkCRFPersistence.update(linkCRF);
 		
+		resourceLocalService.addResources(
+			companyId, groupId, userId, 
+			LinkCRF.class.getName(), linkCRF.getLinkId(), 
+			false, true, true);
+		
 		return linkCRF;
 	}
 	
@@ -110,6 +116,11 @@ public class LinkCRFLocalServiceImpl extends LinkCRFLocalServiceBaseImpl {
 	
 	public LinkCRF deleteLinkCRF(long linkId) throws PortalException {
 		LinkCRF linkCRF = super.linkCRFPersistence.remove(linkId);
+		
+		resourceLocalService.deleteResource(
+			linkCRF.getCompanyId(), LinkCRF.class.getName(), 
+			ResourceConstants.SCOPE_INDIVIDUAL, linkCRF.getLinkId());
+		
 		return linkCRF;
 	}
 	

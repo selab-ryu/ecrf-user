@@ -16,6 +16,7 @@ package ecrf.user.service.impl;
 
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
@@ -27,7 +28,6 @@ import java.util.logging.Logger;
 
 import org.osgi.service.component.annotations.Component;
 
-import ecrf.user.exception.NoSuchProjectException;
 import ecrf.user.model.Project;
 import ecrf.user.service.base.ProjectLocalServiceBaseImpl;
 
@@ -78,6 +78,11 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 		project.setPrincipalResearcherId(principleResearcherId);
 		project.setManageResearcherId(manageResearcherId);
 		
+		resourceLocalService.addResources(
+			project.getCompanyId(), project.getGroupId(), project.getUserId(),
+			Project.class.getName(), project.getProjectId(),
+			false, true, true);
+		
 		super.projectPersistence.update(project);
 		
 		return project;
@@ -126,6 +131,9 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 		Project project = null;
 		if(projectId > 0) {
 			project = super.projectLocalService.getProject(projectId);
+			
+			resourceLocalService.deleteResource(project.getCompanyId(), Project.class.getName(), ResourceConstants.SCOPE_INDIVIDUAL, project.getProjectId());
+			
 			super.projectPersistence.remove(projectId);
 		}
 		
@@ -134,6 +142,12 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 	
 	public Project deleteProject(Project project) {
 		super.projectPersistence.remove(project);
+		
+		try {
+			resourceLocalService.deleteResource(project.getCompanyId(), Project.class.getName(), ResourceConstants.SCOPE_INDIVIDUAL, project.getProjectId());
+		} catch (PortalException e) {
+			e.printStackTrace();
+		}
 		
 		return project;
 	}

@@ -18,6 +18,7 @@ import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
 
@@ -67,6 +68,11 @@ public class ExperimentalGroupLocalServiceImpl extends ExperimentalGroupLocalSer
 		
 		expGroup.setExpandoBridgeAttributes(sc);
 		
+		resourceLocalService.addResources(
+			expGroup.getCompanyId(), expGroup.getGroupId(), expGroup.getUserId(),
+			ExperimentalGroup.class.getName(), expGroup.getExperimentalGroupId(),
+			false, true, true);
+		
 		super.experimentalGroupPersistence.update(expGroup);
 		
 		return expGroup;
@@ -97,10 +103,16 @@ public class ExperimentalGroupLocalServiceImpl extends ExperimentalGroupLocalSer
 		return expGroup;
 	}
 	
-	public ExperimentalGroup deleteExpGroup(long expGroupId) {
+	public ExperimentalGroup deleteExpGroup(long expGroupId) throws PortalException {
 		ExperimentalGroup expGroup = null;
 		if(expGroupId > 0) {
 			expGroup = super.experimentalGroupPersistence.fetchByExperimentalGroupId(expGroupId);
+			
+			resourceLocalService.deleteResource(
+				expGroup.getCompanyId(), ExperimentalGroup.class.getName(),
+				ResourceConstants.SCOPE_INDIVIDUAL, expGroup.getExperimentalGroupId()
+			);
+			
 			super.experimentalGroupPersistence.remove(expGroup);
 		}
 		

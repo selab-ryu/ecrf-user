@@ -115,7 +115,9 @@ public class ExperimentalGroupLocalServiceUtil {
 		return getService().deleteExperimentalGroup(experimentalGroupId);
 	}
 
-	public static ExperimentalGroup deleteExpGroup(long expGroupId) {
+	public static ExperimentalGroup deleteExpGroup(long expGroupId)
+		throws PortalException {
+
 		return getService().deleteExpGroup(expGroupId);
 	}
 
