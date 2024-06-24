@@ -14,6 +14,10 @@
 
 package ecrf.user.service;
 
+import org.osgi.framework.Bundle;
+import org.osgi.framework.FrameworkUtil;
+import org.osgi.util.tracker.ServiceTracker;
+
 /**
  * Provides the remote service utility for Researcher. This utility wraps
  * <code>ecrf.user.service.impl.ResearcherServiceImpl</code> and is an
@@ -39,14 +43,27 @@ public class ResearcherServiceUtil {
 	 *
 	 * @return the OSGi service identifier
 	 */
-	public static java.lang.String getOSGiServiceIdentifier() {
+	public static String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
 	}
 
 	public static ResearcherService getService() {
-		return _service;
+		return _serviceTracker.getService();
 	}
 
-	private static volatile ResearcherService _service;
+	private static ServiceTracker<ResearcherService, ResearcherService>
+		_serviceTracker;
+
+	static {
+		Bundle bundle = FrameworkUtil.getBundle(ResearcherService.class);
+
+		ServiceTracker<ResearcherService, ResearcherService> serviceTracker =
+			new ServiceTracker<ResearcherService, ResearcherService>(
+				bundle.getBundleContext(), ResearcherService.class, null);
+
+		serviceTracker.open();
+
+		_serviceTracker = serviceTracker;
+	}
 
 }
