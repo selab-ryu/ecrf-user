@@ -117,6 +117,7 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 		// set audit fields
 		researcher.setUserId(creatorUserId);
 		researcher.setCompanyId(companyId);
+		researcher.setGroupId(0);
 		researcher.setUserName(creatorUser.getFullName());
 		researcher.setCreateDate(researcherServiceContext.getCreateDate());
 		researcher.setModifiedDate(researcherServiceContext.getModifiedDate());

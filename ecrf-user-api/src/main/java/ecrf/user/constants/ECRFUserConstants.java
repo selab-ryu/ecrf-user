@@ -2,7 +2,7 @@ package ecrf.user.constants;
 
 public class ECRFUserConstants {
 	public static final String RESOURCE_NAME = "ecrf.user";
-	public static final String RESEARCHER_RESOURCE_NAME = "ecrf.user.researcher";
+	public static final String RESEARCHER_RESOURCE_NAME = "ecrf.user.model.researcher";
 	public static final String PROJECT_RESOURCE_NAME = "ecrf.user.project";
 	public static final String CRF_RESOURCE_NAME = "ecrf.user.crf";
 	

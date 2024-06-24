@@ -74,10 +74,7 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 		project.setPurpose(purpose);
 		project.setStartDate(startDate);
 		project.setEndDate(endDate);
-		
-		project.setPrincipalResearcherId(principleResearcherId);
-		project.setManageResearcherId(manageResearcherId);
-		
+				
 		resourceLocalService.addResources(
 			project.getCompanyId(), project.getGroupId(), project.getUserId(),
 			Project.class.getName(), project.getProjectId(),
@@ -118,11 +115,13 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 		project.setPurpose(purpose);
 		project.setStartDate(startDate);
 		project.setEndDate(endDate);
-		
-		if(principleResearcherId > 0) project.setPrincipalResearcherId(principleResearcherId);
-		if(manageResearcherId > 0) project.setManageResearcherId(manageResearcherId);
-		
+				
 		super.projectPersistence.update(project);
+		
+		resourceLocalService.updateResources(
+				project.getCompanyId(), project.getGroupId(), 
+				Project.class.getName(), project.getProjectId(),
+				sc.getModelPermissions());
 		
 		return project;
 	}

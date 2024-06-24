@@ -179,6 +179,7 @@ create table EC_Researcher (
 	uuid_ VARCHAR(75) null,
 	researcherId LONG not null primary key,
 	companyId LONG,
+	groupId LONG,
 	userId LONG,
 	userName VARCHAR(75) null,
 	createDate DATE null,

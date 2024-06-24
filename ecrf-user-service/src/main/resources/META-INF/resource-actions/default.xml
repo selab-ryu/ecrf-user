@@ -2,7 +2,6 @@
 <!DOCTYPE resource-action-mapping PUBLIC "-//Liferay//DTD Resource Action Mapping 7.2.0//EN" "http://www.liferay.com/dtd/liferay-resource-action-mapping_7_2_0.dtd">
 
 <resource-action-mapping>
-	
 	<model-resource>
 		<model-name>ecrf.user</model-name>
 		<portlet-ref>
@@ -151,8 +150,6 @@
 	    <portlet-ref>
 	        <portlet-name>ecrf_user_subject_SubjectPortlet</portlet-name>
 	        <portlet-name>ecrf_user_crf_CRFPortlet</portlet-name>
-	        <portlet-name>ecrf_user_crf_data_CRFDataPortlet</portlet-name>
-	        <portlet-name>ecrf_user_crf_query_CRFQueryPortlet</portlet-name>
 	    </portlet-ref>
 	    <weight>2</weight>
 	    <permissions>
@@ -215,8 +212,6 @@
 	    <model-name>ecrf.user.model.CRFResearcher</model-name>
 	    <portlet-ref>
 	        <portlet-name>ecrf_user_crf_CRFPortlet</portlet-name>
-	        <portlet-name>ecrf_user_crf_data_CRFDataPortlet</portlet-name>
-     	    <portlet-name>ecrf_user_crf_query_CRFQueryPortlet</portlet-name>
 	    </portlet-ref>
 	    <weight>2</weight>
 	    <permissions>
@@ -248,8 +243,6 @@
 	    <model-name>ecrf.user.model.CRFSubject</model-name>
 	    <portlet-ref>
 	        <portlet-name>ecrf_user_crf_CRFPortlet</portlet-name>
-	        <portlet-name>ecrf_user_crf_data_CRFDataPortlet</portlet-name>
-	        <portlet-name>ecrf_user_crf_query_CRFQueryPortlet</portlet-name>
 	    </portlet-ref>
 	    <weight>2</weight>
 	    <permissions>
@@ -280,8 +273,7 @@
    	<model-resource>
 	    <model-name>ecrf.user.model.LinkCRF</model-name>
 	    <portlet-ref>
-	        <portlet-name>ecrf_user_crf_data_CRFDataPortlet</portlet-name>
-	        <portlet-name>ecrf_user_crf_query_CRFQueryPortlet</portlet-name>
+	    	<portlet-name>ecrf_user_crf_CRFPortlet</portlet-name>
 	    </portlet-ref>
 	    <weight>2</weight>
 	    <permissions>
@@ -312,7 +304,7 @@
    	<model-resource>
 	    <model-name>ecrf.user.model.CRFHistory</model-name>
 	    <portlet-ref>
-	        <portlet-name>ecrf_user_crf_data_CRFDataPortlet</portlet-name>
+	    	<portlet-name>ecrf_user_crf_CRFPortlet</portlet-name>
 	    </portlet-ref>
 	    <weight>2</weight>
 	    <permissions>
@@ -343,8 +335,7 @@
 	<model-resource>
 	    <model-name>ecrf.user.model.CRFAutoquery</model-name>
 	    <portlet-ref>
-	        <portlet-name>ecrf_user_crf_data_CRFDataPortlet</portlet-name>
-	        <portlet-name>ecrf_user_crf_query_CRFQueryPortlet</portlet-name>
+	    	<portlet-name>ecrf_user_crf_CRFPortlet</portlet-name>
 	    </portlet-ref>
 	    <weight>2</weight>
 	    <permissions>

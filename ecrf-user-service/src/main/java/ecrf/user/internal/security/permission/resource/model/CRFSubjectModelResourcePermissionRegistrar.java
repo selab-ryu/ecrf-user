@@ -1,4 +1,7 @@
-package ecrf.user.internal.security.permission.resource.project;
+/**
+ * 
+ */
+package ecrf.user.internal.security.permission.resource.model;
 
 import com.liferay.exportimport.kernel.staging.permission.StagingPermission;
 import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
@@ -21,47 +24,57 @@ import org.osgi.service.component.annotations.Reference;
 
 import ecrf.user.constants.ECRFUserConstants;
 import ecrf.user.constants.ECRFUserPortletKeys;
-import ecrf.user.model.Project;
-import ecrf.user.model.Researcher;
-import ecrf.user.service.ProjectLocalService;
+import ecrf.user.model.CRFResearcher;
+import ecrf.user.model.CRFSubject;
+import ecrf.user.service.CRFSubjectLocalService;
+
+/**
+ * @author SELab-Ryu
+ *
+ */
 
 @Component( immediate = true )
-public class ProjectModelResourcePermissionRegistrar {
+public class CRFSubjectModelResourcePermissionRegistrar {
 	@Activate
-    public void activate(BundleContext bundleContext) {
-        Dictionary<String, Object> properties = new HashMapDictionary<>();
-        properties.put("model.class.name", Project.class.getName());
+	public void activate(BundleContext bundleContext) {
+		Dictionary<String, Object> properties = new HashMapDictionary<>();
+        properties.put("model.class.name", CRFSubject.class.getName());
         
         _serviceRegistration = bundleContext.registerService(
-        		ModelResourcePermission.class,
-        		ModelResourcePermissionFactory.create(
-            		Project.class,
-            		Project::getProjectId,
-            		_projectLocalService::getProject,
-            		_portletResourcePermission,
-            		(modelResourcePermission, consumer) -> {
-                        consumer.accept(
-                            new StagedModelPermissionLogic<>(
-                                _stagingPermission,
-                                ECRFUserPortletKeys.PROJECT,
-                                Project::getProjectId));
-                        consumer.accept(
-                            new WorkflowedModelPermissionLogic<>(
-                                _workflowPermission,
-                                modelResourcePermission,
-                                _groupLocalService, 
-                                Project::getProjectId));
-                    }),
-        		properties);
+    		ModelResourcePermission.class,
+    		ModelResourcePermissionFactory.create(
+				CRFSubject.class, 
+				CRFSubject::getCrfSubjectId,
+				_crfSubjectLocalService::getCRFSubject,
+				_portletResourcePermission,
+				(modelResourcePermission, consumer) -> {
+					consumer.accept(
+						new WorkflowedModelPermissionLogic<>(
+							_workflowPermission,
+							modelResourcePermission,
+							_groupLocalService,
+							CRFSubject::getCrfSubjectId
+						)
+					);
+					consumer.accept(
+						new StagedModelPermissionLogic<>(
+							_stagingPermission,
+							ECRFUserPortletKeys.CRF,
+							CRFSubject::getCrfSubjectId)
+					);
+				}
+			),
+    		properties
+		);
 	}
 	
 	@Deactivate
-    public void deactivate() {
-        _serviceRegistration.unregister();
-    }
-
-    @Reference
-    private ProjectLocalService _projectLocalService;
+	public void deactivate() {
+		_serviceRegistration.unregister();
+	}
+	
+	@Reference
+    private CRFSubjectLocalService _crfSubjectLocalService;
 
     @Reference(target = "(resource.name=" + ECRFUserConstants.RESOURCE_NAME + ")")
     private PortletResourcePermission _portletResourcePermission;

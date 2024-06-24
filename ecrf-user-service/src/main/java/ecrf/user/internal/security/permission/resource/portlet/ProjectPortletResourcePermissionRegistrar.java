@@ -1,4 +1,4 @@
-package ecrf.user.internal.security.permission.resource.project;
+package ecrf.user.internal.security.permission.resource.portlet;
 
 import com.liferay.exportimport.kernel.staging.permission.StagingPermission;
 import com.liferay.portal.kernel.security.permission.resource.PortletResourcePermission;
