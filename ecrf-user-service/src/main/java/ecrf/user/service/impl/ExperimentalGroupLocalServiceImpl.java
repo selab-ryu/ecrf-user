@@ -28,6 +28,7 @@ import java.util.List;
 import org.osgi.service.component.annotations.Component;
 
 import ecrf.user.model.ExperimentalGroup;
+import ecrf.user.model.Project;
 import ecrf.user.service.base.ExperimentalGroupLocalServiceBaseImpl;
 
 /**
@@ -99,6 +100,11 @@ public class ExperimentalGroupLocalServiceImpl extends ExperimentalGroupLocalSer
 		expGroup.setExpandoBridgeAttributes(sc);
 		
 		super.experimentalGroupPersistence.update(expGroup);
+		
+		resourceLocalService.updateResources(
+				expGroup.getCompanyId(), expGroup.getGroupId(), 
+				ExperimentalGroup.class.getName(), expGroup.getExperimentalGroupId(),
+				sc.getModelPermissions());
 		
 		return expGroup;
 	}

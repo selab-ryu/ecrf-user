@@ -7,11 +7,46 @@
 		<portlet-ref>
 			<portlet-name>ecrf_user_approve_ApprovePortlet</portlet-name>
 			<portlet-name>ecrf_user_project_ProjectPortlet</portlet-name>
+			<portlet-name>ecrf_user_subject_SubjectPortlet</portlet-name>
+			<portlet-name>ecrf_user_researcher_ResearcherPortlet</portlet-name>
+			<portlet-name>ecrf_user_crf_CRFPortlet</portlet-name>
 		</portlet-ref>
 		<root>true</root>
 		<permissions>
 			<supports>
-				<action-key>VIEW</action-key>
+				<action-key>VIEW_PROJECT</action-key>
+				<action-key>VIEW_EXP_GROUP_LIST</action-key>
+				<action-key>ADD_PROJECT</action-key>
+				<action-key>ADD_EXP_GROUP</action-key>
+				
+				<action-key>VIEW_REQUEST_LIST</action-key>
+				
+				<action-key>VIEW_RESEARCHER_LIST</action-key>
+				<action-key>ADD_RESEARCHER</action-key>
+				
+				<action-key>VIEW_SUBJECT_LIST</action-key>
+				<action-key>ADD_SUBJECT</action-key>
+				
+				<action-key>VIEW_CRF_LIST</action-key>
+				<action-key>ADD_CRF</action-key>
+				<action-key>ADD_CRF_RESEARCHER</action-key>
+				<action-key>ADD_CRF_SUBJECT</action-key>
+				
+				<action-key>VIEW_CRF_FORM</action-key>
+				<action-key>ADD_CRF_FORM</action-key>
+				
+				<action-key>VIEW_CRF_DATA_LIST</action-key>
+				<action-key>ADD_CRF_DATA</action-key>
+				
+				<action-key>VIEW_CRF_QUERY_LIST</action-key>
+				<action-key>ADD_CRF_QUERY</action-key>
+				
+				<action-key>VIEW_CRF_HISTORY_LIST</action-key>
+				
+				<action-key>VIEW_EXCEL_DOWNLOAD</action-key>
+				<action-key>DOWNLOAD_EXCEL</action-key>
+				
+				<action-key>VIEW_ADVANCED_SEARCH</action-key>
 			</supports>
 			<site-member-defaults>
 				<action-key>VIEW</action-key>
@@ -20,6 +55,7 @@
 				<action-key>VIEW</action-key>
 			</guest-defaults>
 			<guest-unsupported>
+				<action-key>ADD_PROJECT</action-key>
 			</guest-unsupported>
 		</permissions>
 	</model-resource>
@@ -33,24 +69,17 @@
 	    <permissions>
 	        <supports>
 	            <action-key>ASSIGN_MEMBERS</action-key>
-	            <action-key>VIEW_REQUEST</action-key>
-	            <action-key>VIEW_REQUEST_LIST</action-key>
 	        </supports>
 	        <site-member-defaults>
 	        	<action-key>ASSIGN_MEMBERS</action-key>
-	            <action-key>VIEW_REQUEST</action-key>
-	            <action-key>VIEW_REQUEST_LIST</action-key>
 	        </site-member-defaults>
 	        <guest-defaults>
 	        </guest-defaults>
 	        <guest-unsupported>
 	        	<action-key>ASSIGN_MEMBERS</action-key>
-	            <action-key>VIEW_REQUEST</action-key>
-	            <action-key>VIEW_REQUEST_LIST</action-key>
 	        </guest-unsupported>
 	    </permissions>
 	</model-resource>
-	
 	
 	<model-resource>
 	    <model-name>ecrf.user.model.Project</model-name>
@@ -94,13 +123,12 @@
 	            <action-key>UPDATE</action-key>
 	            <action-key>DELETE</action-key>
 	            <action-key>VIEW</action-key>
-	            <action-key>VIEW_LIST</action-key>
+	            
 	        </supports>
 	        <site-member-defaults>
 	            <action-key>UPDATE</action-key>
 	            <action-key>DELETE</action-key>
 	            <action-key>VIEW</action-key>
-	            <action-key>VIEW_LIST</action-key>
 	        </site-member-defaults>
 	        <guest-defaults>
 	            <action-key>VIEW</action-key>
@@ -109,7 +137,6 @@
 	        	<action-key>PERMISSIONS</action-key>
 	            <action-key>UPDATE</action-key>
 	            <action-key>DELETE</action-key>
-	            <action-key>VIEW_LIST</action-key>
 	        </guest-unsupported>
 	    </permissions>
 	</model-resource>
@@ -127,7 +154,6 @@
 	            <action-key>UPDATE</action-key>
 	            <action-key>DELETE</action-key>
 	            <action-key>VIEW</action-key>
-	            <action-key>VIEW_LIST</action-key>
 	        </supports>
 	        <site-member-defaults>
 	            <action-key>UPDATE</action-key>
@@ -158,7 +184,6 @@
 	            <action-key>UPDATE</action-key>
 	            <action-key>DELETE</action-key>
 	            <action-key>VIEW</action-key>
-	            <action-key>VIEW_LIST</action-key>
 	        </supports>
 	        <site-member-defaults>
 	            <action-key>UPDATE</action-key>
@@ -189,7 +214,6 @@
 	            <action-key>UPDATE</action-key>
 	            <action-key>DELETE</action-key>
 	            <action-key>VIEW</action-key>
-	            <action-key>VIEW_LIST</action-key>
 	        </supports>
 	        <site-member-defaults>
 	            <action-key>UPDATE</action-key>
@@ -203,7 +227,6 @@
 	            <action-key>UPDATE</action-key>
 	            <action-key>DELETE</action-key>
 	            <action-key>VIEW</action-key>
-	            <action-key>VIEW_LIST</action-key>
 	        </guest-unsupported>
 	    </permissions>
    	</model-resource>
@@ -220,7 +243,6 @@
 	            <action-key>UPDATE</action-key>
 	            <action-key>DELETE</action-key>
 	            <action-key>VIEW</action-key>
-	            <action-key>VIEW_LIST</action-key>
 	        </supports>
 	        <site-member-defaults>
 	            <action-key>UPDATE</action-key>
@@ -234,7 +256,6 @@
 	            <action-key>UPDATE</action-key>
 	            <action-key>DELETE</action-key>
 	            <action-key>VIEW</action-key>
-	            <action-key>VIEW_LIST</action-key>
 	        </guest-unsupported>
 	    </permissions>
    	</model-resource>
@@ -251,7 +272,6 @@
 	            <action-key>UPDATE</action-key>
 	            <action-key>DELETE</action-key>
 	            <action-key>VIEW</action-key>
-	            <action-key>VIEW_LIST</action-key>
 	        </supports>
 	        <site-member-defaults>
 	            <action-key>UPDATE</action-key>
@@ -265,7 +285,6 @@
 	            <action-key>UPDATE</action-key>
 	            <action-key>DELETE</action-key>
 	            <action-key>VIEW</action-key>
-	            <action-key>VIEW_LIST</action-key>
 	        </guest-unsupported>
 	    </permissions>
    	</model-resource>
@@ -282,7 +301,6 @@
 	            <action-key>UPDATE</action-key>
 	            <action-key>DELETE</action-key>
 	            <action-key>VIEW</action-key>
-	            <action-key>VIEW_LIST</action-key>
 	        </supports>
 	        <site-member-defaults>
 	            <action-key>UPDATE</action-key>
@@ -296,7 +314,6 @@
 	            <action-key>UPDATE</action-key>
 	            <action-key>DELETE</action-key>
 	            <action-key>VIEW</action-key>
-	            <action-key>VIEW_LIST</action-key>
 	        </guest-unsupported>
 	    </permissions>
    	</model-resource>
@@ -310,24 +327,16 @@
 	    <permissions>
 	        <supports>
 	            <action-key>PERMISSIONS</action-key>
-	            <action-key>UPDATE</action-key>
-	            <action-key>DELETE</action-key>
 	            <action-key>VIEW</action-key>
-	            <action-key>VIEW_LIST</action-key>
 	        </supports>
 	        <site-member-defaults>
-	            <action-key>UPDATE</action-key>
-	            <action-key>DELETE</action-key>
 	            <action-key>VIEW</action-key>
 	        </site-member-defaults>
 	        <guest-defaults>
 	        </guest-defaults>
 	        <guest-unsupported>
 	        	<action-key>PERMISSIONS</action-key>
-	            <action-key>UPDATE</action-key>
-	            <action-key>DELETE</action-key>
         		<action-key>VIEW</action-key>
-        		<action-key>VIEW_LIST</action-key>
 	        </guest-unsupported>
 	    </permissions>
    	</model-resource>
@@ -341,29 +350,24 @@
 	    <permissions>
 	        <supports>
 	            <action-key>PERMISSIONS</action-key>
-	            <action-key>ADD</action-key>
-	            <action-key>VALIDATE</action-key>
+	            <action-key>VALIDATE_QUERY</action-key>
+	            <action-key>UPDATE</action-key>
 	            <action-key>DELETE</action-key>
 	            <action-key>VIEW</action-key>
-	            <action-key>VIEW_LIST</action-key>
 	        </supports>
 	        <site-member-defaults>
-	            <action-key>ADD</action-key>
+	        	<action-key>UPDATE</action-key>
 	            <action-key>DELETE</action-key>
 	            <action-key>VIEW</action-key>
 	        </site-member-defaults>
 	        <guest-defaults>
-	            
 	        </guest-defaults>
 	        <guest-unsupported>
 	        	<action-key>PERMISSIONS</action-key>
-	            <action-key>ADD</action-key>
-	            <action-key>VALIDATE</action-key>
+	            <action-key>VALIDATE_QUERY</action-key>
 	            <action-key>DELETE</action-key>
 	            <action-key>VIEW</action-key>
-        		<action-key>VIEW_LIST</action-key>
 	        </guest-unsupported>
 	    </permissions>
    	</model-resource>
-	
 </resource-action-mapping>

@@ -31,6 +31,7 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 import ecrf.user.model.CRFSubject;
+import ecrf.user.model.Project;
 import ecrf.user.model.Researcher;
 import ecrf.user.model.Subject;
 import ecrf.user.service.CRFSubjectLocalService;
@@ -136,6 +137,11 @@ public class SubjectLocalServiceImpl extends SubjectLocalServiceBaseImpl {
 		subject.setExpGroupId(expGroupId);
 		
 		super.subjectPersistence.update(subject);
+		
+		resourceLocalService.updateResources(
+				subject.getCompanyId(), 0, 
+				Subject.class.getName(), subject.getSubjectId(),
+				sc.getModelPermissions());
 		
 		return subject;
 	}

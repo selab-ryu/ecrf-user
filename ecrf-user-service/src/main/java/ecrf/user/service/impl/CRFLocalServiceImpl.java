@@ -42,6 +42,7 @@ import ecrf.user.model.CRFAutoquery;
 import ecrf.user.model.CRFHistory;
 import ecrf.user.model.CRFResearcher;
 import ecrf.user.model.CRFSubject;
+import ecrf.user.model.ExperimentalGroup;
 import ecrf.user.model.LinkCRF;
 import ecrf.user.service.CRFAutoqueryLocalService;
 import ecrf.user.service.CRFHistoryLocalService;
@@ -145,6 +146,11 @@ public class CRFLocalServiceImpl extends CRFLocalServiceBaseImpl {
 		// other liferay frameworks
 		
 		super.crfPersistence.update(crf);
+		
+		resourceLocalService.updateResources(
+				crf.getCompanyId(), crf.getGroupId(), 
+				CRF.class.getName(), crf.getCrfId(),
+				crfsc.getModelPermissions());
 		
 		return crf;
 	}

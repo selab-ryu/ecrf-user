@@ -29,10 +29,11 @@ public class ProjectPortletResourcePermissionRegistrar {
         _serviceRegistration = bundleContext.registerService(
             PortletResourcePermission.class,
             PortletResourcePermissionFactory.create(
-            		ECRFUserConstants.RESOURCE_NAME,
+        		ECRFUserConstants.RESOURCE_NAME,
                 new StagedPortletPermissionLogic(
-                    _stagingPermission, ECRFUserPortletKeys.PROJECT)),
-            properties);
+                    _stagingPermission, ECRFUserPortletKeys.PROJECT)
+            ),
+        	properties);
     }
 
     @Deactivate

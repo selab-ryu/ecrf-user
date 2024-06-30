@@ -66,7 +66,6 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 		project.setCompanyId(user.getCompanyId());
 		project.setCreateDate(sc.getCreateDate());
 		project.setModifiedDate(sc.getModifiedDate());
-		project.setExpandoBridgeAttributes(sc);
 		
 		// set entity fields
 		project.setTitle(title);
@@ -74,7 +73,11 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 		project.setPurpose(purpose);
 		project.setStartDate(startDate);
 		project.setEndDate(endDate);
-				
+		
+		
+		
+		project.setExpandoBridgeAttributes(sc);
+		
 		resourceLocalService.addResources(
 			project.getCompanyId(), project.getGroupId(), project.getUserId(),
 			Project.class.getName(), project.getProjectId(),
@@ -115,7 +118,7 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 		project.setPurpose(purpose);
 		project.setStartDate(startDate);
 		project.setEndDate(endDate);
-				
+		
 		super.projectPersistence.update(project);
 		
 		resourceLocalService.updateResources(
