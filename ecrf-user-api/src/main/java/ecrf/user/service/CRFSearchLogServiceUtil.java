@@ -14,6 +14,10 @@
 
 package ecrf.user.service;
 
+import org.osgi.framework.Bundle;
+import org.osgi.framework.FrameworkUtil;
+import org.osgi.util.tracker.ServiceTracker;
+
 /**
  * Provides the remote service utility for CRFSearchLog. This utility wraps
  * <code>ecrf.user.service.impl.CRFSearchLogServiceImpl</code> and is an
@@ -39,14 +43,28 @@ public class CRFSearchLogServiceUtil {
 	 *
 	 * @return the OSGi service identifier
 	 */
-	public static java.lang.String getOSGiServiceIdentifier() {
+	public static String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
 	}
 
 	public static CRFSearchLogService getService() {
-		return _service;
+		return _serviceTracker.getService();
 	}
 
-	private static volatile CRFSearchLogService _service;
+	private static ServiceTracker<CRFSearchLogService, CRFSearchLogService>
+		_serviceTracker;
+
+	static {
+		Bundle bundle = FrameworkUtil.getBundle(CRFSearchLogService.class);
+
+		ServiceTracker<CRFSearchLogService, CRFSearchLogService>
+			serviceTracker =
+				new ServiceTracker<CRFSearchLogService, CRFSearchLogService>(
+					bundle.getBundleContext(), CRFSearchLogService.class, null);
+
+		serviceTracker.open();
+
+		_serviceTracker = serviceTracker;
+	}
 
 }
