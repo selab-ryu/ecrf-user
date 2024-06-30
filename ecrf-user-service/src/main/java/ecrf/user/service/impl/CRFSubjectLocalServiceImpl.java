@@ -18,6 +18,7 @@ import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
@@ -68,7 +69,7 @@ public class CRFSubjectLocalServiceImpl extends CRFSubjectLocalServiceBaseImpl {
 		crfSubject.setGroupId(groupId);
 		crfSubject.setUserId(userId);
 		crfSubject.setUserName(user.getFullName());
-		crfSubject.setCompanyId(user.getCompanyId());
+		crfSubject.setCompanyId(sc.getCompanyId());
 		crfSubject.setCreateDate(now);
 		crfSubject.setModifiedDate(now);
 		
@@ -76,10 +77,15 @@ public class CRFSubjectLocalServiceImpl extends CRFSubjectLocalServiceBaseImpl {
 		crfSubject.setCrfId(crfId);
 		crfSubject.setSubjectId(crfSubjectId);
 		
-		//crfSubject.setExpandoBridgeAttributes(sc);
+		crfSubject.setExpandoBridgeAttributes(sc);
 		
 		// other liferay frameworks
 		super.crfSubjectPersistence.update(crfSubject);
+		
+		resourceLocalService.addResources(
+			crfSubject.getCompanyId(), groupId, userId,
+			CRFSubject.class.getName(), crfSubject.getCrfSubjectId(),
+			false, true, true);
 		
 		return crfSubject;
 	}
@@ -156,6 +162,10 @@ public class CRFSubjectLocalServiceImpl extends CRFSubjectLocalServiceBaseImpl {
 			crfSubject = super.crfSubjectLocalService.getCRFSubject(crfSubjectId);
 			super.crfSubjectPersistence.remove(crfSubjectId);
 			
+			resourceLocalService.deleteResource(
+				crfSubject.getCompanyId(), CRFSubject.class.getName(),
+				ResourceConstants.SCOPE_INDIVIDUAL, crfSubject.getCrfSubjectId());
+			
 			long groupId = crfSubject.getGroupId();
 			long crfId = crfSubject.getCrfId();
 			long subjectId = crfSubject.getSubjectId();
@@ -184,7 +194,17 @@ public class CRFSubjectLocalServiceImpl extends CRFSubjectLocalServiceBaseImpl {
 	}
 	
 	public CRFSubject deleteCRFSubject(CRFSubject crfSubject) {
-		return super.crfSubjectPersistence.remove(crfSubject);
+		super.crfSubjectPersistence.remove(crfSubject);
+		
+		try {
+			resourceLocalService.deleteResource(
+				crfSubject.getCompanyId(), CRFSubject.class.getName(),
+				ResourceConstants.SCOPE_INDIVIDUAL, crfSubject.getCrfSubjectId());
+		} catch (PortalException e) {
+			e.printStackTrace();
+		}
+		
+		return crfSubject;
 	}
 	
 	

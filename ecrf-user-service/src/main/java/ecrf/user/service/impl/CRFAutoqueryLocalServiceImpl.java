@@ -20,6 +20,7 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
@@ -88,6 +89,11 @@ public class CRFAutoqueryLocalServiceImpl extends CRFAutoqueryLocalServiceBaseIm
 		crfAutoquery.setExpandoBridgeAttributes(sc);
 		super.crfAutoqueryPersistence.update(crfAutoquery);
 		
+		resourceLocalService.addResources(
+			crfAutoquery.getCompanyId(), groupId, userId,
+			CRFAutoquery.class.getName(), crfAutoquery.getAutoQueryId(),
+			false, true, true);
+		
 		_log.info("End add Query");
 		return crfAutoquery;
 	}
@@ -118,11 +124,17 @@ public class CRFAutoqueryLocalServiceImpl extends CRFAutoqueryLocalServiceBaseIm
 		
 		crfAutoquery.setExpandoBridgeAttributes(sc);
 		super.crfAutoqueryPersistence.update(crfAutoquery);
+		
 		return crfAutoquery;
 	}
 	
 	public CRFAutoquery deleteAutoquery(long autoQueryId) throws PortalException{
 		CRFAutoquery crfAutoquery = super.crfAutoqueryPersistence.remove(autoQueryId);
+		
+		resourceLocalService.deleteResource(
+			crfAutoquery.getCompanyId(), CRFAutoquery.class.getName(),
+			ResourceConstants.SCOPE_INDIVIDUAL, crfAutoquery.getAutoQueryId());
+		
 		return crfAutoquery;
 	}
 	

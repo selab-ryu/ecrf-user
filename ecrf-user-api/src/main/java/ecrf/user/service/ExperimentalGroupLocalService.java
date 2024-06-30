@@ -122,7 +122,8 @@ public interface ExperimentalGroupLocalService
 	public ExperimentalGroup deleteExperimentalGroup(long experimentalGroupId)
 		throws PortalException;
 
-	public ExperimentalGroup deleteExpGroup(long expGroupId);
+	public ExperimentalGroup deleteExpGroup(long expGroupId)
+		throws PortalException;
 
 	/**
 	 * @throws PortalException
