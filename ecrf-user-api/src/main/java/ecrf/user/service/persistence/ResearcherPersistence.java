@@ -170,62 +170,6 @@ public interface ResearcherPersistence extends BasePersistence<Researcher> {
 		throws NoSuchResearcherException;
 
 	/**
-	 * Returns all the researchers that the user has permission to view where uuid = &#63;.
-	 *
-	 * @param uuid the uuid
-	 * @return the matching researchers that the user has permission to view
-	 */
-	public java.util.List<Researcher> filterFindByUuid(String uuid);
-
-	/**
-	 * Returns a range of all the researchers that the user has permission to view where uuid = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ResearcherModelImpl</code>.
-	 * </p>
-	 *
-	 * @param uuid the uuid
-	 * @param start the lower bound of the range of researchers
-	 * @param end the upper bound of the range of researchers (not inclusive)
-	 * @return the range of matching researchers that the user has permission to view
-	 */
-	public java.util.List<Researcher> filterFindByUuid(
-		String uuid, int start, int end);
-
-	/**
-	 * Returns an ordered range of all the researchers that the user has permissions to view where uuid = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ResearcherModelImpl</code>.
-	 * </p>
-	 *
-	 * @param uuid the uuid
-	 * @param start the lower bound of the range of researchers
-	 * @param end the upper bound of the range of researchers (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching researchers that the user has permission to view
-	 */
-	public java.util.List<Researcher> filterFindByUuid(
-		String uuid, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator<Researcher>
-			orderByComparator);
-
-	/**
-	 * Returns the researchers before and after the current researcher in the ordered set of researchers that the user has permission to view where uuid = &#63;.
-	 *
-	 * @param researcherId the primary key of the current researcher
-	 * @param uuid the uuid
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the previous, current, and next researcher
-	 * @throws NoSuchResearcherException if a researcher with the primary key could not be found
-	 */
-	public Researcher[] filterFindByUuid_PrevAndNext(
-			long researcherId, String uuid,
-			com.liferay.portal.kernel.util.OrderByComparator<Researcher>
-				orderByComparator)
-		throws NoSuchResearcherException;
-
-	/**
 	 * Removes all the researchers where uuid = &#63; from the database.
 	 *
 	 * @param uuid the uuid
@@ -241,12 +185,54 @@ public interface ResearcherPersistence extends BasePersistence<Researcher> {
 	public int countByUuid(String uuid);
 
 	/**
-	 * Returns the number of researchers that the user has permission to view where uuid = &#63;.
+	 * Returns the researcher where uuid = &#63; and groupId = &#63; or throws a <code>NoSuchResearcherException</code> if it could not be found.
 	 *
 	 * @param uuid the uuid
-	 * @return the number of matching researchers that the user has permission to view
+	 * @param groupId the group ID
+	 * @return the matching researcher
+	 * @throws NoSuchResearcherException if a matching researcher could not be found
 	 */
-	public int filterCountByUuid(String uuid);
+	public Researcher findByUUID_G(String uuid, long groupId)
+		throws NoSuchResearcherException;
+
+	/**
+	 * Returns the researcher where uuid = &#63; and groupId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param uuid the uuid
+	 * @param groupId the group ID
+	 * @return the matching researcher, or <code>null</code> if a matching researcher could not be found
+	 */
+	public Researcher fetchByUUID_G(String uuid, long groupId);
+
+	/**
+	 * Returns the researcher where uuid = &#63; and groupId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param uuid the uuid
+	 * @param groupId the group ID
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the matching researcher, or <code>null</code> if a matching researcher could not be found
+	 */
+	public Researcher fetchByUUID_G(
+		String uuid, long groupId, boolean useFinderCache);
+
+	/**
+	 * Removes the researcher where uuid = &#63; and groupId = &#63; from the database.
+	 *
+	 * @param uuid the uuid
+	 * @param groupId the group ID
+	 * @return the researcher that was removed
+	 */
+	public Researcher removeByUUID_G(String uuid, long groupId)
+		throws NoSuchResearcherException;
+
+	/**
+	 * Returns the number of researchers where uuid = &#63; and groupId = &#63;.
+	 *
+	 * @param uuid the uuid
+	 * @param groupId the group ID
+	 * @return the number of matching researchers
+	 */
+	public int countByUUID_G(String uuid, long groupId);
 
 	/**
 	 * Returns all the researchers where uuid = &#63; and companyId = &#63;.
@@ -386,67 +372,6 @@ public interface ResearcherPersistence extends BasePersistence<Researcher> {
 		throws NoSuchResearcherException;
 
 	/**
-	 * Returns all the researchers that the user has permission to view where uuid = &#63; and companyId = &#63;.
-	 *
-	 * @param uuid the uuid
-	 * @param companyId the company ID
-	 * @return the matching researchers that the user has permission to view
-	 */
-	public java.util.List<Researcher> filterFindByUuid_C(
-		String uuid, long companyId);
-
-	/**
-	 * Returns a range of all the researchers that the user has permission to view where uuid = &#63; and companyId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ResearcherModelImpl</code>.
-	 * </p>
-	 *
-	 * @param uuid the uuid
-	 * @param companyId the company ID
-	 * @param start the lower bound of the range of researchers
-	 * @param end the upper bound of the range of researchers (not inclusive)
-	 * @return the range of matching researchers that the user has permission to view
-	 */
-	public java.util.List<Researcher> filterFindByUuid_C(
-		String uuid, long companyId, int start, int end);
-
-	/**
-	 * Returns an ordered range of all the researchers that the user has permissions to view where uuid = &#63; and companyId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ResearcherModelImpl</code>.
-	 * </p>
-	 *
-	 * @param uuid the uuid
-	 * @param companyId the company ID
-	 * @param start the lower bound of the range of researchers
-	 * @param end the upper bound of the range of researchers (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching researchers that the user has permission to view
-	 */
-	public java.util.List<Researcher> filterFindByUuid_C(
-		String uuid, long companyId, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator<Researcher>
-			orderByComparator);
-
-	/**
-	 * Returns the researchers before and after the current researcher in the ordered set of researchers that the user has permission to view where uuid = &#63; and companyId = &#63;.
-	 *
-	 * @param researcherId the primary key of the current researcher
-	 * @param uuid the uuid
-	 * @param companyId the company ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the previous, current, and next researcher
-	 * @throws NoSuchResearcherException if a researcher with the primary key could not be found
-	 */
-	public Researcher[] filterFindByUuid_C_PrevAndNext(
-			long researcherId, String uuid, long companyId,
-			com.liferay.portal.kernel.util.OrderByComparator<Researcher>
-				orderByComparator)
-		throws NoSuchResearcherException;
-
-	/**
 	 * Removes all the researchers where uuid = &#63; and companyId = &#63; from the database.
 	 *
 	 * @param uuid the uuid
@@ -462,15 +387,6 @@ public interface ResearcherPersistence extends BasePersistence<Researcher> {
 	 * @return the number of matching researchers
 	 */
 	public int countByUuid_C(String uuid, long companyId);
-
-	/**
-	 * Returns the number of researchers that the user has permission to view where uuid = &#63; and companyId = &#63;.
-	 *
-	 * @param uuid the uuid
-	 * @param companyId the company ID
-	 * @return the number of matching researchers that the user has permission to view
-	 */
-	public int filterCountByUuid_C(String uuid, long companyId);
 
 	/**
 	 * Returns all the researchers where companyId = &#63;.
@@ -601,62 +517,6 @@ public interface ResearcherPersistence extends BasePersistence<Researcher> {
 		throws NoSuchResearcherException;
 
 	/**
-	 * Returns all the researchers that the user has permission to view where companyId = &#63;.
-	 *
-	 * @param companyId the company ID
-	 * @return the matching researchers that the user has permission to view
-	 */
-	public java.util.List<Researcher> filterFindByCompany(long companyId);
-
-	/**
-	 * Returns a range of all the researchers that the user has permission to view where companyId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ResearcherModelImpl</code>.
-	 * </p>
-	 *
-	 * @param companyId the company ID
-	 * @param start the lower bound of the range of researchers
-	 * @param end the upper bound of the range of researchers (not inclusive)
-	 * @return the range of matching researchers that the user has permission to view
-	 */
-	public java.util.List<Researcher> filterFindByCompany(
-		long companyId, int start, int end);
-
-	/**
-	 * Returns an ordered range of all the researchers that the user has permissions to view where companyId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ResearcherModelImpl</code>.
-	 * </p>
-	 *
-	 * @param companyId the company ID
-	 * @param start the lower bound of the range of researchers
-	 * @param end the upper bound of the range of researchers (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching researchers that the user has permission to view
-	 */
-	public java.util.List<Researcher> filterFindByCompany(
-		long companyId, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator<Researcher>
-			orderByComparator);
-
-	/**
-	 * Returns the researchers before and after the current researcher in the ordered set of researchers that the user has permission to view where companyId = &#63;.
-	 *
-	 * @param researcherId the primary key of the current researcher
-	 * @param companyId the company ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the previous, current, and next researcher
-	 * @throws NoSuchResearcherException if a researcher with the primary key could not be found
-	 */
-	public Researcher[] filterFindByCompany_PrevAndNext(
-			long researcherId, long companyId,
-			com.liferay.portal.kernel.util.OrderByComparator<Researcher>
-				orderByComparator)
-		throws NoSuchResearcherException;
-
-	/**
 	 * Removes all the researchers where companyId = &#63; from the database.
 	 *
 	 * @param companyId the company ID
@@ -670,14 +530,6 @@ public interface ResearcherPersistence extends BasePersistence<Researcher> {
 	 * @return the number of matching researchers
 	 */
 	public int countByCompany(long companyId);
-
-	/**
-	 * Returns the number of researchers that the user has permission to view where companyId = &#63;.
-	 *
-	 * @param companyId the company ID
-	 * @return the number of matching researchers that the user has permission to view
-	 */
-	public int filterCountByCompany(long companyId);
 
 	/**
 	 * Returns all the researchers where status = &#63;.
@@ -808,62 +660,6 @@ public interface ResearcherPersistence extends BasePersistence<Researcher> {
 		throws NoSuchResearcherException;
 
 	/**
-	 * Returns all the researchers that the user has permission to view where status = &#63;.
-	 *
-	 * @param status the status
-	 * @return the matching researchers that the user has permission to view
-	 */
-	public java.util.List<Researcher> filterFindByStatus(int status);
-
-	/**
-	 * Returns a range of all the researchers that the user has permission to view where status = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ResearcherModelImpl</code>.
-	 * </p>
-	 *
-	 * @param status the status
-	 * @param start the lower bound of the range of researchers
-	 * @param end the upper bound of the range of researchers (not inclusive)
-	 * @return the range of matching researchers that the user has permission to view
-	 */
-	public java.util.List<Researcher> filterFindByStatus(
-		int status, int start, int end);
-
-	/**
-	 * Returns an ordered range of all the researchers that the user has permissions to view where status = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ResearcherModelImpl</code>.
-	 * </p>
-	 *
-	 * @param status the status
-	 * @param start the lower bound of the range of researchers
-	 * @param end the upper bound of the range of researchers (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching researchers that the user has permission to view
-	 */
-	public java.util.List<Researcher> filterFindByStatus(
-		int status, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator<Researcher>
-			orderByComparator);
-
-	/**
-	 * Returns the researchers before and after the current researcher in the ordered set of researchers that the user has permission to view where status = &#63;.
-	 *
-	 * @param researcherId the primary key of the current researcher
-	 * @param status the status
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the previous, current, and next researcher
-	 * @throws NoSuchResearcherException if a researcher with the primary key could not be found
-	 */
-	public Researcher[] filterFindByStatus_PrevAndNext(
-			long researcherId, int status,
-			com.liferay.portal.kernel.util.OrderByComparator<Researcher>
-				orderByComparator)
-		throws NoSuchResearcherException;
-
-	/**
 	 * Removes all the researchers where status = &#63; from the database.
 	 *
 	 * @param status the status
@@ -877,14 +673,6 @@ public interface ResearcherPersistence extends BasePersistence<Researcher> {
 	 * @return the number of matching researchers
 	 */
 	public int countByStatus(int status);
-
-	/**
-	 * Returns the number of researchers that the user has permission to view where status = &#63;.
-	 *
-	 * @param status the status
-	 * @return the number of matching researchers that the user has permission to view
-	 */
-	public int filterCountByStatus(int status);
 
 	/**
 	 * Returns all the researchers where position = &#63;.
@@ -1015,62 +803,6 @@ public interface ResearcherPersistence extends BasePersistence<Researcher> {
 		throws NoSuchResearcherException;
 
 	/**
-	 * Returns all the researchers that the user has permission to view where position = &#63;.
-	 *
-	 * @param position the position
-	 * @return the matching researchers that the user has permission to view
-	 */
-	public java.util.List<Researcher> filterFindByPosition(String position);
-
-	/**
-	 * Returns a range of all the researchers that the user has permission to view where position = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ResearcherModelImpl</code>.
-	 * </p>
-	 *
-	 * @param position the position
-	 * @param start the lower bound of the range of researchers
-	 * @param end the upper bound of the range of researchers (not inclusive)
-	 * @return the range of matching researchers that the user has permission to view
-	 */
-	public java.util.List<Researcher> filterFindByPosition(
-		String position, int start, int end);
-
-	/**
-	 * Returns an ordered range of all the researchers that the user has permissions to view where position = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ResearcherModelImpl</code>.
-	 * </p>
-	 *
-	 * @param position the position
-	 * @param start the lower bound of the range of researchers
-	 * @param end the upper bound of the range of researchers (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching researchers that the user has permission to view
-	 */
-	public java.util.List<Researcher> filterFindByPosition(
-		String position, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator<Researcher>
-			orderByComparator);
-
-	/**
-	 * Returns the researchers before and after the current researcher in the ordered set of researchers that the user has permission to view where position = &#63;.
-	 *
-	 * @param researcherId the primary key of the current researcher
-	 * @param position the position
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the previous, current, and next researcher
-	 * @throws NoSuchResearcherException if a researcher with the primary key could not be found
-	 */
-	public Researcher[] filterFindByPosition_PrevAndNext(
-			long researcherId, String position,
-			com.liferay.portal.kernel.util.OrderByComparator<Researcher>
-				orderByComparator)
-		throws NoSuchResearcherException;
-
-	/**
 	 * Removes all the researchers where position = &#63; from the database.
 	 *
 	 * @param position the position
@@ -1084,14 +816,6 @@ public interface ResearcherPersistence extends BasePersistence<Researcher> {
 	 * @return the number of matching researchers
 	 */
 	public int countByPosition(String position);
-
-	/**
-	 * Returns the number of researchers that the user has permission to view where position = &#63;.
-	 *
-	 * @param position the position
-	 * @return the number of matching researchers that the user has permission to view
-	 */
-	public int filterCountByPosition(String position);
 
 	/**
 	 * Returns the researcher where researcherUserId = &#63; or throws a <code>NoSuchResearcherException</code> if it could not be found.

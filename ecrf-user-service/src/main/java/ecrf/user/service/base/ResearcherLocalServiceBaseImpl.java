@@ -255,17 +255,17 @@ public abstract class ResearcherLocalServiceBaseImpl
 	}
 
 	/**
-	 * Returns the researcher with the matching UUID and company.
+	 * Returns the researcher matching the UUID and group.
 	 *
 	 * @param uuid the researcher's UUID
-	 * @param companyId the primary key of the company
+	 * @param groupId the primary key of the group
 	 * @return the matching researcher, or <code>null</code> if a matching researcher could not be found
 	 */
 	@Override
-	public Researcher fetchResearcherByUuidAndCompanyId(
-		String uuid, long companyId) {
+	public Researcher fetchResearcherByUuidAndGroupId(
+		String uuid, long groupId) {
 
-		return researcherPersistence.fetchByUuid_C_First(uuid, companyId, null);
+		return researcherPersistence.fetchByUUID_G(uuid, groupId);
 	}
 
 	/**
@@ -449,19 +449,51 @@ public abstract class ResearcherLocalServiceBaseImpl
 	}
 
 	/**
-	 * Returns the researcher with the matching UUID and company.
+	 * Returns all the researchers matching the UUID and company.
+	 *
+	 * @param uuid the UUID of the researchers
+	 * @param companyId the primary key of the company
+	 * @return the matching researchers, or an empty list if no matches were found
+	 */
+	@Override
+	public List<Researcher> getResearchersByUuidAndCompanyId(
+		String uuid, long companyId) {
+
+		return researcherPersistence.findByUuid_C(uuid, companyId);
+	}
+
+	/**
+	 * Returns a range of researchers matching the UUID and company.
+	 *
+	 * @param uuid the UUID of the researchers
+	 * @param companyId the primary key of the company
+	 * @param start the lower bound of the range of researchers
+	 * @param end the upper bound of the range of researchers (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the range of matching researchers, or an empty list if no matches were found
+	 */
+	@Override
+	public List<Researcher> getResearchersByUuidAndCompanyId(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<Researcher> orderByComparator) {
+
+		return researcherPersistence.findByUuid_C(
+			uuid, companyId, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns the researcher matching the UUID and group.
 	 *
 	 * @param uuid the researcher's UUID
-	 * @param companyId the primary key of the company
+	 * @param groupId the primary key of the group
 	 * @return the matching researcher
 	 * @throws PortalException if a matching researcher could not be found
 	 */
 	@Override
-	public Researcher getResearcherByUuidAndCompanyId(
-			String uuid, long companyId)
+	public Researcher getResearcherByUuidAndGroupId(String uuid, long groupId)
 		throws PortalException {
 
-		return researcherPersistence.findByUuid_C_First(uuid, companyId, null);
+		return researcherPersistence.findByUUID_G(uuid, groupId);
 	}
 
 	/**

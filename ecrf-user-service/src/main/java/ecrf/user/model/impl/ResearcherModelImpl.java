@@ -79,15 +79,16 @@ public class ResearcherModelImpl
 	public static final Object[][] TABLE_COLUMNS = {
 		{"mvccVersion", Types.BIGINT}, {"uuid_", Types.VARCHAR},
 		{"researcherId", Types.BIGINT}, {"companyId", Types.BIGINT},
-		{"userId", Types.BIGINT}, {"userName", Types.VARCHAR},
-		{"createDate", Types.TIMESTAMP}, {"modifiedDate", Types.TIMESTAMP},
-		{"status", Types.INTEGER}, {"statusByUserId", Types.BIGINT},
-		{"statusByUserName", Types.VARCHAR}, {"statusDate", Types.TIMESTAMP},
-		{"name", Types.VARCHAR}, {"email", Types.VARCHAR},
-		{"birth", Types.TIMESTAMP}, {"gender", Types.INTEGER},
-		{"phone", Types.VARCHAR}, {"institution", Types.VARCHAR},
-		{"officeContact", Types.VARCHAR}, {"position", Types.VARCHAR},
-		{"approveStatus", Types.INTEGER}, {"researcherUserId", Types.BIGINT}
+		{"groupId", Types.BIGINT}, {"userId", Types.BIGINT},
+		{"userName", Types.VARCHAR}, {"createDate", Types.TIMESTAMP},
+		{"modifiedDate", Types.TIMESTAMP}, {"status", Types.INTEGER},
+		{"statusByUserId", Types.BIGINT}, {"statusByUserName", Types.VARCHAR},
+		{"statusDate", Types.TIMESTAMP}, {"name", Types.VARCHAR},
+		{"email", Types.VARCHAR}, {"birth", Types.TIMESTAMP},
+		{"gender", Types.INTEGER}, {"phone", Types.VARCHAR},
+		{"institution", Types.VARCHAR}, {"officeContact", Types.VARCHAR},
+		{"position", Types.VARCHAR}, {"approveStatus", Types.INTEGER},
+		{"researcherUserId", Types.BIGINT}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -98,6 +99,7 @@ public class ResearcherModelImpl
 		TABLE_COLUMNS_MAP.put("uuid_", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("researcherId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("companyId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("groupId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("userId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("userName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
@@ -119,7 +121,7 @@ public class ResearcherModelImpl
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table EC_Researcher (mvccVersion LONG default 0 not null,uuid_ VARCHAR(75) null,researcherId LONG not null primary key,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,name VARCHAR(75) null,email VARCHAR(75) null,birth DATE null,gender INTEGER,phone VARCHAR(75) null,institution VARCHAR(75) null,officeContact VARCHAR(75) null,position VARCHAR(75) null,approveStatus INTEGER,researcherUserId LONG)";
+		"create table EC_Researcher (mvccVersion LONG default 0 not null,uuid_ VARCHAR(75) null,researcherId LONG not null primary key,companyId LONG,groupId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,name VARCHAR(75) null,email VARCHAR(75) null,birth DATE null,gender INTEGER,phone VARCHAR(75) null,institution VARCHAR(75) null,officeContact VARCHAR(75) null,position VARCHAR(75) null,approveStatus INTEGER,researcherUserId LONG)";
 
 	public static final String TABLE_SQL_DROP = "drop table EC_Researcher";
 
@@ -137,17 +139,19 @@ public class ResearcherModelImpl
 
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 
-	public static final long POSITION_COLUMN_BITMASK = 2L;
+	public static final long GROUPID_COLUMN_BITMASK = 2L;
 
-	public static final long RESEARCHERUSERID_COLUMN_BITMASK = 4L;
+	public static final long POSITION_COLUMN_BITMASK = 4L;
 
-	public static final long STATUS_COLUMN_BITMASK = 8L;
+	public static final long RESEARCHERUSERID_COLUMN_BITMASK = 8L;
 
-	public static final long UUID_COLUMN_BITMASK = 16L;
+	public static final long STATUS_COLUMN_BITMASK = 16L;
 
-	public static final long RESEARCHERID_COLUMN_BITMASK = 32L;
+	public static final long UUID_COLUMN_BITMASK = 32L;
 
-	public static final long CREATEDATE_COLUMN_BITMASK = 64L;
+	public static final long RESEARCHERID_COLUMN_BITMASK = 64L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 128L;
 
 	public static void setEntityCacheEnabled(boolean entityCacheEnabled) {
 		_entityCacheEnabled = entityCacheEnabled;
@@ -174,6 +178,7 @@ public class ResearcherModelImpl
 		model.setUuid(soapModel.getUuid());
 		model.setResearcherId(soapModel.getResearcherId());
 		model.setCompanyId(soapModel.getCompanyId());
+		model.setGroupId(soapModel.getGroupId());
 		model.setUserId(soapModel.getUserId());
 		model.setUserName(soapModel.getUserName());
 		model.setCreateDate(soapModel.getCreateDate());
@@ -358,6 +363,9 @@ public class ResearcherModelImpl
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<Researcher, Long>)Researcher::setCompanyId);
+		attributeGetterFunctions.put("groupId", Researcher::getGroupId);
+		attributeSetterBiConsumers.put(
+			"groupId", (BiConsumer<Researcher, Long>)Researcher::setGroupId);
 		attributeGetterFunctions.put("userId", Researcher::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<Researcher, Long>)Researcher::setUserId);
@@ -507,6 +515,29 @@ public class ResearcherModelImpl
 
 	public long getOriginalCompanyId() {
 		return _originalCompanyId;
+	}
+
+	@JSON
+	@Override
+	public long getGroupId() {
+		return _groupId;
+	}
+
+	@Override
+	public void setGroupId(long groupId) {
+		_columnBitmask |= GROUPID_COLUMN_BITMASK;
+
+		if (!_setOriginalGroupId) {
+			_setOriginalGroupId = true;
+
+			_originalGroupId = _groupId;
+		}
+
+		_groupId = groupId;
+	}
+
+	public long getOriginalGroupId() {
+		return _originalGroupId;
 	}
 
 	@JSON
@@ -963,6 +994,7 @@ public class ResearcherModelImpl
 		researcherImpl.setUuid(getUuid());
 		researcherImpl.setResearcherId(getResearcherId());
 		researcherImpl.setCompanyId(getCompanyId());
+		researcherImpl.setGroupId(getGroupId());
 		researcherImpl.setUserId(getUserId());
 		researcherImpl.setUserName(getUserName());
 		researcherImpl.setCreateDate(getCreateDate());
@@ -1063,7 +1095,12 @@ public class ResearcherModelImpl
 
 		researcherModelImpl._setOriginalCompanyId = false;
 
-		researcherModelImpl._setModifiedDate = false;
+		_originalGroupId = _groupId;
+
+		_setOriginalGroupId = false;
+
+		_setModifiedDate = false;
+		_originalStatus = _status;
 
 		researcherModelImpl._originalStatus = researcherModelImpl._status;
 
@@ -1096,6 +1133,8 @@ public class ResearcherModelImpl
 		researcherCacheModel.researcherId = getResearcherId();
 
 		researcherCacheModel.companyId = getCompanyId();
+
+		researcherCacheModel.groupId = getGroupId();
 
 		researcherCacheModel.userId = getUserId();
 
@@ -1292,6 +1331,9 @@ public class ResearcherModelImpl
 	private long _companyId;
 	private long _originalCompanyId;
 	private boolean _setOriginalCompanyId;
+	private long _groupId;
+	private long _originalGroupId;
+	private boolean _setOriginalGroupId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;

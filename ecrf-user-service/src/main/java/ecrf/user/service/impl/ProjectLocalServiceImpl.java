@@ -16,6 +16,7 @@ package ecrf.user.service.impl;
 
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
@@ -27,7 +28,6 @@ import java.util.logging.Logger;
 
 import org.osgi.service.component.annotations.Component;
 
-import ecrf.user.exception.NoSuchProjectException;
 import ecrf.user.model.Project;
 import ecrf.user.service.base.ProjectLocalServiceBaseImpl;
 
@@ -66,7 +66,6 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 		project.setCompanyId(user.getCompanyId());
 		project.setCreateDate(sc.getCreateDate());
 		project.setModifiedDate(sc.getModifiedDate());
-		project.setExpandoBridgeAttributes(sc);
 		
 		// set entity fields
 		project.setTitle(title);
@@ -75,8 +74,14 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 		project.setStartDate(startDate);
 		project.setEndDate(endDate);
 		
-		project.setPrincipalResearcherId(principleResearcherId);
-		project.setManageResearcherId(manageResearcherId);
+		
+		
+		project.setExpandoBridgeAttributes(sc);
+		
+		resourceLocalService.addResources(
+			project.getCompanyId(), project.getGroupId(), project.getUserId(),
+			Project.class.getName(), project.getProjectId(),
+			false, true, true);
 		
 		super.projectPersistence.update(project);
 		
@@ -114,10 +119,12 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 		project.setStartDate(startDate);
 		project.setEndDate(endDate);
 		
-		if(principleResearcherId > 0) project.setPrincipalResearcherId(principleResearcherId);
-		if(manageResearcherId > 0) project.setManageResearcherId(manageResearcherId);
-		
 		super.projectPersistence.update(project);
+		
+		resourceLocalService.updateResources(
+				project.getCompanyId(), project.getGroupId(), 
+				Project.class.getName(), project.getProjectId(),
+				sc.getModelPermissions());
 		
 		return project;
 	}
@@ -126,6 +133,9 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 		Project project = null;
 		if(projectId > 0) {
 			project = super.projectLocalService.getProject(projectId);
+			
+			resourceLocalService.deleteResource(project.getCompanyId(), Project.class.getName(), ResourceConstants.SCOPE_INDIVIDUAL, project.getProjectId());
+			
 			super.projectPersistence.remove(projectId);
 		}
 		
@@ -134,6 +144,12 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 	
 	public Project deleteProject(Project project) {
 		super.projectPersistence.remove(project);
+		
+		try {
+			resourceLocalService.deleteResource(project.getCompanyId(), Project.class.getName(), ResourceConstants.SCOPE_INDIVIDUAL, project.getProjectId());
+		} catch (PortalException e) {
+			e.printStackTrace();
+		}
 		
 		return project;
 	}

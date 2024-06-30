@@ -78,7 +78,7 @@ public class ResearcherCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(45);
+		StringBundler sb = new StringBundler(47);
 
 		sb.append("{mvccVersion=");
 		sb.append(mvccVersion);
@@ -88,6 +88,8 @@ public class ResearcherCacheModel
 		sb.append(researcherId);
 		sb.append(", companyId=");
 		sb.append(companyId);
+		sb.append(", groupId=");
+		sb.append(groupId);
 		sb.append(", userId=");
 		sb.append(userId);
 		sb.append(", userName=");
@@ -144,6 +146,7 @@ public class ResearcherCacheModel
 
 		researcherImpl.setResearcherId(researcherId);
 		researcherImpl.setCompanyId(companyId);
+		researcherImpl.setGroupId(groupId);
 		researcherImpl.setUserId(userId);
 
 		if (userName == null) {
@@ -252,6 +255,8 @@ public class ResearcherCacheModel
 
 		companyId = objectInput.readLong();
 
+		groupId = objectInput.readLong();
+
 		userId = objectInput.readLong();
 		userName = objectInput.readUTF();
 		createDate = objectInput.readLong();
@@ -291,6 +296,8 @@ public class ResearcherCacheModel
 		objectOutput.writeLong(researcherId);
 
 		objectOutput.writeLong(companyId);
+
+		objectOutput.writeLong(groupId);
 
 		objectOutput.writeLong(userId);
 
@@ -372,6 +379,7 @@ public class ResearcherCacheModel
 	public String uuid;
 	public long researcherId;
 	public long companyId;
+	public long groupId;
 	public long userId;
 	public String userName;
 	public long createDate;

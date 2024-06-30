@@ -16,6 +16,7 @@ package ecrf.user.model;
 
 import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.model.BaseModel;
+import com.liferay.portal.kernel.model.GroupedModel;
 import com.liferay.portal.kernel.model.MVCCModel;
 import com.liferay.portal.kernel.model.ShardedModel;
 import com.liferay.portal.kernel.model.StagedAuditedModel;
@@ -38,8 +39,8 @@ import org.osgi.annotation.versioning.ProviderType;
  */
 @ProviderType
 public interface ResearcherModel
-	extends BaseModel<Researcher>, MVCCModel, ShardedModel, StagedAuditedModel,
-			WorkflowedModel {
+	extends BaseModel<Researcher>, GroupedModel, MVCCModel, ShardedModel,
+			StagedAuditedModel, WorkflowedModel {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -123,6 +124,22 @@ public interface ResearcherModel
 	 */
 	@Override
 	public void setCompanyId(long companyId);
+
+	/**
+	 * Returns the group ID of this researcher.
+	 *
+	 * @return the group ID of this researcher
+	 */
+	@Override
+	public long getGroupId();
+
+	/**
+	 * Sets the group ID of this researcher.
+	 *
+	 * @param groupId the group ID of this researcher
+	 */
+	@Override
+	public void setGroupId(long groupId);
 
 	/**
 	 * Returns the user ID of this researcher.

@@ -47,6 +47,7 @@ public class ResearcherWrapper
 		attributes.put("uuid", getUuid());
 		attributes.put("researcherId", getResearcherId());
 		attributes.put("companyId", getCompanyId());
+		attributes.put("groupId", getGroupId());
 		attributes.put("userId", getUserId());
 		attributes.put("userName", getUserName());
 		attributes.put("createDate", getCreateDate());
@@ -93,6 +94,12 @@ public class ResearcherWrapper
 
 		if (companyId != null) {
 			setCompanyId(companyId);
+		}
+
+		Long groupId = (Long)attributes.get("groupId");
+
+		if (groupId != null) {
+			setGroupId(groupId);
 		}
 
 		Long userId = (Long)attributes.get("userId");
@@ -262,6 +269,16 @@ public class ResearcherWrapper
 	@Override
 	public int getGender() {
 		return model.getGender();
+	}
+
+	/**
+	 * Returns the group ID of this researcher.
+	 *
+	 * @return the group ID of this researcher
+	 */
+	@Override
+	public long getGroupId() {
+		return model.getGroupId();
 	}
 
 	/**
@@ -607,6 +624,16 @@ public class ResearcherWrapper
 	@Override
 	public void setGender(int gender) {
 		model.setGender(gender);
+	}
+
+	/**
+	 * Sets the group ID of this researcher.
+	 *
+	 * @param groupId the group ID of this researcher
+	 */
+	@Override
+	public void setGroupId(long groupId) {
+		model.setGroupId(groupId);
 	}
 
 	/**

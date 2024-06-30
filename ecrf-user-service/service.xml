@@ -10,6 +10,7 @@
 	
 		<!-- Instance  -->
 		<column name="companyId" type="long" />
+		<column name="groupId" type="long" />
 
 		<!-- Audit fields -->
 		<column name="userId" type="long" />

@@ -18,6 +18,7 @@ import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
@@ -74,6 +75,10 @@ public class CRFResearcherLocalServiceImpl
 		crfResearcher.setExpandoBridgeAttributes(sc);
 		
 		super.crfResearcherPersistence.update(crfResearcher);
+		
+		resourceLocalService.addResources(crfResearcher.getCompanyId(), groupId, userId,
+			CRFResearcher.class.getName(), crfResearcherId,
+			false, true, true);
 		
 		return crfResearcher;
 	}
@@ -143,6 +148,10 @@ public class CRFResearcherLocalServiceImpl
 		if(crfResearcherId > 0) {
 			crfResearcher = super.crfResearcherLocalService.getCRFResearcher(crfResearcherId);
 			super.crfResearcherPersistence.remove(crfResearcherId);
+			
+			resourceLocalService.deleteResource(
+				crfResearcher.getCompanyId(), CRFResearcher.class.getName(),
+				ResourceConstants.SCOPE_INDIVIDUAL, crfResearcher.getCrfResearcherId());
 		}
 		
 		// remove crf query => nope
@@ -153,6 +162,14 @@ public class CRFResearcherLocalServiceImpl
 	
 	public CRFResearcher deleteCRFResearcher(CRFResearcher crfResearcher) {
 		super.crfResearcherPersistence.remove(crfResearcher);
+		
+		try {
+			resourceLocalService.deleteResource(
+				crfResearcher.getCompanyId(), CRFResearcher.class.getName(),
+				ResourceConstants.SCOPE_INDIVIDUAL, crfResearcher.getCrfResearcherId());
+		} catch (PortalException e) {
+			e.printStackTrace();
+		}
 		
 		// remove crf query => nope
 		// TODO : update crf query status

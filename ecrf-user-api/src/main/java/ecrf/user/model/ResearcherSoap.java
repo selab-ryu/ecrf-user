@@ -35,6 +35,7 @@ public class ResearcherSoap implements Serializable {
 		soapModel.setUuid(model.getUuid());
 		soapModel.setResearcherId(model.getResearcherId());
 		soapModel.setCompanyId(model.getCompanyId());
+		soapModel.setGroupId(model.getGroupId());
 		soapModel.setUserId(model.getUserId());
 		soapModel.setUserName(model.getUserName());
 		soapModel.setCreateDate(model.getCreateDate());
@@ -136,6 +137,14 @@ public class ResearcherSoap implements Serializable {
 
 	public void setCompanyId(long companyId) {
 		_companyId = companyId;
+	}
+
+	public long getGroupId() {
+		return _groupId;
+	}
+
+	public void setGroupId(long groupId) {
+		_groupId = groupId;
 	}
 
 	public long getUserId() {
@@ -286,6 +295,7 @@ public class ResearcherSoap implements Serializable {
 	private String _uuid;
 	private long _researcherId;
 	private long _companyId;
+	private long _groupId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
