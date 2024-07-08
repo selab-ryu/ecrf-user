@@ -1,6 +1,8 @@
 package ecrf.user.internal.security.permission.resource.portlet;
 
 import com.liferay.exportimport.kernel.staging.permission.StagingPermission;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.security.permission.resource.PortletResourcePermission;
 import com.liferay.portal.kernel.security.permission.resource.PortletResourcePermissionFactory;
 import com.liferay.portal.kernel.security.permission.resource.StagedPortletPermissionLogic;
@@ -23,7 +25,6 @@ public class ProjectPortletResourcePermissionRegistrar {
 	@Activate
     public void activate(BundleContext bundleContext) {
         Dictionary<String, Object> properties = new HashMapDictionary<>();
-
         properties.put("resource.name", ECRFUserConstants.RESOURCE_NAME);
 
         _serviceRegistration = bundleContext.registerService(
@@ -45,4 +46,6 @@ public class ProjectPortletResourcePermissionRegistrar {
 
     @Reference
     private StagingPermission _stagingPermission;
+    
+    private Log _log = LogFactoryUtil.getLog(ProjectPortletResourcePermissionRegistrar.class);
 }

@@ -1,4 +1,4 @@
-package ecrf.user.constants;
+package ecrf.user.constants.type;
 
 import java.util.HashMap;
 import java.util.Map;

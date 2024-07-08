@@ -47,6 +47,7 @@ public class CRFSoap implements Serializable {
 		soapModel.setDatatypeId(model.getDatatypeId());
 		soapModel.setCrfStatus(model.getCrfStatus());
 		soapModel.setApplyDate(model.getApplyDate());
+		soapModel.setDefaultUILayout(model.getDefaultUILayout());
 
 		return soapModel;
 	}
@@ -227,6 +228,14 @@ public class CRFSoap implements Serializable {
 		_applyDate = applyDate;
 	}
 
+	public int getDefaultUILayout() {
+		return _defaultUILayout;
+	}
+
+	public void setDefaultUILayout(int defaultUILayout) {
+		_defaultUILayout = defaultUILayout;
+	}
+
 	private long _mvccVersion;
 	private String _uuid;
 	private long _crfId;
@@ -243,5 +252,6 @@ public class CRFSoap implements Serializable {
 	private long _datatypeId;
 	private int _crfStatus;
 	private Date _applyDate;
+	private int _defaultUILayout;
 
 }

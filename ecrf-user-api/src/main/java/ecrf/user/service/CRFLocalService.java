@@ -82,9 +82,9 @@ public interface CRFLocalService
 
 	public CRF addCRF(
 			String crfName, String crfVersion, Map<Locale, String> titleMap,
-			Map<Locale, String> descriptionMap, int applyDateYear,
-			int applyDateMonth, int applyDateDay, int crfStatus,
-			ServiceContext crfsc, ServiceContext dtsc)
+			Map<Locale, String> descriptionMap, int defaultUILayout,
+			int applyDateYear, int applyDateMonth, int applyDateDay,
+			int crfStatus, ServiceContext crfsc, ServiceContext dtsc)
 		throws PortalException;
 
 	/**
@@ -345,8 +345,9 @@ public interface CRFLocalService
 	public CRF updateCRF(
 			long crfId, String crfName, String crfVersion,
 			Map<Locale, String> titleMap, Map<Locale, String> descriptionMap,
-			int applyDateYear, int applyDateMonth, int applyDateDay,
-			int crfStatus, ServiceContext crfsc, ServiceContext dtsc)
+			int defaultUILayout, int applyDateYear, int applyDateMonth,
+			int applyDateDay, int crfStatus, ServiceContext crfsc,
+			ServiceContext dtsc)
 		throws PortalException;
 
 	public CRF updateCRFStatus(long crfId, int crfStatus, ServiceContext sc);
