@@ -64,6 +64,7 @@ public class CRFLocalServiceImpl extends CRFLocalServiceBaseImpl {
 			String crfVersion,
 			Map<Locale, String> titleMap,
 			Map<Locale, String> descriptionMap,
+			int defaultUILayout,
 			int applyDateYear, int applyDateMonth, int applyDateDay,
 			int crfStatus,
 			ServiceContext crfsc, ServiceContext dtsc) throws PortalException {
@@ -96,6 +97,7 @@ public class CRFLocalServiceImpl extends CRFLocalServiceBaseImpl {
 		
 		// set entity fields
 		crf.setDatatypeId(datatype.getDataTypeId());
+		crf.setDefaultUILayout(defaultUILayout);
 		crf.setApplyDate(applyDate);
 		crf.setCrfStatus(crfStatus);
 		
@@ -117,6 +119,7 @@ public class CRFLocalServiceImpl extends CRFLocalServiceBaseImpl {
 			String crfVersion,
 			Map<Locale, String> titleMap,
 			Map<Locale, String> descriptionMap,
+			int defaultUILayout,
 			int applyDateYear, int applyDateMonth, int applyDateDay,
 			int crfStatus,
 			ServiceContext crfsc, ServiceContext dtsc) throws PortalException {
@@ -140,6 +143,7 @@ public class CRFLocalServiceImpl extends CRFLocalServiceBaseImpl {
 		crf.setExpandoBridgeAttributes(crfsc);
 		
 		// set entity fields
+		crf.setDefaultUILayout(defaultUILayout);
 		crf.setApplyDate(applyDate);
 		crf.setCrfStatus(crfStatus);
 		

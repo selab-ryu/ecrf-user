@@ -58,6 +58,7 @@ public class CRFWrapper
 		attributes.put("datatypeId", getDatatypeId());
 		attributes.put("crfStatus", getCrfStatus());
 		attributes.put("applyDate", getApplyDate());
+		attributes.put("defaultUILayout", getDefaultUILayout());
 
 		return attributes;
 	}
@@ -159,6 +160,12 @@ public class CRFWrapper
 		if (applyDate != null) {
 			setApplyDate(applyDate);
 		}
+
+		Integer defaultUILayout = (Integer)attributes.get("defaultUILayout");
+
+		if (defaultUILayout != null) {
+			setDefaultUILayout(defaultUILayout);
+		}
 	}
 
 	/**
@@ -219,6 +226,16 @@ public class CRFWrapper
 	@Override
 	public long getDatatypeId() {
 		return model.getDatatypeId();
+	}
+
+	/**
+	 * Returns the default ui layout of this crf.
+	 *
+	 * @return the default ui layout of this crf
+	 */
+	@Override
+	public int getDefaultUILayout() {
+		return model.getDefaultUILayout();
 	}
 
 	/**
@@ -494,6 +511,16 @@ public class CRFWrapper
 	@Override
 	public void setDatatypeId(long datatypeId) {
 		model.setDatatypeId(datatypeId);
+	}
+
+	/**
+	 * Sets the default ui layout of this crf.
+	 *
+	 * @param defaultUILayout the default ui layout of this crf
+	 */
+	@Override
+	public void setDefaultUILayout(int defaultUILayout) {
+		model.setDefaultUILayout(defaultUILayout);
 	}
 
 	/**

@@ -27,6 +27,7 @@
 		<field name="datatypeId" type="long" />
 		<field name="crfStatus" type="int" />
 		<field name="applyDate" type="Date" />
+		<field name="defaultUILayout" type="int" />
 	</model>
 	<model name="ecrf.user.model.CRFAutoquery">
 		<field name="mvccVersion" type="long" />

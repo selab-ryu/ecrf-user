@@ -31,6 +31,7 @@ import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import ecrf.user.model.CRF;
@@ -39,9 +40,9 @@ import ecrf.user.model.CRFSoap;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
 import java.util.ArrayList;
@@ -83,7 +84,8 @@ public class CRFModelImpl extends BaseModelImpl<CRF> implements CRFModel {
 		{"modifiedDate", Types.TIMESTAMP}, {"status", Types.INTEGER},
 		{"statusByUserId", Types.BIGINT}, {"statusByUserName", Types.VARCHAR},
 		{"statusDate", Types.TIMESTAMP}, {"datatypeId", Types.BIGINT},
-		{"crfStatus", Types.INTEGER}, {"applyDate", Types.TIMESTAMP}
+		{"crfStatus", Types.INTEGER}, {"applyDate", Types.TIMESTAMP},
+		{"defaultUILayout", Types.INTEGER}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -106,10 +108,11 @@ public class CRFModelImpl extends BaseModelImpl<CRF> implements CRFModel {
 		TABLE_COLUMNS_MAP.put("datatypeId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("crfStatus", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("applyDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("defaultUILayout", Types.INTEGER);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table EC_CRF (mvccVersion LONG default 0 not null,uuid_ VARCHAR(75) null,crfId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,datatypeId LONG,crfStatus INTEGER,applyDate DATE null)";
+		"create table EC_CRF (mvccVersion LONG default 0 not null,uuid_ VARCHAR(75) null,crfId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,datatypeId LONG,crfStatus INTEGER,applyDate DATE null,defaultUILayout INTEGER)";
 
 	public static final String TABLE_SQL_DROP = "drop table EC_CRF";
 
@@ -174,6 +177,7 @@ public class CRFModelImpl extends BaseModelImpl<CRF> implements CRFModel {
 		model.setDatatypeId(soapModel.getDatatypeId());
 		model.setCrfStatus(soapModel.getCrfStatus());
 		model.setApplyDate(soapModel.getApplyDate());
+		model.setDefaultUILayout(soapModel.getDefaultUILayout());
 
 		return model;
 	}
@@ -281,33 +285,6 @@ public class CRFModelImpl extends BaseModelImpl<CRF> implements CRFModel {
 		return _attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, CRF>
-		_getProxyProviderFunction() {
-
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			CRF.class.getClassLoader(), CRF.class, ModelWrapper.class);
-
-		try {
-			Constructor<CRF> constructor =
-				(Constructor<CRF>)proxyClass.getConstructor(
-					InvocationHandler.class);
-
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
-
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
-		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
-	}
-
 	private static final Map<String, Function<CRF, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<CRF, Object>>
@@ -369,6 +346,11 @@ public class CRFModelImpl extends BaseModelImpl<CRF> implements CRFModel {
 		attributeGetterFunctions.put("applyDate", CRF::getApplyDate);
 		attributeSetterBiConsumers.put(
 			"applyDate", (BiConsumer<CRF, Date>)CRF::setApplyDate);
+		attributeGetterFunctions.put(
+			"defaultUILayout", CRF::getDefaultUILayout);
+		attributeSetterBiConsumers.put(
+			"defaultUILayout",
+			(BiConsumer<CRF, Integer>)CRF::setDefaultUILayout);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -655,6 +637,17 @@ public class CRFModelImpl extends BaseModelImpl<CRF> implements CRFModel {
 		_applyDate = applyDate;
 	}
 
+	@JSON
+	@Override
+	public int getDefaultUILayout() {
+		return _defaultUILayout;
+	}
+
+	@Override
+	public void setDefaultUILayout(int defaultUILayout) {
+		_defaultUILayout = defaultUILayout;
+	}
+
 	@Override
 	public StagedModelType getStagedModelType() {
 		return new StagedModelType(
@@ -792,6 +785,7 @@ public class CRFModelImpl extends BaseModelImpl<CRF> implements CRFModel {
 		crfImpl.setDatatypeId(getDatatypeId());
 		crfImpl.setCrfStatus(getCrfStatus());
 		crfImpl.setApplyDate(getApplyDate());
+		crfImpl.setDefaultUILayout(getDefaultUILayout());
 
 		crfImpl.resetOriginalValues();
 
@@ -866,25 +860,23 @@ public class CRFModelImpl extends BaseModelImpl<CRF> implements CRFModel {
 
 	@Override
 	public void resetOriginalValues() {
-		CRFModelImpl crfModelImpl = this;
+		_originalUuid = _uuid;
 
-		crfModelImpl._originalUuid = crfModelImpl._uuid;
+		_originalGroupId = _groupId;
 
-		crfModelImpl._originalGroupId = crfModelImpl._groupId;
+		_setOriginalGroupId = false;
 
-		crfModelImpl._setOriginalGroupId = false;
+		_originalCompanyId = _companyId;
 
-		crfModelImpl._originalCompanyId = crfModelImpl._companyId;
+		_setOriginalCompanyId = false;
 
-		crfModelImpl._setOriginalCompanyId = false;
+		_setModifiedDate = false;
 
-		crfModelImpl._setModifiedDate = false;
+		_originalDatatypeId = _datatypeId;
 
-		crfModelImpl._originalDatatypeId = crfModelImpl._datatypeId;
+		_setOriginalDatatypeId = false;
 
-		crfModelImpl._setOriginalDatatypeId = false;
-
-		crfModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -969,6 +961,8 @@ public class CRFModelImpl extends BaseModelImpl<CRF> implements CRFModel {
 			crfCacheModel.applyDate = Long.MIN_VALUE;
 		}
 
+		crfCacheModel.defaultUILayout = getDefaultUILayout();
+
 		return crfCacheModel;
 	}
 
@@ -978,7 +972,7 @@ public class CRFModelImpl extends BaseModelImpl<CRF> implements CRFModel {
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -988,9 +982,26 @@ public class CRFModelImpl extends BaseModelImpl<CRF> implements CRFModel {
 			String attributeName = entry.getKey();
 			Function<CRF, Object> attributeGetterFunction = entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((CRF)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((CRF)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -1009,7 +1020,7 @@ public class CRFModelImpl extends BaseModelImpl<CRF> implements CRFModel {
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
+			(5 * attributeGetterFunctions.size()) + 4);
 
 		sb.append("<model><model-name>");
 		sb.append(getModelClassName());
@@ -1036,7 +1047,9 @@ public class CRFModelImpl extends BaseModelImpl<CRF> implements CRFModel {
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, CRF>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					CRF.class, ModelWrapper.class);
 
 	}
 
@@ -1067,6 +1080,7 @@ public class CRFModelImpl extends BaseModelImpl<CRF> implements CRFModel {
 	private boolean _setOriginalDatatypeId;
 	private int _crfStatus;
 	private Date _applyDate;
+	private int _defaultUILayout;
 	private long _columnBitmask;
 	private CRF _escapedModel;
 

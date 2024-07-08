@@ -346,6 +346,20 @@ public interface CRFModel
 	public void setApplyDate(Date applyDate);
 
 	/**
+	 * Returns the default ui layout of this crf.
+	 *
+	 * @return the default ui layout of this crf
+	 */
+	public int getDefaultUILayout();
+
+	/**
+	 * Sets the default ui layout of this crf.
+	 *
+	 * @param defaultUILayout the default ui layout of this crf
+	 */
+	public void setDefaultUILayout(int defaultUILayout);
+
+	/**
 	 * Returns <code>true</code> if this crf is approved.
 	 *
 	 * @return <code>true</code> if this crf is approved; <code>false</code> otherwise

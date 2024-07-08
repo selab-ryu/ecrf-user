@@ -15,33 +15,68 @@
 		<permissions>
 			<supports>
 				<action-key>VIEW_PROJECT</action-key>
-				<action-key>VIEW_EXP_GROUP_LIST</action-key>
 				<action-key>ADD_PROJECT</action-key>
+				<action-key>UPDATE_PROJECT</action-key>
+				<action-key>DELETE_PROJECT</action-key>
+				<action-key>VIEW_EXP_GROUP_LIST</action-key>
+				<action-key>VIEW_EXP_GROUP</action-key>
 				<action-key>ADD_EXP_GROUP</action-key>
+				<action-key>UPDATE_EXP_GROUP</action-key>
+				<action-key>DELETE_EXP_GROUP</action-key>
 				
 				<action-key>VIEW_REQUEST_LIST</action-key>
+				<action-key>ASSIGN_MEMBERS</action-key>
 				
 				<action-key>VIEW_RESEARCHER_LIST</action-key>
+				<action-key>VIEW_RESEARCHER</action-key>
 				<action-key>ADD_RESEARCHER</action-key>
+				<action-key>UPDATE_RESEARCHER</action-key>
+				<action-key>DELETE_RESEARCHER</action-key>
 				
 				<action-key>VIEW_SUBJECT_LIST</action-key>
+				<action-key>VIEW_SUBJECT</action-key>
 				<action-key>ADD_SUBJECT</action-key>
+				<action-key>UPDATE_SUBJECT</action-key>
+				<action-key>DELETE_SUBJECT</action-key>
 				
 				<action-key>VIEW_CRF_LIST</action-key>
+				<action-key>ALL_UPDATE_CRF</action-key>
+				<action-key>VIEW_CRF</action-key>
 				<action-key>ADD_CRF</action-key>
+				<action-key>UPDATE_CRF</action-key>
+				<action-key>DELETE_CRF</action-key>
+				<action-key>UPDATE_CRF_DATA_UI</action-key>
+				<action-key>VIEW_CRF_RESEARCHER</action-key>
 				<action-key>ADD_CRF_RESEARCHER</action-key>
+				<action-key>UPDATE_CRF_RESEARCHER</action-key>
+				<action-key>DELETE_CRF_RESEARCHER</action-key>
+				<action-key>VIEW_CRF_SUBJECT</action-key>
 				<action-key>ADD_CRF_SUBJECT</action-key>
+				<action-key>UPDATE_CRF_SUBJECT</action-key>
+				<action-key>DELETE_CRF_SUBJECT</action-key>
 				
 				<action-key>VIEW_CRF_FORM</action-key>
 				<action-key>ADD_CRF_FORM</action-key>
+				<action-key>UPDATE_CRF_FORM</action-key>
+				<action-key>DELETE_CRF_FORM</action-key>
+				<action-key>VIEW_PDF</action-key>
+				<action-key>DOWNLOAD_PDF</action-key>
 				
 				<action-key>VIEW_CRF_DATA_LIST</action-key>
+				<action-key>VIEW_CRF_DATA</action-key>
 				<action-key>ADD_CRF_DATA</action-key>
+				<action-key>UPDATE_CRF_DATA</action-key>
+				<action-key>DELETE_CRF_DATA</action-key>
+				<action-key>VIEW_AUDIT</action-key>
 				
 				<action-key>VIEW_CRF_QUERY_LIST</action-key>
+				<action-key>VIEW_CRF_QUERY</action-key>
 				<action-key>ADD_CRF_QUERY</action-key>
+				<action-key>UPDATE_CRF_QUERY</action-key>
+				<action-key>VALIDATE_CRF_QUERY</action-key>
 				
 				<action-key>VIEW_CRF_HISTORY_LIST</action-key>
+				<action-key>VIEW_CRF_HISTORY</action-key>
 				
 				<action-key>VIEW_EXCEL_DOWNLOAD</action-key>
 				<action-key>DOWNLOAD_EXCEL</action-key>
@@ -49,13 +84,10 @@
 				<action-key>VIEW_ADVANCED_SEARCH</action-key>
 			</supports>
 			<site-member-defaults>
-				<action-key>VIEW</action-key>
 			</site-member-defaults>
 			<guest-defaults>
-				<action-key>VIEW</action-key>
 			</guest-defaults>
 			<guest-unsupported>
-				<action-key>ADD_PROJECT</action-key>
 			</guest-unsupported>
 		</permissions>
 	</model-resource>
@@ -95,12 +127,8 @@
 	            <action-key>VIEW</action-key>
 	        </supports>
 	        <site-member-defaults>
-	            <action-key>UPDATE</action-key>
-	            <action-key>DELETE</action-key>
-	            <action-key>VIEW</action-key>
 	        </site-member-defaults>
 	        <guest-defaults>
-	            <action-key>VIEW</action-key>
 	        </guest-defaults>
 	        <guest-unsupported>
 	            <action-key>PERMISSIONS</action-key>
@@ -123,15 +151,10 @@
 	            <action-key>UPDATE</action-key>
 	            <action-key>DELETE</action-key>
 	            <action-key>VIEW</action-key>
-	            
 	        </supports>
 	        <site-member-defaults>
-	            <action-key>UPDATE</action-key>
-	            <action-key>DELETE</action-key>
-	            <action-key>VIEW</action-key>
 	        </site-member-defaults>
 	        <guest-defaults>
-	            <action-key>VIEW</action-key>
 	        </guest-defaults>
 	        <guest-unsupported>
 	        	<action-key>PERMISSIONS</action-key>
@@ -156,12 +179,8 @@
 	            <action-key>VIEW</action-key>
 	        </supports>
 	        <site-member-defaults>
-	            <action-key>UPDATE</action-key>
-	            <action-key>DELETE</action-key>
-	            <action-key>VIEW</action-key>
 	        </site-member-defaults>
 	        <guest-defaults>
-	            <action-key>VIEW</action-key>
 	        </guest-defaults>
 	        <guest-unsupported>
 	        	<action-key>PERMISSIONS</action-key>
@@ -186,12 +205,8 @@
 	            <action-key>VIEW</action-key>
 	        </supports>
 	        <site-member-defaults>
-	            <action-key>UPDATE</action-key>
-	            <action-key>DELETE</action-key>
-	            <action-key>VIEW</action-key>
 	        </site-member-defaults>
 	        <guest-defaults>
-	            <action-key>VIEW</action-key>
 	        </guest-defaults>
 	        <guest-unsupported>
 	        	<action-key>PERMISSIONS</action-key>
@@ -216,9 +231,6 @@
 	            <action-key>VIEW</action-key>
 	        </supports>
 	        <site-member-defaults>
-	            <action-key>UPDATE</action-key>
-	            <action-key>DELETE</action-key>
-	            <action-key>VIEW</action-key>
 	        </site-member-defaults>
 	        <guest-defaults>
 	        </guest-defaults>
@@ -245,9 +257,6 @@
 	            <action-key>VIEW</action-key>
 	        </supports>
 	        <site-member-defaults>
-	            <action-key>UPDATE</action-key>
-	            <action-key>DELETE</action-key>
-	            <action-key>VIEW</action-key>
 	        </site-member-defaults>
 	        <guest-defaults>
 	        </guest-defaults>
@@ -274,9 +283,6 @@
 	            <action-key>VIEW</action-key>
 	        </supports>
 	        <site-member-defaults>
-	            <action-key>UPDATE</action-key>
-	            <action-key>DELETE</action-key>
-	            <action-key>VIEW</action-key>
 	        </site-member-defaults>
 	        <guest-defaults>
 	        </guest-defaults>
@@ -303,9 +309,6 @@
 	            <action-key>VIEW</action-key>
 	        </supports>
 	        <site-member-defaults>
-	            <action-key>UPDATE</action-key>
-	            <action-key>DELETE</action-key>
-	            <action-key>VIEW</action-key>
 	        </site-member-defaults>
 	        <guest-defaults>
 	        </guest-defaults>
@@ -330,7 +333,6 @@
 	            <action-key>VIEW</action-key>
 	        </supports>
 	        <site-member-defaults>
-	            <action-key>VIEW</action-key>
 	        </site-member-defaults>
 	        <guest-defaults>
 	        </guest-defaults>
@@ -356,9 +358,6 @@
 	            <action-key>VIEW</action-key>
 	        </supports>
 	        <site-member-defaults>
-	        	<action-key>UPDATE</action-key>
-	            <action-key>DELETE</action-key>
-	            <action-key>VIEW</action-key>
 	        </site-member-defaults>
 	        <guest-defaults>
 	        </guest-defaults>

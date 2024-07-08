@@ -77,7 +77,7 @@ public class CRFCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(33);
+		StringBundler sb = new StringBundler(35);
 
 		sb.append("{mvccVersion=");
 		sb.append(mvccVersion);
@@ -111,6 +111,8 @@ public class CRFCacheModel
 		sb.append(crfStatus);
 		sb.append(", applyDate=");
 		sb.append(applyDate);
+		sb.append(", defaultUILayout=");
+		sb.append(defaultUILayout);
 		sb.append("}");
 
 		return sb.toString();
@@ -182,6 +184,8 @@ public class CRFCacheModel
 			crfImpl.setApplyDate(new Date(applyDate));
 		}
 
+		crfImpl.setDefaultUILayout(defaultUILayout);
+
 		crfImpl.resetOriginalValues();
 
 		return crfImpl;
@@ -213,6 +217,8 @@ public class CRFCacheModel
 
 		crfStatus = objectInput.readInt();
 		applyDate = objectInput.readLong();
+
+		defaultUILayout = objectInput.readInt();
 	}
 
 	@Override
@@ -261,6 +267,8 @@ public class CRFCacheModel
 
 		objectOutput.writeInt(crfStatus);
 		objectOutput.writeLong(applyDate);
+
+		objectOutput.writeInt(defaultUILayout);
 	}
 
 	public long mvccVersion;
@@ -279,5 +287,6 @@ public class CRFCacheModel
 	public long datatypeId;
 	public int crfStatus;
 	public long applyDate;
+	public int defaultUILayout;
 
 }
