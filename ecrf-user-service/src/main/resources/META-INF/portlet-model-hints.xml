@@ -225,6 +225,7 @@
 		<field name="statusDate" type="Date" />
 		<field name="name" type="String" />
 		<field name="birth" type="Date" />
+		<field name="lunarBirth" type="String" />
 		<field name="gender" type="int" />
 		<field name="phone" type="String" />
 		<field name="phone2" type="String" />

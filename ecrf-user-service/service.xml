@@ -90,6 +90,7 @@
 		<!-- Other fields -->
 		<column name="name" type="String" />
 		<column name="birth" type="Date" />
+		<column name="lunarBirth" type="String" />		
 		<column name="gender" type="int" />
 		<column name="phone" type="String" />
 		<column name="phone2" type="String" />

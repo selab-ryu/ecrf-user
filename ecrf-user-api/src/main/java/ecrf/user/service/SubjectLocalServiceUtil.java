@@ -46,14 +46,14 @@ public class SubjectLocalServiceUtil {
 	 */
 	public static Subject addSubject(
 			String name, int birthYear, int birthMonth, int birthDay,
-			int gender, String phone, String phone2, String address,
-			String serialId, int hospitalCode, long expGroupId,
+			String lunarBirth, int gender, String phone, String phone2,
+			String address, String serialId, int hospitalCode, long expGroupId,
 			com.liferay.portal.kernel.service.ServiceContext sc)
 		throws PortalException {
 
 		return getService().addSubject(
-			name, birthYear, birthMonth, birthDay, gender, phone, phone2,
-			address, serialId, hospitalCode, expGroupId, sc);
+			name, birthYear, birthMonth, birthDay, lunarBirth, gender, phone,
+			phone2, address, serialId, hospitalCode, expGroupId, sc);
 	}
 
 	/**
@@ -365,14 +365,16 @@ public class SubjectLocalServiceUtil {
 
 	public static Subject updateSubject(
 			long subjectId, String name, int birthYear, int birthMonth,
-			int birthDay, int gender, String phone, String phone2,
-			String address, String serialId, int hospitalCode, long expGroupId,
+			int birthDay, String lunarBirth, int gender, String phone,
+			String phone2, String address, String serialId, int hospitalCode,
+			long expGroupId,
 			com.liferay.portal.kernel.service.ServiceContext sc)
 		throws PortalException {
 
 		return getService().updateSubject(
-			subjectId, name, birthYear, birthMonth, birthDay, gender, phone,
-			phone2, address, serialId, hospitalCode, expGroupId, sc);
+			subjectId, name, birthYear, birthMonth, birthDay, lunarBirth,
+			gender, phone, phone2, address, serialId, hospitalCode, expGroupId,
+			sc);
 	}
 
 	/**

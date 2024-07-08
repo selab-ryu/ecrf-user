@@ -333,6 +333,21 @@ public interface SubjectModel
 	public void setBirth(Date birth);
 
 	/**
+	 * Returns the lunar birth of this subject.
+	 *
+	 * @return the lunar birth of this subject
+	 */
+	@AutoEscape
+	public String getLunarBirth();
+
+	/**
+	 * Sets the lunar birth of this subject.
+	 *
+	 * @param lunarBirth the lunar birth of this subject
+	 */
+	public void setLunarBirth(String lunarBirth);
+
+	/**
 	 * Returns the gender of this subject.
 	 *
 	 * @return the gender of this subject

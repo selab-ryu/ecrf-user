@@ -46,6 +46,7 @@ public class SubjectSoap implements Serializable {
 		soapModel.setStatusDate(model.getStatusDate());
 		soapModel.setName(model.getName());
 		soapModel.setBirth(model.getBirth());
+		soapModel.setLunarBirth(model.getLunarBirth());
 		soapModel.setGender(model.getGender());
 		soapModel.setPhone(model.getPhone());
 		soapModel.setPhone2(model.getPhone2());
@@ -226,6 +227,14 @@ public class SubjectSoap implements Serializable {
 		_birth = birth;
 	}
 
+	public String getLunarBirth() {
+		return _lunarBirth;
+	}
+
+	public void setLunarBirth(String lunarBirth) {
+		_lunarBirth = lunarBirth;
+	}
+
 	public int getGender() {
 		return _gender;
 	}
@@ -297,6 +306,7 @@ public class SubjectSoap implements Serializable {
 	private Date _statusDate;
 	private String _name;
 	private Date _birth;
+	private String _lunarBirth;
 	private int _gender;
 	private String _phone;
 	private String _phone2;

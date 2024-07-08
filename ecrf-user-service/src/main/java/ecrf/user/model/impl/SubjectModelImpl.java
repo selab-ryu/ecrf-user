@@ -85,10 +85,11 @@ public class SubjectModelImpl
 		{"modifiedDate", Types.TIMESTAMP}, {"status", Types.INTEGER},
 		{"statusByUserId", Types.BIGINT}, {"statusByUserName", Types.VARCHAR},
 		{"statusDate", Types.TIMESTAMP}, {"name", Types.VARCHAR},
-		{"birth", Types.TIMESTAMP}, {"gender", Types.INTEGER},
-		{"phone", Types.VARCHAR}, {"phone2", Types.VARCHAR},
-		{"address", Types.VARCHAR}, {"serialId", Types.VARCHAR},
-		{"hospitalCode", Types.INTEGER}, {"expGroupId", Types.BIGINT}
+		{"birth", Types.TIMESTAMP}, {"lunarBirth", Types.VARCHAR},
+		{"gender", Types.INTEGER}, {"phone", Types.VARCHAR},
+		{"phone2", Types.VARCHAR}, {"address", Types.VARCHAR},
+		{"serialId", Types.VARCHAR}, {"hospitalCode", Types.INTEGER},
+		{"expGroupId", Types.BIGINT}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -110,6 +111,7 @@ public class SubjectModelImpl
 		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("name", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("birth", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("lunarBirth", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("gender", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("phone", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("phone2", Types.VARCHAR);
@@ -120,7 +122,7 @@ public class SubjectModelImpl
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table EC_Subject (mvccVersion LONG default 0 not null,uuid_ VARCHAR(75) null,subjectId LONG not null primary key,companyId LONG,groupId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,name VARCHAR(75) null,birth DATE null,gender INTEGER,phone VARCHAR(75) null,phone2 VARCHAR(75) null,address VARCHAR(75) null,serialId VARCHAR(75) null,hospitalCode INTEGER,expGroupId LONG)";
+		"create table EC_Subject (mvccVersion LONG default 0 not null,uuid_ VARCHAR(75) null,subjectId LONG not null primary key,companyId LONG,groupId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,name VARCHAR(75) null,birth DATE null,lunarBirth VARCHAR(75) null,gender INTEGER,phone VARCHAR(75) null,phone2 VARCHAR(75) null,address VARCHAR(75) null,serialId VARCHAR(75) null,hospitalCode INTEGER,expGroupId LONG)";
 
 	public static final String TABLE_SQL_DROP = "drop table EC_Subject";
 
@@ -186,6 +188,7 @@ public class SubjectModelImpl
 		model.setStatusDate(soapModel.getStatusDate());
 		model.setName(soapModel.getName());
 		model.setBirth(soapModel.getBirth());
+		model.setLunarBirth(soapModel.getLunarBirth());
 		model.setGender(soapModel.getGender());
 		model.setPhone(soapModel.getPhone());
 		model.setPhone2(soapModel.getPhone2());
@@ -365,6 +368,9 @@ public class SubjectModelImpl
 		attributeGetterFunctions.put("birth", Subject::getBirth);
 		attributeSetterBiConsumers.put(
 			"birth", (BiConsumer<Subject, Date>)Subject::setBirth);
+		attributeGetterFunctions.put("lunarBirth", Subject::getLunarBirth);
+		attributeSetterBiConsumers.put(
+			"lunarBirth", (BiConsumer<Subject, String>)Subject::setLunarBirth);
 		attributeGetterFunctions.put("gender", Subject::getGender);
 		attributeSetterBiConsumers.put(
 			"gender", (BiConsumer<Subject, Integer>)Subject::setGender);
@@ -677,6 +683,22 @@ public class SubjectModelImpl
 
 	@JSON
 	@Override
+	public String getLunarBirth() {
+		if (_lunarBirth == null) {
+			return "";
+		}
+		else {
+			return _lunarBirth;
+		}
+	}
+
+	@Override
+	public void setLunarBirth(String lunarBirth) {
+		_lunarBirth = lunarBirth;
+	}
+
+	@JSON
+	@Override
 	public int getGender() {
 		return _gender;
 	}
@@ -919,6 +941,7 @@ public class SubjectModelImpl
 		subjectImpl.setStatusDate(getStatusDate());
 		subjectImpl.setName(getName());
 		subjectImpl.setBirth(getBirth());
+		subjectImpl.setLunarBirth(getLunarBirth());
 		subjectImpl.setGender(getGender());
 		subjectImpl.setPhone(getPhone());
 		subjectImpl.setPhone2(getPhone2());
@@ -1117,6 +1140,14 @@ public class SubjectModelImpl
 			subjectCacheModel.birth = Long.MIN_VALUE;
 		}
 
+		subjectCacheModel.lunarBirth = getLunarBirth();
+
+		String lunarBirth = subjectCacheModel.lunarBirth;
+
+		if ((lunarBirth != null) && (lunarBirth.length() == 0)) {
+			subjectCacheModel.lunarBirth = null;
+		}
+
 		subjectCacheModel.gender = getGender();
 
 		subjectCacheModel.phone = getPhone();
@@ -1274,6 +1305,7 @@ public class SubjectModelImpl
 	private String _name;
 	private String _originalName;
 	private Date _birth;
+	private String _lunarBirth;
 	private int _gender;
 	private String _phone;
 	private String _phone2;

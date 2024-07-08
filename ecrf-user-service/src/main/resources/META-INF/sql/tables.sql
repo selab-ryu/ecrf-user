@@ -217,6 +217,7 @@ create table EC_Subject (
 	statusDate DATE null,
 	name VARCHAR(75) null,
 	birth DATE null,
+	lunarBirth VARCHAR(75) null,
 	gender INTEGER,
 	phone VARCHAR(75) null,
 	phone2 VARCHAR(75) null,

@@ -48,6 +48,7 @@ public class SubjectLocalServiceImpl extends SubjectLocalServiceBaseImpl {
 	public Subject addSubject(
 			String name,
 			int birthYear, int birthMonth, int birthDay,
+			String lunarBirth,
 			int gender, String phone, String phone2, String address, 
 			String serialId, int hospitalCode,
 			long expGroupId,
@@ -77,6 +78,7 @@ public class SubjectLocalServiceImpl extends SubjectLocalServiceBaseImpl {
 		// set entity fields
 		subject.setName(name);
 		subject.setBirth(birth);
+		subject.setLunarBirth(lunarBirth);
 		subject.setGender(gender);
 		subject.setPhone(phone);
 		subject.setPhone2(phone2);
@@ -109,6 +111,7 @@ public class SubjectLocalServiceImpl extends SubjectLocalServiceBaseImpl {
 	public Subject updateSubject(
 			long subjectId, String name,
 			int birthYear, int birthMonth, int birthDay,
+			String lunarBirth,
 			int gender, String phone, String phone2, String address, 
 			String serialId, int hospitalCode,
 			long expGroupId,
@@ -126,6 +129,7 @@ public class SubjectLocalServiceImpl extends SubjectLocalServiceBaseImpl {
 		// set entity fields
 		subject.setName(name);
 		subject.setBirth(birth);
+		subject.setLunarBirth(lunarBirth);
 		subject.setGender(gender);
 		subject.setPhone(phone);
 		subject.setPhone2(phone2);

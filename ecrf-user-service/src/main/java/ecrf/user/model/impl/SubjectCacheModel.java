@@ -77,7 +77,7 @@ public class SubjectCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(45);
+		StringBundler sb = new StringBundler(47);
 
 		sb.append("{mvccVersion=");
 		sb.append(mvccVersion);
@@ -109,6 +109,8 @@ public class SubjectCacheModel
 		sb.append(name);
 		sb.append(", birth=");
 		sb.append(birth);
+		sb.append(", lunarBirth=");
+		sb.append(lunarBirth);
 		sb.append(", gender=");
 		sb.append(gender);
 		sb.append(", phone=");
@@ -198,6 +200,13 @@ public class SubjectCacheModel
 			subjectImpl.setBirth(new Date(birth));
 		}
 
+		if (lunarBirth == null) {
+			subjectImpl.setLunarBirth("");
+		}
+		else {
+			subjectImpl.setLunarBirth(lunarBirth);
+		}
+
 		subjectImpl.setGender(gender);
 
 		if (phone == null) {
@@ -259,6 +268,7 @@ public class SubjectCacheModel
 		statusDate = objectInput.readLong();
 		name = objectInput.readUTF();
 		birth = objectInput.readLong();
+		lunarBirth = objectInput.readUTF();
 
 		gender = objectInput.readInt();
 		phone = objectInput.readUTF();
@@ -322,6 +332,13 @@ public class SubjectCacheModel
 
 		objectOutput.writeLong(birth);
 
+		if (lunarBirth == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(lunarBirth);
+		}
+
 		objectOutput.writeInt(gender);
 
 		if (phone == null) {
@@ -372,6 +389,7 @@ public class SubjectCacheModel
 	public long statusDate;
 	public String name;
 	public long birth;
+	public String lunarBirth;
 	public int gender;
 	public String phone;
 	public String phone2;
