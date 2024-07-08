@@ -20,6 +20,9 @@ public class ECRFUserCRFAttributes {
 	public static final String CRF_NAME = "crfName";
 	public static final String CRF_VERSION = "crfVersion";
 	
+	public static final String UI_LAYOUT = "UILayout";
+	public static final String DEFAULT_UI_LAYOUT = "defaultUILayout";
+	
 	public static final String DATATYPE = "dataType";
 	
 	

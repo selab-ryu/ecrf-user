@@ -87,13 +87,4 @@ public abstract class SubjectFinderBaseImpl
 	private static final Log _log = LogFactoryUtil.getLog(
 		SubjectFinderBaseImpl.class);
 
-	static {
-		try {
-			Class.forName(ECPersistenceConstants.class.getName());
-		}
-		catch (ClassNotFoundException classNotFoundException) {
-			throw new ExceptionInInitializerError(classNotFoundException);
-		}
-	}
-
 }

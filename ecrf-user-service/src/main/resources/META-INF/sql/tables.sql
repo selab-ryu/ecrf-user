@@ -14,7 +14,8 @@ create table EC_CRF (
 	statusDate DATE null,
 	datatypeId LONG,
 	crfStatus INTEGER,
-	applyDate DATE null
+	applyDate DATE null,
+	defaultUILayout INTEGER
 );
 
 create table EC_CRFAutoquery (
