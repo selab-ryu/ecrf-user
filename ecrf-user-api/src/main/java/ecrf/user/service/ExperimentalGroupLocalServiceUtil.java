@@ -108,8 +108,9 @@ public class ExperimentalGroupLocalServiceUtil {
 		return getService().deleteExperimentalGroup(experimentalGroupId);
 	}
 
-public static ExperimentalGroup deleteExpGroup(long expGroupId)
-		throws PortalException {
+	public static ecrf.user.model.ExperimentalGroup deleteExpGroup(
+			long expGroupId)
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().deleteExpGroup(expGroupId);
 	}

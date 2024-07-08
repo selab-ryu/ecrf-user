@@ -250,7 +250,7 @@ public class ResearcherLocalServiceUtil {
 	 * @param groupId the primary key of the group
 	 * @return the matching researcher, or <code>null</code> if a matching researcher could not be found
 	 */
-  public static Researcher fetchResearcherByUuidAndGroupId(
+	public static ecrf.user.model.Researcher fetchResearcherByUuidAndGroupId(
 		String uuid, long groupId) {
 
 		return getService().fetchResearcherByUuidAndGroupId(uuid, groupId);
@@ -329,9 +329,9 @@ public class ResearcherLocalServiceUtil {
 	 * @return the matching researcher
 	 * @throws PortalException if a matching researcher could not be found
 	 */
-  public static Researcher getResearcherByUuidAndGroupId(
+	public static ecrf.user.model.Researcher getResearcherByUuidAndGroupId(
 			String uuid, long groupId)
-		throws PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().getResearcherByUuidAndGroupId(uuid, groupId);
 	}
@@ -360,8 +360,8 @@ public class ResearcherLocalServiceUtil {
 	 * @param companyId the primary key of the company
 	 * @return the matching researchers, or an empty list if no matches were found
 	 */
-	public static List<Researcher> getResearchersByUuidAndCompanyId(
-		String uuid, long companyId) {
+	public static java.util.List<ecrf.user.model.Researcher>
+		getResearchersByUuidAndCompanyId(String uuid, long companyId) {
 
 		return getService().getResearchersByUuidAndCompanyId(uuid, companyId);
 	}
@@ -376,9 +376,11 @@ public class ResearcherLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the range of matching researchers, or an empty list if no matches were found
 	 */
-	public static List<Researcher> getResearchersByUuidAndCompanyId(
-		String uuid, long companyId, int start, int end,
-		OrderByComparator<Researcher> orderByComparator) {
+	public static java.util.List<ecrf.user.model.Researcher>
+		getResearchersByUuidAndCompanyId(
+			String uuid, long companyId, int start, int end,
+			com.liferay.portal.kernel.util.OrderByComparator
+				<ecrf.user.model.Researcher> orderByComparator) {
 
 		return getService().getResearchersByUuidAndCompanyId(
 			uuid, companyId, start, end, orderByComparator);

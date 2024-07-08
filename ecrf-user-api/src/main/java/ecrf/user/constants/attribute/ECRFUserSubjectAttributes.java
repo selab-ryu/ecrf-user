@@ -20,6 +20,9 @@ public class ECRFUserSubjectAttributes {
 	public static final String BIRTH_MONTH = "birthMonth";
 	public static final String BIRTH_DAY = "birthDay";
 	
+	public static final String LUNARBIRTH = "lunarBirth";
+	public static final String LUNARBIRTH_YEAR = "lunarBirthYear";
+
 	public static final String VISIT_DATE = "visitDate";
 	public static final String VISIT_DATE_YEAR = "visitDateYear";
 	public static final String VISIT_DATE_MONTH = "visitDateMonth";

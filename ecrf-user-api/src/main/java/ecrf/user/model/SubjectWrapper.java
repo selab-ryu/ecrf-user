@@ -58,6 +58,7 @@ public class SubjectWrapper
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("name", getName());
 		attributes.put("birth", getBirth());
+		attributes.put("lunarBirth", getLunarBirth());
 		attributes.put("gender", getGender());
 		attributes.put("phone", getPhone());
 		attributes.put("phone2", getPhone2());
@@ -159,6 +160,12 @@ public class SubjectWrapper
 
 		if (birth != null) {
 			setBirth(birth);
+		}
+
+		String lunarBirth = (String)attributes.get("lunarBirth");
+
+		if (lunarBirth != null) {
+			setLunarBirth(lunarBirth);
 		}
 
 		Integer gender = (Integer)attributes.get("gender");
@@ -282,6 +289,16 @@ public class SubjectWrapper
 	@Override
 	public int getHospitalCode() {
 		return model.getHospitalCode();
+	}
+
+	/**
+	 * Returns the lunar birth of this subject.
+	 *
+	 * @return the lunar birth of this subject
+	 */
+	@Override
+	public String getLunarBirth() {
+		return model.getLunarBirth();
 	}
 
 	/**
@@ -617,6 +634,16 @@ public class SubjectWrapper
 	@Override
 	public void setHospitalCode(int hospitalCode) {
 		model.setHospitalCode(hospitalCode);
+	}
+
+	/**
+	 * Sets the lunar birth of this subject.
+	 *
+	 * @param lunarBirth the lunar birth of this subject
+	 */
+	@Override
+	public void setLunarBirth(String lunarBirth) {
+		model.setLunarBirth(lunarBirth);
 	}
 
 	/**
