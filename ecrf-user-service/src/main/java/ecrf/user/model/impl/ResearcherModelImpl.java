@@ -1066,11 +1066,12 @@ public class ResearcherModelImpl
 
 		_setOriginalCompanyId = false;
 
-		researcherModelImpl._originalGroupId = researcherModelImpl._groupId;
+		_originalGroupId = _groupId;
 
-		researcherModelImpl._setOriginalGroupId = false;
+		_setOriginalGroupId = false;
 
-		researcherModelImpl._setModifiedDate = false;
+		_setModifiedDate = false;
+		_originalStatus = _status;
 
 		_setOriginalStatus = false;
 
