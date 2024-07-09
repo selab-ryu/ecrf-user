@@ -51,6 +51,10 @@ public class ECRFUserJspPaths {
 	public static final String JSP_UPDATE_CRF = JSP_ROOT_CRF + "update-crf.jsp";
 	public static final String JSP_DEFINE_STRUCTURE = JSP_ROOT_CRF + "define-structure.jsp";
 	
+	public static final String JSP_IMPORT_SUBJECTS = JSP_ROOT_CRF + "import-subjects.jsp";
+	public static final String JSP_IMPORT_DATAS = JSP_ROOT_CRF + "import-datas.jsp";
+
+	
 	public static final String JSP_ROOT_CRF_DIALOG = "/html/crf/dialog/";
 	public static final String JSP_DIALOG_ADD_CRF_RESEARCHER = JSP_ROOT_CRF_DIALOG + "add-researcher.jsp";
 	public static final String JSP_DIALOG_DELETE_CRF_RESEARCHER = JSP_ROOT_CRF_DIALOG + "delete-researcher.jsp";
