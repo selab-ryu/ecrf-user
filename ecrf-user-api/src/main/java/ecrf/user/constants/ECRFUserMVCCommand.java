@@ -59,6 +59,9 @@ public class ECRFUserMVCCommand {
 	public static final String RENDER_UPDATE_CRF = "/render/crf/update-crf";
 	public static final String RENDER_LIST_CRF = "/render/crf/list-crf";
 	
+	public static final String RENDER_IMPORT_SUBJECTS = "/render/crf/import-subjects";
+	public static final String RENDER_IMPORT_DATAS = "/render/crf/import-datas";
+	
 	public static final String ACTION_ADD_CRF = "/action/crf/add-crf";
 	public static final String ACTION_UPDATE_CRF = "/action/crf/update-crf";
 	public static final String ACTION_DELETE_CRF = "/action/crf/delete-crf";
