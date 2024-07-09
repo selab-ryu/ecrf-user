@@ -31,7 +31,6 @@ import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import ecrf.user.model.Researcher;
@@ -40,9 +39,9 @@ import ecrf.user.model.ResearcherSoap;
 
 import java.io.Serializable;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
-import java.sql.Blob;
 import java.sql.Types;
 
 import java.util.ArrayList;
@@ -307,6 +306,34 @@ public class ResearcherModelImpl
 		getAttributeSetterBiConsumers() {
 
 		return _attributeSetterBiConsumers;
+	}
+
+	private static Function<InvocationHandler, Researcher>
+		_getProxyProviderFunction() {
+
+		Class<?> proxyClass = ProxyUtil.getProxyClass(
+			Researcher.class.getClassLoader(), Researcher.class,
+			ModelWrapper.class);
+
+		try {
+			Constructor<Researcher> constructor =
+				(Constructor<Researcher>)proxyClass.getConstructor(
+					InvocationHandler.class);
+
+			return invocationHandler -> {
+				try {
+					return constructor.newInstance(invocationHandler);
+				}
+				catch (ReflectiveOperationException
+							reflectiveOperationException) {
+
+					throw new InternalError(reflectiveOperationException);
+				}
+			};
+		}
+		catch (NoSuchMethodException noSuchMethodException) {
+			throw new InternalError(noSuchMethodException);
+		}
 	}
 
 	private static final Map<String, Function<Researcher, Object>>
@@ -1060,28 +1087,32 @@ public class ResearcherModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		_originalUuid = _uuid;
+		ResearcherModelImpl researcherModelImpl = this;
 
-		_originalCompanyId = _companyId;
+		researcherModelImpl._originalUuid = researcherModelImpl._uuid;
 
-		_setOriginalCompanyId = false;
+		researcherModelImpl._originalCompanyId = researcherModelImpl._companyId;
 
-		_originalGroupId = _groupId;
+		researcherModelImpl._setOriginalCompanyId = false;
 
-		_setOriginalGroupId = false;
+		researcherModelImpl._originalGroupId = researcherModelImpl._groupId;
 
-		_setModifiedDate = false;
-		_originalStatus = _status;
+		researcherModelImpl._setOriginalGroupId = false;
 
-		_setOriginalStatus = false;
+		researcherModelImpl._setModifiedDate = false;
 
-		_originalPosition = _position;
+		researcherModelImpl._originalStatus = researcherModelImpl._status;
 
-		_originalResearcherUserId = _researcherUserId;
+		researcherModelImpl._setOriginalStatus = false;
 
-		_setOriginalResearcherUserId = false;
+		researcherModelImpl._originalPosition = researcherModelImpl._position;
 
-		_columnBitmask = 0;
+		researcherModelImpl._originalResearcherUserId =
+			researcherModelImpl._researcherUserId;
+
+		researcherModelImpl._setOriginalResearcherUserId = false;
+
+		researcherModelImpl._columnBitmask = 0;
 	}
 
 	@Override
@@ -1225,7 +1256,7 @@ public class ResearcherModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			(5 * attributeGetterFunctions.size()) + 2);
+			4 * attributeGetterFunctions.size() + 2);
 
 		sb.append("{");
 
@@ -1236,26 +1267,9 @@ public class ResearcherModelImpl
 			Function<Researcher, Object> attributeGetterFunction =
 				entry.getValue();
 
-			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("\": ");
-
-			Object value = attributeGetterFunction.apply((Researcher)this);
-
-			if (value == null) {
-				sb.append("null");
-			}
-			else if (value instanceof Blob || value instanceof Date ||
-					 value instanceof Map || value instanceof String) {
-
-				sb.append(
-					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
-						"\"");
-			}
-			else {
-				sb.append(value);
-			}
-
+			sb.append("=");
+			sb.append(attributeGetterFunction.apply((Researcher)this));
 			sb.append(", ");
 		}
 
@@ -1274,7 +1288,7 @@ public class ResearcherModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			(5 * attributeGetterFunctions.size()) + 4);
+			5 * attributeGetterFunctions.size() + 4);
 
 		sb.append("<model><model-name>");
 		sb.append(getModelClassName());
@@ -1302,9 +1316,7 @@ public class ResearcherModelImpl
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, Researcher>
-			_escapedModelProxyProviderFunction =
-				ProxyUtil.getProxyProviderFunction(
-					Researcher.class, ModelWrapper.class);
+			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
 
 	}
 

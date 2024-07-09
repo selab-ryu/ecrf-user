@@ -34,8 +34,6 @@ import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
-import com.liferay.portal.kernel.util.PropsKeys;
-import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -46,12 +44,10 @@ import ecrf.user.model.CRFHistory;
 import ecrf.user.model.impl.CRFHistoryImpl;
 import ecrf.user.model.impl.CRFHistoryModelImpl;
 import ecrf.user.service.persistence.CRFHistoryPersistence;
-import ecrf.user.service.persistence.CRFHistoryUtil;
 import ecrf.user.service.persistence.impl.constants.ECPersistenceConstants;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Date;
@@ -8695,8 +8691,6 @@ public class CRFHistoryPersistenceImpl
 		crfHistory.resetOriginalValues();
 	}
 
-	private int _valueObjectFinderCacheListThreshold;
-
 	/**
 	 * Caches the crf histories in the entity cache if it is enabled.
 	 *
@@ -8704,13 +8698,6 @@ public class CRFHistoryPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<CRFHistory> crfHistories) {
-		if ((_valueObjectFinderCacheListThreshold == 0) ||
-			((_valueObjectFinderCacheListThreshold > 0) &&
-			 (crfHistories.size() > _valueObjectFinderCacheListThreshold))) {
-
-			return;
-		}
-
 		for (CRFHistory crfHistory : crfHistories) {
 			if (entityCache.getResult(
 					entityCacheEnabled, CRFHistoryImpl.class,
@@ -8959,24 +8946,23 @@ public class CRFHistoryPersistenceImpl
 		ServiceContext serviceContext =
 			ServiceContextThreadLocal.getServiceContext();
 
-		Date date = new Date();
+		Date now = new Date();
 
 		if (isNew && (crfHistory.getCreateDate() == null)) {
 			if (serviceContext == null) {
-				crfHistory.setCreateDate(date);
+				crfHistory.setCreateDate(now);
 			}
 			else {
-				crfHistory.setCreateDate(serviceContext.getCreateDate(date));
+				crfHistory.setCreateDate(serviceContext.getCreateDate(now));
 			}
 		}
 
 		if (!crfHistoryModelImpl.hasSetModifiedDate()) {
 			if (serviceContext == null) {
-				crfHistory.setModifiedDate(date);
+				crfHistory.setModifiedDate(now);
 			}
 			else {
-				crfHistory.setModifiedDate(
-					serviceContext.getModifiedDate(date));
+				crfHistory.setModifiedDate(serviceContext.getModifiedDate(now));
 			}
 		}
 
@@ -8985,7 +8971,7 @@ public class CRFHistoryPersistenceImpl
 		try {
 			session = openSession();
 
-			if (isNew) {
+			if (crfHistory.isNew()) {
 				session.save(crfHistory);
 
 				crfHistory.setNew(false);
@@ -9646,9 +9632,6 @@ public class CRFHistoryPersistenceImpl
 		CRFHistoryModelImpl.setEntityCacheEnabled(entityCacheEnabled);
 		CRFHistoryModelImpl.setFinderCacheEnabled(finderCacheEnabled);
 
-		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
-			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
-
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, CRFHistoryImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
@@ -9940,34 +9923,14 @@ public class CRFHistoryPersistenceImpl
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), Long.class.getName()
 			});
-
-		_setCRFHistoryUtilPersistence(this);
 	}
 
 	@Deactivate
 	public void deactivate() {
-		_setCRFHistoryUtilPersistence(null);
-
 		entityCache.removeCache(CRFHistoryImpl.class.getName());
-
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setCRFHistoryUtilPersistence(
-		CRFHistoryPersistence crfHistoryPersistence) {
-
-		try {
-			Field field = CRFHistoryUtil.class.getDeclaredField("_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, crfHistoryPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@Override
@@ -10058,5 +10021,14 @@ public class CRFHistoryPersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid"});
+
+	static {
+		try {
+			Class.forName(ECPersistenceConstants.class.getName());
+		}
+		catch (ClassNotFoundException classNotFoundException) {
+			throw new ExceptionInInitializerError(classNotFoundException);
+		}
+	}
 
 }

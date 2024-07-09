@@ -31,7 +31,6 @@ import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import ecrf.user.model.Subject;
@@ -40,9 +39,9 @@ import ecrf.user.model.SubjectSoap;
 
 import java.io.Serializable;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
-import java.sql.Blob;
 import java.sql.Types;
 
 import java.util.ArrayList;
@@ -305,6 +304,33 @@ public class SubjectModelImpl
 		getAttributeSetterBiConsumers() {
 
 		return _attributeSetterBiConsumers;
+	}
+
+	private static Function<InvocationHandler, Subject>
+		_getProxyProviderFunction() {
+
+		Class<?> proxyClass = ProxyUtil.getProxyClass(
+			Subject.class.getClassLoader(), Subject.class, ModelWrapper.class);
+
+		try {
+			Constructor<Subject> constructor =
+				(Constructor<Subject>)proxyClass.getConstructor(
+					InvocationHandler.class);
+
+			return invocationHandler -> {
+				try {
+					return constructor.newInstance(invocationHandler);
+				}
+				catch (ReflectiveOperationException
+							reflectiveOperationException) {
+
+					throw new InternalError(reflectiveOperationException);
+				}
+			};
+		}
+		catch (NoSuchMethodException noSuchMethodException) {
+			throw new InternalError(noSuchMethodException);
+		}
 	}
 
 	private static final Map<String, Function<Subject, Object>>
@@ -1031,27 +1057,29 @@ public class SubjectModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		_originalUuid = _uuid;
+		SubjectModelImpl subjectModelImpl = this;
 
-		_originalSubjectId = _subjectId;
+		subjectModelImpl._originalUuid = subjectModelImpl._uuid;
 
-		_setOriginalSubjectId = false;
+		subjectModelImpl._originalSubjectId = subjectModelImpl._subjectId;
 
-		_originalCompanyId = _companyId;
+		subjectModelImpl._setOriginalSubjectId = false;
 
-		_setOriginalCompanyId = false;
+		subjectModelImpl._originalCompanyId = subjectModelImpl._companyId;
 
-		_originalGroupId = _groupId;
+		subjectModelImpl._setOriginalCompanyId = false;
 
-		_setOriginalGroupId = false;
+		subjectModelImpl._originalGroupId = subjectModelImpl._groupId;
 
-		_setModifiedDate = false;
+		subjectModelImpl._setOriginalGroupId = false;
 
-		_originalName = _name;
+		subjectModelImpl._setModifiedDate = false;
 
-		_originalSerialId = _serialId;
+		subjectModelImpl._originalName = subjectModelImpl._name;
 
-		_columnBitmask = 0;
+		subjectModelImpl._originalSerialId = subjectModelImpl._serialId;
+
+		subjectModelImpl._columnBitmask = 0;
 	}
 
 	@Override
@@ -1195,7 +1223,7 @@ public class SubjectModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			(5 * attributeGetterFunctions.size()) + 2);
+			4 * attributeGetterFunctions.size() + 2);
 
 		sb.append("{");
 
@@ -1206,26 +1234,9 @@ public class SubjectModelImpl
 			Function<Subject, Object> attributeGetterFunction =
 				entry.getValue();
 
-			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("\": ");
-
-			Object value = attributeGetterFunction.apply((Subject)this);
-
-			if (value == null) {
-				sb.append("null");
-			}
-			else if (value instanceof Blob || value instanceof Date ||
-					 value instanceof Map || value instanceof String) {
-
-				sb.append(
-					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
-						"\"");
-			}
-			else {
-				sb.append(value);
-			}
-
+			sb.append("=");
+			sb.append(attributeGetterFunction.apply((Subject)this));
 			sb.append(", ");
 		}
 
@@ -1244,7 +1255,7 @@ public class SubjectModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			(5 * attributeGetterFunctions.size()) + 4);
+			5 * attributeGetterFunctions.size() + 4);
 
 		sb.append("<model><model-name>");
 		sb.append(getModelClassName());
@@ -1272,9 +1283,7 @@ public class SubjectModelImpl
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, Subject>
-			_escapedModelProxyProviderFunction =
-				ProxyUtil.getProxyProviderFunction(
-					Subject.class, ModelWrapper.class);
+			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
 
 	}
 
