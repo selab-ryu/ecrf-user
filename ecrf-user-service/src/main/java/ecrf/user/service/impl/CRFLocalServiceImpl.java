@@ -106,7 +106,7 @@ public class CRFLocalServiceImpl extends CRFLocalServiceBaseImpl {
 		super.crfPersistence.update(crf);
 		
 		resourceLocalService.addResources(
-			crf.getCrfId(), groupId, userId,
+			crf.getCompanyId(), groupId, userId,
 			CRF.class.getName(), crfId,
 			false, true, true);
 		
