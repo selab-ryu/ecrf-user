@@ -90,7 +90,7 @@ public class ECRFUserJspPaths {
 	public static final String JSP_ROOT_CRF_QUERY = "/html/crf-query/";
 	public static final String JSP_LIST_QUERY = JSP_ROOT_CRF_QUERY + "list-query.jsp";
 	public static final String JSP_UPDATE_QUERY = JSP_ROOT_CRF_QUERY + "update-query.jsp";
-	
+	public static final String JSP_ADD_QUERY = JSP_ROOT_CRF_QUERY + "add-query.jsp";
 	
 	public static final String JSP_ROOT_MY_INFO = "/html/my-info/";
 	public static final String JSP_UPDATE_INFO = JSP_ROOT_MY_INFO + "update-info.jsp";

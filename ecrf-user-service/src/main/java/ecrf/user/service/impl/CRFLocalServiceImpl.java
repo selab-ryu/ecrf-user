@@ -76,9 +76,13 @@ public class CRFLocalServiceImpl extends CRFLocalServiceBaseImpl {
 		int status = WorkflowConstants.STATUS_APPROVED;
 		DataType datatype = _dataTypeLocalService.addDataType(crfName, crfVersion, extension, titleMap, descriptionMap, null, status, dtsc);
 		
+		_log.info("datatype created : " + datatype.getDataTypeId());
+		
 		long crfId = super.counterLocalService.increment();
 		CRF crf = super.crfLocalService.createCRF(crfId);
-				
+		
+		_log.info("crf created : " + crf.getCrfId());
+		
 		// get metadata
 		long userId = crfsc.getUserId();
 		User user = super.userLocalService.getUser(userId);
@@ -105,10 +109,14 @@ public class CRFLocalServiceImpl extends CRFLocalServiceBaseImpl {
 		
 		super.crfPersistence.update(crf);
 		
+		_log.info("crf updated");
+		
 		resourceLocalService.addResources(
-			crf.getCrfId(), groupId, userId,
+			crf.getCompanyId(), groupId, userId,
 			CRF.class.getName(), crfId,
 			false, true, true);
+		
+		_log.info("crf resource created");
 		
 		return crf;
 	}
