@@ -26,7 +26,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 import ecrf.user.model.ExperimentalGroup;
 import ecrf.user.service.ExperimentalGroupService;
-import ecrf.user.service.ExperimentalGroupServiceUtil;
 import ecrf.user.service.persistence.CRFAutoqueryPersistence;
 import ecrf.user.service.persistence.CRFHistoryPersistence;
 import ecrf.user.service.persistence.CRFPersistence;
@@ -41,11 +40,8 @@ import ecrf.user.service.persistence.ResearcherPersistence;
 import ecrf.user.service.persistence.SubjectFinder;
 import ecrf.user.service.persistence.SubjectPersistence;
 
-import java.lang.reflect.Field;
-
 import javax.sql.DataSource;
 
-import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 
 /**
@@ -66,13 +62,8 @@ public abstract class ExperimentalGroupServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>ExperimentalGroupService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>ExperimentalGroupServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>ExperimentalGroupService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>ecrf.user.service.ExperimentalGroupServiceUtil</code>.
 	 */
-	@Deactivate
-	protected void deactivate() {
-		_setServiceUtilService(null);
-	}
-
 	@Override
 	public Class<?>[] getAopInterfaces() {
 		return new Class<?>[] {
@@ -83,8 +74,6 @@ public abstract class ExperimentalGroupServiceBaseImpl
 	@Override
 	public void setAopProxy(Object aopProxy) {
 		experimentalGroupService = (ExperimentalGroupService)aopProxy;
-
-		_setServiceUtilService(experimentalGroupService);
 	}
 
 	/**
@@ -127,22 +116,6 @@ public abstract class ExperimentalGroupServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setServiceUtilService(
-		ExperimentalGroupService experimentalGroupService) {
-
-		try {
-			Field field = ExperimentalGroupServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, experimentalGroupService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 
