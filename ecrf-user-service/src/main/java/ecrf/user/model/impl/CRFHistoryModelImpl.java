@@ -31,7 +31,6 @@ import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import ecrf.user.model.CRFHistory;
@@ -40,9 +39,9 @@ import ecrf.user.model.CRFHistorySoap;
 
 import java.io.Serializable;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
-import java.sql.Blob;
 import java.sql.Types;
 
 import java.util.ArrayList;
@@ -127,10 +126,10 @@ public class CRFHistoryModelImpl
 	public static final String TABLE_SQL_DROP = "drop table EC_CRFHistory";
 
 	public static final String ORDER_BY_JPQL =
-		" ORDER BY crfHistory.historyId ASC, crfHistory.modifiedDate ASC";
+		" ORDER BY crfHistory.historyId DESC, crfHistory.modifiedDate DESC";
 
 	public static final String ORDER_BY_SQL =
-		" ORDER BY EC_CRFHistory.historyId ASC, EC_CRFHistory.modifiedDate ASC";
+		" ORDER BY EC_CRFHistory.historyId DESC, EC_CRFHistory.modifiedDate DESC";
 
 	public static final String DATA_SOURCE = "liferayDataSource";
 
@@ -309,6 +308,34 @@ public class CRFHistoryModelImpl
 		getAttributeSetterBiConsumers() {
 
 		return _attributeSetterBiConsumers;
+	}
+
+	private static Function<InvocationHandler, CRFHistory>
+		_getProxyProviderFunction() {
+
+		Class<?> proxyClass = ProxyUtil.getProxyClass(
+			CRFHistory.class.getClassLoader(), CRFHistory.class,
+			ModelWrapper.class);
+
+		try {
+			Constructor<CRFHistory> constructor =
+				(Constructor<CRFHistory>)proxyClass.getConstructor(
+					InvocationHandler.class);
+
+			return invocationHandler -> {
+				try {
+					return constructor.newInstance(invocationHandler);
+				}
+				catch (ReflectiveOperationException
+							reflectiveOperationException) {
+
+					throw new InternalError(reflectiveOperationException);
+				}
+			};
+		}
+		catch (NoSuchMethodException noSuchMethodException) {
+			throw new InternalError(noSuchMethodException);
+		}
 	}
 
 	private static final Map<String, Function<CRFHistory, Object>>
@@ -1021,12 +1048,16 @@ public class CRFHistoryModelImpl
 			value = 0;
 		}
 
+		value = value * -1;
+
 		if (value != 0) {
 			return value;
 		}
 
 		value = DateUtil.compareTo(
 			getModifiedDate(), crfHistory.getModifiedDate());
+
+		value = value * -1;
 
 		if (value != 0) {
 			return value;
@@ -1074,39 +1105,42 @@ public class CRFHistoryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		_originalUuid = _uuid;
+		CRFHistoryModelImpl crfHistoryModelImpl = this;
 
-		_originalHistoryId = _historyId;
+		crfHistoryModelImpl._originalUuid = crfHistoryModelImpl._uuid;
 
-		_setOriginalHistoryId = false;
+		crfHistoryModelImpl._originalHistoryId = crfHistoryModelImpl._historyId;
 
-		_originalGroupId = _groupId;
+		crfHistoryModelImpl._setOriginalHistoryId = false;
 
-		_setOriginalGroupId = false;
+		crfHistoryModelImpl._originalGroupId = crfHistoryModelImpl._groupId;
 
-		_originalCompanyId = _companyId;
+		crfHistoryModelImpl._setOriginalGroupId = false;
 
-		_setOriginalCompanyId = false;
+		crfHistoryModelImpl._originalCompanyId = crfHistoryModelImpl._companyId;
 
-		_originalUserId = _userId;
+		crfHistoryModelImpl._setOriginalCompanyId = false;
 
-		_setOriginalUserId = false;
+		crfHistoryModelImpl._originalUserId = crfHistoryModelImpl._userId;
 
-		_setModifiedDate = false;
+		crfHistoryModelImpl._setOriginalUserId = false;
 
-		_originalSubjectId = _subjectId;
+		crfHistoryModelImpl._setModifiedDate = false;
 
-		_setOriginalSubjectId = false;
+		crfHistoryModelImpl._originalSubjectId = crfHistoryModelImpl._subjectId;
 
-		_originalCrfId = _crfId;
+		crfHistoryModelImpl._setOriginalSubjectId = false;
 
-		_setOriginalCrfId = false;
+		crfHistoryModelImpl._originalCrfId = crfHistoryModelImpl._crfId;
 
-		_originalStructuredDataId = _structuredDataId;
+		crfHistoryModelImpl._setOriginalCrfId = false;
 
-		_setOriginalStructuredDataId = false;
+		crfHistoryModelImpl._originalStructuredDataId =
+			crfHistoryModelImpl._structuredDataId;
 
-		_columnBitmask = 0;
+		crfHistoryModelImpl._setOriginalStructuredDataId = false;
+
+		crfHistoryModelImpl._columnBitmask = 0;
 	}
 
 	@Override
@@ -1247,7 +1281,7 @@ public class CRFHistoryModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			(5 * attributeGetterFunctions.size()) + 2);
+			4 * attributeGetterFunctions.size() + 2);
 
 		sb.append("{");
 
@@ -1258,26 +1292,9 @@ public class CRFHistoryModelImpl
 			Function<CRFHistory, Object> attributeGetterFunction =
 				entry.getValue();
 
-			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("\": ");
-
-			Object value = attributeGetterFunction.apply((CRFHistory)this);
-
-			if (value == null) {
-				sb.append("null");
-			}
-			else if (value instanceof Blob || value instanceof Date ||
-					 value instanceof Map || value instanceof String) {
-
-				sb.append(
-					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
-						"\"");
-			}
-			else {
-				sb.append(value);
-			}
-
+			sb.append("=");
+			sb.append(attributeGetterFunction.apply((CRFHistory)this));
 			sb.append(", ");
 		}
 
@@ -1296,7 +1313,7 @@ public class CRFHistoryModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			(5 * attributeGetterFunctions.size()) + 4);
+			5 * attributeGetterFunctions.size() + 4);
 
 		sb.append("<model><model-name>");
 		sb.append(getModelClassName());
@@ -1324,9 +1341,7 @@ public class CRFHistoryModelImpl
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, CRFHistory>
-			_escapedModelProxyProviderFunction =
-				ProxyUtil.getProxyProviderFunction(
-					CRFHistory.class, ModelWrapper.class);
+			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
 
 	}
 

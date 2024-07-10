@@ -14,6 +14,10 @@
 
 package ecrf.user.service;
 
+import org.osgi.framework.Bundle;
+import org.osgi.framework.FrameworkUtil;
+import org.osgi.util.tracker.ServiceTracker;
+
 /**
  * Provides the remote service utility for LinkCRF. This utility wraps
  * <code>ecrf.user.service.impl.LinkCRFServiceImpl</code> and is an
@@ -39,14 +43,27 @@ public class LinkCRFServiceUtil {
 	 *
 	 * @return the OSGi service identifier
 	 */
-	public static java.lang.String getOSGiServiceIdentifier() {
+	public static String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
 	}
 
 	public static LinkCRFService getService() {
-		return _service;
+		return _serviceTracker.getService();
 	}
 
-	private static volatile LinkCRFService _service;
+	private static ServiceTracker<LinkCRFService, LinkCRFService>
+		_serviceTracker;
+
+	static {
+		Bundle bundle = FrameworkUtil.getBundle(LinkCRFService.class);
+
+		ServiceTracker<LinkCRFService, LinkCRFService> serviceTracker =
+			new ServiceTracker<LinkCRFService, LinkCRFService>(
+				bundle.getBundleContext(), LinkCRFService.class, null);
+
+		serviceTracker.open();
+
+		_serviceTracker = serviceTracker;
+	}
 
 }

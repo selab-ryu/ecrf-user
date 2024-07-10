@@ -31,7 +31,6 @@ import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringUtil;
 
 import ecrf.user.model.CRFSubject;
 import ecrf.user.model.CRFSubjectModel;
@@ -39,9 +38,9 @@ import ecrf.user.model.CRFSubjectSoap;
 
 import java.io.Serializable;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
-import java.sql.Blob;
 import java.sql.Types;
 
 import java.util.ArrayList;
@@ -282,6 +281,34 @@ public class CRFSubjectModelImpl
 		getAttributeSetterBiConsumers() {
 
 		return _attributeSetterBiConsumers;
+	}
+
+	private static Function<InvocationHandler, CRFSubject>
+		_getProxyProviderFunction() {
+
+		Class<?> proxyClass = ProxyUtil.getProxyClass(
+			CRFSubject.class.getClassLoader(), CRFSubject.class,
+			ModelWrapper.class);
+
+		try {
+			Constructor<CRFSubject> constructor =
+				(Constructor<CRFSubject>)proxyClass.getConstructor(
+					InvocationHandler.class);
+
+			return invocationHandler -> {
+				try {
+					return constructor.newInstance(invocationHandler);
+				}
+				catch (ReflectiveOperationException
+							reflectiveOperationException) {
+
+					throw new InternalError(reflectiveOperationException);
+				}
+			};
+		}
+		catch (NoSuchMethodException noSuchMethodException) {
+			throw new InternalError(noSuchMethodException);
+		}
 	}
 
 	private static final Map<String, Function<CRFSubject, Object>>
@@ -754,30 +781,34 @@ public class CRFSubjectModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		_originalUuid = _uuid;
+		CRFSubjectModelImpl crfSubjectModelImpl = this;
 
-		_originalGroupId = _groupId;
+		crfSubjectModelImpl._originalUuid = crfSubjectModelImpl._uuid;
 
-		_setOriginalGroupId = false;
+		crfSubjectModelImpl._originalGroupId = crfSubjectModelImpl._groupId;
 
-		_originalCompanyId = _companyId;
+		crfSubjectModelImpl._setOriginalGroupId = false;
 
-		_setOriginalCompanyId = false;
+		crfSubjectModelImpl._originalCompanyId = crfSubjectModelImpl._companyId;
 
-		_setModifiedDate = false;
-		_originalCrfId = _crfId;
+		crfSubjectModelImpl._setOriginalCompanyId = false;
 
-		_setOriginalCrfId = false;
+		crfSubjectModelImpl._setModifiedDate = false;
 
-		_originalSubjectId = _subjectId;
+		crfSubjectModelImpl._originalCrfId = crfSubjectModelImpl._crfId;
 
-		_setOriginalSubjectId = false;
+		crfSubjectModelImpl._setOriginalCrfId = false;
 
-		_originalUpdateLock = _updateLock;
+		crfSubjectModelImpl._originalSubjectId = crfSubjectModelImpl._subjectId;
 
-		_setOriginalUpdateLock = false;
+		crfSubjectModelImpl._setOriginalSubjectId = false;
 
-		_columnBitmask = 0;
+		crfSubjectModelImpl._originalUpdateLock =
+			crfSubjectModelImpl._updateLock;
+
+		crfSubjectModelImpl._setOriginalUpdateLock = false;
+
+		crfSubjectModelImpl._columnBitmask = 0;
 	}
 
 	@Override
@@ -855,7 +886,7 @@ public class CRFSubjectModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			(5 * attributeGetterFunctions.size()) + 2);
+			4 * attributeGetterFunctions.size() + 2);
 
 		sb.append("{");
 
@@ -866,26 +897,9 @@ public class CRFSubjectModelImpl
 			Function<CRFSubject, Object> attributeGetterFunction =
 				entry.getValue();
 
-			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("\": ");
-
-			Object value = attributeGetterFunction.apply((CRFSubject)this);
-
-			if (value == null) {
-				sb.append("null");
-			}
-			else if (value instanceof Blob || value instanceof Date ||
-					 value instanceof Map || value instanceof String) {
-
-				sb.append(
-					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
-						"\"");
-			}
-			else {
-				sb.append(value);
-			}
-
+			sb.append("=");
+			sb.append(attributeGetterFunction.apply((CRFSubject)this));
 			sb.append(", ");
 		}
 
@@ -904,7 +918,7 @@ public class CRFSubjectModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			(5 * attributeGetterFunctions.size()) + 4);
+			5 * attributeGetterFunctions.size() + 4);
 
 		sb.append("<model><model-name>");
 		sb.append(getModelClassName());
@@ -932,9 +946,7 @@ public class CRFSubjectModelImpl
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, CRFSubject>
-			_escapedModelProxyProviderFunction =
-				ProxyUtil.getProxyProviderFunction(
-					CRFSubject.class, ModelWrapper.class);
+			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
 
 	}
 
