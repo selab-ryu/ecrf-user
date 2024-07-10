@@ -66,6 +66,9 @@ public class ECRFUserMVCCommand {
 	public static final String ACTION_UPDATE_CRF = "/action/crf/update-crf";
 	public static final String ACTION_DELETE_CRF = "/action/crf/delete-crf";
 	
+	public static final String ACTION_IMPORT_SUBJECTS = "/action/crf/import-subjects";
+	public static final String ACTION_IMPORT_DATAS = "/action/crf/import-datas";
+	
 	public static final String ACTION_ADD_CRF_VIEWER = "/action/crf/add-crf-viewer";
 	public static final String ACTION_UPDATE_CRF_VIEWER = "/action/crf/update-crf-viewer";
 	
