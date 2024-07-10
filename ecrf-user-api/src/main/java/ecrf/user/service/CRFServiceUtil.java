@@ -14,10 +14,6 @@
 
 package ecrf.user.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
-
 /**
  * Provides the remote service utility for CRF. This utility wraps
  * <code>ecrf.user.service.impl.CRFServiceImpl</code> and is an
@@ -43,26 +39,14 @@ public class CRFServiceUtil {
 	 *
 	 * @return the OSGi service identifier
 	 */
-	public static String getOSGiServiceIdentifier() {
+	public static java.lang.String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
 	}
 
 	public static CRFService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<CRFService, CRFService> _serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(CRFService.class);
-
-		ServiceTracker<CRFService, CRFService> serviceTracker =
-			new ServiceTracker<CRFService, CRFService>(
-				bundle.getBundleContext(), CRFService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile CRFService _service;
 
 }
