@@ -14,9 +14,16 @@
 
 package ecrf.user.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import ecrf.user.model.ExperimentalGroup;
+
+import java.io.Serializable;
+
+import java.util.List;
 
 /**
  * Provides the local service utility for ExperimentalGroup. This utility wraps
@@ -48,16 +55,16 @@ public class ExperimentalGroupLocalServiceUtil {
 	 * @param experimentalGroup the experimental group
 	 * @return the experimental group that was added
 	 */
-	public static ecrf.user.model.ExperimentalGroup addExperimentalGroup(
-		ecrf.user.model.ExperimentalGroup experimentalGroup) {
+	public static ExperimentalGroup addExperimentalGroup(
+		ExperimentalGroup experimentalGroup) {
 
 		return getService().addExperimentalGroup(experimentalGroup);
 	}
 
-	public static ecrf.user.model.ExperimentalGroup addExpGroup(
+	public static ExperimentalGroup addExpGroup(
 			String name, String abbr, String description, int type,
 			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().addExpGroup(name, abbr, description, type, sc);
 	}
@@ -68,7 +75,7 @@ public class ExperimentalGroupLocalServiceUtil {
 	 * @param experimentalGroupId the primary key for the new experimental group
 	 * @return the new experimental group
 	 */
-	public static ecrf.user.model.ExperimentalGroup createExperimentalGroup(
+	public static ExperimentalGroup createExperimentalGroup(
 		long experimentalGroupId) {
 
 		return getService().createExperimentalGroup(experimentalGroupId);
@@ -84,8 +91,8 @@ public class ExperimentalGroupLocalServiceUtil {
 	 * @param experimentalGroup the experimental group
 	 * @return the experimental group that was removed
 	 */
-	public static ecrf.user.model.ExperimentalGroup deleteExperimentalGroup(
-		ecrf.user.model.ExperimentalGroup experimentalGroup) {
+	public static ExperimentalGroup deleteExperimentalGroup(
+		ExperimentalGroup experimentalGroup) {
 
 		return getService().deleteExperimentalGroup(experimentalGroup);
 	}
@@ -101,16 +108,15 @@ public class ExperimentalGroupLocalServiceUtil {
 	 * @return the experimental group that was removed
 	 * @throws PortalException if a experimental group with the primary key could not be found
 	 */
-	public static ecrf.user.model.ExperimentalGroup deleteExperimentalGroup(
+	public static ExperimentalGroup deleteExperimentalGroup(
 			long experimentalGroupId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().deleteExperimentalGroup(experimentalGroupId);
 	}
 
-	public static ecrf.user.model.ExperimentalGroup deleteExpGroup(
-			long expGroupId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static ExperimentalGroup deleteExpGroup(long expGroupId)
+		throws PortalException {
 
 		return getService().deleteExpGroup(expGroupId);
 	}
@@ -118,17 +124,14 @@ public class ExperimentalGroupLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
-
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -138,9 +141,7 @@ public class ExperimentalGroupLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -156,9 +157,8 @@ public class ExperimentalGroupLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -176,10 +176,9 @@ public class ExperimentalGroupLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -191,9 +190,7 @@ public class ExperimentalGroupLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -205,13 +202,13 @@ public class ExperimentalGroupLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static ecrf.user.model.ExperimentalGroup fetchExperimentalGroup(
+	public static ExperimentalGroup fetchExperimentalGroup(
 		long experimentalGroupId) {
 
 		return getService().fetchExperimentalGroup(experimentalGroupId);
@@ -224,8 +221,8 @@ public class ExperimentalGroupLocalServiceUtil {
 	 * @param groupId the primary key of the group
 	 * @return the matching experimental group, or <code>null</code> if a matching experimental group could not be found
 	 */
-	public static ecrf.user.model.ExperimentalGroup
-		fetchExperimentalGroupByUuidAndGroupId(String uuid, long groupId) {
+	public static ExperimentalGroup fetchExperimentalGroupByUuidAndGroupId(
+		String uuid, long groupId) {
 
 		return getService().fetchExperimentalGroupByUuidAndGroupId(
 			uuid, groupId);
@@ -244,9 +241,9 @@ public class ExperimentalGroupLocalServiceUtil {
 	 * @return the experimental group
 	 * @throws PortalException if a experimental group with the primary key could not be found
 	 */
-	public static ecrf.user.model.ExperimentalGroup getExperimentalGroup(
+	public static ExperimentalGroup getExperimentalGroup(
 			long experimentalGroupId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().getExperimentalGroup(experimentalGroupId);
 	}
@@ -259,9 +256,9 @@ public class ExperimentalGroupLocalServiceUtil {
 	 * @return the matching experimental group
 	 * @throws PortalException if a matching experimental group could not be found
 	 */
-	public static ecrf.user.model.ExperimentalGroup
-			getExperimentalGroupByUuidAndGroupId(String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static ExperimentalGroup getExperimentalGroupByUuidAndGroupId(
+			String uuid, long groupId)
+		throws PortalException {
 
 		return getService().getExperimentalGroupByUuidAndGroupId(uuid, groupId);
 	}
@@ -277,8 +274,8 @@ public class ExperimentalGroupLocalServiceUtil {
 	 * @param end the upper bound of the range of experimental groups (not inclusive)
 	 * @return the range of experimental groups
 	 */
-	public static java.util.List<ecrf.user.model.ExperimentalGroup>
-		getExperimentalGroups(int start, int end) {
+	public static List<ExperimentalGroup> getExperimentalGroups(
+		int start, int end) {
 
 		return getService().getExperimentalGroups(start, end);
 	}
@@ -290,7 +287,7 @@ public class ExperimentalGroupLocalServiceUtil {
 	 * @param companyId the primary key of the company
 	 * @return the matching experimental groups, or an empty list if no matches were found
 	 */
-	public static java.util.List<ecrf.user.model.ExperimentalGroup>
+	public static List<ExperimentalGroup>
 		getExperimentalGroupsByUuidAndCompanyId(String uuid, long companyId) {
 
 		return getService().getExperimentalGroupsByUuidAndCompanyId(
@@ -307,11 +304,10 @@ public class ExperimentalGroupLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the range of matching experimental groups, or an empty list if no matches were found
 	 */
-	public static java.util.List<ecrf.user.model.ExperimentalGroup>
+	public static List<ExperimentalGroup>
 		getExperimentalGroupsByUuidAndCompanyId(
 			String uuid, long companyId, int start, int end,
-			com.liferay.portal.kernel.util.OrderByComparator
-				<ecrf.user.model.ExperimentalGroup> orderByComparator) {
+			OrderByComparator<ExperimentalGroup> orderByComparator) {
 
 		return getService().getExperimentalGroupsByUuidAndCompanyId(
 			uuid, companyId, start, end, orderByComparator);
@@ -326,21 +322,17 @@ public class ExperimentalGroupLocalServiceUtil {
 		return getService().getExperimentalGroupsCount();
 	}
 
-	public static ecrf.user.model.ExperimentalGroup getExpGroupByG_N(
+	public static ExperimentalGroup getExpGroupByG_N(
 		long groupId, String name) {
 
 		return getService().getExpGroupByG_N(groupId, name);
 	}
 
-	public static java.util.List<ecrf.user.model.ExperimentalGroup>
-		getExpGroupByGroupId(long groupId) {
-
+	public static List<ExperimentalGroup> getExpGroupByGroupId(long groupId) {
 		return getService().getExpGroupByGroupId(groupId);
 	}
 
-	public static java.util.List<ecrf.user.model.ExperimentalGroup>
-		getExpGroupByName(String name) {
-
+	public static List<ExperimentalGroup> getExpGroupByName(String name) {
 		return getService().getExpGroupByName(name);
 	}
 
@@ -371,9 +363,8 @@ public class ExperimentalGroupLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -388,45 +379,25 @@ public class ExperimentalGroupLocalServiceUtil {
 	 * @param experimentalGroup the experimental group
 	 * @return the experimental group that was updated
 	 */
-	public static ecrf.user.model.ExperimentalGroup updateExperimentalGroup(
-		ecrf.user.model.ExperimentalGroup experimentalGroup) {
+	public static ExperimentalGroup updateExperimentalGroup(
+		ExperimentalGroup experimentalGroup) {
 
 		return getService().updateExperimentalGroup(experimentalGroup);
 	}
 
-	public static ecrf.user.model.ExperimentalGroup updateExpGroup(
+	public static ExperimentalGroup updateExpGroup(
 			long expGroupId, String name, String abbr, String description,
 			int type, com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().updateExpGroup(
 			expGroupId, name, abbr, description, type, sc);
 	}
 
 	public static ExperimentalGroupLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<ExperimentalGroupLocalService, ExperimentalGroupLocalService>
-			_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(
-			ExperimentalGroupLocalService.class);
-
-		ServiceTracker
-			<ExperimentalGroupLocalService, ExperimentalGroupLocalService>
-				serviceTracker =
-					new ServiceTracker
-						<ExperimentalGroupLocalService,
-						 ExperimentalGroupLocalService>(
-							 bundle.getBundleContext(),
-							 ExperimentalGroupLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile ExperimentalGroupLocalService _service;
 
 }
