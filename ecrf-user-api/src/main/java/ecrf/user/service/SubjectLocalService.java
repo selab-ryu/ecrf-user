@@ -114,9 +114,6 @@ public interface SubjectLocalService
 	@Indexable(type = IndexableType.DELETE)
 	public Subject deleteSubject(long subjectId) throws PortalException;
 
-	public Subject deleteSubject(long subjectId, ServiceContext sc)
-		throws PortalException;
-
 	/**
 	 * Deletes the subject from the database. Also notifies the appropriate model listeners.
 	 *
@@ -129,8 +126,6 @@ public interface SubjectLocalService
 	 */
 	@Indexable(type = IndexableType.DELETE)
 	public Subject deleteSubject(Subject subject);
-
-	public Subject deleteSubject(Subject subject, ServiceContext sc);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public DynamicQuery dynamicQuery();

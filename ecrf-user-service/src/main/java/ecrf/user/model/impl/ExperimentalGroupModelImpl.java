@@ -31,6 +31,7 @@ import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import ecrf.user.model.ExperimentalGroup;
@@ -39,9 +40,9 @@ import ecrf.user.model.ExperimentalGroupSoap;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
 import java.util.ArrayList;
@@ -292,34 +293,6 @@ public class ExperimentalGroupModelImpl
 		getAttributeSetterBiConsumers() {
 
 		return _attributeSetterBiConsumers;
-	}
-
-	private static Function<InvocationHandler, ExperimentalGroup>
-		_getProxyProviderFunction() {
-
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			ExperimentalGroup.class.getClassLoader(), ExperimentalGroup.class,
-			ModelWrapper.class);
-
-		try {
-			Constructor<ExperimentalGroup> constructor =
-				(Constructor<ExperimentalGroup>)proxyClass.getConstructor(
-					InvocationHandler.class);
-
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
-
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
-		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
 	}
 
 	private static final Map<String, Function<ExperimentalGroup, Object>>
@@ -974,32 +947,25 @@ public class ExperimentalGroupModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		ExperimentalGroupModelImpl experimentalGroupModelImpl = this;
+		_originalUuid = _uuid;
 
-		experimentalGroupModelImpl._originalUuid =
-			experimentalGroupModelImpl._uuid;
+		_originalExperimentalGroupId = _experimentalGroupId;
 
-		experimentalGroupModelImpl._originalExperimentalGroupId =
-			experimentalGroupModelImpl._experimentalGroupId;
+		_setOriginalExperimentalGroupId = false;
 
-		experimentalGroupModelImpl._setOriginalExperimentalGroupId = false;
+		_originalCompanyId = _companyId;
 
-		experimentalGroupModelImpl._originalCompanyId =
-			experimentalGroupModelImpl._companyId;
+		_setOriginalCompanyId = false;
 
-		experimentalGroupModelImpl._setOriginalCompanyId = false;
+		_originalGroupId = _groupId;
 
-		experimentalGroupModelImpl._originalGroupId =
-			experimentalGroupModelImpl._groupId;
+		_setOriginalGroupId = false;
 
-		experimentalGroupModelImpl._setOriginalGroupId = false;
+		_setModifiedDate = false;
 
-		experimentalGroupModelImpl._setModifiedDate = false;
+		_originalName = _name;
 
-		experimentalGroupModelImpl._originalName =
-			experimentalGroupModelImpl._name;
-
-		experimentalGroupModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -1108,7 +1074,7 @@ public class ExperimentalGroupModelImpl
 			attributeGetterFunctions = getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -1119,9 +1085,27 @@ public class ExperimentalGroupModelImpl
 			Function<ExperimentalGroup, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((ExperimentalGroup)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply(
+				(ExperimentalGroup)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -1140,7 +1124,7 @@ public class ExperimentalGroupModelImpl
 			attributeGetterFunctions = getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
+			(5 * attributeGetterFunctions.size()) + 4);
 
 		sb.append("<model><model-name>");
 		sb.append(getModelClassName());
@@ -1168,7 +1152,9 @@ public class ExperimentalGroupModelImpl
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, ExperimentalGroup>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					ExperimentalGroup.class, ModelWrapper.class);
 
 	}
 

@@ -14,9 +14,16 @@
 
 package ecrf.user.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import ecrf.user.model.CRFSearchLog;
+
+import java.io.Serializable;
+
+import java.util.List;
 
 /**
  * Provides the local service utility for CRFSearchLog. This utility wraps
@@ -48,16 +55,14 @@ public class CRFSearchLogLocalServiceUtil {
 	 * @param crfSearchLog the crf search log
 	 * @return the crf search log that was added
 	 */
-	public static ecrf.user.model.CRFSearchLog addCRFSearchLog(
-		ecrf.user.model.CRFSearchLog crfSearchLog) {
-
+	public static CRFSearchLog addCRFSearchLog(CRFSearchLog crfSearchLog) {
 		return getService().addCRFSearchLog(crfSearchLog);
 	}
 
-	public static ecrf.user.model.CRFSearchLog addSearchLog(
+	public static CRFSearchLog addSearchLog(
 			String searchLog,
 			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().addSearchLog(searchLog, sc);
 	}
@@ -68,9 +73,7 @@ public class CRFSearchLogLocalServiceUtil {
 	 * @param searchLogId the primary key for the new crf search log
 	 * @return the new crf search log
 	 */
-	public static ecrf.user.model.CRFSearchLog createCRFSearchLog(
-		long searchLogId) {
-
+	public static CRFSearchLog createCRFSearchLog(long searchLogId) {
 		return getService().createCRFSearchLog(searchLogId);
 	}
 
@@ -84,9 +87,7 @@ public class CRFSearchLogLocalServiceUtil {
 	 * @param crfSearchLog the crf search log
 	 * @return the crf search log that was removed
 	 */
-	public static ecrf.user.model.CRFSearchLog deleteCRFSearchLog(
-		ecrf.user.model.CRFSearchLog crfSearchLog) {
-
+	public static CRFSearchLog deleteCRFSearchLog(CRFSearchLog crfSearchLog) {
 		return getService().deleteCRFSearchLog(crfSearchLog);
 	}
 
@@ -101,9 +102,8 @@ public class CRFSearchLogLocalServiceUtil {
 	 * @return the crf search log that was removed
 	 * @throws PortalException if a crf search log with the primary key could not be found
 	 */
-	public static ecrf.user.model.CRFSearchLog deleteCRFSearchLog(
-			long searchLogId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static CRFSearchLog deleteCRFSearchLog(long searchLogId)
+		throws PortalException {
 
 		return getService().deleteCRFSearchLog(searchLogId);
 	}
@@ -111,17 +111,14 @@ public class CRFSearchLogLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
-
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -131,9 +128,7 @@ public class CRFSearchLogLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -149,9 +144,8 @@ public class CRFSearchLogLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -169,10 +163,9 @@ public class CRFSearchLogLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -184,9 +177,7 @@ public class CRFSearchLogLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -198,15 +189,13 @@ public class CRFSearchLogLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static ecrf.user.model.CRFSearchLog fetchCRFSearchLog(
-		long searchLogId) {
-
+	public static CRFSearchLog fetchCRFSearchLog(long searchLogId) {
 		return getService().fetchCRFSearchLog(searchLogId);
 	}
 
@@ -217,8 +206,8 @@ public class CRFSearchLogLocalServiceUtil {
 	 * @param groupId the primary key of the group
 	 * @return the matching crf search log, or <code>null</code> if a matching crf search log could not be found
 	 */
-	public static ecrf.user.model.CRFSearchLog
-		fetchCRFSearchLogByUuidAndGroupId(String uuid, long groupId) {
+	public static CRFSearchLog fetchCRFSearchLogByUuidAndGroupId(
+		String uuid, long groupId) {
 
 		return getService().fetchCRFSearchLogByUuidAndGroupId(uuid, groupId);
 	}
@@ -236,8 +225,8 @@ public class CRFSearchLogLocalServiceUtil {
 	 * @return the crf search log
 	 * @throws PortalException if a crf search log with the primary key could not be found
 	 */
-	public static ecrf.user.model.CRFSearchLog getCRFSearchLog(long searchLogId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static CRFSearchLog getCRFSearchLog(long searchLogId)
+		throws PortalException {
 
 		return getService().getCRFSearchLog(searchLogId);
 	}
@@ -250,9 +239,9 @@ public class CRFSearchLogLocalServiceUtil {
 	 * @return the matching crf search log
 	 * @throws PortalException if a matching crf search log could not be found
 	 */
-	public static ecrf.user.model.CRFSearchLog getCRFSearchLogByUuidAndGroupId(
+	public static CRFSearchLog getCRFSearchLogByUuidAndGroupId(
 			String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().getCRFSearchLogByUuidAndGroupId(uuid, groupId);
 	}
@@ -268,9 +257,7 @@ public class CRFSearchLogLocalServiceUtil {
 	 * @param end the upper bound of the range of crf search logs (not inclusive)
 	 * @return the range of crf search logs
 	 */
-	public static java.util.List<ecrf.user.model.CRFSearchLog> getCRFSearchLogs(
-		int start, int end) {
-
+	public static List<CRFSearchLog> getCRFSearchLogs(int start, int end) {
 		return getService().getCRFSearchLogs(start, end);
 	}
 
@@ -281,8 +268,8 @@ public class CRFSearchLogLocalServiceUtil {
 	 * @param companyId the primary key of the company
 	 * @return the matching crf search logs, or an empty list if no matches were found
 	 */
-	public static java.util.List<ecrf.user.model.CRFSearchLog>
-		getCRFSearchLogsByUuidAndCompanyId(String uuid, long companyId) {
+	public static List<CRFSearchLog> getCRFSearchLogsByUuidAndCompanyId(
+		String uuid, long companyId) {
 
 		return getService().getCRFSearchLogsByUuidAndCompanyId(uuid, companyId);
 	}
@@ -297,11 +284,9 @@ public class CRFSearchLogLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the range of matching crf search logs, or an empty list if no matches were found
 	 */
-	public static java.util.List<ecrf.user.model.CRFSearchLog>
-		getCRFSearchLogsByUuidAndCompanyId(
-			String uuid, long companyId, int start, int end,
-			com.liferay.portal.kernel.util.OrderByComparator
-				<ecrf.user.model.CRFSearchLog> orderByComparator) {
+	public static List<CRFSearchLog> getCRFSearchLogsByUuidAndCompanyId(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<CRFSearchLog> orderByComparator) {
 
 		return getService().getCRFSearchLogsByUuidAndCompanyId(
 			uuid, companyId, start, end, orderByComparator);
@@ -343,9 +328,8 @@ public class CRFSearchLogLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -360,32 +344,14 @@ public class CRFSearchLogLocalServiceUtil {
 	 * @param crfSearchLog the crf search log
 	 * @return the crf search log that was updated
 	 */
-	public static ecrf.user.model.CRFSearchLog updateCRFSearchLog(
-		ecrf.user.model.CRFSearchLog crfSearchLog) {
-
+	public static CRFSearchLog updateCRFSearchLog(CRFSearchLog crfSearchLog) {
 		return getService().updateCRFSearchLog(crfSearchLog);
 	}
 
 	public static CRFSearchLogLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<CRFSearchLogLocalService, CRFSearchLogLocalService> _serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(CRFSearchLogLocalService.class);
-
-		ServiceTracker<CRFSearchLogLocalService, CRFSearchLogLocalService>
-			serviceTracker =
-				new ServiceTracker
-					<CRFSearchLogLocalService, CRFSearchLogLocalService>(
-						bundle.getBundleContext(),
-						CRFSearchLogLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile CRFSearchLogLocalService _service;
 
 }
