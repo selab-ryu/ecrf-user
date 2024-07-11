@@ -14,6 +14,10 @@
 
 package ecrf.user.service;
 
+import org.osgi.framework.Bundle;
+import org.osgi.framework.FrameworkUtil;
+import org.osgi.util.tracker.ServiceTracker;
+
 /**
  * Provides the remote service utility for Subject. This utility wraps
  * <code>ecrf.user.service.impl.SubjectServiceImpl</code> and is an
@@ -39,14 +43,27 @@ public class SubjectServiceUtil {
 	 *
 	 * @return the OSGi service identifier
 	 */
-	public static java.lang.String getOSGiServiceIdentifier() {
+	public static String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
 	}
 
 	public static SubjectService getService() {
-		return _service;
+		return _serviceTracker.getService();
 	}
 
-	private static volatile SubjectService _service;
+	private static ServiceTracker<SubjectService, SubjectService>
+		_serviceTracker;
+
+	static {
+		Bundle bundle = FrameworkUtil.getBundle(SubjectService.class);
+
+		ServiceTracker<SubjectService, SubjectService> serviceTracker =
+			new ServiceTracker<SubjectService, SubjectService>(
+				bundle.getBundleContext(), SubjectService.class, null);
+
+		serviceTracker.open();
+
+		_serviceTracker = serviceTracker;
+	}
 
 }

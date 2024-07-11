@@ -34,8 +34,6 @@ import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
-import com.liferay.portal.kernel.util.PropsKeys;
-import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -46,12 +44,10 @@ import ecrf.user.model.Project;
 import ecrf.user.model.impl.ProjectImpl;
 import ecrf.user.model.impl.ProjectModelImpl;
 import ecrf.user.service.persistence.ProjectPersistence;
-import ecrf.user.service.persistence.ProjectUtil;
 import ecrf.user.service.persistence.impl.constants.ECPersistenceConstants;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Date;
@@ -2365,8 +2361,6 @@ public class ProjectPersistenceImpl
 		project.resetOriginalValues();
 	}
 
-	private int _valueObjectFinderCacheListThreshold;
-
 	/**
 	 * Caches the projects in the entity cache if it is enabled.
 	 *
@@ -2374,13 +2368,6 @@ public class ProjectPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<Project> projects) {
-		if ((_valueObjectFinderCacheListThreshold == 0) ||
-			((_valueObjectFinderCacheListThreshold > 0) &&
-			 (projects.size() > _valueObjectFinderCacheListThreshold))) {
-
-			return;
-		}
-
 		for (Project project : projects) {
 			if (entityCache.getResult(
 					entityCacheEnabled, ProjectImpl.class,
@@ -2624,23 +2611,23 @@ public class ProjectPersistenceImpl
 		ServiceContext serviceContext =
 			ServiceContextThreadLocal.getServiceContext();
 
-		Date date = new Date();
+		Date now = new Date();
 
 		if (isNew && (project.getCreateDate() == null)) {
 			if (serviceContext == null) {
-				project.setCreateDate(date);
+				project.setCreateDate(now);
 			}
 			else {
-				project.setCreateDate(serviceContext.getCreateDate(date));
+				project.setCreateDate(serviceContext.getCreateDate(now));
 			}
 		}
 
 		if (!projectModelImpl.hasSetModifiedDate()) {
 			if (serviceContext == null) {
-				project.setModifiedDate(date);
+				project.setModifiedDate(now);
 			}
 			else {
-				project.setModifiedDate(serviceContext.getModifiedDate(date));
+				project.setModifiedDate(serviceContext.getModifiedDate(now));
 			}
 		}
 
@@ -2649,7 +2636,7 @@ public class ProjectPersistenceImpl
 		try {
 			session = openSession();
 
-			if (isNew) {
+			if (project.isNew()) {
 				session.save(project);
 
 				project.setNew(false);
@@ -3038,9 +3025,6 @@ public class ProjectPersistenceImpl
 		ProjectModelImpl.setEntityCacheEnabled(entityCacheEnabled);
 		ProjectModelImpl.setFinderCacheEnabled(finderCacheEnabled);
 
-		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
-			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
-
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, ProjectImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
@@ -3128,34 +3112,14 @@ public class ProjectPersistenceImpl
 			entityCacheEnabled, finderCacheEnabled, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
 			new String[] {Long.class.getName()});
-
-		_setProjectUtilPersistence(this);
 	}
 
 	@Deactivate
 	public void deactivate() {
-		_setProjectUtilPersistence(null);
-
 		entityCache.removeCache(ProjectImpl.class.getName());
-
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setProjectUtilPersistence(
-		ProjectPersistence projectPersistence) {
-
-		try {
-			Field field = ProjectUtil.class.getDeclaredField("_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, projectPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@Override
@@ -3246,5 +3210,14 @@ public class ProjectPersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid"});
+
+	static {
+		try {
+			Class.forName(ECPersistenceConstants.class.getName());
+		}
+		catch (ClassNotFoundException classNotFoundException) {
+			throw new ExceptionInInitializerError(classNotFoundException);
+		}
+	}
 
 }
