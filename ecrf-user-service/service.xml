@@ -477,8 +477,8 @@
 		
 		<!-- Order -->
 		<order>
-			<order-column name="historyId" order-by="asc" />
-			<order-column name="modifiedDate" order-by="asc" />
+			<order-column name="historyId" order-by="desc" />
+			<order-column name="modifiedDate" order-by="desc" />
 		</order>
 		
 		<!-- Finder methods -->

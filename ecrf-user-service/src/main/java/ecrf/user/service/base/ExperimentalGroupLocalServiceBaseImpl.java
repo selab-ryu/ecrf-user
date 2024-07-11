@@ -54,7 +54,6 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import ecrf.user.model.ExperimentalGroup;
 import ecrf.user.service.ExperimentalGroupLocalService;
-import ecrf.user.service.ExperimentalGroupLocalServiceUtil;
 import ecrf.user.service.persistence.CRFAutoqueryPersistence;
 import ecrf.user.service.persistence.CRFHistoryPersistence;
 import ecrf.user.service.persistence.CRFPersistence;
@@ -71,13 +70,10 @@ import ecrf.user.service.persistence.SubjectPersistence;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
 
-import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 
 /**
@@ -99,7 +95,7 @@ public abstract class ExperimentalGroupLocalServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>ExperimentalGroupLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>ExperimentalGroupLocalServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>ExperimentalGroupLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>ecrf.user.service.ExperimentalGroupLocalServiceUtil</code>.
 	 */
 
 	/**
@@ -557,11 +553,6 @@ public abstract class ExperimentalGroupLocalServiceBaseImpl
 		return experimentalGroupPersistence.update(experimentalGroup);
 	}
 
-	@Deactivate
-	protected void deactivate() {
-		_setLocalServiceUtilService(null);
-	}
-
 	@Override
 	public Class<?>[] getAopInterfaces() {
 		return new Class<?>[] {
@@ -573,8 +564,6 @@ public abstract class ExperimentalGroupLocalServiceBaseImpl
 	@Override
 	public void setAopProxy(Object aopProxy) {
 		experimentalGroupLocalService = (ExperimentalGroupLocalService)aopProxy;
-
-		_setLocalServiceUtilService(experimentalGroupLocalService);
 	}
 
 	/**
@@ -617,23 +606,6 @@ public abstract class ExperimentalGroupLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		ExperimentalGroupLocalService experimentalGroupLocalService) {
-
-		try {
-			Field field =
-				ExperimentalGroupLocalServiceUtil.class.getDeclaredField(
-					"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, experimentalGroupLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

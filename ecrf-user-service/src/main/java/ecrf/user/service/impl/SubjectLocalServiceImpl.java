@@ -30,6 +30,7 @@ import java.util.List;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
+import ecrf.user.exception.NoSuchSubjectException;
 import ecrf.user.model.CRFSubject;
 import ecrf.user.model.Project;
 import ecrf.user.model.Researcher;
@@ -213,6 +214,11 @@ public class SubjectLocalServiceImpl extends SubjectLocalServiceBaseImpl {
 	public Subject getSubjectBySerialId(String serialId) {
 		Subject subject = null;
 		
+		try {
+			subject = super.subjectPersistence.findBySerialId(serialId);
+		} catch (NoSuchSubjectException e) {
+			_log.error("No such Subject with serialId");
+		}
 		return subject;
 	}
 	
