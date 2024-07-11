@@ -98,14 +98,6 @@ public class SubjectLocalServiceWrapper
 		return _subjectLocalService.deleteSubject(subjectId);
 	}
 
-	@Override
-	public ecrf.user.model.Subject deleteSubject(
-			long subjectId, com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		return _subjectLocalService.deleteSubject(subjectId, sc);
-	}
-
 	/**
 	 * Deletes the subject from the database. Also notifies the appropriate model listeners.
 	 *
@@ -121,14 +113,6 @@ public class SubjectLocalServiceWrapper
 		ecrf.user.model.Subject subject) {
 
 		return _subjectLocalService.deleteSubject(subject);
-	}
-
-	@Override
-	public ecrf.user.model.Subject deleteSubject(
-		ecrf.user.model.Subject subject,
-		com.liferay.portal.kernel.service.ServiceContext sc) {
-
-		return _subjectLocalService.deleteSubject(subject, sc);
 	}
 
 	@Override

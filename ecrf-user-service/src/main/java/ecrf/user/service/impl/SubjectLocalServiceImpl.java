@@ -151,7 +151,7 @@ public class SubjectLocalServiceImpl extends SubjectLocalServiceBaseImpl {
 		return subject;
 	}
 	
-	public Subject deleteSubject(long subjectId, ServiceContext sc) throws PortalException {
+	public Subject deleteSubject(long subjectId) throws PortalException {
 		Subject subject = null;
 		if(subjectId > 0) {
 			subject = super.subjectLocalService.getSubject(subjectId);
@@ -162,7 +162,9 @@ public class SubjectLocalServiceImpl extends SubjectLocalServiceBaseImpl {
 				Subject.class.getName(), 
 				ResourceConstants.SCOPE_INDIVIDUAL, subject.getSubjectId());
 			
-			List<CRFSubject> crfSubjectList = _crfSubjectLocalService.getCRFSubjectBySubjectId(sc.getScopeGroupId(), subjectId);
+			_log.info("service group id : " + subject.getGroupId());
+			
+			List<CRFSubject> crfSubjectList = _crfSubjectLocalService.getCRFSubjectBySubjectId(subject.getGroupId(), subjectId);
 			for(CRFSubject crfSubject : crfSubjectList) {
 				_crfSubjectLocalService.deleteCRFSubject(crfSubject);
 			}
@@ -175,7 +177,7 @@ public class SubjectLocalServiceImpl extends SubjectLocalServiceBaseImpl {
 		return subject;
 	}
 	
-	public Subject deleteSubject(Subject subject, ServiceContext sc) {
+	public Subject deleteSubject(Subject subject) {
 		super.subjectPersistence.remove(subject);
 		
 		try {
@@ -187,7 +189,7 @@ public class SubjectLocalServiceImpl extends SubjectLocalServiceBaseImpl {
 			e.printStackTrace();
 		}
 		
-		List<CRFSubject> crfSubjectList = _crfSubjectLocalService.getCRFSubjectBySubjectId(sc.getScopeGroupId(), subject.getSubjectId());
+		List<CRFSubject> crfSubjectList = _crfSubjectLocalService.getCRFSubjectBySubjectId(subject.getGroupId(), subject.getSubjectId());
 		for(CRFSubject crfSubject : crfSubjectList) {
 			_crfSubjectLocalService.deleteCRFSubject(crfSubject);
 		}
