@@ -14,16 +14,9 @@
 
 package ecrf.user.service;
 
-import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.model.PersistedModel;
-import com.liferay.portal.kernel.util.OrderByComparator;
-
-import ecrf.user.model.CRFSubject;
-
-import java.io.Serializable;
-
-import java.util.List;
+import org.osgi.framework.Bundle;
+import org.osgi.framework.FrameworkUtil;
+import org.osgi.util.tracker.ServiceTracker;
 
 /**
  * Provides the local service utility for CRFSubject. This utility wraps
@@ -55,19 +48,21 @@ public class CRFSubjectLocalServiceUtil {
 	 * @param crfSubject the crf subject
 	 * @return the crf subject that was added
 	 */
-	public static CRFSubject addCRFSubject(CRFSubject crfSubject) {
+	public static ecrf.user.model.CRFSubject addCRFSubject(
+		ecrf.user.model.CRFSubject crfSubject) {
+
 		return getService().addCRFSubject(crfSubject);
 	}
 
-	public static CRFSubject addCRFSubject(
+	public static ecrf.user.model.CRFSubject addCRFSubject(
 			long crfId, long subjectId,
 			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().addCRFSubject(crfId, subjectId, sc);
 	}
 
-	public static CRFSubject changeUpdateLock(
+	public static ecrf.user.model.CRFSubject changeUpdateLock(
 		long crfId, long subjectId, boolean updateLock) {
 
 		return getService().changeUpdateLock(crfId, subjectId, updateLock);
@@ -97,7 +92,9 @@ public class CRFSubjectLocalServiceUtil {
 	 * @param crfSubjectId the primary key for the new crf subject
 	 * @return the new crf subject
 	 */
-	public static CRFSubject createCRFSubject(long crfSubjectId) {
+	public static ecrf.user.model.CRFSubject createCRFSubject(
+		long crfSubjectId) {
+
 		return getService().createCRFSubject(crfSubjectId);
 	}
 
@@ -111,7 +108,9 @@ public class CRFSubjectLocalServiceUtil {
 	 * @param crfSubject the crf subject
 	 * @return the crf subject that was removed
 	 */
-	public static CRFSubject deleteCRFSubject(CRFSubject crfSubject) {
+	public static ecrf.user.model.CRFSubject deleteCRFSubject(
+		ecrf.user.model.CRFSubject crfSubject) {
+
 		return getService().deleteCRFSubject(crfSubject);
 	}
 
@@ -126,8 +125,8 @@ public class CRFSubjectLocalServiceUtil {
 	 * @return the crf subject that was removed
 	 * @throws PortalException if a crf subject with the primary key could not be found
 	 */
-	public static CRFSubject deleteCRFSubject(long crfSubjectId)
-		throws PortalException {
+	public static ecrf.user.model.CRFSubject deleteCRFSubject(long crfSubjectId)
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().deleteCRFSubject(crfSubjectId);
 	}
@@ -135,14 +134,17 @@ public class CRFSubjectLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static PersistedModel deletePersistedModel(
-			PersistedModel persistedModel)
-		throws PortalException {
+	public static com.liferay.portal.kernel.model.PersistedModel
+			deletePersistedModel(
+				com.liferay.portal.kernel.model.PersistedModel persistedModel)
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
 
-	public static DynamicQuery dynamicQuery() {
+	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
+		dynamicQuery() {
+
 		return getService().dynamicQuery();
 	}
 
@@ -152,7 +154,9 @@ public class CRFSubjectLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
+	public static <T> java.util.List<T> dynamicQuery(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
+
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -168,8 +172,9 @@ public class CRFSubjectLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> List<T> dynamicQuery(
-		DynamicQuery dynamicQuery, int start, int end) {
+	public static <T> java.util.List<T> dynamicQuery(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
+		int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -187,9 +192,10 @@ public class CRFSubjectLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> List<T> dynamicQuery(
-		DynamicQuery dynamicQuery, int start, int end,
-		OrderByComparator<T> orderByComparator) {
+	public static <T> java.util.List<T> dynamicQuery(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
+		int end,
+		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -201,7 +207,9 @@ public class CRFSubjectLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
+	public static long dynamicQueryCount(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
+
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -213,13 +221,15 @@ public class CRFSubjectLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		DynamicQuery dynamicQuery,
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static CRFSubject fetchCRFSubject(long crfSubjectId) {
+	public static ecrf.user.model.CRFSubject fetchCRFSubject(
+		long crfSubjectId) {
+
 		return getService().fetchCRFSubject(crfSubjectId);
 	}
 
@@ -230,7 +240,7 @@ public class CRFSubjectLocalServiceUtil {
 	 * @param groupId the primary key of the group
 	 * @return the matching crf subject, or <code>null</code> if a matching crf subject could not be found
 	 */
-	public static CRFSubject fetchCRFSubjectByUuidAndGroupId(
+	public static ecrf.user.model.CRFSubject fetchCRFSubjectByUuidAndGroupId(
 		String uuid, long groupId) {
 
 		return getService().fetchCRFSubjectByUuidAndGroupId(uuid, groupId);
@@ -249,82 +259,92 @@ public class CRFSubjectLocalServiceUtil {
 	 * @return the crf subject
 	 * @throws PortalException if a crf subject with the primary key could not be found
 	 */
-	public static CRFSubject getCRFSubject(long crfSubjectId)
-		throws PortalException {
+	public static ecrf.user.model.CRFSubject getCRFSubject(long crfSubjectId)
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().getCRFSubject(crfSubjectId);
 	}
 
-	public static CRFSubject getCRFSubjectByC_S(long crfId, long subjectId) {
+	public static ecrf.user.model.CRFSubject getCRFSubjectByC_S(
+		long crfId, long subjectId) {
+
 		return getService().getCRFSubjectByC_S(crfId, subjectId);
 	}
 
-	public static List<CRFSubject> getCRFSubjectByCRFId(
-		long groupId, long crfId) {
+	public static java.util.List<ecrf.user.model.CRFSubject>
+		getCRFSubjectByCRFId(long groupId, long crfId) {
 
 		return getService().getCRFSubjectByCRFId(groupId, crfId);
 	}
 
-	public static List<CRFSubject> getCRFSubjectByCRFId(
-		long groupId, long crfId, int start, int end) {
+	public static java.util.List<ecrf.user.model.CRFSubject>
+		getCRFSubjectByCRFId(long groupId, long crfId, int start, int end) {
 
 		return getService().getCRFSubjectByCRFId(groupId, crfId, start, end);
 	}
 
-	public static List<CRFSubject> getCRFSubjectByCRFId(
-		long groupId, long crfId, int start, int end,
-		OrderByComparator comparator) {
+	public static java.util.List<ecrf.user.model.CRFSubject>
+		getCRFSubjectByCRFId(
+			long groupId, long crfId, int start, int end,
+			com.liferay.portal.kernel.util.OrderByComparator comparator) {
 
 		return getService().getCRFSubjectByCRFId(
 			groupId, crfId, start, end, comparator);
 	}
 
-	public static List<CRFSubject> getCRFSubjectByG_C_UL(
-		long groupId, long crfId, boolean updateLock) {
+	public static java.util.List<ecrf.user.model.CRFSubject>
+		getCRFSubjectByG_C_UL(long groupId, long crfId, boolean updateLock) {
 
 		return getService().getCRFSubjectByG_C_UL(groupId, crfId, updateLock);
 	}
 
-	public static List<CRFSubject> getCRFSubjectByG_C_UL(
-		long groupId, long crfId, boolean updateLock, int start, int end) {
+	public static java.util.List<ecrf.user.model.CRFSubject>
+		getCRFSubjectByG_C_UL(
+			long groupId, long crfId, boolean updateLock, int start, int end) {
 
 		return getService().getCRFSubjectByG_C_UL(
 			groupId, crfId, updateLock, start, end);
 	}
 
-	public static List<CRFSubject> getCRFSubjectByGroupId(long groupId) {
+	public static java.util.List<ecrf.user.model.CRFSubject>
+		getCRFSubjectByGroupId(long groupId) {
+
 		return getService().getCRFSubjectByGroupId(groupId);
 	}
 
-	public static List<CRFSubject> getCRFSubjectByGroupId(
-		long groupId, int start, int end) {
+	public static java.util.List<ecrf.user.model.CRFSubject>
+		getCRFSubjectByGroupId(long groupId, int start, int end) {
 
 		return getService().getCRFSubjectByGroupId(groupId, start, end);
 	}
 
-	public static List<CRFSubject> getCRFSubjectByGroupId(
-		long groupId, int start, int end, OrderByComparator comparator) {
+	public static java.util.List<ecrf.user.model.CRFSubject>
+		getCRFSubjectByGroupId(
+			long groupId, int start, int end,
+			com.liferay.portal.kernel.util.OrderByComparator comparator) {
 
 		return getService().getCRFSubjectByGroupId(
 			groupId, start, end, comparator);
 	}
 
-	public static List<CRFSubject> getCRFSubjectBySubjectId(
-		long groupId, long subjectId) {
+	public static java.util.List<ecrf.user.model.CRFSubject>
+		getCRFSubjectBySubjectId(long groupId, long subjectId) {
 
 		return getService().getCRFSubjectBySubjectId(groupId, subjectId);
 	}
 
-	public static List<CRFSubject> getCRFSubjectBySubjectId(
-		long groupId, long subjectId, int start, int end) {
+	public static java.util.List<ecrf.user.model.CRFSubject>
+		getCRFSubjectBySubjectId(
+			long groupId, long subjectId, int start, int end) {
 
 		return getService().getCRFSubjectBySubjectId(
 			groupId, subjectId, start, end);
 	}
 
-	public static List<CRFSubject> getCRFSubjectBySubjectId(
-		long groupId, long subjectId, int start, int end,
-		OrderByComparator comparator) {
+	public static java.util.List<ecrf.user.model.CRFSubject>
+		getCRFSubjectBySubjectId(
+			long groupId, long subjectId, int start, int end,
+			com.liferay.portal.kernel.util.OrderByComparator comparator) {
 
 		return getService().getCRFSubjectBySubjectId(
 			groupId, subjectId, start, end, comparator);
@@ -338,9 +358,9 @@ public class CRFSubjectLocalServiceUtil {
 	 * @return the matching crf subject
 	 * @throws PortalException if a matching crf subject could not be found
 	 */
-	public static CRFSubject getCRFSubjectByUuidAndGroupId(
+	public static ecrf.user.model.CRFSubject getCRFSubjectByUuidAndGroupId(
 			String uuid, long groupId)
-		throws PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().getCRFSubjectByUuidAndGroupId(uuid, groupId);
 	}
@@ -356,7 +376,9 @@ public class CRFSubjectLocalServiceUtil {
 	 * @param end the upper bound of the range of crf subjects (not inclusive)
 	 * @return the range of crf subjects
 	 */
-	public static List<CRFSubject> getCRFSubjects(int start, int end) {
+	public static java.util.List<ecrf.user.model.CRFSubject> getCRFSubjects(
+		int start, int end) {
+
 		return getService().getCRFSubjects(start, end);
 	}
 
@@ -367,8 +389,8 @@ public class CRFSubjectLocalServiceUtil {
 	 * @param companyId the primary key of the company
 	 * @return the matching crf subjects, or an empty list if no matches were found
 	 */
-	public static List<CRFSubject> getCRFSubjectsByUuidAndCompanyId(
-		String uuid, long companyId) {
+	public static java.util.List<ecrf.user.model.CRFSubject>
+		getCRFSubjectsByUuidAndCompanyId(String uuid, long companyId) {
 
 		return getService().getCRFSubjectsByUuidAndCompanyId(uuid, companyId);
 	}
@@ -383,9 +405,11 @@ public class CRFSubjectLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the range of matching crf subjects, or an empty list if no matches were found
 	 */
-	public static List<CRFSubject> getCRFSubjectsByUuidAndCompanyId(
-		String uuid, long companyId, int start, int end,
-		OrderByComparator<CRFSubject> orderByComparator) {
+	public static java.util.List<ecrf.user.model.CRFSubject>
+		getCRFSubjectsByUuidAndCompanyId(
+			String uuid, long companyId, int start, int end,
+			com.liferay.portal.kernel.util.OrderByComparator
+				<ecrf.user.model.CRFSubject> orderByComparator) {
 
 		return getService().getCRFSubjectsByUuidAndCompanyId(
 			uuid, companyId, start, end, orderByComparator);
@@ -427,8 +451,9 @@ public class CRFSubjectLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
-		throws PortalException {
+	public static com.liferay.portal.kernel.model.PersistedModel
+			getPersistedModel(java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -447,22 +472,41 @@ public class CRFSubjectLocalServiceUtil {
 	 * @param crfSubject the crf subject
 	 * @return the crf subject that was updated
 	 */
-	public static CRFSubject updateCRFSubject(CRFSubject crfSubject) {
+	public static ecrf.user.model.CRFSubject updateCRFSubject(
+		ecrf.user.model.CRFSubject crfSubject) {
+
 		return getService().updateCRFSubject(crfSubject);
 	}
 
 	public static void updateCRFSubjects(
-			long crfId, java.util.ArrayList<CRFSubject> crfSubjectList,
+			long crfId,
+			java.util.ArrayList<ecrf.user.model.CRFSubject> crfSubjectList,
 			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		getService().updateCRFSubjects(crfId, crfSubjectList, sc);
 	}
 
 	public static CRFSubjectLocalService getService() {
-		return _service;
+		return _serviceTracker.getService();
 	}
 
-	private static volatile CRFSubjectLocalService _service;
+	private static ServiceTracker
+		<CRFSubjectLocalService, CRFSubjectLocalService> _serviceTracker;
+
+	static {
+		Bundle bundle = FrameworkUtil.getBundle(CRFSubjectLocalService.class);
+
+		ServiceTracker<CRFSubjectLocalService, CRFSubjectLocalService>
+			serviceTracker =
+				new ServiceTracker
+					<CRFSubjectLocalService, CRFSubjectLocalService>(
+						bundle.getBundleContext(), CRFSubjectLocalService.class,
+						null);
+
+		serviceTracker.open();
+
+		_serviceTracker = serviceTracker;
+	}
 
 }
