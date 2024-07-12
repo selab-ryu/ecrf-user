@@ -69,6 +69,13 @@ public class SubjectLocalServiceWrapper
 		return _subjectLocalService.createSubject(subjectId);
 	}
 
+	@Override
+	public void deleteAllSubject(long groupId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		_subjectLocalService.deleteAllSubject(groupId);
+	}
+
 	/**
 	 * @throws PortalException
 	 */

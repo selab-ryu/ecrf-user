@@ -22,11 +22,14 @@ import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.sx.icecap.service.DataTypeLocalService;
+import com.sx.icecap.service.StructuredDataLocalService;
 
 import java.util.Date;
 import java.util.List;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 import ecrf.user.exception.NoSuchLinkCRFException;
 import ecrf.user.model.LinkCRF;
@@ -116,6 +119,9 @@ public class LinkCRFLocalServiceImpl extends LinkCRFLocalServiceBaseImpl {
 	
 	public LinkCRF deleteLinkCRF(long linkId) throws PortalException {
 		LinkCRF linkCRF = super.linkCRFPersistence.remove(linkId);
+		
+		// TODO : need to set data file folder id
+		_dataTypeLocalService.removeStructuredData(linkCRF.getStructuredDataId(), 0);
 		
 		resourceLocalService.deleteResource(
 			linkCRF.getCompanyId(), LinkCRF.class.getName(), 
@@ -223,4 +229,9 @@ public class LinkCRFLocalServiceImpl extends LinkCRFLocalServiceBaseImpl {
 	public List<LinkCRF> getLinkCRFByC_S(long crfId, long subjectId) {
 		return super.linkCRFPersistence.findByC_S(crfId, subjectId);
 	}
+	
+	@Reference
+	private DataTypeLocalService _dataTypeLocalService;
+	
+	private StructuredDataLocalService _sdLocalService;
 }

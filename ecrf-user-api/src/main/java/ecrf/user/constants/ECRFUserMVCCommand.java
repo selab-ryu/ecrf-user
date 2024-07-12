@@ -50,9 +50,11 @@ public class ECRFUserMVCCommand {
 	public static final String ACTION_ADD_SUBJECT = "/action/subject/add-subject";
 	public static final String ACTION_UPDATE_SUBJECT = "/action/subject/update-subject";
 	public static final String ACTION_DELETE_SUBJECT = "/action/subject/delete-subject";
+	public static final String ACTION_DELETE_ALL_SUBJECT = "/action/subject/delete-all-subject";
 	
 	public static final String ACTION_ADD_SUBJECTS_FILE = "/action/subject/add-subjects-file";
 	public static final String RENDER_DEBUG_PAGE = "/render/debug-page";
+	
 	
 	public static final String RENDER_VIEW_CRF = "/render/crf/view-crf";
 	public static final String RENDER_ADD_CRF = "/render/crf/add-crf";
