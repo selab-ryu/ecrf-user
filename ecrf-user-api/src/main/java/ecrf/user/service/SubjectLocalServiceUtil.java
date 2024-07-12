@@ -75,6 +75,10 @@ public class SubjectLocalServiceUtil {
 		return getService().createSubject(subjectId);
 	}
 
+	public static void deleteAllSubject(long groupId) throws PortalException {
+		getService().deleteAllSubject(groupId);
+	}
+
 	/**
 	 * @throws PortalException
 	 */

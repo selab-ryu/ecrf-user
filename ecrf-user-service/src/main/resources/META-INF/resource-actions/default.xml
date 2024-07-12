@@ -38,6 +38,7 @@
 				<action-key>ADD_SUBJECT</action-key>
 				<action-key>UPDATE_SUBJECT</action-key>
 				<action-key>DELETE_SUBJECT</action-key>
+				<action-key>DELETE_ALL_SUBJECT</action-key>
 				
 				<action-key>VIEW_CRF_LIST</action-key>
 				<action-key>ALL_UPDATE_CRF</action-key>
