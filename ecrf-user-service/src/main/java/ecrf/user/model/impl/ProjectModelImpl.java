@@ -31,7 +31,6 @@ import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import ecrf.user.model.Project;
@@ -40,9 +39,9 @@ import ecrf.user.model.ProjectSoap;
 
 import java.io.Serializable;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
-import java.sql.Blob;
 import java.sql.Types;
 
 import java.util.ArrayList;
@@ -294,6 +293,33 @@ public class ProjectModelImpl
 		getAttributeSetterBiConsumers() {
 
 		return _attributeSetterBiConsumers;
+	}
+
+	private static Function<InvocationHandler, Project>
+		_getProxyProviderFunction() {
+
+		Class<?> proxyClass = ProxyUtil.getProxyClass(
+			Project.class.getClassLoader(), Project.class, ModelWrapper.class);
+
+		try {
+			Constructor<Project> constructor =
+				(Constructor<Project>)proxyClass.getConstructor(
+					InvocationHandler.class);
+
+			return invocationHandler -> {
+				try {
+					return constructor.newInstance(invocationHandler);
+				}
+				catch (ReflectiveOperationException
+							reflectiveOperationException) {
+
+					throw new InternalError(reflectiveOperationException);
+				}
+			};
+		}
+		catch (NoSuchMethodException noSuchMethodException) {
+			throw new InternalError(noSuchMethodException);
+		}
 	}
 
 	private static final Map<String, Function<Project, Object>>
@@ -925,19 +951,21 @@ public class ProjectModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		_originalUuid = _uuid;
+		ProjectModelImpl projectModelImpl = this;
 
-		_originalGroupId = _groupId;
+		projectModelImpl._originalUuid = projectModelImpl._uuid;
 
-		_setOriginalGroupId = false;
+		projectModelImpl._originalGroupId = projectModelImpl._groupId;
 
-		_originalCompanyId = _companyId;
+		projectModelImpl._setOriginalGroupId = false;
 
-		_setOriginalCompanyId = false;
+		projectModelImpl._originalCompanyId = projectModelImpl._companyId;
 
-		_setModifiedDate = false;
+		projectModelImpl._setOriginalCompanyId = false;
 
-		_columnBitmask = 0;
+		projectModelImpl._setModifiedDate = false;
+
+		projectModelImpl._columnBitmask = 0;
 	}
 
 	@Override
@@ -1064,7 +1092,7 @@ public class ProjectModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			(5 * attributeGetterFunctions.size()) + 2);
+			4 * attributeGetterFunctions.size() + 2);
 
 		sb.append("{");
 
@@ -1075,26 +1103,9 @@ public class ProjectModelImpl
 			Function<Project, Object> attributeGetterFunction =
 				entry.getValue();
 
-			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("\": ");
-
-			Object value = attributeGetterFunction.apply((Project)this);
-
-			if (value == null) {
-				sb.append("null");
-			}
-			else if (value instanceof Blob || value instanceof Date ||
-					 value instanceof Map || value instanceof String) {
-
-				sb.append(
-					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
-						"\"");
-			}
-			else {
-				sb.append(value);
-			}
-
+			sb.append("=");
+			sb.append(attributeGetterFunction.apply((Project)this));
 			sb.append(", ");
 		}
 
@@ -1113,7 +1124,7 @@ public class ProjectModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			(5 * attributeGetterFunctions.size()) + 4);
+			5 * attributeGetterFunctions.size() + 4);
 
 		sb.append("<model><model-name>");
 		sb.append(getModelClassName());
@@ -1141,9 +1152,7 @@ public class ProjectModelImpl
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, Project>
-			_escapedModelProxyProviderFunction =
-				ProxyUtil.getProxyProviderFunction(
-					Project.class, ModelWrapper.class);
+			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
 
 	}
 

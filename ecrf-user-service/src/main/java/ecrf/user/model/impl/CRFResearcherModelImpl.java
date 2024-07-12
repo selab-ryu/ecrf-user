@@ -31,7 +31,6 @@ import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringUtil;
 
 import ecrf.user.model.CRFResearcher;
 import ecrf.user.model.CRFResearcherModel;
@@ -39,9 +38,9 @@ import ecrf.user.model.CRFResearcherSoap;
 
 import java.io.Serializable;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
-import java.sql.Blob;
 import java.sql.Types;
 
 import java.util.ArrayList;
@@ -276,6 +275,34 @@ public class CRFResearcherModelImpl
 		getAttributeSetterBiConsumers() {
 
 		return _attributeSetterBiConsumers;
+	}
+
+	private static Function<InvocationHandler, CRFResearcher>
+		_getProxyProviderFunction() {
+
+		Class<?> proxyClass = ProxyUtil.getProxyClass(
+			CRFResearcher.class.getClassLoader(), CRFResearcher.class,
+			ModelWrapper.class);
+
+		try {
+			Constructor<CRFResearcher> constructor =
+				(Constructor<CRFResearcher>)proxyClass.getConstructor(
+					InvocationHandler.class);
+
+			return invocationHandler -> {
+				try {
+					return constructor.newInstance(invocationHandler);
+				}
+				catch (ReflectiveOperationException
+							reflectiveOperationException) {
+
+					throw new InternalError(reflectiveOperationException);
+				}
+			};
+		}
+		catch (NoSuchMethodException noSuchMethodException) {
+			throw new InternalError(noSuchMethodException);
+		}
 	}
 
 	private static final Map<String, Function<CRFResearcher, Object>>
@@ -705,26 +732,32 @@ public class CRFResearcherModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		_originalUuid = _uuid;
+		CRFResearcherModelImpl crfResearcherModelImpl = this;
 
-		_originalGroupId = _groupId;
+		crfResearcherModelImpl._originalUuid = crfResearcherModelImpl._uuid;
 
-		_setOriginalGroupId = false;
+		crfResearcherModelImpl._originalGroupId =
+			crfResearcherModelImpl._groupId;
 
-		_originalCompanyId = _companyId;
+		crfResearcherModelImpl._setOriginalGroupId = false;
 
-		_setOriginalCompanyId = false;
+		crfResearcherModelImpl._originalCompanyId =
+			crfResearcherModelImpl._companyId;
 
-		_setModifiedDate = false;
-		_originalResearcherId = _researcherId;
+		crfResearcherModelImpl._setOriginalCompanyId = false;
 
-		_setOriginalResearcherId = false;
+		crfResearcherModelImpl._setModifiedDate = false;
 
-		_originalCrfId = _crfId;
+		crfResearcherModelImpl._originalResearcherId =
+			crfResearcherModelImpl._researcherId;
 
-		_setOriginalCrfId = false;
+		crfResearcherModelImpl._setOriginalResearcherId = false;
 
-		_columnBitmask = 0;
+		crfResearcherModelImpl._originalCrfId = crfResearcherModelImpl._crfId;
+
+		crfResearcherModelImpl._setOriginalCrfId = false;
+
+		crfResearcherModelImpl._columnBitmask = 0;
 	}
 
 	@Override
@@ -797,7 +830,7 @@ public class CRFResearcherModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			(5 * attributeGetterFunctions.size()) + 2);
+			4 * attributeGetterFunctions.size() + 2);
 
 		sb.append("{");
 
@@ -808,26 +841,9 @@ public class CRFResearcherModelImpl
 			Function<CRFResearcher, Object> attributeGetterFunction =
 				entry.getValue();
 
-			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("\": ");
-
-			Object value = attributeGetterFunction.apply((CRFResearcher)this);
-
-			if (value == null) {
-				sb.append("null");
-			}
-			else if (value instanceof Blob || value instanceof Date ||
-					 value instanceof Map || value instanceof String) {
-
-				sb.append(
-					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
-						"\"");
-			}
-			else {
-				sb.append(value);
-			}
-
+			sb.append("=");
+			sb.append(attributeGetterFunction.apply((CRFResearcher)this));
 			sb.append(", ");
 		}
 
@@ -846,7 +862,7 @@ public class CRFResearcherModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			(5 * attributeGetterFunctions.size()) + 4);
+			5 * attributeGetterFunctions.size() + 4);
 
 		sb.append("<model><model-name>");
 		sb.append(getModelClassName());
@@ -874,9 +890,7 @@ public class CRFResearcherModelImpl
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, CRFResearcher>
-			_escapedModelProxyProviderFunction =
-				ProxyUtil.getProxyProviderFunction(
-					CRFResearcher.class, ModelWrapper.class);
+			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
 
 	}
 
