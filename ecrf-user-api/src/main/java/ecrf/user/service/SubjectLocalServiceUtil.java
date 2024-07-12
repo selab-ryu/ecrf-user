@@ -75,7 +75,9 @@ public class SubjectLocalServiceUtil {
 		return getService().createSubject(subjectId);
 	}
 
-	public static void deleteAllSubject(long groupId) throws PortalException {
+	public static void deleteAllSubject(long groupId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
 		getService().deleteAllSubject(groupId);
 	}
 
