@@ -93,6 +93,8 @@ public interface SubjectLocalService
 	@Transactional(enabled = false)
 	public Subject createSubject(long subjectId);
 
+	public void deleteAllSubject(long groupId) throws PortalException;
+
 	/**
 	 * @throws PortalException
 	 */

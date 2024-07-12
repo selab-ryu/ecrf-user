@@ -32,6 +32,7 @@ public class ECRFUserActionKeys {
 	public static final String ADD_SUBJECT = "ADD_SUBJECT";
 	public static final String UPDATE_SUBJECT = "UPDATE_SUBJECT";
 	public static final String DELETE_SUBJECT = "DELETE_SUBJECT";
+	public static final String DELETE_ALL_SUBJECT = "DELETE_ALL_SUBJECT";
 
 	public static final String VIEW_CRF_LIST = "VIEW_CRF_LIST";
 	public static final String ALL_UPDATE_CRF = "ALL_UPDATE_CRF";

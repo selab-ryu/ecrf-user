@@ -24,6 +24,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -32,8 +33,6 @@ import org.osgi.service.component.annotations.Reference;
 
 import ecrf.user.exception.NoSuchSubjectException;
 import ecrf.user.model.CRFSubject;
-import ecrf.user.model.Project;
-import ecrf.user.model.Researcher;
 import ecrf.user.model.Subject;
 import ecrf.user.service.CRFSubjectLocalService;
 import ecrf.user.service.base.SubjectLocalServiceBaseImpl;
@@ -166,11 +165,11 @@ public class SubjectLocalServiceImpl extends SubjectLocalServiceBaseImpl {
 			
 			List<CRFSubject> crfSubjectList = _crfSubjectLocalService.getCRFSubjectBySubjectId(subject.getGroupId(), subjectId);
 			for(CRFSubject crfSubject : crfSubjectList) {
-				_crfSubjectLocalService.deleteCRFSubject(crfSubject);
+				_crfSubjectLocalService.deleteCRFSubject(crfSubject.getSubjectId());
 			}
-						
-			// remove link crf
 			
+			// both of below processed by crf subject service
+			// remove link crf
 			// remove structured data
 		}
 		
@@ -194,11 +193,21 @@ public class SubjectLocalServiceImpl extends SubjectLocalServiceBaseImpl {
 			_crfSubjectLocalService.deleteCRFSubject(crfSubject);
 		}
 		
+		// both of below processed by crf subject service
 		// remove link crf
-		
 		// remove structured data
 		
 		return subject;
+	}
+	
+	public void deleteAllSubject(long groupId) throws PortalException {
+		List<Subject> allSubjectList = new ArrayList<>();
+		allSubjectList = getSubjectByGroupId(groupId);
+		
+		for(int i=0; i<allSubjectList.size(); i++) {
+			Subject subject = allSubjectList.get(i);
+			deleteSubject(subject.getSubjectId());
+		}
 	}
 	
 	public List<Subject> getAllSubject() {
