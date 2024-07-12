@@ -14,16 +14,9 @@
 
 package ecrf.user.service;
 
-import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.model.PersistedModel;
-import com.liferay.portal.kernel.util.OrderByComparator;
-
-import ecrf.user.model.Subject;
-
-import java.io.Serializable;
-
-import java.util.List;
+import org.osgi.framework.Bundle;
+import org.osgi.framework.FrameworkUtil;
+import org.osgi.util.tracker.ServiceTracker;
 
 /**
  * Provides the local service utility for Subject. This utility wraps
@@ -44,12 +37,12 @@ public class SubjectLocalServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to <code>ecrf.user.service.impl.SubjectLocalServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
-	public static Subject addSubject(
+	public static ecrf.user.model.Subject addSubject(
 			String name, int birthYear, int birthMonth, int birthDay,
 			String lunarBirth, int gender, String phone, String phone2,
 			String address, String serialId, int hospitalCode, long expGroupId,
 			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().addSubject(
 			name, birthYear, birthMonth, birthDay, lunarBirth, gender, phone,
@@ -66,7 +59,9 @@ public class SubjectLocalServiceUtil {
 	 * @param subject the subject
 	 * @return the subject that was added
 	 */
-	public static Subject addSubject(Subject subject) {
+	public static ecrf.user.model.Subject addSubject(
+		ecrf.user.model.Subject subject) {
+
 		return getService().addSubject(subject);
 	}
 
@@ -76,16 +71,17 @@ public class SubjectLocalServiceUtil {
 	 * @param subjectId the primary key for the new subject
 	 * @return the new subject
 	 */
-	public static Subject createSubject(long subjectId) {
+	public static ecrf.user.model.Subject createSubject(long subjectId) {
 		return getService().createSubject(subjectId);
 	}
 
 	/**
 	 * @throws PortalException
 	 */
-	public static PersistedModel deletePersistedModel(
-			PersistedModel persistedModel)
-		throws PortalException {
+	public static com.liferay.portal.kernel.model.PersistedModel
+			deletePersistedModel(
+				com.liferay.portal.kernel.model.PersistedModel persistedModel)
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
@@ -101,7 +97,9 @@ public class SubjectLocalServiceUtil {
 	 * @return the subject that was removed
 	 * @throws PortalException if a subject with the primary key could not be found
 	 */
-	public static Subject deleteSubject(long subjectId) throws PortalException {
+	public static ecrf.user.model.Subject deleteSubject(long subjectId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
 		return getService().deleteSubject(subjectId);
 	}
 
@@ -115,11 +113,15 @@ public class SubjectLocalServiceUtil {
 	 * @param subject the subject
 	 * @return the subject that was removed
 	 */
-	public static Subject deleteSubject(Subject subject) {
+	public static ecrf.user.model.Subject deleteSubject(
+		ecrf.user.model.Subject subject) {
+
 		return getService().deleteSubject(subject);
 	}
 
-	public static DynamicQuery dynamicQuery() {
+	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
+		dynamicQuery() {
+
 		return getService().dynamicQuery();
 	}
 
@@ -129,7 +131,9 @@ public class SubjectLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
+	public static <T> java.util.List<T> dynamicQuery(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
+
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -145,8 +149,9 @@ public class SubjectLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> List<T> dynamicQuery(
-		DynamicQuery dynamicQuery, int start, int end) {
+	public static <T> java.util.List<T> dynamicQuery(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
+		int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -164,9 +169,10 @@ public class SubjectLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> List<T> dynamicQuery(
-		DynamicQuery dynamicQuery, int start, int end,
-		OrderByComparator<T> orderByComparator) {
+	public static <T> java.util.List<T> dynamicQuery(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
+		int end,
+		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -178,7 +184,9 @@ public class SubjectLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
+	public static long dynamicQueryCount(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
+
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -190,13 +198,13 @@ public class SubjectLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		DynamicQuery dynamicQuery,
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static Subject fetchSubject(long subjectId) {
+	public static ecrf.user.model.Subject fetchSubject(long subjectId) {
 		return getService().fetchSubject(subjectId);
 	}
 
@@ -207,7 +215,7 @@ public class SubjectLocalServiceUtil {
 	 * @param groupId the primary key of the group
 	 * @return the matching subject, or <code>null</code> if a matching subject could not be found
 	 */
-	public static Subject fetchSubjectByUuidAndGroupId(
+	public static ecrf.user.model.Subject fetchSubjectByUuidAndGroupId(
 		String uuid, long groupId) {
 
 		return getService().fetchSubjectByUuidAndGroupId(uuid, groupId);
@@ -219,7 +227,7 @@ public class SubjectLocalServiceUtil {
 		return getService().getActionableDynamicQuery();
 	}
 
-	public static List<Subject> getAllSubject() {
+	public static java.util.List<ecrf.user.model.Subject> getAllSubject() {
 		return getService().getAllSubject();
 	}
 
@@ -250,8 +258,9 @@ public class SubjectLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
-		throws PortalException {
+	public static com.liferay.portal.kernel.model.PersistedModel
+			getPersistedModel(java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -263,21 +272,27 @@ public class SubjectLocalServiceUtil {
 	 * @return the subject
 	 * @throws PortalException if a subject with the primary key could not be found
 	 */
-	public static Subject getSubject(long subjectId) throws PortalException {
+	public static ecrf.user.model.Subject getSubject(long subjectId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
 		return getService().getSubject(subjectId);
 	}
 
-	public static List<Subject> getSubjectByGroupId(long groupId) {
+	public static java.util.List<ecrf.user.model.Subject> getSubjectByGroupId(
+		long groupId) {
+
 		return getService().getSubjectByGroupId(groupId);
 	}
 
-	public static List<Subject> getSubjectByIds(
+	public static java.util.List<ecrf.user.model.Subject> getSubjectByIds(
 		long groupId, long[] subjectIds) {
 
 		return getService().getSubjectByIds(groupId, subjectIds);
 	}
 
-	public static Subject getSubjectBySerialId(String serialId) {
+	public static ecrf.user.model.Subject getSubjectBySerialId(
+		String serialId) {
+
 		return getService().getSubjectBySerialId(serialId);
 	}
 
@@ -289,8 +304,9 @@ public class SubjectLocalServiceUtil {
 	 * @return the matching subject
 	 * @throws PortalException if a matching subject could not be found
 	 */
-	public static Subject getSubjectByUuidAndGroupId(String uuid, long groupId)
-		throws PortalException {
+	public static ecrf.user.model.Subject getSubjectByUuidAndGroupId(
+			String uuid, long groupId)
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().getSubjectByUuidAndGroupId(uuid, groupId);
 	}
@@ -306,7 +322,9 @@ public class SubjectLocalServiceUtil {
 	 * @param end the upper bound of the range of subjects (not inclusive)
 	 * @return the range of subjects
 	 */
-	public static List<Subject> getSubjects(int start, int end) {
+	public static java.util.List<ecrf.user.model.Subject> getSubjects(
+		int start, int end) {
+
 		return getService().getSubjects(start, end);
 	}
 
@@ -317,8 +335,8 @@ public class SubjectLocalServiceUtil {
 	 * @param companyId the primary key of the company
 	 * @return the matching subjects, or an empty list if no matches were found
 	 */
-	public static List<Subject> getSubjectsByUuidAndCompanyId(
-		String uuid, long companyId) {
+	public static java.util.List<ecrf.user.model.Subject>
+		getSubjectsByUuidAndCompanyId(String uuid, long companyId) {
 
 		return getService().getSubjectsByUuidAndCompanyId(uuid, companyId);
 	}
@@ -333,9 +351,11 @@ public class SubjectLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the range of matching subjects, or an empty list if no matches were found
 	 */
-	public static List<Subject> getSubjectsByUuidAndCompanyId(
-		String uuid, long companyId, int start, int end,
-		OrderByComparator<Subject> orderByComparator) {
+	public static java.util.List<ecrf.user.model.Subject>
+		getSubjectsByUuidAndCompanyId(
+			String uuid, long companyId, int start, int end,
+			com.liferay.portal.kernel.util.OrderByComparator
+				<ecrf.user.model.Subject> orderByComparator) {
 
 		return getService().getSubjectsByUuidAndCompanyId(
 			uuid, companyId, start, end, orderByComparator);
@@ -350,13 +370,13 @@ public class SubjectLocalServiceUtil {
 		return getService().getSubjectsCount();
 	}
 
-	public static Subject updateSubject(
+	public static ecrf.user.model.Subject updateSubject(
 			long subjectId, String name, int birthYear, int birthMonth,
 			int birthDay, String lunarBirth, int gender, String phone,
 			String phone2, String address, String serialId, int hospitalCode,
 			long expGroupId,
 			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().updateSubject(
 			subjectId, name, birthYear, birthMonth, birthDay, lunarBirth,
@@ -374,14 +394,30 @@ public class SubjectLocalServiceUtil {
 	 * @param subject the subject
 	 * @return the subject that was updated
 	 */
-	public static Subject updateSubject(Subject subject) {
+	public static ecrf.user.model.Subject updateSubject(
+		ecrf.user.model.Subject subject) {
+
 		return getService().updateSubject(subject);
 	}
 
 	public static SubjectLocalService getService() {
-		return _service;
+		return _serviceTracker.getService();
 	}
 
-	private static volatile SubjectLocalService _service;
+	private static ServiceTracker<SubjectLocalService, SubjectLocalService>
+		_serviceTracker;
+
+	static {
+		Bundle bundle = FrameworkUtil.getBundle(SubjectLocalService.class);
+
+		ServiceTracker<SubjectLocalService, SubjectLocalService>
+			serviceTracker =
+				new ServiceTracker<SubjectLocalService, SubjectLocalService>(
+					bundle.getBundleContext(), SubjectLocalService.class, null);
+
+		serviceTracker.open();
+
+		_serviceTracker = serviceTracker;
+	}
 
 }
