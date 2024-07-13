@@ -56,15 +56,18 @@ public class ECRFUserJspPaths {
 
 	
 	public static final String JSP_ROOT_CRF_DIALOG = "/html/crf/dialog/";
+	public static final String JSP_DIALOG_MANAGE_CRF_RESEARCHER = JSP_ROOT_CRF_DIALOG + "manage-researcher.jsp";
+	public static final String JSP_DIALOG_MANAGE_CRF_SUBJECT = JSP_ROOT_CRF_DIALOG + "manage-subject.jsp";
+	public static final String JSP_DIALOG_MANAGE_UPDATE_LOCK = JSP_ROOT_CRF_DIALOG + "manage-subject-update-lock.jsp";
+	
 	public static final String JSP_DIALOG_ADD_CRF_RESEARCHER = JSP_ROOT_CRF_DIALOG + "add-researcher.jsp";
 	public static final String JSP_DIALOG_DELETE_CRF_RESEARCHER = JSP_ROOT_CRF_DIALOG + "delete-researcher.jsp";
-	public static final String JSP_DIALOG_MANAGE_CRF_RESEARCHER = JSP_ROOT_CRF_DIALOG + "manage-researcher.jsp";
 	
 	public static final String JSP_DIALOG_ADD_CRF_SUBJECT = JSP_ROOT_CRF_DIALOG + "add-subject.jsp";
 	public static final String JSP_DIALOG_DELETE_CRF_SUBJECT = JSP_ROOT_CRF_DIALOG + "delete-subject.jsp";
-	public static final String JSP_DIALOG_MANAGE_CRF_SUBJECT = JSP_ROOT_CRF_DIALOG + "manage-subject.jsp";
+	
 	public static final String JSP_DIALOG_MANAGE_EXP_GROUP = JSP_ROOT_CRF_DIALOG + "manage-subject-exp.jsp";
-	public static final String JSP_DIALOG_MANAGE_UPDATE_LOCK = JSP_ROOT_CRF_DIALOG + "manage-subject-update-lock.jsp";
+	
 	
 	public static final String JSP_ROOT_CRF_DATA = "/html/crf-data/data/";
 	public static final String JSP_LIST_CRF_DATA = JSP_ROOT_CRF_DATA + "list-crf-data.jsp";

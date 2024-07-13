@@ -54,6 +54,7 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import ecrf.user.model.Subject;
 import ecrf.user.service.SubjectLocalService;
+import ecrf.user.service.SubjectLocalServiceUtil;
 import ecrf.user.service.persistence.CRFAutoqueryPersistence;
 import ecrf.user.service.persistence.CRFHistoryPersistence;
 import ecrf.user.service.persistence.CRFPersistence;
@@ -70,10 +71,13 @@ import ecrf.user.service.persistence.SubjectPersistence;
 
 import java.io.Serializable;
 
+import java.lang.reflect.Field;
+
 import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 
 /**
@@ -94,7 +98,7 @@ public abstract class SubjectLocalServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>SubjectLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>ecrf.user.service.SubjectLocalServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>SubjectLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>SubjectLocalServiceUtil</code>.
 	 */
 
 	/**
@@ -532,6 +536,11 @@ public abstract class SubjectLocalServiceBaseImpl
 		return subjectPersistence.update(subject);
 	}
 
+	@Deactivate
+	protected void deactivate() {
+		_setLocalServiceUtilService(null);
+	}
+
 	@Override
 	public Class<?>[] getAopInterfaces() {
 		return new Class<?>[] {
@@ -543,6 +552,8 @@ public abstract class SubjectLocalServiceBaseImpl
 	@Override
 	public void setAopProxy(Object aopProxy) {
 		subjectLocalService = (SubjectLocalService)aopProxy;
+
+		_setLocalServiceUtilService(subjectLocalService);
 	}
 
 	/**
@@ -584,6 +595,22 @@ public abstract class SubjectLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
+		}
+	}
+
+	private void _setLocalServiceUtilService(
+		SubjectLocalService subjectLocalService) {
+
+		try {
+			Field field = SubjectLocalServiceUtil.class.getDeclaredField(
+				"_service");
+
+			field.setAccessible(true);
+
+			field.set(null, subjectLocalService);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 
