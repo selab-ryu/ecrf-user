@@ -54,6 +54,7 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import ecrf.user.model.Researcher;
 import ecrf.user.service.ResearcherLocalService;
+import ecrf.user.service.ResearcherLocalServiceUtil;
 import ecrf.user.service.persistence.CRFAutoqueryPersistence;
 import ecrf.user.service.persistence.CRFHistoryPersistence;
 import ecrf.user.service.persistence.CRFPersistence;
@@ -70,10 +71,13 @@ import ecrf.user.service.persistence.SubjectPersistence;
 
 import java.io.Serializable;
 
+import java.lang.reflect.Field;
+
 import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 
 /**
@@ -94,7 +98,7 @@ public abstract class ResearcherLocalServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>ResearcherLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>ecrf.user.service.ResearcherLocalServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>ResearcherLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>ResearcherLocalServiceUtil</code>.
 	 */
 
 	/**
@@ -538,6 +542,11 @@ public abstract class ResearcherLocalServiceBaseImpl
 		return researcherPersistence.update(researcher);
 	}
 
+	@Deactivate
+	protected void deactivate() {
+		_setLocalServiceUtilService(null);
+	}
+
 	@Override
 	public Class<?>[] getAopInterfaces() {
 		return new Class<?>[] {
@@ -549,6 +558,8 @@ public abstract class ResearcherLocalServiceBaseImpl
 	@Override
 	public void setAopProxy(Object aopProxy) {
 		researcherLocalService = (ResearcherLocalService)aopProxy;
+
+		_setLocalServiceUtilService(researcherLocalService);
 	}
 
 	/**
@@ -590,6 +601,22 @@ public abstract class ResearcherLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
+		}
+	}
+
+	private void _setLocalServiceUtilService(
+		ResearcherLocalService researcherLocalService) {
+
+		try {
+			Field field = ResearcherLocalServiceUtil.class.getDeclaredField(
+				"_service");
+
+			field.setAccessible(true);
+
+			field.set(null, researcherLocalService);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

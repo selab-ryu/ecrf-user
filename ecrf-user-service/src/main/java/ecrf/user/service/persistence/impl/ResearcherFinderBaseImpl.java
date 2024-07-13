@@ -87,13 +87,4 @@ public abstract class ResearcherFinderBaseImpl
 	private static final Log _log = LogFactoryUtil.getLog(
 		ResearcherFinderBaseImpl.class);
 
-	static {
-		try {
-			Class.forName(ECPersistenceConstants.class.getName());
-		}
-		catch (ClassNotFoundException classNotFoundException) {
-			throw new ExceptionInInitializerError(classNotFoundException);
-		}
-	}
-
 }

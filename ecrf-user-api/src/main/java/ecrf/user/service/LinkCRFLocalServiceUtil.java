@@ -14,9 +14,16 @@
 
 package ecrf.user.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import ecrf.user.model.LinkCRF;
+
+import java.io.Serializable;
+
+import java.util.List;
 
 /**
  * Provides the local service utility for LinkCRF. This utility wraps
@@ -48,16 +55,14 @@ public class LinkCRFLocalServiceUtil {
 	 * @param linkCRF the link crf
 	 * @return the link crf that was added
 	 */
-	public static ecrf.user.model.LinkCRF addLinkCRF(
-		ecrf.user.model.LinkCRF linkCRF) {
-
+	public static LinkCRF addLinkCRF(LinkCRF linkCRF) {
 		return getService().addLinkCRF(linkCRF);
 	}
 
-	public static ecrf.user.model.LinkCRF addLinkCRF(
+	public static LinkCRF addLinkCRF(
 			long subjectId, long crfId, long structuredDataId,
 			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().addLinkCRF(subjectId, crfId, structuredDataId, sc);
 	}
@@ -98,7 +103,7 @@ public class LinkCRFLocalServiceUtil {
 	 * @param linkId the primary key for the new link crf
 	 * @return the new link crf
 	 */
-	public static ecrf.user.model.LinkCRF createLinkCRF(long linkId) {
+	public static LinkCRF createLinkCRF(long linkId) {
 		return getService().createLinkCRF(linkId);
 	}
 
@@ -112,9 +117,7 @@ public class LinkCRFLocalServiceUtil {
 	 * @param linkCRF the link crf
 	 * @return the link crf that was removed
 	 */
-	public static ecrf.user.model.LinkCRF deleteLinkCRF(
-		ecrf.user.model.LinkCRF linkCRF) {
-
+	public static LinkCRF deleteLinkCRF(LinkCRF linkCRF) {
 		return getService().deleteLinkCRF(linkCRF);
 	}
 
@@ -129,32 +132,25 @@ public class LinkCRFLocalServiceUtil {
 	 * @return the link crf that was removed
 	 * @throws PortalException if a link crf with the primary key could not be found
 	 */
-	public static ecrf.user.model.LinkCRF deleteLinkCRF(long linkId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static LinkCRF deleteLinkCRF(long linkId) throws PortalException {
 		return getService().deleteLinkCRF(linkId);
 	}
 
-	public static void deleteLinkCRFs(long[] linkIds)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static void deleteLinkCRFs(long[] linkIds) throws PortalException {
 		getService().deleteLinkCRFs(linkIds);
 	}
 
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
-
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -164,9 +160,7 @@ public class LinkCRFLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -182,9 +176,8 @@ public class LinkCRFLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -202,10 +195,9 @@ public class LinkCRFLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -217,9 +209,7 @@ public class LinkCRFLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -231,13 +221,13 @@ public class LinkCRFLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static ecrf.user.model.LinkCRF fetchLinkCRF(long linkId) {
+	public static LinkCRF fetchLinkCRF(long linkId) {
 		return getService().fetchLinkCRF(linkId);
 	}
 
@@ -248,7 +238,7 @@ public class LinkCRFLocalServiceUtil {
 	 * @param groupId the primary key of the group
 	 * @return the matching link crf, or <code>null</code> if a matching link crf could not be found
 	 */
-	public static ecrf.user.model.LinkCRF fetchLinkCRFByUuidAndGroupId(
+	public static LinkCRF fetchLinkCRFByUuidAndGroupId(
 		String uuid, long groupId) {
 
 		return getService().fetchLinkCRFByUuidAndGroupId(uuid, groupId);
@@ -260,20 +250,16 @@ public class LinkCRFLocalServiceUtil {
 		return getService().getActionableDynamicQuery();
 	}
 
-	public static java.util.List<ecrf.user.model.LinkCRF> getAllLinkCRF() {
+	public static List<LinkCRF> getAllLinkCRF() {
 		return getService().getAllLinkCRF();
 	}
 
-	public static java.util.List<ecrf.user.model.LinkCRF> getAllLinkCRF(
-		int start, int end) {
-
+	public static List<LinkCRF> getAllLinkCRF(int start, int end) {
 		return getService().getAllLinkCRF(start, end);
 	}
 
-	public static java.util.List<ecrf.user.model.LinkCRF> getAllLinkCRF(
-		int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator
-			<ecrf.user.model.LinkCRF> comparator) {
+	public static List<LinkCRF> getAllLinkCRF(
+		int start, int end, OrderByComparator<LinkCRF> comparator) {
 
 		return getService().getAllLinkCRF(start, end, comparator);
 	}
@@ -300,19 +286,15 @@ public class LinkCRFLocalServiceUtil {
 	 * @return the link crf
 	 * @throws PortalException if a link crf with the primary key could not be found
 	 */
-	public static ecrf.user.model.LinkCRF getLinkCRF(long linkId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static LinkCRF getLinkCRF(long linkId) throws PortalException {
 		return getService().getLinkCRF(linkId);
 	}
 
-	public static java.util.List<ecrf.user.model.LinkCRF> getLinkCRFByC_S(
-		long crfId, long subjectId) {
-
+	public static List<LinkCRF> getLinkCRFByC_S(long crfId, long subjectId) {
 		return getService().getLinkCRFByC_S(crfId, subjectId);
 	}
 
-	public static ecrf.user.model.LinkCRF getLinkCRFByC_S_SD(
+	public static LinkCRF getLinkCRFByC_S_SD(
 			long crfId, long subjectId, long structuredDataId)
 		throws ecrf.user.exception.NoSuchLinkCRFException {
 
@@ -320,71 +302,64 @@ public class LinkCRFLocalServiceUtil {
 			crfId, subjectId, structuredDataId);
 	}
 
-	public static java.util.List<ecrf.user.model.LinkCRF> getLinkCRFByG_C(
-		long groupId, long crfId) {
-
+	public static List<LinkCRF> getLinkCRFByG_C(long groupId, long crfId) {
 		return getService().getLinkCRFByG_C(groupId, crfId);
 	}
 
-	public static java.util.List<ecrf.user.model.LinkCRF> getLinkCRFByG_C(
+	public static List<LinkCRF> getLinkCRFByG_C(
 		long groupId, long crfId, int start, int end) {
 
 		return getService().getLinkCRFByG_C(groupId, crfId, start, end);
 	}
 
-	public static java.util.List<ecrf.user.model.LinkCRF> getLinkCRFByG_C(
+	public static List<LinkCRF> getLinkCRFByG_C(
 		long groupId, long crfId, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator
-			<ecrf.user.model.LinkCRF> comparator) {
+		OrderByComparator<LinkCRF> comparator) {
 
 		return getService().getLinkCRFByG_C(
 			groupId, crfId, start, end, comparator);
 	}
 
-	public static java.util.List<ecrf.user.model.LinkCRF> getLinkCRFByG_S(
-		long groupId, long subjectId) {
-
+	public static List<LinkCRF> getLinkCRFByG_S(long groupId, long subjectId) {
 		return getService().getLinkCRFByG_S(groupId, subjectId);
 	}
 
-	public static java.util.List<ecrf.user.model.LinkCRF> getLinkCRFByG_S(
+	public static List<LinkCRF> getLinkCRFByG_S(
 		long groupId, long subjectId, int start, int end) {
 
 		return getService().getLinkCRFByG_S(groupId, subjectId, start, end);
 	}
 
-	public static java.util.List<ecrf.user.model.LinkCRF> getLinkCRFByG_S(
+	public static List<LinkCRF> getLinkCRFByG_S(
 		long groupId, long subjectId, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator
-			<ecrf.user.model.LinkCRF> comparator) {
+		OrderByComparator<LinkCRF> comparator) {
 
 		return getService().getLinkCRFByG_S(
 			groupId, subjectId, start, end, comparator);
 	}
 
-	public static java.util.List<ecrf.user.model.LinkCRF> getLinkCRFByG_S_C(
+	public static List<LinkCRF> getLinkCRFByG_S_C(
 		long groupId, long subjectId, long crfId) {
 
 		return getService().getLinkCRFByG_S_C(groupId, subjectId, crfId);
 	}
 
-	public static java.util.List<ecrf.user.model.LinkCRF> getLinkCRFByG_S_C(
+	public static List<LinkCRF> getLinkCRFByG_S_C(
 		long groupId, long subjectId, long crfId, int start, int end) {
 
 		return getService().getLinkCRFByG_S_C(
 			groupId, subjectId, crfId, start, end);
 	}
 
-	public static java.util.List<ecrf.user.model.LinkCRF> getLinkCRFByG_S_C(
+	public static List<LinkCRF> getLinkCRFByG_S_C(
 		long groupId, long subjectId, long crfId, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator
-			<ecrf.user.model.LinkCRF> comparator) {
+		OrderByComparator<LinkCRF> comparator) {
 
 		return getService().getLinkCRFByG_S_C(
 			groupId, subjectId, crfId, start, end, comparator);
 	}
 
-	public static ecrf.user.model.LinkCRF getLinkCRFByG_S_C_SD(
+	public static LinkCRF getLinkCRFByG_S_C_SD(
 			long groupId, long subjectId, long crfId, long structuredDataId)
 		throws ecrf.user.exception.NoSuchLinkCRFException {
 
@@ -392,56 +367,49 @@ public class LinkCRFLocalServiceUtil {
 			groupId, subjectId, crfId, structuredDataId);
 	}
 
-	public static java.util.List<ecrf.user.model.LinkCRF> getLinkCRFByGroupId(
-		long groupId) {
-
+	public static List<LinkCRF> getLinkCRFByGroupId(long groupId) {
 		return getService().getLinkCRFByGroupId(groupId);
 	}
 
-	public static java.util.List<ecrf.user.model.LinkCRF> getLinkCRFByGroupId(
+	public static List<LinkCRF> getLinkCRFByGroupId(
 		long groupId, int start, int end) {
 
 		return getService().getLinkCRFByGroupId(groupId, start, end);
 	}
 
-	public static java.util.List<ecrf.user.model.LinkCRF> getLinkCRFByGroupId(
+	public static List<LinkCRF> getLinkCRFByGroupId(
 		long groupId, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator
-			<ecrf.user.model.LinkCRF> comparator) {
+		OrderByComparator<LinkCRF> comparator) {
 
 		return getService().getLinkCRFByGroupId(
 			groupId, start, end, comparator);
 	}
 
-	public static ecrf.user.model.LinkCRF getLinkCRFBySdId(
-			long structuredDataId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static LinkCRF getLinkCRFBySdId(long structuredDataId)
+		throws PortalException {
 
 		return getService().getLinkCRFBySdId(structuredDataId);
 	}
 
-	public static ecrf.user.model.LinkCRF getLinkCRFBySId(long subjectId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static LinkCRF getLinkCRFBySId(long subjectId)
+		throws PortalException {
 
 		return getService().getLinkCRFBySId(subjectId);
 	}
 
-	public static java.util.List<ecrf.user.model.LinkCRF> getLinkCRFBySubjectId(
-		long subjectId) {
-
+	public static List<LinkCRF> getLinkCRFBySubjectId(long subjectId) {
 		return getService().getLinkCRFBySubjectId(subjectId);
 	}
 
-	public static java.util.List<ecrf.user.model.LinkCRF> getLinkCRFBySubjectId(
+	public static List<LinkCRF> getLinkCRFBySubjectId(
 		long subjectId, int start, int end) {
 
 		return getService().getLinkCRFBySubjectId(subjectId, start, end);
 	}
 
-	public static java.util.List<ecrf.user.model.LinkCRF> getLinkCRFBySubjectId(
+	public static List<LinkCRF> getLinkCRFBySubjectId(
 		long subjectId, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator
-			<ecrf.user.model.LinkCRF> comparator) {
+		OrderByComparator<LinkCRF> comparator) {
 
 		return getService().getLinkCRFBySubjectId(
 			subjectId, start, end, comparator);
@@ -455,9 +423,8 @@ public class LinkCRFLocalServiceUtil {
 	 * @return the matching link crf
 	 * @throws PortalException if a matching link crf could not be found
 	 */
-	public static ecrf.user.model.LinkCRF getLinkCRFByUuidAndGroupId(
-			String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static LinkCRF getLinkCRFByUuidAndGroupId(String uuid, long groupId)
+		throws PortalException {
 
 		return getService().getLinkCRFByUuidAndGroupId(uuid, groupId);
 	}
@@ -473,9 +440,7 @@ public class LinkCRFLocalServiceUtil {
 	 * @param end the upper bound of the range of link crfs (not inclusive)
 	 * @return the range of link crfs
 	 */
-	public static java.util.List<ecrf.user.model.LinkCRF> getLinkCRFs(
-		int start, int end) {
-
+	public static List<LinkCRF> getLinkCRFs(int start, int end) {
 		return getService().getLinkCRFs(start, end);
 	}
 
@@ -486,8 +451,8 @@ public class LinkCRFLocalServiceUtil {
 	 * @param companyId the primary key of the company
 	 * @return the matching link crfs, or an empty list if no matches were found
 	 */
-	public static java.util.List<ecrf.user.model.LinkCRF>
-		getLinkCRFsByUuidAndCompanyId(String uuid, long companyId) {
+	public static List<LinkCRF> getLinkCRFsByUuidAndCompanyId(
+		String uuid, long companyId) {
 
 		return getService().getLinkCRFsByUuidAndCompanyId(uuid, companyId);
 	}
@@ -502,11 +467,9 @@ public class LinkCRFLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the range of matching link crfs, or an empty list if no matches were found
 	 */
-	public static java.util.List<ecrf.user.model.LinkCRF>
-		getLinkCRFsByUuidAndCompanyId(
-			String uuid, long companyId, int start, int end,
-			com.liferay.portal.kernel.util.OrderByComparator
-				<ecrf.user.model.LinkCRF> orderByComparator) {
+	public static List<LinkCRF> getLinkCRFsByUuidAndCompanyId(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<LinkCRF> orderByComparator) {
 
 		return getService().getLinkCRFsByUuidAndCompanyId(
 			uuid, companyId, start, end, orderByComparator);
@@ -533,9 +496,8 @@ public class LinkCRFLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -550,39 +512,23 @@ public class LinkCRFLocalServiceUtil {
 	 * @param linkCRF the link crf
 	 * @return the link crf that was updated
 	 */
-	public static ecrf.user.model.LinkCRF updateLinkCRF(
-		ecrf.user.model.LinkCRF linkCRF) {
-
+	public static LinkCRF updateLinkCRF(LinkCRF linkCRF) {
 		return getService().updateLinkCRF(linkCRF);
 	}
 
-	public static ecrf.user.model.LinkCRF updateLinkCRF(
+	public static LinkCRF updateLinkCRF(
 			long linkId, long subjectId, long crfId, long structuredDataId,
 			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().updateLinkCRF(
 			linkId, subjectId, crfId, structuredDataId, sc);
 	}
 
 	public static LinkCRFLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<LinkCRFLocalService, LinkCRFLocalService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(LinkCRFLocalService.class);
-
-		ServiceTracker<LinkCRFLocalService, LinkCRFLocalService>
-			serviceTracker =
-				new ServiceTracker<LinkCRFLocalService, LinkCRFLocalService>(
-					bundle.getBundleContext(), LinkCRFLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile LinkCRFLocalService _service;
 
 }

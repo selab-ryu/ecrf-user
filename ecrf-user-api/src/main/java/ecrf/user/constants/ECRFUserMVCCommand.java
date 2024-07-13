@@ -64,6 +64,10 @@ public class ECRFUserMVCCommand {
 	public static final String RENDER_IMPORT_SUBJECTS = "/render/crf/import-subjects";
 	public static final String RENDER_IMPORT_DATAS = "/render/crf/import-datas";
 	
+	public static final String RENDER_DIALOG_CRF_RESEARCHER = "/render/crf/dialog-manage-crf-researcher";
+	public static final String RENDER_DIALOG_CRF_SUBJECT = "/render/crf/dialog-manage-crf-subject";
+	public static final String RENDER_DIALOG_CRF_SUBJECT_DB_LOCK = "/render/crf/dialog-manage-crf-subject-db-lock";
+	
 	public static final String ACTION_ADD_CRF = "/action/crf/add-crf";
 	public static final String ACTION_UPDATE_CRF = "/action/crf/update-crf";
 	public static final String ACTION_DELETE_CRF = "/action/crf/delete-crf";
@@ -74,6 +78,7 @@ public class ECRFUserMVCCommand {
 	public static final String ACTION_ADD_CRF_VIEWER = "/action/crf/add-crf-viewer";
 	public static final String ACTION_UPDATE_CRF_VIEWER = "/action/crf/update-crf-viewer";
 	
+	public static final String ACTION_REDIRECT_CRF_SUBJECT_DIALOG = "/action/crf/redirect-crf-subject-dialog";
 	
 	public static final String ACTION_MOVE_CRF = "/action/crf/move-crf";
 	public static final String ACTION_MOVE_CRF_FORM = "/action/crf/move-crf-form";

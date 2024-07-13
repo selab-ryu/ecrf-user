@@ -26,6 +26,7 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 import ecrf.user.model.CRFSubject;
 import ecrf.user.service.CRFSubjectService;
+import ecrf.user.service.CRFSubjectServiceUtil;
 import ecrf.user.service.persistence.CRFAutoqueryPersistence;
 import ecrf.user.service.persistence.CRFHistoryPersistence;
 import ecrf.user.service.persistence.CRFPersistence;
@@ -40,8 +41,11 @@ import ecrf.user.service.persistence.ResearcherPersistence;
 import ecrf.user.service.persistence.SubjectFinder;
 import ecrf.user.service.persistence.SubjectPersistence;
 
+import java.lang.reflect.Field;
+
 import javax.sql.DataSource;
 
+import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 
 /**
@@ -62,8 +66,13 @@ public abstract class CRFSubjectServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>CRFSubjectService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>ecrf.user.service.CRFSubjectServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>CRFSubjectService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>CRFSubjectServiceUtil</code>.
 	 */
+	@Deactivate
+	protected void deactivate() {
+		_setServiceUtilService(null);
+	}
+
 	@Override
 	public Class<?>[] getAopInterfaces() {
 		return new Class<?>[] {
@@ -74,6 +83,8 @@ public abstract class CRFSubjectServiceBaseImpl
 	@Override
 	public void setAopProxy(Object aopProxy) {
 		crfSubjectService = (CRFSubjectService)aopProxy;
+
+		_setServiceUtilService(crfSubjectService);
 	}
 
 	/**
@@ -115,6 +126,20 @@ public abstract class CRFSubjectServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
+		}
+	}
+
+	private void _setServiceUtilService(CRFSubjectService crfSubjectService) {
+		try {
+			Field field = CRFSubjectServiceUtil.class.getDeclaredField(
+				"_service");
+
+			field.setAccessible(true);
+
+			field.set(null, crfSubjectService);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

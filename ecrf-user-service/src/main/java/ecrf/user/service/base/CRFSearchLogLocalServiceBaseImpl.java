@@ -46,6 +46,7 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 import ecrf.user.model.CRFSearchLog;
 import ecrf.user.service.CRFSearchLogLocalService;
+import ecrf.user.service.CRFSearchLogLocalServiceUtil;
 import ecrf.user.service.persistence.CRFAutoqueryPersistence;
 import ecrf.user.service.persistence.CRFHistoryPersistence;
 import ecrf.user.service.persistence.CRFPersistence;
@@ -62,10 +63,13 @@ import ecrf.user.service.persistence.SubjectPersistence;
 
 import java.io.Serializable;
 
+import java.lang.reflect.Field;
+
 import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 
 /**
@@ -86,7 +90,7 @@ public abstract class CRFSearchLogLocalServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>CRFSearchLogLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>ecrf.user.service.CRFSearchLogLocalServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>CRFSearchLogLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>CRFSearchLogLocalServiceUtil</code>.
 	 */
 
 	/**
@@ -498,6 +502,11 @@ public abstract class CRFSearchLogLocalServiceBaseImpl
 		return crfSearchLogPersistence.update(crfSearchLog);
 	}
 
+	@Deactivate
+	protected void deactivate() {
+		_setLocalServiceUtilService(null);
+	}
+
 	@Override
 	public Class<?>[] getAopInterfaces() {
 		return new Class<?>[] {
@@ -509,6 +518,8 @@ public abstract class CRFSearchLogLocalServiceBaseImpl
 	@Override
 	public void setAopProxy(Object aopProxy) {
 		crfSearchLogLocalService = (CRFSearchLogLocalService)aopProxy;
+
+		_setLocalServiceUtilService(crfSearchLogLocalService);
 	}
 
 	/**
@@ -550,6 +561,22 @@ public abstract class CRFSearchLogLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
+		}
+	}
+
+	private void _setLocalServiceUtilService(
+		CRFSearchLogLocalService crfSearchLogLocalService) {
+
+		try {
+			Field field = CRFSearchLogLocalServiceUtil.class.getDeclaredField(
+				"_service");
+
+			field.setAccessible(true);
+
+			field.set(null, crfSearchLogLocalService);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

@@ -20,7 +20,12 @@ import com.liferay.portal.kernel.jsonwebservice.JSONWebService;
 import com.liferay.portal.kernel.security.access.control.AccessControlled;
 import com.liferay.portal.kernel.service.BaseService;
 import com.liferay.portal.kernel.transaction.Isolation;
+import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
+
+import ecrf.user.model.LinkCRF;
+
+import java.util.ArrayList;
 
 import org.osgi.annotation.versioning.ProviderType;
 
@@ -47,6 +52,9 @@ public interface LinkCRFService extends BaseService {
 	 *
 	 * Never modify this interface directly. Add custom service methods to <code>ecrf.user.service.impl.LinkCRFServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the link crf remote service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link LinkCRFServiceUtil} if injection and service tracking are not available.
 	 */
+	@JSONWebService(value = "get-all-data-by-crf")
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public ArrayList<LinkCRF> getAllLinkCRFByCRF(long groupId, long crfId);
 
 	/**
 	 * Returns the OSGi service identifier.

@@ -30,6 +30,7 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 
 import ecrf.user.model.CRFSearchLog;
 import ecrf.user.model.CRFSearchLogModel;
@@ -37,9 +38,9 @@ import ecrf.user.model.CRFSearchLogSoap;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
 import java.util.ArrayList;
@@ -265,34 +266,6 @@ public class CRFSearchLogModelImpl
 		getAttributeSetterBiConsumers() {
 
 		return _attributeSetterBiConsumers;
-	}
-
-	private static Function<InvocationHandler, CRFSearchLog>
-		_getProxyProviderFunction() {
-
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			CRFSearchLog.class.getClassLoader(), CRFSearchLog.class,
-			ModelWrapper.class);
-
-		try {
-			Constructor<CRFSearchLog> constructor =
-				(Constructor<CRFSearchLog>)proxyClass.getConstructor(
-					InvocationHandler.class);
-
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
-
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
-		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
 	}
 
 	private static final Map<String, Function<CRFSearchLog, Object>>
@@ -659,27 +632,23 @@ public class CRFSearchLogModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		CRFSearchLogModelImpl crfSearchLogModelImpl = this;
+		_originalUuid = _uuid;
 
-		crfSearchLogModelImpl._originalUuid = crfSearchLogModelImpl._uuid;
+		_originalSearchLogId = _searchLogId;
 
-		crfSearchLogModelImpl._originalSearchLogId =
-			crfSearchLogModelImpl._searchLogId;
+		_setOriginalSearchLogId = false;
 
-		crfSearchLogModelImpl._setOriginalSearchLogId = false;
+		_originalGroupId = _groupId;
 
-		crfSearchLogModelImpl._originalGroupId = crfSearchLogModelImpl._groupId;
+		_setOriginalGroupId = false;
 
-		crfSearchLogModelImpl._setOriginalGroupId = false;
+		_originalCompanyId = _companyId;
 
-		crfSearchLogModelImpl._originalCompanyId =
-			crfSearchLogModelImpl._companyId;
+		_setOriginalCompanyId = false;
 
-		crfSearchLogModelImpl._setOriginalCompanyId = false;
+		_setModifiedDate = false;
 
-		crfSearchLogModelImpl._setModifiedDate = false;
-
-		crfSearchLogModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -748,7 +717,7 @@ public class CRFSearchLogModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -759,9 +728,26 @@ public class CRFSearchLogModelImpl
 			Function<CRFSearchLog, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((CRFSearchLog)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((CRFSearchLog)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -780,7 +766,7 @@ public class CRFSearchLogModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
+			(5 * attributeGetterFunctions.size()) + 4);
 
 		sb.append("<model><model-name>");
 		sb.append(getModelClassName());
@@ -808,7 +794,9 @@ public class CRFSearchLogModelImpl
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, CRFSearchLog>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					CRFSearchLog.class, ModelWrapper.class);
 
 	}
 

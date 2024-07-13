@@ -32,6 +32,8 @@ import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -42,10 +44,12 @@ import ecrf.user.model.CRFSearchLog;
 import ecrf.user.model.impl.CRFSearchLogImpl;
 import ecrf.user.model.impl.CRFSearchLogModelImpl;
 import ecrf.user.service.persistence.CRFSearchLogPersistence;
+import ecrf.user.service.persistence.CRFSearchLogUtil;
 import ecrf.user.service.persistence.impl.constants.ECPersistenceConstants;
 
 import java.io.Serializable;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Date;
@@ -1711,6 +1715,8 @@ public class CRFSearchLogPersistenceImpl
 		crfSearchLog.resetOriginalValues();
 	}
 
+	private int _valueObjectFinderCacheListThreshold;
+
 	/**
 	 * Caches the crf search logs in the entity cache if it is enabled.
 	 *
@@ -1718,6 +1724,13 @@ public class CRFSearchLogPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<CRFSearchLog> crfSearchLogs) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (crfSearchLogs.size() > _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (CRFSearchLog crfSearchLog : crfSearchLogs) {
 			if (entityCache.getResult(
 					entityCacheEnabled, CRFSearchLogImpl.class,
@@ -1997,24 +2010,24 @@ public class CRFSearchLogPersistenceImpl
 		ServiceContext serviceContext =
 			ServiceContextThreadLocal.getServiceContext();
 
-		Date now = new Date();
+		Date date = new Date();
 
 		if (isNew && (crfSearchLog.getCreateDate() == null)) {
 			if (serviceContext == null) {
-				crfSearchLog.setCreateDate(now);
+				crfSearchLog.setCreateDate(date);
 			}
 			else {
-				crfSearchLog.setCreateDate(serviceContext.getCreateDate(now));
+				crfSearchLog.setCreateDate(serviceContext.getCreateDate(date));
 			}
 		}
 
 		if (!crfSearchLogModelImpl.hasSetModifiedDate()) {
 			if (serviceContext == null) {
-				crfSearchLog.setModifiedDate(now);
+				crfSearchLog.setModifiedDate(date);
 			}
 			else {
 				crfSearchLog.setModifiedDate(
-					serviceContext.getModifiedDate(now));
+					serviceContext.getModifiedDate(date));
 			}
 		}
 
@@ -2023,7 +2036,7 @@ public class CRFSearchLogPersistenceImpl
 		try {
 			session = openSession();
 
-			if (crfSearchLog.isNew()) {
+			if (isNew) {
 				session.save(crfSearchLog);
 
 				crfSearchLog.setNew(false);
@@ -2389,6 +2402,9 @@ public class CRFSearchLogPersistenceImpl
 		CRFSearchLogModelImpl.setEntityCacheEnabled(entityCacheEnabled);
 		CRFSearchLogModelImpl.setFinderCacheEnabled(finderCacheEnabled);
 
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, CRFSearchLogImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
@@ -2465,14 +2481,35 @@ public class CRFSearchLogPersistenceImpl
 			entityCacheEnabled, finderCacheEnabled, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countBySearchLogId",
 			new String[] {Long.class.getName()});
+
+		_setCRFSearchLogUtilPersistence(this);
 	}
 
 	@Deactivate
 	public void deactivate() {
+		_setCRFSearchLogUtilPersistence(null);
+
 		entityCache.removeCache(CRFSearchLogImpl.class.getName());
+
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+	}
+
+	private void _setCRFSearchLogUtilPersistence(
+		CRFSearchLogPersistence crfSearchLogPersistence) {
+
+		try {
+			Field field = CRFSearchLogUtil.class.getDeclaredField(
+				"_persistence");
+
+			field.setAccessible(true);
+
+			field.set(null, crfSearchLogPersistence);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
+		}
 	}
 
 	@Override
@@ -2540,14 +2577,5 @@ public class CRFSearchLogPersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid"});
-
-	static {
-		try {
-			Class.forName(ECPersistenceConstants.class.getName());
-		}
-		catch (ClassNotFoundException classNotFoundException) {
-			throw new ExceptionInInitializerError(classNotFoundException);
-		}
-	}
 
 }
