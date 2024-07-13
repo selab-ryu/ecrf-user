@@ -109,7 +109,9 @@
 		<field name="userName" type="String" />
 		<field name="createDate" type="Date" />
 		<field name="modifiedDate" type="Date" />
-		<field name="searchLog" type="String" />
+		<field name="searchLog" type="String">
+		    <hint name="max-length">2048</hint>
+		</field>
 	</model>
 	<model name="ecrf.user.model.CRFSubject">
 		<field name="mvccVersion" type="long" />
