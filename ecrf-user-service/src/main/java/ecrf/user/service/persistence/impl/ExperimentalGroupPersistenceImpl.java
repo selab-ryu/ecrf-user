@@ -34,6 +34,8 @@ import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -45,10 +47,12 @@ import ecrf.user.model.ExperimentalGroup;
 import ecrf.user.model.impl.ExperimentalGroupImpl;
 import ecrf.user.model.impl.ExperimentalGroupModelImpl;
 import ecrf.user.service.persistence.ExperimentalGroupPersistence;
+import ecrf.user.service.persistence.ExperimentalGroupUtil;
 import ecrf.user.service.persistence.impl.constants.ECPersistenceConstants;
 
 import java.io.Serializable;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
@@ -3442,6 +3446,8 @@ public class ExperimentalGroupPersistenceImpl
 		experimentalGroup.resetOriginalValues();
 	}
 
+	private int _valueObjectFinderCacheListThreshold;
+
 	/**
 	 * Caches the experimental groups in the entity cache if it is enabled.
 	 *
@@ -3449,6 +3455,14 @@ public class ExperimentalGroupPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<ExperimentalGroup> experimentalGroups) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (experimentalGroups.size() >
+				 _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (ExperimentalGroup experimentalGroup : experimentalGroups) {
 			if (entityCache.getResult(
 					entityCacheEnabled, ExperimentalGroupImpl.class,
@@ -3776,25 +3790,25 @@ public class ExperimentalGroupPersistenceImpl
 		ServiceContext serviceContext =
 			ServiceContextThreadLocal.getServiceContext();
 
-		Date now = new Date();
+		Date date = new Date();
 
 		if (isNew && (experimentalGroup.getCreateDate() == null)) {
 			if (serviceContext == null) {
-				experimentalGroup.setCreateDate(now);
+				experimentalGroup.setCreateDate(date);
 			}
 			else {
 				experimentalGroup.setCreateDate(
-					serviceContext.getCreateDate(now));
+					serviceContext.getCreateDate(date));
 			}
 		}
 
 		if (!experimentalGroupModelImpl.hasSetModifiedDate()) {
 			if (serviceContext == null) {
-				experimentalGroup.setModifiedDate(now);
+				experimentalGroup.setModifiedDate(date);
 			}
 			else {
 				experimentalGroup.setModifiedDate(
-					serviceContext.getModifiedDate(now));
+					serviceContext.getModifiedDate(date));
 			}
 		}
 
@@ -3803,7 +3817,7 @@ public class ExperimentalGroupPersistenceImpl
 		try {
 			session = openSession();
 
-			if (experimentalGroup.isNew()) {
+			if (isNew) {
 				session.save(experimentalGroup);
 
 				experimentalGroup.setNew(false);
@@ -4222,6 +4236,9 @@ public class ExperimentalGroupPersistenceImpl
 		ExperimentalGroupModelImpl.setEntityCacheEnabled(entityCacheEnabled);
 		ExperimentalGroupModelImpl.setFinderCacheEnabled(finderCacheEnabled);
 
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, ExperimentalGroupImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
@@ -4355,14 +4372,35 @@ public class ExperimentalGroupPersistenceImpl
 			entityCacheEnabled, finderCacheEnabled, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_N",
 			new String[] {Long.class.getName(), String.class.getName()});
+
+		_setExperimentalGroupUtilPersistence(this);
 	}
 
 	@Deactivate
 	public void deactivate() {
+		_setExperimentalGroupUtilPersistence(null);
+
 		entityCache.removeCache(ExperimentalGroupImpl.class.getName());
+
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+	}
+
+	private void _setExperimentalGroupUtilPersistence(
+		ExperimentalGroupPersistence experimentalGroupPersistence) {
+
+		try {
+			Field field = ExperimentalGroupUtil.class.getDeclaredField(
+				"_persistence");
+
+			field.setAccessible(true);
+
+			field.set(null, experimentalGroupPersistence);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
+		}
 	}
 
 	@Override
@@ -4454,14 +4492,5 @@ public class ExperimentalGroupPersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid", "type"});
-
-	static {
-		try {
-			Class.forName(ECPersistenceConstants.class.getName());
-		}
-		catch (ClassNotFoundException classNotFoundException) {
-			throw new ExceptionInInitializerError(classNotFoundException);
-		}
-	}
 
 }

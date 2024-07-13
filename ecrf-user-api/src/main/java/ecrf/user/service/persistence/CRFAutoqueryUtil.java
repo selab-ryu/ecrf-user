@@ -26,10 +26,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
-
 /**
  * The persistence utility for the crf autoquery service. This utility wraps <code>ecrf.user.service.persistence.impl.CRFAutoqueryPersistenceImpl</code> and provides direct access to the database for CRUD operations. This utility should only be used by the service layer, as it must operate within a transaction. Never access this utility in a JSP, controller, model, or other front-end class.
  *
@@ -2501,25 +2497,9 @@ public class CRFAutoqueryUtil {
 	}
 
 	public static CRFAutoqueryPersistence getPersistence() {
-		return _serviceTracker.getService();
+		return _persistence;
 	}
 
-	private static ServiceTracker
-		<CRFAutoqueryPersistence, CRFAutoqueryPersistence> _serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(CRFAutoqueryPersistence.class);
-
-		ServiceTracker<CRFAutoqueryPersistence, CRFAutoqueryPersistence>
-			serviceTracker =
-				new ServiceTracker
-					<CRFAutoqueryPersistence, CRFAutoqueryPersistence>(
-						bundle.getBundleContext(),
-						CRFAutoqueryPersistence.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile CRFAutoqueryPersistence _persistence;
 
 }

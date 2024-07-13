@@ -15,10 +15,15 @@
 package ecrf.user.service.impl;
 
 import com.liferay.portal.aop.AopService;
+import com.liferay.portal.kernel.jsonwebservice.JSONWebService;
 
-import ecrf.user.service.base.LinkCRFServiceBaseImpl;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.osgi.service.component.annotations.Component;
+
+import ecrf.user.model.LinkCRF;
+import ecrf.user.service.base.LinkCRFServiceBaseImpl;
 
 /**
  * @author Ryu W.C.
@@ -30,5 +35,13 @@ import org.osgi.service.component.annotations.Component;
 	},
 	service = AopService.class
 )
+@JSONWebService("link-crf")
 public class LinkCRFServiceImpl extends LinkCRFServiceBaseImpl {
+	@JSONWebService("get-all-data-by-crf")
+	public ArrayList<LinkCRF> getAllLinkCRFByCRF(long groupId, long crfId) {
+		ArrayList<LinkCRF> linkList = new ArrayList<>();
+		
+		return linkList;
+	}
+		 
 }
