@@ -14,9 +14,9 @@
 
 package ecrf.user.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import ecrf.user.model.CRFAutoquery;
+
+import java.util.List;
 
 /**
  * Provides the remote service utility for CRFAutoquery. This utility wraps
@@ -47,30 +47,14 @@ public class CRFAutoqueryServiceUtil {
 		return getService().getOSGiServiceIdentifier();
 	}
 
-	public static java.util.List<ecrf.user.model.CRFAutoquery>
-		getQueryListBySId(long subjectId) {
-
+	public static List<CRFAutoquery> getQueryListBySId(long subjectId) {
 		return getService().getQueryListBySId(subjectId);
 	}
 
 	public static CRFAutoqueryService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<CRFAutoqueryService, CRFAutoqueryService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(CRFAutoqueryService.class);
-
-		ServiceTracker<CRFAutoqueryService, CRFAutoqueryService>
-			serviceTracker =
-				new ServiceTracker<CRFAutoqueryService, CRFAutoqueryService>(
-					bundle.getBundleContext(), CRFAutoqueryService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile CRFAutoqueryService _service;
 
 }

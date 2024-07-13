@@ -30,6 +30,13 @@ public class LinkCRFServiceWrapper
 		_linkCRFService = linkCRFService;
 	}
 
+	@Override
+	public java.util.ArrayList<ecrf.user.model.LinkCRF> getAllLinkCRFByCRF(
+		long groupId, long crfId) {
+
+		return _linkCRFService.getAllLinkCRFByCRF(groupId, crfId);
+	}
+
 	/**
 	 * Returns the OSGi service identifier.
 	 *

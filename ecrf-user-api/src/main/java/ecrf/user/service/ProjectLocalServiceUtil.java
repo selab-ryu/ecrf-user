@@ -14,9 +14,16 @@
 
 package ecrf.user.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import ecrf.user.model.Project;
+
+import java.io.Serializable;
+
+import java.util.List;
 
 /**
  * Provides the local service utility for Project. This utility wraps
@@ -48,19 +55,17 @@ public class ProjectLocalServiceUtil {
 	 * @param project the project
 	 * @return the project that was added
 	 */
-	public static ecrf.user.model.Project addProject(
-		ecrf.user.model.Project project) {
-
+	public static Project addProject(Project project) {
 		return getService().addProject(project);
 	}
 
-	public static ecrf.user.model.Project addProject(
+	public static Project addProject(
 			String title, String shortTitle, String purpose, int startDateYear,
 			int startDateMonth, int startDateDay, int endDateYear,
 			int endDateMonth, int endDateDay, long principleResearcherId,
 			long manageResearcherId,
 			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().addProject(
 			title, shortTitle, purpose, startDateYear, startDateMonth,
@@ -74,17 +79,16 @@ public class ProjectLocalServiceUtil {
 	 * @param projectId the primary key for the new project
 	 * @return the new project
 	 */
-	public static ecrf.user.model.Project createProject(long projectId) {
+	public static Project createProject(long projectId) {
 		return getService().createProject(projectId);
 	}
 
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
@@ -100,9 +104,7 @@ public class ProjectLocalServiceUtil {
 	 * @return the project that was removed
 	 * @throws PortalException if a project with the primary key could not be found
 	 */
-	public static ecrf.user.model.Project deleteProject(long projectId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static Project deleteProject(long projectId) throws PortalException {
 		return getService().deleteProject(projectId);
 	}
 
@@ -116,15 +118,11 @@ public class ProjectLocalServiceUtil {
 	 * @param project the project
 	 * @return the project that was removed
 	 */
-	public static ecrf.user.model.Project deleteProject(
-		ecrf.user.model.Project project) {
-
+	public static Project deleteProject(Project project) {
 		return getService().deleteProject(project);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
-
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -134,9 +132,7 @@ public class ProjectLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -152,9 +148,8 @@ public class ProjectLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -172,10 +167,9 @@ public class ProjectLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -187,9 +181,7 @@ public class ProjectLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -201,13 +193,13 @@ public class ProjectLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static ecrf.user.model.Project fetchProject(long projectId) {
+	public static Project fetchProject(long projectId) {
 		return getService().fetchProject(projectId);
 	}
 
@@ -218,7 +210,7 @@ public class ProjectLocalServiceUtil {
 	 * @param groupId the primary key of the group
 	 * @return the matching project, or <code>null</code> if a matching project could not be found
 	 */
-	public static ecrf.user.model.Project fetchProjectByUuidAndGroupId(
+	public static Project fetchProjectByUuidAndGroupId(
 		String uuid, long groupId) {
 
 		return getService().fetchProjectByUuidAndGroupId(uuid, groupId);
@@ -257,9 +249,8 @@ public class ProjectLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -271,27 +262,22 @@ public class ProjectLocalServiceUtil {
 	 * @return the project
 	 * @throws PortalException if a project with the primary key could not be found
 	 */
-	public static ecrf.user.model.Project getProject(long projectId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static Project getProject(long projectId) throws PortalException {
 		return getService().getProject(projectId);
 	}
 
-	public static java.util.List<ecrf.user.model.Project> getProjectByGroupId(
-		long groupId) {
-
+	public static List<Project> getProjectByGroupId(long groupId) {
 		return getService().getProjectByGroupId(groupId);
 	}
 
-	public static java.util.List<ecrf.user.model.Project> getProjectByGroupId(
+	public static List<Project> getProjectByGroupId(
 		long groupId, int start, int end) {
 
 		return getService().getProjectByGroupId(groupId, start, end);
 	}
 
-	public static java.util.List<ecrf.user.model.Project> getProjectByGroupId(
-		long groupId, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator comparator) {
+	public static List<Project> getProjectByGroupId(
+		long groupId, int start, int end, OrderByComparator comparator) {
 
 		return getService().getProjectByGroupId(
 			groupId, start, end, comparator);
@@ -305,9 +291,8 @@ public class ProjectLocalServiceUtil {
 	 * @return the matching project
 	 * @throws PortalException if a matching project could not be found
 	 */
-	public static ecrf.user.model.Project getProjectByUuidAndGroupId(
-			String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Project getProjectByUuidAndGroupId(String uuid, long groupId)
+		throws PortalException {
 
 		return getService().getProjectByUuidAndGroupId(uuid, groupId);
 	}
@@ -327,9 +312,7 @@ public class ProjectLocalServiceUtil {
 	 * @param end the upper bound of the range of projects (not inclusive)
 	 * @return the range of projects
 	 */
-	public static java.util.List<ecrf.user.model.Project> getProjects(
-		int start, int end) {
-
+	public static List<Project> getProjects(int start, int end) {
 		return getService().getProjects(start, end);
 	}
 
@@ -340,8 +323,8 @@ public class ProjectLocalServiceUtil {
 	 * @param companyId the primary key of the company
 	 * @return the matching projects, or an empty list if no matches were found
 	 */
-	public static java.util.List<ecrf.user.model.Project>
-		getProjectsByUuidAndCompanyId(String uuid, long companyId) {
+	public static List<Project> getProjectsByUuidAndCompanyId(
+		String uuid, long companyId) {
 
 		return getService().getProjectsByUuidAndCompanyId(uuid, companyId);
 	}
@@ -356,11 +339,9 @@ public class ProjectLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the range of matching projects, or an empty list if no matches were found
 	 */
-	public static java.util.List<ecrf.user.model.Project>
-		getProjectsByUuidAndCompanyId(
-			String uuid, long companyId, int start, int end,
-			com.liferay.portal.kernel.util.OrderByComparator
-				<ecrf.user.model.Project> orderByComparator) {
+	public static List<Project> getProjectsByUuidAndCompanyId(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<Project> orderByComparator) {
 
 		return getService().getProjectsByUuidAndCompanyId(
 			uuid, companyId, start, end, orderByComparator);
@@ -375,13 +356,13 @@ public class ProjectLocalServiceUtil {
 		return getService().getProjectsCount();
 	}
 
-	public static ecrf.user.model.Project updateProject(
+	public static Project updateProject(
 			long projectId, String title, String shortTitle, String purpose,
 			int startDateYear, int startDateMonth, int startDateDay,
 			int endDateYear, int endDateMonth, int endDateDay,
 			long principleResearcherId, long manageResearcherId,
 			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().updateProject(
 			projectId, title, shortTitle, purpose, startDateYear,
@@ -399,30 +380,14 @@ public class ProjectLocalServiceUtil {
 	 * @param project the project
 	 * @return the project that was updated
 	 */
-	public static ecrf.user.model.Project updateProject(
-		ecrf.user.model.Project project) {
-
+	public static Project updateProject(Project project) {
 		return getService().updateProject(project);
 	}
 
 	public static ProjectLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<ProjectLocalService, ProjectLocalService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(ProjectLocalService.class);
-
-		ServiceTracker<ProjectLocalService, ProjectLocalService>
-			serviceTracker =
-				new ServiceTracker<ProjectLocalService, ProjectLocalService>(
-					bundle.getBundleContext(), ProjectLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile ProjectLocalService _service;
 
 }

@@ -14,9 +14,16 @@
 
 package ecrf.user.service.http;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+
+import ecrf.user.service.LinkCRFServiceUtil;
+
+import java.rmi.RemoteException;
+
 /**
  * Provides the SOAP utility for the
- * <code>ecrf.user.service.LinkCRFServiceUtil</code> service
+ * <code>LinkCRFServiceUtil</code> service
  * utility. The static methods of this class call the same methods of the
  * service utility. However, the signatures are different because it is
  * difficult for SOAP to support certain types.
@@ -54,4 +61,24 @@ package ecrf.user.service.http;
  * @generated
  */
 public class LinkCRFServiceSoap {
+
+	public static java.util.ArrayList<ecrf.user.model.LinkCRF>
+			getAllLinkCRFByCRF(long groupId, long crfId)
+		throws RemoteException {
+
+		try {
+			java.util.ArrayList<ecrf.user.model.LinkCRF> returnValue =
+				LinkCRFServiceUtil.getAllLinkCRFByCRF(groupId, crfId);
+
+			return returnValue;
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	private static Log _log = LogFactoryUtil.getLog(LinkCRFServiceSoap.class);
+
 }
