@@ -173,21 +173,8 @@ public class CRFSubjectLocalServiceImpl extends CRFSubjectLocalServiceBaseImpl {
 			// remove crf-data
 			List<LinkCRF> linkList = _linkCRFLocalService.getLinkCRFByG_S_C(groupId, subjectId, crfId);
 			for(LinkCRF link : linkList) {
-				_linkCRFLocalService.deleteLinkCRF(link);
-			}
-			
-			// remove crf-query
-			List<CRFAutoquery> crfAutoQueryList = _crfAutoQueryLocalService.getQueryByG_C_S(groupId, subjectId, crfId);
-			for(CRFAutoquery query : crfAutoQueryList) {
-				_crfAutoQueryLocalService.deleteCRFAutoquery(query);
-			}
-			
-			// remove crf-history
-			List<CRFHistory> historyList = _crfHistoryLocalService.getCRFHistoryByG_S_C(groupId, subjectId, crfId);
-			for(CRFHistory history : historyList) {
-				_crfHistoryLocalService.deleteCRFHistory(history);
-			}
-			
+				_linkCRFLocalService.deleteLinkCRF(link.getLinkId());
+			}			
 		}
 		
 		return crfSubject;

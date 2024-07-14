@@ -32,7 +32,11 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 import ecrf.user.exception.NoSuchLinkCRFException;
+import ecrf.user.model.CRFAutoquery;
+import ecrf.user.model.CRFHistory;
 import ecrf.user.model.LinkCRF;
+import ecrf.user.service.CRFAutoqueryLocalService;
+import ecrf.user.service.CRFHistoryLocalService;
 import ecrf.user.service.base.LinkCRFLocalServiceBaseImpl;
 
 /**
@@ -120,8 +124,19 @@ public class LinkCRFLocalServiceImpl extends LinkCRFLocalServiceBaseImpl {
 	public LinkCRF deleteLinkCRF(long linkId) throws PortalException {
 		LinkCRF linkCRF = super.linkCRFPersistence.remove(linkId);
 		
-		// TODO : need to set data file folder id
 		_dataTypeLocalService.removeStructuredData(linkCRF.getStructuredDataId(), 0);
+		
+		// remove crf-query
+		List<CRFAutoquery> crfAutoQueryList = _crfAutoQueryLocalService.getQueryByG_C_S(linkCRF.getGroupId(), linkCRF.getCrfId(), linkCRF.getSubjectId());
+		for(CRFAutoquery query : crfAutoQueryList) {
+			_crfAutoQueryLocalService.deleteCRFAutoquery(query.getAutoQueryId());
+		}
+		
+		// remove crf-history
+		List<CRFHistory> historyList = _crfHistoryLocalService.getCRFHistoryByG_C_S(linkCRF.getGroupId(), linkCRF.getCrfId(), linkCRF.getSubjectId());
+		for(CRFHistory history : historyList) {
+			_crfHistoryLocalService.deleteCRFHistory(history.getHistoryId());
+		}
 		
 		resourceLocalService.deleteResource(
 			linkCRF.getCompanyId(), LinkCRF.class.getName(), 
@@ -229,6 +244,12 @@ public class LinkCRFLocalServiceImpl extends LinkCRFLocalServiceBaseImpl {
 	public List<LinkCRF> getLinkCRFByC_S(long crfId, long subjectId) {
 		return super.linkCRFPersistence.findByC_S(crfId, subjectId);
 	}
+	
+	@Reference
+	private CRFAutoqueryLocalService _crfAutoQueryLocalService;
+	
+	@Reference
+	private CRFHistoryLocalService _crfHistoryLocalService;
 	
 	@Reference
 	private DataTypeLocalService _dataTypeLocalService;

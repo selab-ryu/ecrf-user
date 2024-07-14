@@ -211,30 +211,30 @@ public class CRFHistoryLocalServiceImpl extends CRFHistoryLocalServiceBaseImpl {
 		return super.crfHistoryPersistence.findByG_C(groupId, crfId);
 	}
 	
-	public List<CRFHistory> getCRFHistoryByG_S_C(long groupId, long subjectId, long crfId) {
-		return super.crfHistoryPersistence.findByG_S_C(groupId, subjectId, crfId);
+	public List<CRFHistory> getCRFHistoryByG_C_S(long groupId, long subjectId, long crfId) {
+		return super.crfHistoryPersistence.findByG_C_S(groupId, subjectId, crfId);
 	}
-	public List<CRFHistory> getCRFHistoryByG_S_C(long groupId, long subjectId, long crfId, int start, int end) {
-		return super.crfHistoryPersistence.findByG_S_C(groupId, subjectId, crfId, start, end);
+	public List<CRFHistory> getCRFHistoryByG_C_S(long groupId, long subjectId, long crfId, int start, int end) {
+		return super.crfHistoryPersistence.findByG_C_S(groupId, subjectId, crfId, start, end);
 	}
-	public List<CRFHistory> getCRFHistoryByG_S_C(long groupId, long subjectId, long crfId, int start, int end, OrderByComparator<CRFHistory> comparator) {
-		return super.crfHistoryPersistence.findByG_S_C(groupId, subjectId, crfId, start, end, comparator);
+	public List<CRFHistory> getCRFHistoryByG_C_S(long groupId, long subjectId, long crfId, int start, int end, OrderByComparator<CRFHistory> comparator) {
+		return super.crfHistoryPersistence.findByG_C_S(groupId, subjectId, crfId, start, end, comparator);
 	}
-	public int countCRFHistoryByG_S_C(long groupId, long subjectId, long crfId) {
-		return super.crfHistoryPersistence.countByG_S_C(groupId, subjectId, crfId);
+	public int countCRFHistoryByG_C_S(long groupId, long subjectId, long crfId) {
+		return super.crfHistoryPersistence.countByG_C_S(groupId, subjectId, crfId);
 	}
 	
-	public List<CRFHistory> getCRFHistoryByG_S_C_SD(long groupId, long subjectId, long crfId, long structuredDataId) {
-		return super.crfHistoryPersistence.findByG_S_C_SD(groupId, subjectId, crfId, structuredDataId);
+	public List<CRFHistory> getCRFHistoryByG_C_S_SD(long groupId, long subjectId, long crfId, long structuredDataId) {
+		return super.crfHistoryPersistence.findByG_C_S_SD(groupId, subjectId, crfId, structuredDataId);
 	}
-	public List<CRFHistory> getCRFHistoryByG_S_C_SD(long groupId, long subjectId, long crfId, long structuredDataId, int start, int end) {
-		return super.crfHistoryPersistence.findByG_S_C_SD(groupId, subjectId, crfId, structuredDataId, start, end);
+	public List<CRFHistory> getCRFHistoryByG_C_S_SD(long groupId, long subjectId, long crfId, long structuredDataId, int start, int end) {
+		return super.crfHistoryPersistence.findByG_C_S_SD(groupId, subjectId, crfId, structuredDataId, start, end);
 	}
-	public List<CRFHistory> getCRFHistoryByG_S_C_SD(long groupId, long subjectId, long crfId, long structuredDataId, int start, int end, OrderByComparator<CRFHistory> comparator) {
-		return super.crfHistoryPersistence.findByG_S_C_SD(groupId, subjectId, crfId, structuredDataId, start, end, comparator);
+	public List<CRFHistory> getCRFHistoryByG_C_S_SD(long groupId, long subjectId, long crfId, long structuredDataId, int start, int end, OrderByComparator<CRFHistory> comparator) {
+		return super.crfHistoryPersistence.findByG_C_S_SD(groupId, subjectId, crfId, structuredDataId, start, end, comparator);
 	}
-	public int countCRFHistoryByG_S_C_SD(long groupId, long subjectId, long crfId, long structuredDataId) {
-		return super.crfHistoryPersistence.countByG_S_C_SD(groupId, subjectId, crfId, structuredDataId);
+	public int countCRFHistoryByG_C_S_SD(long groupId, long subjectId, long crfId, long structuredDataId) {
+		return super.crfHistoryPersistence.countByG_C_S_SD(groupId, subjectId, crfId, structuredDataId);
 	}
 	
 	public List<CRFHistory> getCRFHistoryByC_S(long crfId, long subjectId) {

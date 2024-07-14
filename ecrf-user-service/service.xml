@@ -511,15 +511,15 @@
 			<finder-column name="groupId" />
 			<finder-column name="crfId" />
 		</finder>
-		<finder name="G_S_C" return-type="Collection">
+		<finder name="G_C_S" return-type="Collection">
 			<finder-column name="groupId" />
-			<finder-column name="subjectId" />
 			<finder-column name="crfId" />
+			<finder-column name="subjectId" />
 		</finder>
-		<finder name="G_S_C_SD" return-type="Collection">
+		<finder name="G_C_S_SD" return-type="Collection">
 			<finder-column name="groupId" />
-			<finder-column name="subjectId" />
 			<finder-column name="crfId" />
+			<finder-column name="subjectId" />
 			<finder-column name="structuredDataId" />
 		</finder>
 		

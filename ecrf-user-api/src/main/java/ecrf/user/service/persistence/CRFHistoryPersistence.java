@@ -1755,309 +1755,309 @@ public interface CRFHistoryPersistence extends BasePersistence<CRFHistory> {
 	public int filterCountByG_C(long groupId, long crfId);
 
 	/**
-	 * Returns all the crf histories where groupId = &#63; and subjectId = &#63; and crfId = &#63;.
+	 * Returns all the crf histories where groupId = &#63; and crfId = &#63; and subjectId = &#63;.
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @return the matching crf histories
 	 */
-	public java.util.List<CRFHistory> findByG_S_C(
-		long groupId, long subjectId, long crfId);
+	public java.util.List<CRFHistory> findByG_C_S(
+		long groupId, long crfId, long subjectId);
 
 	/**
-	 * Returns a range of all the crf histories where groupId = &#63; and subjectId = &#63; and crfId = &#63;.
+	 * Returns a range of all the crf histories where groupId = &#63; and crfId = &#63; and subjectId = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFHistoryModelImpl</code>.
 	 * </p>
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @param start the lower bound of the range of crf histories
 	 * @param end the upper bound of the range of crf histories (not inclusive)
 	 * @return the range of matching crf histories
 	 */
-	public java.util.List<CRFHistory> findByG_S_C(
-		long groupId, long subjectId, long crfId, int start, int end);
+	public java.util.List<CRFHistory> findByG_C_S(
+		long groupId, long crfId, long subjectId, int start, int end);
 
 	/**
-	 * Returns an ordered range of all the crf histories where groupId = &#63; and subjectId = &#63; and crfId = &#63;.
+	 * Returns an ordered range of all the crf histories where groupId = &#63; and crfId = &#63; and subjectId = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFHistoryModelImpl</code>.
 	 * </p>
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @param start the lower bound of the range of crf histories
 	 * @param end the upper bound of the range of crf histories (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching crf histories
 	 */
-	public java.util.List<CRFHistory> findByG_S_C(
-		long groupId, long subjectId, long crfId, int start, int end,
+	public java.util.List<CRFHistory> findByG_C_S(
+		long groupId, long crfId, long subjectId, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator<CRFHistory>
 			orderByComparator);
 
 	/**
-	 * Returns an ordered range of all the crf histories where groupId = &#63; and subjectId = &#63; and crfId = &#63;.
+	 * Returns an ordered range of all the crf histories where groupId = &#63; and crfId = &#63; and subjectId = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFHistoryModelImpl</code>.
 	 * </p>
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @param start the lower bound of the range of crf histories
 	 * @param end the upper bound of the range of crf histories (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @param useFinderCache whether to use the finder cache
 	 * @return the ordered range of matching crf histories
 	 */
-	public java.util.List<CRFHistory> findByG_S_C(
-		long groupId, long subjectId, long crfId, int start, int end,
+	public java.util.List<CRFHistory> findByG_C_S(
+		long groupId, long crfId, long subjectId, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator<CRFHistory>
 			orderByComparator,
 		boolean useFinderCache);
 
 	/**
-	 * Returns the first crf history in the ordered set where groupId = &#63; and subjectId = &#63; and crfId = &#63;.
+	 * Returns the first crf history in the ordered set where groupId = &#63; and crfId = &#63; and subjectId = &#63;.
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching crf history
 	 * @throws NoSuchCRFHistoryException if a matching crf history could not be found
 	 */
-	public CRFHistory findByG_S_C_First(
-			long groupId, long subjectId, long crfId,
+	public CRFHistory findByG_C_S_First(
+			long groupId, long crfId, long subjectId,
 			com.liferay.portal.kernel.util.OrderByComparator<CRFHistory>
 				orderByComparator)
 		throws NoSuchCRFHistoryException;
 
 	/**
-	 * Returns the first crf history in the ordered set where groupId = &#63; and subjectId = &#63; and crfId = &#63;.
+	 * Returns the first crf history in the ordered set where groupId = &#63; and crfId = &#63; and subjectId = &#63;.
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching crf history, or <code>null</code> if a matching crf history could not be found
 	 */
-	public CRFHistory fetchByG_S_C_First(
-		long groupId, long subjectId, long crfId,
+	public CRFHistory fetchByG_C_S_First(
+		long groupId, long crfId, long subjectId,
 		com.liferay.portal.kernel.util.OrderByComparator<CRFHistory>
 			orderByComparator);
 
 	/**
-	 * Returns the last crf history in the ordered set where groupId = &#63; and subjectId = &#63; and crfId = &#63;.
+	 * Returns the last crf history in the ordered set where groupId = &#63; and crfId = &#63; and subjectId = &#63;.
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching crf history
 	 * @throws NoSuchCRFHistoryException if a matching crf history could not be found
 	 */
-	public CRFHistory findByG_S_C_Last(
-			long groupId, long subjectId, long crfId,
+	public CRFHistory findByG_C_S_Last(
+			long groupId, long crfId, long subjectId,
 			com.liferay.portal.kernel.util.OrderByComparator<CRFHistory>
 				orderByComparator)
 		throws NoSuchCRFHistoryException;
 
 	/**
-	 * Returns the last crf history in the ordered set where groupId = &#63; and subjectId = &#63; and crfId = &#63;.
+	 * Returns the last crf history in the ordered set where groupId = &#63; and crfId = &#63; and subjectId = &#63;.
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching crf history, or <code>null</code> if a matching crf history could not be found
 	 */
-	public CRFHistory fetchByG_S_C_Last(
-		long groupId, long subjectId, long crfId,
+	public CRFHistory fetchByG_C_S_Last(
+		long groupId, long crfId, long subjectId,
 		com.liferay.portal.kernel.util.OrderByComparator<CRFHistory>
 			orderByComparator);
 
 	/**
-	 * Returns the crf histories before and after the current crf history in the ordered set where groupId = &#63; and subjectId = &#63; and crfId = &#63;.
+	 * Returns the crf histories before and after the current crf history in the ordered set where groupId = &#63; and crfId = &#63; and subjectId = &#63;.
 	 *
 	 * @param historyId the primary key of the current crf history
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next crf history
 	 * @throws NoSuchCRFHistoryException if a crf history with the primary key could not be found
 	 */
-	public CRFHistory[] findByG_S_C_PrevAndNext(
-			long historyId, long groupId, long subjectId, long crfId,
+	public CRFHistory[] findByG_C_S_PrevAndNext(
+			long historyId, long groupId, long crfId, long subjectId,
 			com.liferay.portal.kernel.util.OrderByComparator<CRFHistory>
 				orderByComparator)
 		throws NoSuchCRFHistoryException;
 
 	/**
-	 * Returns all the crf histories that the user has permission to view where groupId = &#63; and subjectId = &#63; and crfId = &#63;.
+	 * Returns all the crf histories that the user has permission to view where groupId = &#63; and crfId = &#63; and subjectId = &#63;.
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @return the matching crf histories that the user has permission to view
 	 */
-	public java.util.List<CRFHistory> filterFindByG_S_C(
-		long groupId, long subjectId, long crfId);
+	public java.util.List<CRFHistory> filterFindByG_C_S(
+		long groupId, long crfId, long subjectId);
 
 	/**
-	 * Returns a range of all the crf histories that the user has permission to view where groupId = &#63; and subjectId = &#63; and crfId = &#63;.
+	 * Returns a range of all the crf histories that the user has permission to view where groupId = &#63; and crfId = &#63; and subjectId = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFHistoryModelImpl</code>.
 	 * </p>
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @param start the lower bound of the range of crf histories
 	 * @param end the upper bound of the range of crf histories (not inclusive)
 	 * @return the range of matching crf histories that the user has permission to view
 	 */
-	public java.util.List<CRFHistory> filterFindByG_S_C(
-		long groupId, long subjectId, long crfId, int start, int end);
+	public java.util.List<CRFHistory> filterFindByG_C_S(
+		long groupId, long crfId, long subjectId, int start, int end);
 
 	/**
-	 * Returns an ordered range of all the crf histories that the user has permissions to view where groupId = &#63; and subjectId = &#63; and crfId = &#63;.
+	 * Returns an ordered range of all the crf histories that the user has permissions to view where groupId = &#63; and crfId = &#63; and subjectId = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFHistoryModelImpl</code>.
 	 * </p>
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @param start the lower bound of the range of crf histories
 	 * @param end the upper bound of the range of crf histories (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching crf histories that the user has permission to view
 	 */
-	public java.util.List<CRFHistory> filterFindByG_S_C(
-		long groupId, long subjectId, long crfId, int start, int end,
+	public java.util.List<CRFHistory> filterFindByG_C_S(
+		long groupId, long crfId, long subjectId, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator<CRFHistory>
 			orderByComparator);
 
 	/**
-	 * Returns the crf histories before and after the current crf history in the ordered set of crf histories that the user has permission to view where groupId = &#63; and subjectId = &#63; and crfId = &#63;.
+	 * Returns the crf histories before and after the current crf history in the ordered set of crf histories that the user has permission to view where groupId = &#63; and crfId = &#63; and subjectId = &#63;.
 	 *
 	 * @param historyId the primary key of the current crf history
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next crf history
 	 * @throws NoSuchCRFHistoryException if a crf history with the primary key could not be found
 	 */
-	public CRFHistory[] filterFindByG_S_C_PrevAndNext(
-			long historyId, long groupId, long subjectId, long crfId,
+	public CRFHistory[] filterFindByG_C_S_PrevAndNext(
+			long historyId, long groupId, long crfId, long subjectId,
 			com.liferay.portal.kernel.util.OrderByComparator<CRFHistory>
 				orderByComparator)
 		throws NoSuchCRFHistoryException;
 
 	/**
-	 * Removes all the crf histories where groupId = &#63; and subjectId = &#63; and crfId = &#63; from the database.
+	 * Removes all the crf histories where groupId = &#63; and crfId = &#63; and subjectId = &#63; from the database.
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 */
-	public void removeByG_S_C(long groupId, long subjectId, long crfId);
+	public void removeByG_C_S(long groupId, long crfId, long subjectId);
 
 	/**
-	 * Returns the number of crf histories where groupId = &#63; and subjectId = &#63; and crfId = &#63;.
+	 * Returns the number of crf histories where groupId = &#63; and crfId = &#63; and subjectId = &#63;.
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @return the number of matching crf histories
 	 */
-	public int countByG_S_C(long groupId, long subjectId, long crfId);
+	public int countByG_C_S(long groupId, long crfId, long subjectId);
 
 	/**
-	 * Returns the number of crf histories that the user has permission to view where groupId = &#63; and subjectId = &#63; and crfId = &#63;.
+	 * Returns the number of crf histories that the user has permission to view where groupId = &#63; and crfId = &#63; and subjectId = &#63;.
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @return the number of matching crf histories that the user has permission to view
 	 */
-	public int filterCountByG_S_C(long groupId, long subjectId, long crfId);
+	public int filterCountByG_C_S(long groupId, long crfId, long subjectId);
 
 	/**
-	 * Returns all the crf histories where groupId = &#63; and subjectId = &#63; and crfId = &#63; and structuredDataId = &#63;.
+	 * Returns all the crf histories where groupId = &#63; and crfId = &#63; and subjectId = &#63; and structuredDataId = &#63;.
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @param structuredDataId the structured data ID
 	 * @return the matching crf histories
 	 */
-	public java.util.List<CRFHistory> findByG_S_C_SD(
-		long groupId, long subjectId, long crfId, long structuredDataId);
+	public java.util.List<CRFHistory> findByG_C_S_SD(
+		long groupId, long crfId, long subjectId, long structuredDataId);
 
 	/**
-	 * Returns a range of all the crf histories where groupId = &#63; and subjectId = &#63; and crfId = &#63; and structuredDataId = &#63;.
+	 * Returns a range of all the crf histories where groupId = &#63; and crfId = &#63; and subjectId = &#63; and structuredDataId = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFHistoryModelImpl</code>.
 	 * </p>
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @param structuredDataId the structured data ID
 	 * @param start the lower bound of the range of crf histories
 	 * @param end the upper bound of the range of crf histories (not inclusive)
 	 * @return the range of matching crf histories
 	 */
-	public java.util.List<CRFHistory> findByG_S_C_SD(
-		long groupId, long subjectId, long crfId, long structuredDataId,
+	public java.util.List<CRFHistory> findByG_C_S_SD(
+		long groupId, long crfId, long subjectId, long structuredDataId,
 		int start, int end);
 
 	/**
-	 * Returns an ordered range of all the crf histories where groupId = &#63; and subjectId = &#63; and crfId = &#63; and structuredDataId = &#63;.
+	 * Returns an ordered range of all the crf histories where groupId = &#63; and crfId = &#63; and subjectId = &#63; and structuredDataId = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFHistoryModelImpl</code>.
 	 * </p>
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @param structuredDataId the structured data ID
 	 * @param start the lower bound of the range of crf histories
 	 * @param end the upper bound of the range of crf histories (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching crf histories
 	 */
-	public java.util.List<CRFHistory> findByG_S_C_SD(
-		long groupId, long subjectId, long crfId, long structuredDataId,
+	public java.util.List<CRFHistory> findByG_C_S_SD(
+		long groupId, long crfId, long subjectId, long structuredDataId,
 		int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator<CRFHistory>
 			orderByComparator);
 
 	/**
-	 * Returns an ordered range of all the crf histories where groupId = &#63; and subjectId = &#63; and crfId = &#63; and structuredDataId = &#63;.
+	 * Returns an ordered range of all the crf histories where groupId = &#63; and crfId = &#63; and subjectId = &#63; and structuredDataId = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFHistoryModelImpl</code>.
 	 * </p>
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @param structuredDataId the structured data ID
 	 * @param start the lower bound of the range of crf histories
 	 * @param end the upper bound of the range of crf histories (not inclusive)
@@ -2065,202 +2065,202 @@ public interface CRFHistoryPersistence extends BasePersistence<CRFHistory> {
 	 * @param useFinderCache whether to use the finder cache
 	 * @return the ordered range of matching crf histories
 	 */
-	public java.util.List<CRFHistory> findByG_S_C_SD(
-		long groupId, long subjectId, long crfId, long structuredDataId,
+	public java.util.List<CRFHistory> findByG_C_S_SD(
+		long groupId, long crfId, long subjectId, long structuredDataId,
 		int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator<CRFHistory>
 			orderByComparator,
 		boolean useFinderCache);
 
 	/**
-	 * Returns the first crf history in the ordered set where groupId = &#63; and subjectId = &#63; and crfId = &#63; and structuredDataId = &#63;.
+	 * Returns the first crf history in the ordered set where groupId = &#63; and crfId = &#63; and subjectId = &#63; and structuredDataId = &#63;.
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @param structuredDataId the structured data ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching crf history
 	 * @throws NoSuchCRFHistoryException if a matching crf history could not be found
 	 */
-	public CRFHistory findByG_S_C_SD_First(
-			long groupId, long subjectId, long crfId, long structuredDataId,
+	public CRFHistory findByG_C_S_SD_First(
+			long groupId, long crfId, long subjectId, long structuredDataId,
 			com.liferay.portal.kernel.util.OrderByComparator<CRFHistory>
 				orderByComparator)
 		throws NoSuchCRFHistoryException;
 
 	/**
-	 * Returns the first crf history in the ordered set where groupId = &#63; and subjectId = &#63; and crfId = &#63; and structuredDataId = &#63;.
+	 * Returns the first crf history in the ordered set where groupId = &#63; and crfId = &#63; and subjectId = &#63; and structuredDataId = &#63;.
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @param structuredDataId the structured data ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching crf history, or <code>null</code> if a matching crf history could not be found
 	 */
-	public CRFHistory fetchByG_S_C_SD_First(
-		long groupId, long subjectId, long crfId, long structuredDataId,
+	public CRFHistory fetchByG_C_S_SD_First(
+		long groupId, long crfId, long subjectId, long structuredDataId,
 		com.liferay.portal.kernel.util.OrderByComparator<CRFHistory>
 			orderByComparator);
 
 	/**
-	 * Returns the last crf history in the ordered set where groupId = &#63; and subjectId = &#63; and crfId = &#63; and structuredDataId = &#63;.
+	 * Returns the last crf history in the ordered set where groupId = &#63; and crfId = &#63; and subjectId = &#63; and structuredDataId = &#63;.
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @param structuredDataId the structured data ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching crf history
 	 * @throws NoSuchCRFHistoryException if a matching crf history could not be found
 	 */
-	public CRFHistory findByG_S_C_SD_Last(
-			long groupId, long subjectId, long crfId, long structuredDataId,
+	public CRFHistory findByG_C_S_SD_Last(
+			long groupId, long crfId, long subjectId, long structuredDataId,
 			com.liferay.portal.kernel.util.OrderByComparator<CRFHistory>
 				orderByComparator)
 		throws NoSuchCRFHistoryException;
 
 	/**
-	 * Returns the last crf history in the ordered set where groupId = &#63; and subjectId = &#63; and crfId = &#63; and structuredDataId = &#63;.
+	 * Returns the last crf history in the ordered set where groupId = &#63; and crfId = &#63; and subjectId = &#63; and structuredDataId = &#63;.
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @param structuredDataId the structured data ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching crf history, or <code>null</code> if a matching crf history could not be found
 	 */
-	public CRFHistory fetchByG_S_C_SD_Last(
-		long groupId, long subjectId, long crfId, long structuredDataId,
+	public CRFHistory fetchByG_C_S_SD_Last(
+		long groupId, long crfId, long subjectId, long structuredDataId,
 		com.liferay.portal.kernel.util.OrderByComparator<CRFHistory>
 			orderByComparator);
 
 	/**
-	 * Returns the crf histories before and after the current crf history in the ordered set where groupId = &#63; and subjectId = &#63; and crfId = &#63; and structuredDataId = &#63;.
+	 * Returns the crf histories before and after the current crf history in the ordered set where groupId = &#63; and crfId = &#63; and subjectId = &#63; and structuredDataId = &#63;.
 	 *
 	 * @param historyId the primary key of the current crf history
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @param structuredDataId the structured data ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next crf history
 	 * @throws NoSuchCRFHistoryException if a crf history with the primary key could not be found
 	 */
-	public CRFHistory[] findByG_S_C_SD_PrevAndNext(
-			long historyId, long groupId, long subjectId, long crfId,
+	public CRFHistory[] findByG_C_S_SD_PrevAndNext(
+			long historyId, long groupId, long crfId, long subjectId,
 			long structuredDataId,
 			com.liferay.portal.kernel.util.OrderByComparator<CRFHistory>
 				orderByComparator)
 		throws NoSuchCRFHistoryException;
 
 	/**
-	 * Returns all the crf histories that the user has permission to view where groupId = &#63; and subjectId = &#63; and crfId = &#63; and structuredDataId = &#63;.
+	 * Returns all the crf histories that the user has permission to view where groupId = &#63; and crfId = &#63; and subjectId = &#63; and structuredDataId = &#63;.
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @param structuredDataId the structured data ID
 	 * @return the matching crf histories that the user has permission to view
 	 */
-	public java.util.List<CRFHistory> filterFindByG_S_C_SD(
-		long groupId, long subjectId, long crfId, long structuredDataId);
+	public java.util.List<CRFHistory> filterFindByG_C_S_SD(
+		long groupId, long crfId, long subjectId, long structuredDataId);
 
 	/**
-	 * Returns a range of all the crf histories that the user has permission to view where groupId = &#63; and subjectId = &#63; and crfId = &#63; and structuredDataId = &#63;.
+	 * Returns a range of all the crf histories that the user has permission to view where groupId = &#63; and crfId = &#63; and subjectId = &#63; and structuredDataId = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFHistoryModelImpl</code>.
 	 * </p>
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @param structuredDataId the structured data ID
 	 * @param start the lower bound of the range of crf histories
 	 * @param end the upper bound of the range of crf histories (not inclusive)
 	 * @return the range of matching crf histories that the user has permission to view
 	 */
-	public java.util.List<CRFHistory> filterFindByG_S_C_SD(
-		long groupId, long subjectId, long crfId, long structuredDataId,
+	public java.util.List<CRFHistory> filterFindByG_C_S_SD(
+		long groupId, long crfId, long subjectId, long structuredDataId,
 		int start, int end);
 
 	/**
-	 * Returns an ordered range of all the crf histories that the user has permissions to view where groupId = &#63; and subjectId = &#63; and crfId = &#63; and structuredDataId = &#63;.
+	 * Returns an ordered range of all the crf histories that the user has permissions to view where groupId = &#63; and crfId = &#63; and subjectId = &#63; and structuredDataId = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFHistoryModelImpl</code>.
 	 * </p>
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @param structuredDataId the structured data ID
 	 * @param start the lower bound of the range of crf histories
 	 * @param end the upper bound of the range of crf histories (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching crf histories that the user has permission to view
 	 */
-	public java.util.List<CRFHistory> filterFindByG_S_C_SD(
-		long groupId, long subjectId, long crfId, long structuredDataId,
+	public java.util.List<CRFHistory> filterFindByG_C_S_SD(
+		long groupId, long crfId, long subjectId, long structuredDataId,
 		int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator<CRFHistory>
 			orderByComparator);
 
 	/**
-	 * Returns the crf histories before and after the current crf history in the ordered set of crf histories that the user has permission to view where groupId = &#63; and subjectId = &#63; and crfId = &#63; and structuredDataId = &#63;.
+	 * Returns the crf histories before and after the current crf history in the ordered set of crf histories that the user has permission to view where groupId = &#63; and crfId = &#63; and subjectId = &#63; and structuredDataId = &#63;.
 	 *
 	 * @param historyId the primary key of the current crf history
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @param structuredDataId the structured data ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next crf history
 	 * @throws NoSuchCRFHistoryException if a crf history with the primary key could not be found
 	 */
-	public CRFHistory[] filterFindByG_S_C_SD_PrevAndNext(
-			long historyId, long groupId, long subjectId, long crfId,
+	public CRFHistory[] filterFindByG_C_S_SD_PrevAndNext(
+			long historyId, long groupId, long crfId, long subjectId,
 			long structuredDataId,
 			com.liferay.portal.kernel.util.OrderByComparator<CRFHistory>
 				orderByComparator)
 		throws NoSuchCRFHistoryException;
 
 	/**
-	 * Removes all the crf histories where groupId = &#63; and subjectId = &#63; and crfId = &#63; and structuredDataId = &#63; from the database.
+	 * Removes all the crf histories where groupId = &#63; and crfId = &#63; and subjectId = &#63; and structuredDataId = &#63; from the database.
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @param structuredDataId the structured data ID
 	 */
-	public void removeByG_S_C_SD(
-		long groupId, long subjectId, long crfId, long structuredDataId);
+	public void removeByG_C_S_SD(
+		long groupId, long crfId, long subjectId, long structuredDataId);
 
 	/**
-	 * Returns the number of crf histories where groupId = &#63; and subjectId = &#63; and crfId = &#63; and structuredDataId = &#63;.
+	 * Returns the number of crf histories where groupId = &#63; and crfId = &#63; and subjectId = &#63; and structuredDataId = &#63;.
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @param structuredDataId the structured data ID
 	 * @return the number of matching crf histories
 	 */
-	public int countByG_S_C_SD(
-		long groupId, long subjectId, long crfId, long structuredDataId);
+	public int countByG_C_S_SD(
+		long groupId, long crfId, long subjectId, long structuredDataId);
 
 	/**
-	 * Returns the number of crf histories that the user has permission to view where groupId = &#63; and subjectId = &#63; and crfId = &#63; and structuredDataId = &#63;.
+	 * Returns the number of crf histories that the user has permission to view where groupId = &#63; and crfId = &#63; and subjectId = &#63; and structuredDataId = &#63;.
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @param structuredDataId the structured data ID
 	 * @return the number of matching crf histories that the user has permission to view
 	 */
-	public int filterCountByG_S_C_SD(
-		long groupId, long subjectId, long crfId, long structuredDataId);
+	public int filterCountByG_C_S_SD(
+		long groupId, long crfId, long subjectId, long structuredDataId);
 
 	/**
 	 * Caches the crf history in the entity cache if it is enabled.
