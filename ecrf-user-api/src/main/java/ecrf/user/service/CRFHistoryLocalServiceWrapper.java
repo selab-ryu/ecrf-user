@@ -68,18 +68,18 @@ public class CRFHistoryLocalServiceWrapper
 	}
 
 	@Override
-	public int countCRFHistoryByG_S_C(
+	public int countCRFHistoryByG_C_S(
 		long groupId, long subjectId, long crfId) {
 
-		return _crfHistoryLocalService.countCRFHistoryByG_S_C(
+		return _crfHistoryLocalService.countCRFHistoryByG_C_S(
 			groupId, subjectId, crfId);
 	}
 
 	@Override
-	public int countCRFHistoryByG_S_C_SD(
+	public int countCRFHistoryByG_C_S_SD(
 		long groupId, long subjectId, long crfId, long structuredDataId) {
 
-		return _crfHistoryLocalService.countCRFHistoryByG_S_C_SD(
+		return _crfHistoryLocalService.countCRFHistoryByG_C_S_SD(
 			groupId, subjectId, crfId, structuredDataId);
 	}
 
@@ -393,56 +393,56 @@ public class CRFHistoryLocalServiceWrapper
 	}
 
 	@Override
-	public java.util.List<ecrf.user.model.CRFHistory> getCRFHistoryByG_S_C(
+	public java.util.List<ecrf.user.model.CRFHistory> getCRFHistoryByG_C_S(
 		long groupId, long subjectId, long crfId) {
 
-		return _crfHistoryLocalService.getCRFHistoryByG_S_C(
+		return _crfHistoryLocalService.getCRFHistoryByG_C_S(
 			groupId, subjectId, crfId);
 	}
 
 	@Override
-	public java.util.List<ecrf.user.model.CRFHistory> getCRFHistoryByG_S_C(
+	public java.util.List<ecrf.user.model.CRFHistory> getCRFHistoryByG_C_S(
 		long groupId, long subjectId, long crfId, int start, int end) {
 
-		return _crfHistoryLocalService.getCRFHistoryByG_S_C(
+		return _crfHistoryLocalService.getCRFHistoryByG_C_S(
 			groupId, subjectId, crfId, start, end);
 	}
 
 	@Override
-	public java.util.List<ecrf.user.model.CRFHistory> getCRFHistoryByG_S_C(
+	public java.util.List<ecrf.user.model.CRFHistory> getCRFHistoryByG_C_S(
 		long groupId, long subjectId, long crfId, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator
 			<ecrf.user.model.CRFHistory> comparator) {
 
-		return _crfHistoryLocalService.getCRFHistoryByG_S_C(
+		return _crfHistoryLocalService.getCRFHistoryByG_C_S(
 			groupId, subjectId, crfId, start, end, comparator);
 	}
 
 	@Override
-	public java.util.List<ecrf.user.model.CRFHistory> getCRFHistoryByG_S_C_SD(
+	public java.util.List<ecrf.user.model.CRFHistory> getCRFHistoryByG_C_S_SD(
 		long groupId, long subjectId, long crfId, long structuredDataId) {
 
-		return _crfHistoryLocalService.getCRFHistoryByG_S_C_SD(
+		return _crfHistoryLocalService.getCRFHistoryByG_C_S_SD(
 			groupId, subjectId, crfId, structuredDataId);
 	}
 
 	@Override
-	public java.util.List<ecrf.user.model.CRFHistory> getCRFHistoryByG_S_C_SD(
+	public java.util.List<ecrf.user.model.CRFHistory> getCRFHistoryByG_C_S_SD(
 		long groupId, long subjectId, long crfId, long structuredDataId,
 		int start, int end) {
 
-		return _crfHistoryLocalService.getCRFHistoryByG_S_C_SD(
+		return _crfHistoryLocalService.getCRFHistoryByG_C_S_SD(
 			groupId, subjectId, crfId, structuredDataId, start, end);
 	}
 
 	@Override
-	public java.util.List<ecrf.user.model.CRFHistory> getCRFHistoryByG_S_C_SD(
+	public java.util.List<ecrf.user.model.CRFHistory> getCRFHistoryByG_C_S_SD(
 		long groupId, long subjectId, long crfId, long structuredDataId,
 		int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator
 			<ecrf.user.model.CRFHistory> comparator) {
 
-		return _crfHistoryLocalService.getCRFHistoryByG_S_C_SD(
+		return _crfHistoryLocalService.getCRFHistoryByG_C_S_SD(
 			groupId, subjectId, crfId, structuredDataId, start, end,
 			comparator);
 	}

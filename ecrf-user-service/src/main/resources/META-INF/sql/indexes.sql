@@ -12,7 +12,7 @@ create index IX_FCD4DB3D on EC_CRFAutoquery (uuid_[$COLUMN_LENGTH:75$], companyI
 create unique index IX_7B650CFF on EC_CRFAutoquery (uuid_[$COLUMN_LENGTH:75$], groupId);
 
 create index IX_A0C6B8F9 on EC_CRFHistory (crfId, subjectId);
-create index IX_85C608FC on EC_CRFHistory (groupId, crfId);
+create index IX_457CFCA5 on EC_CRFHistory (groupId, crfId, subjectId, structuredDataId);
 create index IX_893E5CDB on EC_CRFHistory (groupId, subjectId, crfId, structuredDataId);
 create index IX_B637FA00 on EC_CRFHistory (groupId, userId);
 create index IX_7CBB5AEE on EC_CRFHistory (structuredDataId);

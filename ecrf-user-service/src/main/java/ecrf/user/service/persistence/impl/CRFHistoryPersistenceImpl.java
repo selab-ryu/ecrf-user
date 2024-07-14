@@ -6601,82 +6601,82 @@ public class CRFHistoryPersistenceImpl
 	private static final String _FINDER_COLUMN_G_C_CRFID_2 =
 		"crfHistory.crfId = ?";
 
-	private FinderPath _finderPathWithPaginationFindByG_S_C;
-	private FinderPath _finderPathWithoutPaginationFindByG_S_C;
-	private FinderPath _finderPathCountByG_S_C;
+	private FinderPath _finderPathWithPaginationFindByG_C_S;
+	private FinderPath _finderPathWithoutPaginationFindByG_C_S;
+	private FinderPath _finderPathCountByG_C_S;
 
 	/**
-	 * Returns all the crf histories where groupId = &#63; and subjectId = &#63; and crfId = &#63;.
+	 * Returns all the crf histories where groupId = &#63; and crfId = &#63; and subjectId = &#63;.
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @return the matching crf histories
 	 */
 	@Override
-	public List<CRFHistory> findByG_S_C(
-		long groupId, long subjectId, long crfId) {
+	public List<CRFHistory> findByG_C_S(
+		long groupId, long crfId, long subjectId) {
 
-		return findByG_S_C(
-			groupId, subjectId, crfId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+		return findByG_C_S(
+			groupId, crfId, subjectId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
 			null);
 	}
 
 	/**
-	 * Returns a range of all the crf histories where groupId = &#63; and subjectId = &#63; and crfId = &#63;.
+	 * Returns a range of all the crf histories where groupId = &#63; and crfId = &#63; and subjectId = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFHistoryModelImpl</code>.
 	 * </p>
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @param start the lower bound of the range of crf histories
 	 * @param end the upper bound of the range of crf histories (not inclusive)
 	 * @return the range of matching crf histories
 	 */
 	@Override
-	public List<CRFHistory> findByG_S_C(
-		long groupId, long subjectId, long crfId, int start, int end) {
+	public List<CRFHistory> findByG_C_S(
+		long groupId, long crfId, long subjectId, int start, int end) {
 
-		return findByG_S_C(groupId, subjectId, crfId, start, end, null);
+		return findByG_C_S(groupId, crfId, subjectId, start, end, null);
 	}
 
 	/**
-	 * Returns an ordered range of all the crf histories where groupId = &#63; and subjectId = &#63; and crfId = &#63;.
+	 * Returns an ordered range of all the crf histories where groupId = &#63; and crfId = &#63; and subjectId = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFHistoryModelImpl</code>.
 	 * </p>
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @param start the lower bound of the range of crf histories
 	 * @param end the upper bound of the range of crf histories (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching crf histories
 	 */
 	@Override
-	public List<CRFHistory> findByG_S_C(
-		long groupId, long subjectId, long crfId, int start, int end,
+	public List<CRFHistory> findByG_C_S(
+		long groupId, long crfId, long subjectId, int start, int end,
 		OrderByComparator<CRFHistory> orderByComparator) {
 
-		return findByG_S_C(
-			groupId, subjectId, crfId, start, end, orderByComparator, true);
+		return findByG_C_S(
+			groupId, crfId, subjectId, start, end, orderByComparator, true);
 	}
 
 	/**
-	 * Returns an ordered range of all the crf histories where groupId = &#63; and subjectId = &#63; and crfId = &#63;.
+	 * Returns an ordered range of all the crf histories where groupId = &#63; and crfId = &#63; and subjectId = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFHistoryModelImpl</code>.
 	 * </p>
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @param start the lower bound of the range of crf histories
 	 * @param end the upper bound of the range of crf histories (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
@@ -6684,8 +6684,8 @@ public class CRFHistoryPersistenceImpl
 	 * @return the ordered range of matching crf histories
 	 */
 	@Override
-	public List<CRFHistory> findByG_S_C(
-		long groupId, long subjectId, long crfId, int start, int end,
+	public List<CRFHistory> findByG_C_S(
+		long groupId, long crfId, long subjectId, int start, int end,
 		OrderByComparator<CRFHistory> orderByComparator,
 		boolean useFinderCache) {
 
@@ -6696,14 +6696,14 @@ public class CRFHistoryPersistenceImpl
 			(orderByComparator == null)) {
 
 			if (useFinderCache) {
-				finderPath = _finderPathWithoutPaginationFindByG_S_C;
-				finderArgs = new Object[] {groupId, subjectId, crfId};
+				finderPath = _finderPathWithoutPaginationFindByG_C_S;
+				finderArgs = new Object[] {groupId, crfId, subjectId};
 			}
 		}
 		else if (useFinderCache) {
-			finderPath = _finderPathWithPaginationFindByG_S_C;
+			finderPath = _finderPathWithPaginationFindByG_C_S;
 			finderArgs = new Object[] {
-				groupId, subjectId, crfId, start, end, orderByComparator
+				groupId, crfId, subjectId, start, end, orderByComparator
 			};
 		}
 
@@ -6716,8 +6716,8 @@ public class CRFHistoryPersistenceImpl
 			if ((list != null) && !list.isEmpty()) {
 				for (CRFHistory crfHistory : list) {
 					if ((groupId != crfHistory.getGroupId()) ||
-						(subjectId != crfHistory.getSubjectId()) ||
-						(crfId != crfHistory.getCrfId())) {
+						(crfId != crfHistory.getCrfId()) ||
+						(subjectId != crfHistory.getSubjectId())) {
 
 						list = null;
 
@@ -6740,11 +6740,11 @@ public class CRFHistoryPersistenceImpl
 
 			sb.append(_SQL_SELECT_CRFHISTORY_WHERE);
 
-			sb.append(_FINDER_COLUMN_G_S_C_GROUPID_2);
+			sb.append(_FINDER_COLUMN_G_C_S_GROUPID_2);
 
-			sb.append(_FINDER_COLUMN_G_S_C_SUBJECTID_2);
+			sb.append(_FINDER_COLUMN_G_C_S_CRFID_2);
 
-			sb.append(_FINDER_COLUMN_G_S_C_CRFID_2);
+			sb.append(_FINDER_COLUMN_G_C_S_SUBJECTID_2);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(
@@ -6767,9 +6767,9 @@ public class CRFHistoryPersistenceImpl
 
 				queryPos.add(groupId);
 
-				queryPos.add(subjectId);
-
 				queryPos.add(crfId);
+
+				queryPos.add(subjectId);
 
 				list = (List<CRFHistory>)QueryUtil.list(
 					query, getDialect(), start, end);
@@ -6796,23 +6796,23 @@ public class CRFHistoryPersistenceImpl
 	}
 
 	/**
-	 * Returns the first crf history in the ordered set where groupId = &#63; and subjectId = &#63; and crfId = &#63;.
+	 * Returns the first crf history in the ordered set where groupId = &#63; and crfId = &#63; and subjectId = &#63;.
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching crf history
 	 * @throws NoSuchCRFHistoryException if a matching crf history could not be found
 	 */
 	@Override
-	public CRFHistory findByG_S_C_First(
-			long groupId, long subjectId, long crfId,
+	public CRFHistory findByG_C_S_First(
+			long groupId, long crfId, long subjectId,
 			OrderByComparator<CRFHistory> orderByComparator)
 		throws NoSuchCRFHistoryException {
 
-		CRFHistory crfHistory = fetchByG_S_C_First(
-			groupId, subjectId, crfId, orderByComparator);
+		CRFHistory crfHistory = fetchByG_C_S_First(
+			groupId, crfId, subjectId, orderByComparator);
 
 		if (crfHistory != null) {
 			return crfHistory;
@@ -6825,11 +6825,11 @@ public class CRFHistoryPersistenceImpl
 		sb.append("groupId=");
 		sb.append(groupId);
 
-		sb.append(", subjectId=");
-		sb.append(subjectId);
-
 		sb.append(", crfId=");
 		sb.append(crfId);
+
+		sb.append(", subjectId=");
+		sb.append(subjectId);
 
 		sb.append("}");
 
@@ -6837,21 +6837,21 @@ public class CRFHistoryPersistenceImpl
 	}
 
 	/**
-	 * Returns the first crf history in the ordered set where groupId = &#63; and subjectId = &#63; and crfId = &#63;.
+	 * Returns the first crf history in the ordered set where groupId = &#63; and crfId = &#63; and subjectId = &#63;.
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching crf history, or <code>null</code> if a matching crf history could not be found
 	 */
 	@Override
-	public CRFHistory fetchByG_S_C_First(
-		long groupId, long subjectId, long crfId,
+	public CRFHistory fetchByG_C_S_First(
+		long groupId, long crfId, long subjectId,
 		OrderByComparator<CRFHistory> orderByComparator) {
 
-		List<CRFHistory> list = findByG_S_C(
-			groupId, subjectId, crfId, 0, 1, orderByComparator);
+		List<CRFHistory> list = findByG_C_S(
+			groupId, crfId, subjectId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -6861,23 +6861,23 @@ public class CRFHistoryPersistenceImpl
 	}
 
 	/**
-	 * Returns the last crf history in the ordered set where groupId = &#63; and subjectId = &#63; and crfId = &#63;.
+	 * Returns the last crf history in the ordered set where groupId = &#63; and crfId = &#63; and subjectId = &#63;.
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching crf history
 	 * @throws NoSuchCRFHistoryException if a matching crf history could not be found
 	 */
 	@Override
-	public CRFHistory findByG_S_C_Last(
-			long groupId, long subjectId, long crfId,
+	public CRFHistory findByG_C_S_Last(
+			long groupId, long crfId, long subjectId,
 			OrderByComparator<CRFHistory> orderByComparator)
 		throws NoSuchCRFHistoryException {
 
-		CRFHistory crfHistory = fetchByG_S_C_Last(
-			groupId, subjectId, crfId, orderByComparator);
+		CRFHistory crfHistory = fetchByG_C_S_Last(
+			groupId, crfId, subjectId, orderByComparator);
 
 		if (crfHistory != null) {
 			return crfHistory;
@@ -6890,11 +6890,11 @@ public class CRFHistoryPersistenceImpl
 		sb.append("groupId=");
 		sb.append(groupId);
 
-		sb.append(", subjectId=");
-		sb.append(subjectId);
-
 		sb.append(", crfId=");
 		sb.append(crfId);
+
+		sb.append(", subjectId=");
+		sb.append(subjectId);
 
 		sb.append("}");
 
@@ -6902,27 +6902,27 @@ public class CRFHistoryPersistenceImpl
 	}
 
 	/**
-	 * Returns the last crf history in the ordered set where groupId = &#63; and subjectId = &#63; and crfId = &#63;.
+	 * Returns the last crf history in the ordered set where groupId = &#63; and crfId = &#63; and subjectId = &#63;.
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching crf history, or <code>null</code> if a matching crf history could not be found
 	 */
 	@Override
-	public CRFHistory fetchByG_S_C_Last(
-		long groupId, long subjectId, long crfId,
+	public CRFHistory fetchByG_C_S_Last(
+		long groupId, long crfId, long subjectId,
 		OrderByComparator<CRFHistory> orderByComparator) {
 
-		int count = countByG_S_C(groupId, subjectId, crfId);
+		int count = countByG_C_S(groupId, crfId, subjectId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<CRFHistory> list = findByG_S_C(
-			groupId, subjectId, crfId, count - 1, count, orderByComparator);
+		List<CRFHistory> list = findByG_C_S(
+			groupId, crfId, subjectId, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -6932,19 +6932,19 @@ public class CRFHistoryPersistenceImpl
 	}
 
 	/**
-	 * Returns the crf histories before and after the current crf history in the ordered set where groupId = &#63; and subjectId = &#63; and crfId = &#63;.
+	 * Returns the crf histories before and after the current crf history in the ordered set where groupId = &#63; and crfId = &#63; and subjectId = &#63;.
 	 *
 	 * @param historyId the primary key of the current crf history
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next crf history
 	 * @throws NoSuchCRFHistoryException if a crf history with the primary key could not be found
 	 */
 	@Override
-	public CRFHistory[] findByG_S_C_PrevAndNext(
-			long historyId, long groupId, long subjectId, long crfId,
+	public CRFHistory[] findByG_C_S_PrevAndNext(
+			long historyId, long groupId, long crfId, long subjectId,
 			OrderByComparator<CRFHistory> orderByComparator)
 		throws NoSuchCRFHistoryException {
 
@@ -6957,14 +6957,14 @@ public class CRFHistoryPersistenceImpl
 
 			CRFHistory[] array = new CRFHistoryImpl[3];
 
-			array[0] = getByG_S_C_PrevAndNext(
-				session, crfHistory, groupId, subjectId, crfId,
+			array[0] = getByG_C_S_PrevAndNext(
+				session, crfHistory, groupId, crfId, subjectId,
 				orderByComparator, true);
 
 			array[1] = crfHistory;
 
-			array[2] = getByG_S_C_PrevAndNext(
-				session, crfHistory, groupId, subjectId, crfId,
+			array[2] = getByG_C_S_PrevAndNext(
+				session, crfHistory, groupId, crfId, subjectId,
 				orderByComparator, false);
 
 			return array;
@@ -6977,9 +6977,9 @@ public class CRFHistoryPersistenceImpl
 		}
 	}
 
-	protected CRFHistory getByG_S_C_PrevAndNext(
-		Session session, CRFHistory crfHistory, long groupId, long subjectId,
-		long crfId, OrderByComparator<CRFHistory> orderByComparator,
+	protected CRFHistory getByG_C_S_PrevAndNext(
+		Session session, CRFHistory crfHistory, long groupId, long crfId,
+		long subjectId, OrderByComparator<CRFHistory> orderByComparator,
 		boolean previous) {
 
 		StringBundler sb = null;
@@ -6995,11 +6995,11 @@ public class CRFHistoryPersistenceImpl
 
 		sb.append(_SQL_SELECT_CRFHISTORY_WHERE);
 
-		sb.append(_FINDER_COLUMN_G_S_C_GROUPID_2);
+		sb.append(_FINDER_COLUMN_G_C_S_GROUPID_2);
 
-		sb.append(_FINDER_COLUMN_G_S_C_SUBJECTID_2);
+		sb.append(_FINDER_COLUMN_G_C_S_CRFID_2);
 
-		sb.append(_FINDER_COLUMN_G_S_C_CRFID_2);
+		sb.append(_FINDER_COLUMN_G_C_S_SUBJECTID_2);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields =
@@ -7072,9 +7072,9 @@ public class CRFHistoryPersistenceImpl
 
 		queryPos.add(groupId);
 
-		queryPos.add(subjectId);
-
 		queryPos.add(crfId);
+
+		queryPos.add(subjectId);
 
 		if (orderByComparator != null) {
 			for (Object orderByConditionValue :
@@ -7095,66 +7095,66 @@ public class CRFHistoryPersistenceImpl
 	}
 
 	/**
-	 * Returns all the crf histories that the user has permission to view where groupId = &#63; and subjectId = &#63; and crfId = &#63;.
+	 * Returns all the crf histories that the user has permission to view where groupId = &#63; and crfId = &#63; and subjectId = &#63;.
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @return the matching crf histories that the user has permission to view
 	 */
 	@Override
-	public List<CRFHistory> filterFindByG_S_C(
-		long groupId, long subjectId, long crfId) {
+	public List<CRFHistory> filterFindByG_C_S(
+		long groupId, long crfId, long subjectId) {
 
-		return filterFindByG_S_C(
-			groupId, subjectId, crfId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+		return filterFindByG_C_S(
+			groupId, crfId, subjectId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
 			null);
 	}
 
 	/**
-	 * Returns a range of all the crf histories that the user has permission to view where groupId = &#63; and subjectId = &#63; and crfId = &#63;.
+	 * Returns a range of all the crf histories that the user has permission to view where groupId = &#63; and crfId = &#63; and subjectId = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFHistoryModelImpl</code>.
 	 * </p>
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @param start the lower bound of the range of crf histories
 	 * @param end the upper bound of the range of crf histories (not inclusive)
 	 * @return the range of matching crf histories that the user has permission to view
 	 */
 	@Override
-	public List<CRFHistory> filterFindByG_S_C(
-		long groupId, long subjectId, long crfId, int start, int end) {
+	public List<CRFHistory> filterFindByG_C_S(
+		long groupId, long crfId, long subjectId, int start, int end) {
 
-		return filterFindByG_S_C(groupId, subjectId, crfId, start, end, null);
+		return filterFindByG_C_S(groupId, crfId, subjectId, start, end, null);
 	}
 
 	/**
-	 * Returns an ordered range of all the crf histories that the user has permissions to view where groupId = &#63; and subjectId = &#63; and crfId = &#63;.
+	 * Returns an ordered range of all the crf histories that the user has permissions to view where groupId = &#63; and crfId = &#63; and subjectId = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFHistoryModelImpl</code>.
 	 * </p>
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @param start the lower bound of the range of crf histories
 	 * @param end the upper bound of the range of crf histories (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching crf histories that the user has permission to view
 	 */
 	@Override
-	public List<CRFHistory> filterFindByG_S_C(
-		long groupId, long subjectId, long crfId, int start, int end,
+	public List<CRFHistory> filterFindByG_C_S(
+		long groupId, long crfId, long subjectId, int start, int end,
 		OrderByComparator<CRFHistory> orderByComparator) {
 
 		if (!InlineSQLHelperUtil.isEnabled(groupId)) {
-			return findByG_S_C(
-				groupId, subjectId, crfId, start, end, orderByComparator);
+			return findByG_C_S(
+				groupId, crfId, subjectId, start, end, orderByComparator);
 		}
 
 		StringBundler sb = null;
@@ -7174,11 +7174,11 @@ public class CRFHistoryPersistenceImpl
 			sb.append(_FILTER_SQL_SELECT_CRFHISTORY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		sb.append(_FINDER_COLUMN_G_S_C_GROUPID_2);
+		sb.append(_FINDER_COLUMN_G_C_S_GROUPID_2);
 
-		sb.append(_FINDER_COLUMN_G_S_C_SUBJECTID_2);
+		sb.append(_FINDER_COLUMN_G_C_S_CRFID_2);
 
-		sb.append(_FINDER_COLUMN_G_S_C_CRFID_2);
+		sb.append(_FINDER_COLUMN_G_C_S_SUBJECTID_2);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			sb.append(_FILTER_SQL_SELECT_CRFHISTORY_NO_INLINE_DISTINCT_WHERE_2);
@@ -7225,9 +7225,9 @@ public class CRFHistoryPersistenceImpl
 
 			queryPos.add(groupId);
 
-			queryPos.add(subjectId);
-
 			queryPos.add(crfId);
+
+			queryPos.add(subjectId);
 
 			return (List<CRFHistory>)QueryUtil.list(
 				sqlQuery, getDialect(), start, end);
@@ -7241,25 +7241,25 @@ public class CRFHistoryPersistenceImpl
 	}
 
 	/**
-	 * Returns the crf histories before and after the current crf history in the ordered set of crf histories that the user has permission to view where groupId = &#63; and subjectId = &#63; and crfId = &#63;.
+	 * Returns the crf histories before and after the current crf history in the ordered set of crf histories that the user has permission to view where groupId = &#63; and crfId = &#63; and subjectId = &#63;.
 	 *
 	 * @param historyId the primary key of the current crf history
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next crf history
 	 * @throws NoSuchCRFHistoryException if a crf history with the primary key could not be found
 	 */
 	@Override
-	public CRFHistory[] filterFindByG_S_C_PrevAndNext(
-			long historyId, long groupId, long subjectId, long crfId,
+	public CRFHistory[] filterFindByG_C_S_PrevAndNext(
+			long historyId, long groupId, long crfId, long subjectId,
 			OrderByComparator<CRFHistory> orderByComparator)
 		throws NoSuchCRFHistoryException {
 
 		if (!InlineSQLHelperUtil.isEnabled(groupId)) {
-			return findByG_S_C_PrevAndNext(
-				historyId, groupId, subjectId, crfId, orderByComparator);
+			return findByG_C_S_PrevAndNext(
+				historyId, groupId, crfId, subjectId, orderByComparator);
 		}
 
 		CRFHistory crfHistory = findByPrimaryKey(historyId);
@@ -7271,14 +7271,14 @@ public class CRFHistoryPersistenceImpl
 
 			CRFHistory[] array = new CRFHistoryImpl[3];
 
-			array[0] = filterGetByG_S_C_PrevAndNext(
-				session, crfHistory, groupId, subjectId, crfId,
+			array[0] = filterGetByG_C_S_PrevAndNext(
+				session, crfHistory, groupId, crfId, subjectId,
 				orderByComparator, true);
 
 			array[1] = crfHistory;
 
-			array[2] = filterGetByG_S_C_PrevAndNext(
-				session, crfHistory, groupId, subjectId, crfId,
+			array[2] = filterGetByG_C_S_PrevAndNext(
+				session, crfHistory, groupId, crfId, subjectId,
 				orderByComparator, false);
 
 			return array;
@@ -7291,9 +7291,9 @@ public class CRFHistoryPersistenceImpl
 		}
 	}
 
-	protected CRFHistory filterGetByG_S_C_PrevAndNext(
-		Session session, CRFHistory crfHistory, long groupId, long subjectId,
-		long crfId, OrderByComparator<CRFHistory> orderByComparator,
+	protected CRFHistory filterGetByG_C_S_PrevAndNext(
+		Session session, CRFHistory crfHistory, long groupId, long crfId,
+		long subjectId, OrderByComparator<CRFHistory> orderByComparator,
 		boolean previous) {
 
 		StringBundler sb = null;
@@ -7314,11 +7314,11 @@ public class CRFHistoryPersistenceImpl
 			sb.append(_FILTER_SQL_SELECT_CRFHISTORY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		sb.append(_FINDER_COLUMN_G_S_C_GROUPID_2);
+		sb.append(_FINDER_COLUMN_G_C_S_GROUPID_2);
 
-		sb.append(_FINDER_COLUMN_G_S_C_SUBJECTID_2);
+		sb.append(_FINDER_COLUMN_G_C_S_CRFID_2);
 
-		sb.append(_FINDER_COLUMN_G_S_C_CRFID_2);
+		sb.append(_FINDER_COLUMN_G_C_S_SUBJECTID_2);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			sb.append(_FILTER_SQL_SELECT_CRFHISTORY_NO_INLINE_DISTINCT_WHERE_2);
@@ -7427,9 +7427,9 @@ public class CRFHistoryPersistenceImpl
 
 		queryPos.add(groupId);
 
-		queryPos.add(subjectId);
-
 		queryPos.add(crfId);
+
+		queryPos.add(subjectId);
 
 		if (orderByComparator != null) {
 			for (Object orderByConditionValue :
@@ -7450,17 +7450,17 @@ public class CRFHistoryPersistenceImpl
 	}
 
 	/**
-	 * Removes all the crf histories where groupId = &#63; and subjectId = &#63; and crfId = &#63; from the database.
+	 * Removes all the crf histories where groupId = &#63; and crfId = &#63; and subjectId = &#63; from the database.
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 */
 	@Override
-	public void removeByG_S_C(long groupId, long subjectId, long crfId) {
+	public void removeByG_C_S(long groupId, long crfId, long subjectId) {
 		for (CRFHistory crfHistory :
-				findByG_S_C(
-					groupId, subjectId, crfId, QueryUtil.ALL_POS,
+				findByG_C_S(
+					groupId, crfId, subjectId, QueryUtil.ALL_POS,
 					QueryUtil.ALL_POS, null)) {
 
 			remove(crfHistory);
@@ -7468,18 +7468,18 @@ public class CRFHistoryPersistenceImpl
 	}
 
 	/**
-	 * Returns the number of crf histories where groupId = &#63; and subjectId = &#63; and crfId = &#63;.
+	 * Returns the number of crf histories where groupId = &#63; and crfId = &#63; and subjectId = &#63;.
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @return the number of matching crf histories
 	 */
 	@Override
-	public int countByG_S_C(long groupId, long subjectId, long crfId) {
-		FinderPath finderPath = _finderPathCountByG_S_C;
+	public int countByG_C_S(long groupId, long crfId, long subjectId) {
+		FinderPath finderPath = _finderPathCountByG_C_S;
 
-		Object[] finderArgs = new Object[] {groupId, subjectId, crfId};
+		Object[] finderArgs = new Object[] {groupId, crfId, subjectId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -7488,11 +7488,11 @@ public class CRFHistoryPersistenceImpl
 
 			sb.append(_SQL_COUNT_CRFHISTORY_WHERE);
 
-			sb.append(_FINDER_COLUMN_G_S_C_GROUPID_2);
+			sb.append(_FINDER_COLUMN_G_C_S_GROUPID_2);
 
-			sb.append(_FINDER_COLUMN_G_S_C_SUBJECTID_2);
+			sb.append(_FINDER_COLUMN_G_C_S_CRFID_2);
 
-			sb.append(_FINDER_COLUMN_G_S_C_CRFID_2);
+			sb.append(_FINDER_COLUMN_G_C_S_SUBJECTID_2);
 
 			String sql = sb.toString();
 
@@ -7507,9 +7507,9 @@ public class CRFHistoryPersistenceImpl
 
 				queryPos.add(groupId);
 
-				queryPos.add(subjectId);
-
 				queryPos.add(crfId);
+
+				queryPos.add(subjectId);
 
 				count = (Long)query.uniqueResult();
 
@@ -7529,28 +7529,28 @@ public class CRFHistoryPersistenceImpl
 	}
 
 	/**
-	 * Returns the number of crf histories that the user has permission to view where groupId = &#63; and subjectId = &#63; and crfId = &#63;.
+	 * Returns the number of crf histories that the user has permission to view where groupId = &#63; and crfId = &#63; and subjectId = &#63;.
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @return the number of matching crf histories that the user has permission to view
 	 */
 	@Override
-	public int filterCountByG_S_C(long groupId, long subjectId, long crfId) {
+	public int filterCountByG_C_S(long groupId, long crfId, long subjectId) {
 		if (!InlineSQLHelperUtil.isEnabled(groupId)) {
-			return countByG_S_C(groupId, subjectId, crfId);
+			return countByG_C_S(groupId, crfId, subjectId);
 		}
 
 		StringBundler sb = new StringBundler(4);
 
 		sb.append(_FILTER_SQL_COUNT_CRFHISTORY_WHERE);
 
-		sb.append(_FINDER_COLUMN_G_S_C_GROUPID_2);
+		sb.append(_FINDER_COLUMN_G_C_S_GROUPID_2);
 
-		sb.append(_FINDER_COLUMN_G_S_C_SUBJECTID_2);
+		sb.append(_FINDER_COLUMN_G_C_S_CRFID_2);
 
-		sb.append(_FINDER_COLUMN_G_S_C_CRFID_2);
+		sb.append(_FINDER_COLUMN_G_C_S_SUBJECTID_2);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(
 			sb.toString(), CRFHistory.class.getName(),
@@ -7570,9 +7570,9 @@ public class CRFHistoryPersistenceImpl
 
 			queryPos.add(groupId);
 
-			queryPos.add(subjectId);
-
 			queryPos.add(crfId);
+
+			queryPos.add(subjectId);
 
 			Long count = (Long)sqlQuery.uniqueResult();
 
@@ -7586,71 +7586,71 @@ public class CRFHistoryPersistenceImpl
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_S_C_GROUPID_2 =
+	private static final String _FINDER_COLUMN_G_C_S_GROUPID_2 =
 		"crfHistory.groupId = ? AND ";
 
-	private static final String _FINDER_COLUMN_G_S_C_SUBJECTID_2 =
-		"crfHistory.subjectId = ? AND ";
+	private static final String _FINDER_COLUMN_G_C_S_CRFID_2 =
+		"crfHistory.crfId = ? AND ";
 
-	private static final String _FINDER_COLUMN_G_S_C_CRFID_2 =
-		"crfHistory.crfId = ?";
+	private static final String _FINDER_COLUMN_G_C_S_SUBJECTID_2 =
+		"crfHistory.subjectId = ?";
 
-	private FinderPath _finderPathWithPaginationFindByG_S_C_SD;
-	private FinderPath _finderPathWithoutPaginationFindByG_S_C_SD;
-	private FinderPath _finderPathCountByG_S_C_SD;
+	private FinderPath _finderPathWithPaginationFindByG_C_S_SD;
+	private FinderPath _finderPathWithoutPaginationFindByG_C_S_SD;
+	private FinderPath _finderPathCountByG_C_S_SD;
 
 	/**
-	 * Returns all the crf histories where groupId = &#63; and subjectId = &#63; and crfId = &#63; and structuredDataId = &#63;.
+	 * Returns all the crf histories where groupId = &#63; and crfId = &#63; and subjectId = &#63; and structuredDataId = &#63;.
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @param structuredDataId the structured data ID
 	 * @return the matching crf histories
 	 */
 	@Override
-	public List<CRFHistory> findByG_S_C_SD(
-		long groupId, long subjectId, long crfId, long structuredDataId) {
+	public List<CRFHistory> findByG_C_S_SD(
+		long groupId, long crfId, long subjectId, long structuredDataId) {
 
-		return findByG_S_C_SD(
-			groupId, subjectId, crfId, structuredDataId, QueryUtil.ALL_POS,
+		return findByG_C_S_SD(
+			groupId, crfId, subjectId, structuredDataId, QueryUtil.ALL_POS,
 			QueryUtil.ALL_POS, null);
 	}
 
 	/**
-	 * Returns a range of all the crf histories where groupId = &#63; and subjectId = &#63; and crfId = &#63; and structuredDataId = &#63;.
+	 * Returns a range of all the crf histories where groupId = &#63; and crfId = &#63; and subjectId = &#63; and structuredDataId = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFHistoryModelImpl</code>.
 	 * </p>
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @param structuredDataId the structured data ID
 	 * @param start the lower bound of the range of crf histories
 	 * @param end the upper bound of the range of crf histories (not inclusive)
 	 * @return the range of matching crf histories
 	 */
 	@Override
-	public List<CRFHistory> findByG_S_C_SD(
-		long groupId, long subjectId, long crfId, long structuredDataId,
+	public List<CRFHistory> findByG_C_S_SD(
+		long groupId, long crfId, long subjectId, long structuredDataId,
 		int start, int end) {
 
-		return findByG_S_C_SD(
-			groupId, subjectId, crfId, structuredDataId, start, end, null);
+		return findByG_C_S_SD(
+			groupId, crfId, subjectId, structuredDataId, start, end, null);
 	}
 
 	/**
-	 * Returns an ordered range of all the crf histories where groupId = &#63; and subjectId = &#63; and crfId = &#63; and structuredDataId = &#63;.
+	 * Returns an ordered range of all the crf histories where groupId = &#63; and crfId = &#63; and subjectId = &#63; and structuredDataId = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFHistoryModelImpl</code>.
 	 * </p>
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @param structuredDataId the structured data ID
 	 * @param start the lower bound of the range of crf histories
 	 * @param end the upper bound of the range of crf histories (not inclusive)
@@ -7658,25 +7658,25 @@ public class CRFHistoryPersistenceImpl
 	 * @return the ordered range of matching crf histories
 	 */
 	@Override
-	public List<CRFHistory> findByG_S_C_SD(
-		long groupId, long subjectId, long crfId, long structuredDataId,
+	public List<CRFHistory> findByG_C_S_SD(
+		long groupId, long crfId, long subjectId, long structuredDataId,
 		int start, int end, OrderByComparator<CRFHistory> orderByComparator) {
 
-		return findByG_S_C_SD(
-			groupId, subjectId, crfId, structuredDataId, start, end,
+		return findByG_C_S_SD(
+			groupId, crfId, subjectId, structuredDataId, start, end,
 			orderByComparator, true);
 	}
 
 	/**
-	 * Returns an ordered range of all the crf histories where groupId = &#63; and subjectId = &#63; and crfId = &#63; and structuredDataId = &#63;.
+	 * Returns an ordered range of all the crf histories where groupId = &#63; and crfId = &#63; and subjectId = &#63; and structuredDataId = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFHistoryModelImpl</code>.
 	 * </p>
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @param structuredDataId the structured data ID
 	 * @param start the lower bound of the range of crf histories
 	 * @param end the upper bound of the range of crf histories (not inclusive)
@@ -7685,8 +7685,8 @@ public class CRFHistoryPersistenceImpl
 	 * @return the ordered range of matching crf histories
 	 */
 	@Override
-	public List<CRFHistory> findByG_S_C_SD(
-		long groupId, long subjectId, long crfId, long structuredDataId,
+	public List<CRFHistory> findByG_C_S_SD(
+		long groupId, long crfId, long subjectId, long structuredDataId,
 		int start, int end, OrderByComparator<CRFHistory> orderByComparator,
 		boolean useFinderCache) {
 
@@ -7697,16 +7697,16 @@ public class CRFHistoryPersistenceImpl
 			(orderByComparator == null)) {
 
 			if (useFinderCache) {
-				finderPath = _finderPathWithoutPaginationFindByG_S_C_SD;
+				finderPath = _finderPathWithoutPaginationFindByG_C_S_SD;
 				finderArgs = new Object[] {
-					groupId, subjectId, crfId, structuredDataId
+					groupId, crfId, subjectId, structuredDataId
 				};
 			}
 		}
 		else if (useFinderCache) {
-			finderPath = _finderPathWithPaginationFindByG_S_C_SD;
+			finderPath = _finderPathWithPaginationFindByG_C_S_SD;
 			finderArgs = new Object[] {
-				groupId, subjectId, crfId, structuredDataId, start, end,
+				groupId, crfId, subjectId, structuredDataId, start, end,
 				orderByComparator
 			};
 		}
@@ -7720,8 +7720,8 @@ public class CRFHistoryPersistenceImpl
 			if ((list != null) && !list.isEmpty()) {
 				for (CRFHistory crfHistory : list) {
 					if ((groupId != crfHistory.getGroupId()) ||
-						(subjectId != crfHistory.getSubjectId()) ||
 						(crfId != crfHistory.getCrfId()) ||
+						(subjectId != crfHistory.getSubjectId()) ||
 						(structuredDataId !=
 							crfHistory.getStructuredDataId())) {
 
@@ -7746,13 +7746,13 @@ public class CRFHistoryPersistenceImpl
 
 			sb.append(_SQL_SELECT_CRFHISTORY_WHERE);
 
-			sb.append(_FINDER_COLUMN_G_S_C_SD_GROUPID_2);
+			sb.append(_FINDER_COLUMN_G_C_S_SD_GROUPID_2);
 
-			sb.append(_FINDER_COLUMN_G_S_C_SD_SUBJECTID_2);
+			sb.append(_FINDER_COLUMN_G_C_S_SD_CRFID_2);
 
-			sb.append(_FINDER_COLUMN_G_S_C_SD_CRFID_2);
+			sb.append(_FINDER_COLUMN_G_C_S_SD_SUBJECTID_2);
 
-			sb.append(_FINDER_COLUMN_G_S_C_SD_STRUCTUREDDATAID_2);
+			sb.append(_FINDER_COLUMN_G_C_S_SD_STRUCTUREDDATAID_2);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(
@@ -7775,9 +7775,9 @@ public class CRFHistoryPersistenceImpl
 
 				queryPos.add(groupId);
 
-				queryPos.add(subjectId);
-
 				queryPos.add(crfId);
+
+				queryPos.add(subjectId);
 
 				queryPos.add(structuredDataId);
 
@@ -7806,24 +7806,24 @@ public class CRFHistoryPersistenceImpl
 	}
 
 	/**
-	 * Returns the first crf history in the ordered set where groupId = &#63; and subjectId = &#63; and crfId = &#63; and structuredDataId = &#63;.
+	 * Returns the first crf history in the ordered set where groupId = &#63; and crfId = &#63; and subjectId = &#63; and structuredDataId = &#63;.
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @param structuredDataId the structured data ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching crf history
 	 * @throws NoSuchCRFHistoryException if a matching crf history could not be found
 	 */
 	@Override
-	public CRFHistory findByG_S_C_SD_First(
-			long groupId, long subjectId, long crfId, long structuredDataId,
+	public CRFHistory findByG_C_S_SD_First(
+			long groupId, long crfId, long subjectId, long structuredDataId,
 			OrderByComparator<CRFHistory> orderByComparator)
 		throws NoSuchCRFHistoryException {
 
-		CRFHistory crfHistory = fetchByG_S_C_SD_First(
-			groupId, subjectId, crfId, structuredDataId, orderByComparator);
+		CRFHistory crfHistory = fetchByG_C_S_SD_First(
+			groupId, crfId, subjectId, structuredDataId, orderByComparator);
 
 		if (crfHistory != null) {
 			return crfHistory;
@@ -7836,11 +7836,11 @@ public class CRFHistoryPersistenceImpl
 		sb.append("groupId=");
 		sb.append(groupId);
 
-		sb.append(", subjectId=");
-		sb.append(subjectId);
-
 		sb.append(", crfId=");
 		sb.append(crfId);
+
+		sb.append(", subjectId=");
+		sb.append(subjectId);
 
 		sb.append(", structuredDataId=");
 		sb.append(structuredDataId);
@@ -7851,22 +7851,22 @@ public class CRFHistoryPersistenceImpl
 	}
 
 	/**
-	 * Returns the first crf history in the ordered set where groupId = &#63; and subjectId = &#63; and crfId = &#63; and structuredDataId = &#63;.
+	 * Returns the first crf history in the ordered set where groupId = &#63; and crfId = &#63; and subjectId = &#63; and structuredDataId = &#63;.
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @param structuredDataId the structured data ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching crf history, or <code>null</code> if a matching crf history could not be found
 	 */
 	@Override
-	public CRFHistory fetchByG_S_C_SD_First(
-		long groupId, long subjectId, long crfId, long structuredDataId,
+	public CRFHistory fetchByG_C_S_SD_First(
+		long groupId, long crfId, long subjectId, long structuredDataId,
 		OrderByComparator<CRFHistory> orderByComparator) {
 
-		List<CRFHistory> list = findByG_S_C_SD(
-			groupId, subjectId, crfId, structuredDataId, 0, 1,
+		List<CRFHistory> list = findByG_C_S_SD(
+			groupId, crfId, subjectId, structuredDataId, 0, 1,
 			orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -7877,24 +7877,24 @@ public class CRFHistoryPersistenceImpl
 	}
 
 	/**
-	 * Returns the last crf history in the ordered set where groupId = &#63; and subjectId = &#63; and crfId = &#63; and structuredDataId = &#63;.
+	 * Returns the last crf history in the ordered set where groupId = &#63; and crfId = &#63; and subjectId = &#63; and structuredDataId = &#63;.
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @param structuredDataId the structured data ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching crf history
 	 * @throws NoSuchCRFHistoryException if a matching crf history could not be found
 	 */
 	@Override
-	public CRFHistory findByG_S_C_SD_Last(
-			long groupId, long subjectId, long crfId, long structuredDataId,
+	public CRFHistory findByG_C_S_SD_Last(
+			long groupId, long crfId, long subjectId, long structuredDataId,
 			OrderByComparator<CRFHistory> orderByComparator)
 		throws NoSuchCRFHistoryException {
 
-		CRFHistory crfHistory = fetchByG_S_C_SD_Last(
-			groupId, subjectId, crfId, structuredDataId, orderByComparator);
+		CRFHistory crfHistory = fetchByG_C_S_SD_Last(
+			groupId, crfId, subjectId, structuredDataId, orderByComparator);
 
 		if (crfHistory != null) {
 			return crfHistory;
@@ -7907,11 +7907,11 @@ public class CRFHistoryPersistenceImpl
 		sb.append("groupId=");
 		sb.append(groupId);
 
-		sb.append(", subjectId=");
-		sb.append(subjectId);
-
 		sb.append(", crfId=");
 		sb.append(crfId);
+
+		sb.append(", subjectId=");
+		sb.append(subjectId);
 
 		sb.append(", structuredDataId=");
 		sb.append(structuredDataId);
@@ -7922,29 +7922,29 @@ public class CRFHistoryPersistenceImpl
 	}
 
 	/**
-	 * Returns the last crf history in the ordered set where groupId = &#63; and subjectId = &#63; and crfId = &#63; and structuredDataId = &#63;.
+	 * Returns the last crf history in the ordered set where groupId = &#63; and crfId = &#63; and subjectId = &#63; and structuredDataId = &#63;.
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @param structuredDataId the structured data ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching crf history, or <code>null</code> if a matching crf history could not be found
 	 */
 	@Override
-	public CRFHistory fetchByG_S_C_SD_Last(
-		long groupId, long subjectId, long crfId, long structuredDataId,
+	public CRFHistory fetchByG_C_S_SD_Last(
+		long groupId, long crfId, long subjectId, long structuredDataId,
 		OrderByComparator<CRFHistory> orderByComparator) {
 
-		int count = countByG_S_C_SD(
-			groupId, subjectId, crfId, structuredDataId);
+		int count = countByG_C_S_SD(
+			groupId, crfId, subjectId, structuredDataId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<CRFHistory> list = findByG_S_C_SD(
-			groupId, subjectId, crfId, structuredDataId, count - 1, count,
+		List<CRFHistory> list = findByG_C_S_SD(
+			groupId, crfId, subjectId, structuredDataId, count - 1, count,
 			orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -7955,20 +7955,20 @@ public class CRFHistoryPersistenceImpl
 	}
 
 	/**
-	 * Returns the crf histories before and after the current crf history in the ordered set where groupId = &#63; and subjectId = &#63; and crfId = &#63; and structuredDataId = &#63;.
+	 * Returns the crf histories before and after the current crf history in the ordered set where groupId = &#63; and crfId = &#63; and subjectId = &#63; and structuredDataId = &#63;.
 	 *
 	 * @param historyId the primary key of the current crf history
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @param structuredDataId the structured data ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next crf history
 	 * @throws NoSuchCRFHistoryException if a crf history with the primary key could not be found
 	 */
 	@Override
-	public CRFHistory[] findByG_S_C_SD_PrevAndNext(
-			long historyId, long groupId, long subjectId, long crfId,
+	public CRFHistory[] findByG_C_S_SD_PrevAndNext(
+			long historyId, long groupId, long crfId, long subjectId,
 			long structuredDataId,
 			OrderByComparator<CRFHistory> orderByComparator)
 		throws NoSuchCRFHistoryException {
@@ -7982,14 +7982,14 @@ public class CRFHistoryPersistenceImpl
 
 			CRFHistory[] array = new CRFHistoryImpl[3];
 
-			array[0] = getByG_S_C_SD_PrevAndNext(
-				session, crfHistory, groupId, subjectId, crfId,
+			array[0] = getByG_C_S_SD_PrevAndNext(
+				session, crfHistory, groupId, crfId, subjectId,
 				structuredDataId, orderByComparator, true);
 
 			array[1] = crfHistory;
 
-			array[2] = getByG_S_C_SD_PrevAndNext(
-				session, crfHistory, groupId, subjectId, crfId,
+			array[2] = getByG_C_S_SD_PrevAndNext(
+				session, crfHistory, groupId, crfId, subjectId,
 				structuredDataId, orderByComparator, false);
 
 			return array;
@@ -8002,9 +8002,9 @@ public class CRFHistoryPersistenceImpl
 		}
 	}
 
-	protected CRFHistory getByG_S_C_SD_PrevAndNext(
-		Session session, CRFHistory crfHistory, long groupId, long subjectId,
-		long crfId, long structuredDataId,
+	protected CRFHistory getByG_C_S_SD_PrevAndNext(
+		Session session, CRFHistory crfHistory, long groupId, long crfId,
+		long subjectId, long structuredDataId,
 		OrderByComparator<CRFHistory> orderByComparator, boolean previous) {
 
 		StringBundler sb = null;
@@ -8020,13 +8020,13 @@ public class CRFHistoryPersistenceImpl
 
 		sb.append(_SQL_SELECT_CRFHISTORY_WHERE);
 
-		sb.append(_FINDER_COLUMN_G_S_C_SD_GROUPID_2);
+		sb.append(_FINDER_COLUMN_G_C_S_SD_GROUPID_2);
 
-		sb.append(_FINDER_COLUMN_G_S_C_SD_SUBJECTID_2);
+		sb.append(_FINDER_COLUMN_G_C_S_SD_CRFID_2);
 
-		sb.append(_FINDER_COLUMN_G_S_C_SD_CRFID_2);
+		sb.append(_FINDER_COLUMN_G_C_S_SD_SUBJECTID_2);
 
-		sb.append(_FINDER_COLUMN_G_S_C_SD_STRUCTUREDDATAID_2);
+		sb.append(_FINDER_COLUMN_G_C_S_SD_STRUCTUREDDATAID_2);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields =
@@ -8099,9 +8099,9 @@ public class CRFHistoryPersistenceImpl
 
 		queryPos.add(groupId);
 
-		queryPos.add(subjectId);
-
 		queryPos.add(crfId);
+
+		queryPos.add(subjectId);
 
 		queryPos.add(structuredDataId);
 
@@ -8124,57 +8124,57 @@ public class CRFHistoryPersistenceImpl
 	}
 
 	/**
-	 * Returns all the crf histories that the user has permission to view where groupId = &#63; and subjectId = &#63; and crfId = &#63; and structuredDataId = &#63;.
+	 * Returns all the crf histories that the user has permission to view where groupId = &#63; and crfId = &#63; and subjectId = &#63; and structuredDataId = &#63;.
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @param structuredDataId the structured data ID
 	 * @return the matching crf histories that the user has permission to view
 	 */
 	@Override
-	public List<CRFHistory> filterFindByG_S_C_SD(
-		long groupId, long subjectId, long crfId, long structuredDataId) {
+	public List<CRFHistory> filterFindByG_C_S_SD(
+		long groupId, long crfId, long subjectId, long structuredDataId) {
 
-		return filterFindByG_S_C_SD(
-			groupId, subjectId, crfId, structuredDataId, QueryUtil.ALL_POS,
+		return filterFindByG_C_S_SD(
+			groupId, crfId, subjectId, structuredDataId, QueryUtil.ALL_POS,
 			QueryUtil.ALL_POS, null);
 	}
 
 	/**
-	 * Returns a range of all the crf histories that the user has permission to view where groupId = &#63; and subjectId = &#63; and crfId = &#63; and structuredDataId = &#63;.
+	 * Returns a range of all the crf histories that the user has permission to view where groupId = &#63; and crfId = &#63; and subjectId = &#63; and structuredDataId = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFHistoryModelImpl</code>.
 	 * </p>
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @param structuredDataId the structured data ID
 	 * @param start the lower bound of the range of crf histories
 	 * @param end the upper bound of the range of crf histories (not inclusive)
 	 * @return the range of matching crf histories that the user has permission to view
 	 */
 	@Override
-	public List<CRFHistory> filterFindByG_S_C_SD(
-		long groupId, long subjectId, long crfId, long structuredDataId,
+	public List<CRFHistory> filterFindByG_C_S_SD(
+		long groupId, long crfId, long subjectId, long structuredDataId,
 		int start, int end) {
 
-		return filterFindByG_S_C_SD(
-			groupId, subjectId, crfId, structuredDataId, start, end, null);
+		return filterFindByG_C_S_SD(
+			groupId, crfId, subjectId, structuredDataId, start, end, null);
 	}
 
 	/**
-	 * Returns an ordered range of all the crf histories that the user has permissions to view where groupId = &#63; and subjectId = &#63; and crfId = &#63; and structuredDataId = &#63;.
+	 * Returns an ordered range of all the crf histories that the user has permissions to view where groupId = &#63; and crfId = &#63; and subjectId = &#63; and structuredDataId = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CRFHistoryModelImpl</code>.
 	 * </p>
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @param structuredDataId the structured data ID
 	 * @param start the lower bound of the range of crf histories
 	 * @param end the upper bound of the range of crf histories (not inclusive)
@@ -8182,13 +8182,13 @@ public class CRFHistoryPersistenceImpl
 	 * @return the ordered range of matching crf histories that the user has permission to view
 	 */
 	@Override
-	public List<CRFHistory> filterFindByG_S_C_SD(
-		long groupId, long subjectId, long crfId, long structuredDataId,
+	public List<CRFHistory> filterFindByG_C_S_SD(
+		long groupId, long crfId, long subjectId, long structuredDataId,
 		int start, int end, OrderByComparator<CRFHistory> orderByComparator) {
 
 		if (!InlineSQLHelperUtil.isEnabled(groupId)) {
-			return findByG_S_C_SD(
-				groupId, subjectId, crfId, structuredDataId, start, end,
+			return findByG_C_S_SD(
+				groupId, crfId, subjectId, structuredDataId, start, end,
 				orderByComparator);
 		}
 
@@ -8209,13 +8209,13 @@ public class CRFHistoryPersistenceImpl
 			sb.append(_FILTER_SQL_SELECT_CRFHISTORY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		sb.append(_FINDER_COLUMN_G_S_C_SD_GROUPID_2);
+		sb.append(_FINDER_COLUMN_G_C_S_SD_GROUPID_2);
 
-		sb.append(_FINDER_COLUMN_G_S_C_SD_SUBJECTID_2);
+		sb.append(_FINDER_COLUMN_G_C_S_SD_CRFID_2);
 
-		sb.append(_FINDER_COLUMN_G_S_C_SD_CRFID_2);
+		sb.append(_FINDER_COLUMN_G_C_S_SD_SUBJECTID_2);
 
-		sb.append(_FINDER_COLUMN_G_S_C_SD_STRUCTUREDDATAID_2);
+		sb.append(_FINDER_COLUMN_G_C_S_SD_STRUCTUREDDATAID_2);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			sb.append(_FILTER_SQL_SELECT_CRFHISTORY_NO_INLINE_DISTINCT_WHERE_2);
@@ -8262,9 +8262,9 @@ public class CRFHistoryPersistenceImpl
 
 			queryPos.add(groupId);
 
-			queryPos.add(subjectId);
-
 			queryPos.add(crfId);
+
+			queryPos.add(subjectId);
 
 			queryPos.add(structuredDataId);
 
@@ -8280,27 +8280,27 @@ public class CRFHistoryPersistenceImpl
 	}
 
 	/**
-	 * Returns the crf histories before and after the current crf history in the ordered set of crf histories that the user has permission to view where groupId = &#63; and subjectId = &#63; and crfId = &#63; and structuredDataId = &#63;.
+	 * Returns the crf histories before and after the current crf history in the ordered set of crf histories that the user has permission to view where groupId = &#63; and crfId = &#63; and subjectId = &#63; and structuredDataId = &#63;.
 	 *
 	 * @param historyId the primary key of the current crf history
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @param structuredDataId the structured data ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next crf history
 	 * @throws NoSuchCRFHistoryException if a crf history with the primary key could not be found
 	 */
 	@Override
-	public CRFHistory[] filterFindByG_S_C_SD_PrevAndNext(
-			long historyId, long groupId, long subjectId, long crfId,
+	public CRFHistory[] filterFindByG_C_S_SD_PrevAndNext(
+			long historyId, long groupId, long crfId, long subjectId,
 			long structuredDataId,
 			OrderByComparator<CRFHistory> orderByComparator)
 		throws NoSuchCRFHistoryException {
 
 		if (!InlineSQLHelperUtil.isEnabled(groupId)) {
-			return findByG_S_C_SD_PrevAndNext(
-				historyId, groupId, subjectId, crfId, structuredDataId,
+			return findByG_C_S_SD_PrevAndNext(
+				historyId, groupId, crfId, subjectId, structuredDataId,
 				orderByComparator);
 		}
 
@@ -8313,14 +8313,14 @@ public class CRFHistoryPersistenceImpl
 
 			CRFHistory[] array = new CRFHistoryImpl[3];
 
-			array[0] = filterGetByG_S_C_SD_PrevAndNext(
-				session, crfHistory, groupId, subjectId, crfId,
+			array[0] = filterGetByG_C_S_SD_PrevAndNext(
+				session, crfHistory, groupId, crfId, subjectId,
 				structuredDataId, orderByComparator, true);
 
 			array[1] = crfHistory;
 
-			array[2] = filterGetByG_S_C_SD_PrevAndNext(
-				session, crfHistory, groupId, subjectId, crfId,
+			array[2] = filterGetByG_C_S_SD_PrevAndNext(
+				session, crfHistory, groupId, crfId, subjectId,
 				structuredDataId, orderByComparator, false);
 
 			return array;
@@ -8333,9 +8333,9 @@ public class CRFHistoryPersistenceImpl
 		}
 	}
 
-	protected CRFHistory filterGetByG_S_C_SD_PrevAndNext(
-		Session session, CRFHistory crfHistory, long groupId, long subjectId,
-		long crfId, long structuredDataId,
+	protected CRFHistory filterGetByG_C_S_SD_PrevAndNext(
+		Session session, CRFHistory crfHistory, long groupId, long crfId,
+		long subjectId, long structuredDataId,
 		OrderByComparator<CRFHistory> orderByComparator, boolean previous) {
 
 		StringBundler sb = null;
@@ -8356,13 +8356,13 @@ public class CRFHistoryPersistenceImpl
 			sb.append(_FILTER_SQL_SELECT_CRFHISTORY_NO_INLINE_DISTINCT_WHERE_1);
 		}
 
-		sb.append(_FINDER_COLUMN_G_S_C_SD_GROUPID_2);
+		sb.append(_FINDER_COLUMN_G_C_S_SD_GROUPID_2);
 
-		sb.append(_FINDER_COLUMN_G_S_C_SD_SUBJECTID_2);
+		sb.append(_FINDER_COLUMN_G_C_S_SD_CRFID_2);
 
-		sb.append(_FINDER_COLUMN_G_S_C_SD_CRFID_2);
+		sb.append(_FINDER_COLUMN_G_C_S_SD_SUBJECTID_2);
 
-		sb.append(_FINDER_COLUMN_G_S_C_SD_STRUCTUREDDATAID_2);
+		sb.append(_FINDER_COLUMN_G_C_S_SD_STRUCTUREDDATAID_2);
 
 		if (!getDB().isSupportsInlineDistinct()) {
 			sb.append(_FILTER_SQL_SELECT_CRFHISTORY_NO_INLINE_DISTINCT_WHERE_2);
@@ -8471,9 +8471,9 @@ public class CRFHistoryPersistenceImpl
 
 		queryPos.add(groupId);
 
-		queryPos.add(subjectId);
-
 		queryPos.add(crfId);
+
+		queryPos.add(subjectId);
 
 		queryPos.add(structuredDataId);
 
@@ -8496,20 +8496,20 @@ public class CRFHistoryPersistenceImpl
 	}
 
 	/**
-	 * Removes all the crf histories where groupId = &#63; and subjectId = &#63; and crfId = &#63; and structuredDataId = &#63; from the database.
+	 * Removes all the crf histories where groupId = &#63; and crfId = &#63; and subjectId = &#63; and structuredDataId = &#63; from the database.
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @param structuredDataId the structured data ID
 	 */
 	@Override
-	public void removeByG_S_C_SD(
-		long groupId, long subjectId, long crfId, long structuredDataId) {
+	public void removeByG_C_S_SD(
+		long groupId, long crfId, long subjectId, long structuredDataId) {
 
 		for (CRFHistory crfHistory :
-				findByG_S_C_SD(
-					groupId, subjectId, crfId, structuredDataId,
+				findByG_C_S_SD(
+					groupId, crfId, subjectId, structuredDataId,
 					QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
 
 			remove(crfHistory);
@@ -8517,22 +8517,22 @@ public class CRFHistoryPersistenceImpl
 	}
 
 	/**
-	 * Returns the number of crf histories where groupId = &#63; and subjectId = &#63; and crfId = &#63; and structuredDataId = &#63;.
+	 * Returns the number of crf histories where groupId = &#63; and crfId = &#63; and subjectId = &#63; and structuredDataId = &#63;.
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @param structuredDataId the structured data ID
 	 * @return the number of matching crf histories
 	 */
 	@Override
-	public int countByG_S_C_SD(
-		long groupId, long subjectId, long crfId, long structuredDataId) {
+	public int countByG_C_S_SD(
+		long groupId, long crfId, long subjectId, long structuredDataId) {
 
-		FinderPath finderPath = _finderPathCountByG_S_C_SD;
+		FinderPath finderPath = _finderPathCountByG_C_S_SD;
 
 		Object[] finderArgs = new Object[] {
-			groupId, subjectId, crfId, structuredDataId
+			groupId, crfId, subjectId, structuredDataId
 		};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
@@ -8542,13 +8542,13 @@ public class CRFHistoryPersistenceImpl
 
 			sb.append(_SQL_COUNT_CRFHISTORY_WHERE);
 
-			sb.append(_FINDER_COLUMN_G_S_C_SD_GROUPID_2);
+			sb.append(_FINDER_COLUMN_G_C_S_SD_GROUPID_2);
 
-			sb.append(_FINDER_COLUMN_G_S_C_SD_SUBJECTID_2);
+			sb.append(_FINDER_COLUMN_G_C_S_SD_CRFID_2);
 
-			sb.append(_FINDER_COLUMN_G_S_C_SD_CRFID_2);
+			sb.append(_FINDER_COLUMN_G_C_S_SD_SUBJECTID_2);
 
-			sb.append(_FINDER_COLUMN_G_S_C_SD_STRUCTUREDDATAID_2);
+			sb.append(_FINDER_COLUMN_G_C_S_SD_STRUCTUREDDATAID_2);
 
 			String sql = sb.toString();
 
@@ -8563,9 +8563,9 @@ public class CRFHistoryPersistenceImpl
 
 				queryPos.add(groupId);
 
-				queryPos.add(subjectId);
-
 				queryPos.add(crfId);
+
+				queryPos.add(subjectId);
 
 				queryPos.add(structuredDataId);
 
@@ -8587,33 +8587,33 @@ public class CRFHistoryPersistenceImpl
 	}
 
 	/**
-	 * Returns the number of crf histories that the user has permission to view where groupId = &#63; and subjectId = &#63; and crfId = &#63; and structuredDataId = &#63;.
+	 * Returns the number of crf histories that the user has permission to view where groupId = &#63; and crfId = &#63; and subjectId = &#63; and structuredDataId = &#63;.
 	 *
 	 * @param groupId the group ID
-	 * @param subjectId the subject ID
 	 * @param crfId the crf ID
+	 * @param subjectId the subject ID
 	 * @param structuredDataId the structured data ID
 	 * @return the number of matching crf histories that the user has permission to view
 	 */
 	@Override
-	public int filterCountByG_S_C_SD(
-		long groupId, long subjectId, long crfId, long structuredDataId) {
+	public int filterCountByG_C_S_SD(
+		long groupId, long crfId, long subjectId, long structuredDataId) {
 
 		if (!InlineSQLHelperUtil.isEnabled(groupId)) {
-			return countByG_S_C_SD(groupId, subjectId, crfId, structuredDataId);
+			return countByG_C_S_SD(groupId, crfId, subjectId, structuredDataId);
 		}
 
 		StringBundler sb = new StringBundler(5);
 
 		sb.append(_FILTER_SQL_COUNT_CRFHISTORY_WHERE);
 
-		sb.append(_FINDER_COLUMN_G_S_C_SD_GROUPID_2);
+		sb.append(_FINDER_COLUMN_G_C_S_SD_GROUPID_2);
 
-		sb.append(_FINDER_COLUMN_G_S_C_SD_SUBJECTID_2);
+		sb.append(_FINDER_COLUMN_G_C_S_SD_CRFID_2);
 
-		sb.append(_FINDER_COLUMN_G_S_C_SD_CRFID_2);
+		sb.append(_FINDER_COLUMN_G_C_S_SD_SUBJECTID_2);
 
-		sb.append(_FINDER_COLUMN_G_S_C_SD_STRUCTUREDDATAID_2);
+		sb.append(_FINDER_COLUMN_G_C_S_SD_STRUCTUREDDATAID_2);
 
 		String sql = InlineSQLHelperUtil.replacePermissionCheck(
 			sb.toString(), CRFHistory.class.getName(),
@@ -8633,9 +8633,9 @@ public class CRFHistoryPersistenceImpl
 
 			queryPos.add(groupId);
 
-			queryPos.add(subjectId);
-
 			queryPos.add(crfId);
+
+			queryPos.add(subjectId);
 
 			queryPos.add(structuredDataId);
 
@@ -8651,16 +8651,16 @@ public class CRFHistoryPersistenceImpl
 		}
 	}
 
-	private static final String _FINDER_COLUMN_G_S_C_SD_GROUPID_2 =
+	private static final String _FINDER_COLUMN_G_C_S_SD_GROUPID_2 =
 		"crfHistory.groupId = ? AND ";
 
-	private static final String _FINDER_COLUMN_G_S_C_SD_SUBJECTID_2 =
-		"crfHistory.subjectId = ? AND ";
-
-	private static final String _FINDER_COLUMN_G_S_C_SD_CRFID_2 =
+	private static final String _FINDER_COLUMN_G_C_S_SD_CRFID_2 =
 		"crfHistory.crfId = ? AND ";
 
-	private static final String _FINDER_COLUMN_G_S_C_SD_STRUCTUREDDATAID_2 =
+	private static final String _FINDER_COLUMN_G_C_S_SD_SUBJECTID_2 =
+		"crfHistory.subjectId = ? AND ";
+
+	private static final String _FINDER_COLUMN_G_C_S_SD_STRUCTUREDDATAID_2 =
 		"crfHistory.structuredDataId = ?";
 
 	public CRFHistoryPersistenceImpl() {
@@ -9080,24 +9080,24 @@ public class CRFHistoryPersistenceImpl
 
 			args = new Object[] {
 				crfHistoryModelImpl.getGroupId(),
-				crfHistoryModelImpl.getSubjectId(),
-				crfHistoryModelImpl.getCrfId()
+				crfHistoryModelImpl.getCrfId(),
+				crfHistoryModelImpl.getSubjectId()
 			};
 
-			finderCache.removeResult(_finderPathCountByG_S_C, args);
+			finderCache.removeResult(_finderPathCountByG_C_S, args);
 			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByG_S_C, args);
+				_finderPathWithoutPaginationFindByG_C_S, args);
 
 			args = new Object[] {
 				crfHistoryModelImpl.getGroupId(),
-				crfHistoryModelImpl.getSubjectId(),
 				crfHistoryModelImpl.getCrfId(),
+				crfHistoryModelImpl.getSubjectId(),
 				crfHistoryModelImpl.getStructuredDataId()
 			};
 
-			finderCache.removeResult(_finderPathCountByG_S_C_SD, args);
+			finderCache.removeResult(_finderPathCountByG_C_S_SD, args);
 			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByG_S_C_SD, args);
+				_finderPathWithoutPaginationFindByG_C_S_SD, args);
 
 			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
 			finderCache.removeResult(
@@ -9313,55 +9313,55 @@ public class CRFHistoryPersistenceImpl
 			}
 
 			if ((crfHistoryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByG_S_C.getColumnBitmask()) !=
+				 _finderPathWithoutPaginationFindByG_C_S.getColumnBitmask()) !=
 					 0) {
 
 				Object[] args = new Object[] {
 					crfHistoryModelImpl.getOriginalGroupId(),
-					crfHistoryModelImpl.getOriginalSubjectId(),
-					crfHistoryModelImpl.getOriginalCrfId()
+					crfHistoryModelImpl.getOriginalCrfId(),
+					crfHistoryModelImpl.getOriginalSubjectId()
 				};
 
-				finderCache.removeResult(_finderPathCountByG_S_C, args);
+				finderCache.removeResult(_finderPathCountByG_C_S, args);
 				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_S_C, args);
+					_finderPathWithoutPaginationFindByG_C_S, args);
 
 				args = new Object[] {
 					crfHistoryModelImpl.getGroupId(),
-					crfHistoryModelImpl.getSubjectId(),
-					crfHistoryModelImpl.getCrfId()
+					crfHistoryModelImpl.getCrfId(),
+					crfHistoryModelImpl.getSubjectId()
 				};
 
-				finderCache.removeResult(_finderPathCountByG_S_C, args);
+				finderCache.removeResult(_finderPathCountByG_C_S, args);
 				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_S_C, args);
+					_finderPathWithoutPaginationFindByG_C_S, args);
 			}
 
 			if ((crfHistoryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByG_S_C_SD.
+				 _finderPathWithoutPaginationFindByG_C_S_SD.
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
 					crfHistoryModelImpl.getOriginalGroupId(),
-					crfHistoryModelImpl.getOriginalSubjectId(),
 					crfHistoryModelImpl.getOriginalCrfId(),
+					crfHistoryModelImpl.getOriginalSubjectId(),
 					crfHistoryModelImpl.getOriginalStructuredDataId()
 				};
 
-				finderCache.removeResult(_finderPathCountByG_S_C_SD, args);
+				finderCache.removeResult(_finderPathCountByG_C_S_SD, args);
 				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_S_C_SD, args);
+					_finderPathWithoutPaginationFindByG_C_S_SD, args);
 
 				args = new Object[] {
 					crfHistoryModelImpl.getGroupId(),
-					crfHistoryModelImpl.getSubjectId(),
 					crfHistoryModelImpl.getCrfId(),
+					crfHistoryModelImpl.getSubjectId(),
 					crfHistoryModelImpl.getStructuredDataId()
 				};
 
-				finderCache.removeResult(_finderPathCountByG_S_C_SD, args);
+				finderCache.removeResult(_finderPathCountByG_C_S_SD, args);
 				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByG_S_C_SD, args);
+					_finderPathWithoutPaginationFindByG_C_S_SD, args);
 			}
 		}
 
@@ -9883,36 +9883,36 @@ public class CRFHistoryPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_C",
 			new String[] {Long.class.getName(), Long.class.getName()});
 
-		_finderPathWithPaginationFindByG_S_C = new FinderPath(
+		_finderPathWithPaginationFindByG_C_S = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, CRFHistoryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_S_C",
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_C_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByG_S_C = new FinderPath(
+		_finderPathWithoutPaginationFindByG_C_S = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, CRFHistoryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_S_C",
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_C_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			},
 			CRFHistoryModelImpl.GROUPID_COLUMN_BITMASK |
-			CRFHistoryModelImpl.SUBJECTID_COLUMN_BITMASK |
 			CRFHistoryModelImpl.CRFID_COLUMN_BITMASK |
+			CRFHistoryModelImpl.SUBJECTID_COLUMN_BITMASK |
 			CRFHistoryModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
 
-		_finderPathCountByG_S_C = new FinderPath(
+		_finderPathCountByG_C_S = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_S_C",
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_C_S",
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			});
 
-		_finderPathWithPaginationFindByG_S_C_SD = new FinderPath(
+		_finderPathWithPaginationFindByG_C_S_SD = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, CRFHistoryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_S_C_SD",
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByG_C_S_SD",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), Long.class.getName(),
@@ -9920,22 +9920,22 @@ public class CRFHistoryPersistenceImpl
 				OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByG_S_C_SD = new FinderPath(
+		_finderPathWithoutPaginationFindByG_C_S_SD = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, CRFHistoryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_S_C_SD",
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByG_C_S_SD",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), Long.class.getName()
 			},
 			CRFHistoryModelImpl.GROUPID_COLUMN_BITMASK |
-			CRFHistoryModelImpl.SUBJECTID_COLUMN_BITMASK |
 			CRFHistoryModelImpl.CRFID_COLUMN_BITMASK |
+			CRFHistoryModelImpl.SUBJECTID_COLUMN_BITMASK |
 			CRFHistoryModelImpl.STRUCTUREDDATAID_COLUMN_BITMASK |
 			CRFHistoryModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
 
-		_finderPathCountByG_S_C_SD = new FinderPath(
+		_finderPathCountByG_C_S_SD = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_S_C_SD",
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_C_S_SD",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Long.class.getName(), Long.class.getName()

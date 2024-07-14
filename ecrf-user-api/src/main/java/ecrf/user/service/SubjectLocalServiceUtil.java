@@ -80,9 +80,7 @@ public class SubjectLocalServiceUtil {
 		return getService().createSubject(subjectId);
 	}
 
-	public static void deleteAllSubject(long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static void deleteAllSubject(long groupId) throws PortalException {
 		getService().deleteAllSubject(groupId);
 	}
 

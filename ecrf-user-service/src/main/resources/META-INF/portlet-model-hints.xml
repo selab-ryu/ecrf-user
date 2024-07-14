@@ -110,7 +110,7 @@
 		<field name="createDate" type="Date" />
 		<field name="modifiedDate" type="Date" />
 		<field name="searchLog" type="String">
-		    <hint name="max-length">2048</hint>
+			<hint name="max-length">2048</hint>
 		</field>
 	</model>
 	<model name="ecrf.user.model.CRFSubject">
