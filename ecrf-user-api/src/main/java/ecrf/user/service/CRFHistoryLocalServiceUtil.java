@@ -75,16 +75,16 @@ public class CRFHistoryLocalServiceUtil {
 		return getService().countAllCRFHistory();
 	}
 
-	public static int countCRFHistoryByG_S_C(
+	public static int countCRFHistoryByG_C_S(
 		long groupId, long subjectId, long crfId) {
 
-		return getService().countCRFHistoryByG_S_C(groupId, subjectId, crfId);
+		return getService().countCRFHistoryByG_C_S(groupId, subjectId, crfId);
 	}
 
-	public static int countCRFHistoryByG_S_C_SD(
+	public static int countCRFHistoryByG_C_S_SD(
 		long groupId, long subjectId, long crfId, long structuredDataId) {
 
-		return getService().countCRFHistoryByG_S_C_SD(
+		return getService().countCRFHistoryByG_C_S_SD(
 			groupId, subjectId, crfId, structuredDataId);
 	}
 
@@ -351,47 +351,47 @@ public class CRFHistoryLocalServiceUtil {
 		return getService().getCRFHistoryByG_C(groupId, crfId);
 	}
 
-	public static List<CRFHistory> getCRFHistoryByG_S_C(
+	public static List<CRFHistory> getCRFHistoryByG_C_S(
 		long groupId, long subjectId, long crfId) {
 
-		return getService().getCRFHistoryByG_S_C(groupId, subjectId, crfId);
+		return getService().getCRFHistoryByG_C_S(groupId, subjectId, crfId);
 	}
 
-	public static List<CRFHistory> getCRFHistoryByG_S_C(
+	public static List<CRFHistory> getCRFHistoryByG_C_S(
 		long groupId, long subjectId, long crfId, int start, int end) {
 
-		return getService().getCRFHistoryByG_S_C(
+		return getService().getCRFHistoryByG_C_S(
 			groupId, subjectId, crfId, start, end);
 	}
 
-	public static List<CRFHistory> getCRFHistoryByG_S_C(
+	public static List<CRFHistory> getCRFHistoryByG_C_S(
 		long groupId, long subjectId, long crfId, int start, int end,
 		OrderByComparator<CRFHistory> comparator) {
 
-		return getService().getCRFHistoryByG_S_C(
+		return getService().getCRFHistoryByG_C_S(
 			groupId, subjectId, crfId, start, end, comparator);
 	}
 
-	public static List<CRFHistory> getCRFHistoryByG_S_C_SD(
+	public static List<CRFHistory> getCRFHistoryByG_C_S_SD(
 		long groupId, long subjectId, long crfId, long structuredDataId) {
 
-		return getService().getCRFHistoryByG_S_C_SD(
+		return getService().getCRFHistoryByG_C_S_SD(
 			groupId, subjectId, crfId, structuredDataId);
 	}
 
-	public static List<CRFHistory> getCRFHistoryByG_S_C_SD(
+	public static List<CRFHistory> getCRFHistoryByG_C_S_SD(
 		long groupId, long subjectId, long crfId, long structuredDataId,
 		int start, int end) {
 
-		return getService().getCRFHistoryByG_S_C_SD(
+		return getService().getCRFHistoryByG_C_S_SD(
 			groupId, subjectId, crfId, structuredDataId, start, end);
 	}
 
-	public static List<CRFHistory> getCRFHistoryByG_S_C_SD(
+	public static List<CRFHistory> getCRFHistoryByG_C_S_SD(
 		long groupId, long subjectId, long crfId, long structuredDataId,
 		int start, int end, OrderByComparator<CRFHistory> comparator) {
 
-		return getService().getCRFHistoryByG_S_C_SD(
+		return getService().getCRFHistoryByG_C_S_SD(
 			groupId, subjectId, crfId, structuredDataId, start, end,
 			comparator);
 	}

@@ -87,9 +87,9 @@ public interface CRFHistoryLocalService
 
 	public int countAllCRFHistory();
 
-	public int countCRFHistoryByG_S_C(long groupId, long subjectId, long crfId);
+	public int countCRFHistoryByG_C_S(long groupId, long subjectId, long crfId);
 
-	public int countCRFHistoryByG_S_C_SD(
+	public int countCRFHistoryByG_C_S_SD(
 		long groupId, long subjectId, long crfId, long structuredDataId);
 
 	public int countCRFHistoryByGroupId(long groupId);
@@ -301,29 +301,29 @@ public interface CRFHistoryLocalService
 	public List<CRFHistory> getCRFHistoryByG_C(long groupId, long crfId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<CRFHistory> getCRFHistoryByG_S_C(
+	public List<CRFHistory> getCRFHistoryByG_C_S(
 		long groupId, long subjectId, long crfId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<CRFHistory> getCRFHistoryByG_S_C(
+	public List<CRFHistory> getCRFHistoryByG_C_S(
 		long groupId, long subjectId, long crfId, int start, int end);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<CRFHistory> getCRFHistoryByG_S_C(
+	public List<CRFHistory> getCRFHistoryByG_C_S(
 		long groupId, long subjectId, long crfId, int start, int end,
 		OrderByComparator<CRFHistory> comparator);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<CRFHistory> getCRFHistoryByG_S_C_SD(
+	public List<CRFHistory> getCRFHistoryByG_C_S_SD(
 		long groupId, long subjectId, long crfId, long structuredDataId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<CRFHistory> getCRFHistoryByG_S_C_SD(
+	public List<CRFHistory> getCRFHistoryByG_C_S_SD(
 		long groupId, long subjectId, long crfId, long structuredDataId,
 		int start, int end);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<CRFHistory> getCRFHistoryByG_S_C_SD(
+	public List<CRFHistory> getCRFHistoryByG_C_S_SD(
 		long groupId, long subjectId, long crfId, long structuredDataId,
 		int start, int end, OrderByComparator<CRFHistory> comparator);
 

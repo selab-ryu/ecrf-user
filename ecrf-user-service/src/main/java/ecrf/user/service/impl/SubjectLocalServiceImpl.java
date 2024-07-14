@@ -161,11 +161,11 @@ public class SubjectLocalServiceImpl extends SubjectLocalServiceBaseImpl {
 				Subject.class.getName(), 
 				ResourceConstants.SCOPE_INDIVIDUAL, subject.getSubjectId());
 			
-			_log.info("service group id : " + subject.getGroupId());
+			//_log.info("service group id : " + subject.getGroupId());
 			
 			List<CRFSubject> crfSubjectList = _crfSubjectLocalService.getCRFSubjectBySubjectId(subject.getGroupId(), subjectId);
 			for(CRFSubject crfSubject : crfSubjectList) {
-				_crfSubjectLocalService.deleteCRFSubject(crfSubject.getSubjectId());
+				_crfSubjectLocalService.deleteCRFSubject(crfSubject.getCrfSubjectId());
 			}
 			
 			// both of below processed by crf subject service
