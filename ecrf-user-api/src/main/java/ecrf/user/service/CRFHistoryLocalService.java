@@ -87,10 +87,10 @@ public interface CRFHistoryLocalService
 
 	public int countAllCRFHistory();
 
-	public int countCRFHistoryByG_C_S(long groupId, long subjectId, long crfId);
+	public int countCRFHistoryByG_C_S(long groupId, long crfId, long subjectId);
 
 	public int countCRFHistoryByG_C_S_SD(
-		long groupId, long subjectId, long crfId, long structuredDataId);
+		long groupId, long crfId, long subjectId, long structuredDataId);
 
 	public int countCRFHistoryByGroupId(long groupId);
 
@@ -302,29 +302,29 @@ public interface CRFHistoryLocalService
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<CRFHistory> getCRFHistoryByG_C_S(
-		long groupId, long subjectId, long crfId);
+		long groupId, long crfId, long subjectId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<CRFHistory> getCRFHistoryByG_C_S(
-		long groupId, long subjectId, long crfId, int start, int end);
+		long groupId, long crfId, long subjectId, int start, int end);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<CRFHistory> getCRFHistoryByG_C_S(
-		long groupId, long subjectId, long crfId, int start, int end,
+		long groupId, long crfId, long subjectId, int start, int end,
 		OrderByComparator<CRFHistory> comparator);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<CRFHistory> getCRFHistoryByG_C_S_SD(
-		long groupId, long subjectId, long crfId, long structuredDataId);
+		long groupId, long crfId, long subjectId, long structuredDataId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<CRFHistory> getCRFHistoryByG_C_S_SD(
-		long groupId, long subjectId, long crfId, long structuredDataId,
+		long groupId, long crfId, long subjectId, long structuredDataId,
 		int start, int end);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<CRFHistory> getCRFHistoryByG_C_S_SD(
-		long groupId, long subjectId, long crfId, long structuredDataId,
+		long groupId, long crfId, long subjectId, long structuredDataId,
 		int start, int end, OrderByComparator<CRFHistory> comparator);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
