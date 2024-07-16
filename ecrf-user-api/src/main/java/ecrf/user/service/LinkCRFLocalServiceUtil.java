@@ -385,16 +385,8 @@ public class LinkCRFLocalServiceUtil {
 			groupId, start, end, comparator);
 	}
 
-	public static LinkCRF getLinkCRFBySdId(long structuredDataId)
-		throws PortalException {
-
-		return getService().getLinkCRFBySdId(structuredDataId);
-	}
-
-	public static LinkCRF getLinkCRFBySId(long subjectId)
-		throws PortalException {
-
-		return getService().getLinkCRFBySId(subjectId);
+	public static LinkCRF getLinkCRFByStructuredDataId(long structuredDataId) {
+		return getService().getLinkCRFByStructuredDataId(structuredDataId);
 	}
 
 	public static List<LinkCRF> getLinkCRFBySubjectId(long subjectId) {

@@ -332,6 +332,10 @@ public class ExperimentalGroupLocalServiceUtil {
 		return getService().getExpGroupByGroupId(groupId);
 	}
 
+	public static ExperimentalGroup getExpGroupById(long expGroupId) {
+		return getService().getExpGroupById(expGroupId);
+	}
+
 	public static List<ExperimentalGroup> getExpGroupByName(String name) {
 		return getService().getExpGroupByName(name);
 	}

@@ -448,17 +448,11 @@ public class LinkCRFLocalServiceWrapper
 	}
 
 	@Override
-	public ecrf.user.model.LinkCRF getLinkCRFBySdId(long structuredDataId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public ecrf.user.model.LinkCRF getLinkCRFByStructuredDataId(
+		long structuredDataId) {
 
-		return _linkCRFLocalService.getLinkCRFBySdId(structuredDataId);
-	}
-
-	@Override
-	public ecrf.user.model.LinkCRF getLinkCRFBySId(long subjectId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		return _linkCRFLocalService.getLinkCRFBySId(subjectId);
+		return _linkCRFLocalService.getLinkCRFByStructuredDataId(
+			structuredDataId);
 	}
 
 	@Override

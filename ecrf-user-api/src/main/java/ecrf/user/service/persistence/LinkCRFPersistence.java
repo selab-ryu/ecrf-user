@@ -430,6 +430,51 @@ public interface LinkCRFPersistence extends BasePersistence<LinkCRF> {
 	public int countByLinkId(long linkId);
 
 	/**
+	 * Returns the link crf where structuredDataId = &#63; or throws a <code>NoSuchLinkCRFException</code> if it could not be found.
+	 *
+	 * @param structuredDataId the structured data ID
+	 * @return the matching link crf
+	 * @throws NoSuchLinkCRFException if a matching link crf could not be found
+	 */
+	public LinkCRF findByStructuredDataId(long structuredDataId)
+		throws NoSuchLinkCRFException;
+
+	/**
+	 * Returns the link crf where structuredDataId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param structuredDataId the structured data ID
+	 * @return the matching link crf, or <code>null</code> if a matching link crf could not be found
+	 */
+	public LinkCRF fetchByStructuredDataId(long structuredDataId);
+
+	/**
+	 * Returns the link crf where structuredDataId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param structuredDataId the structured data ID
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the matching link crf, or <code>null</code> if a matching link crf could not be found
+	 */
+	public LinkCRF fetchByStructuredDataId(
+		long structuredDataId, boolean useFinderCache);
+
+	/**
+	 * Removes the link crf where structuredDataId = &#63; from the database.
+	 *
+	 * @param structuredDataId the structured data ID
+	 * @return the link crf that was removed
+	 */
+	public LinkCRF removeByStructuredDataId(long structuredDataId)
+		throws NoSuchLinkCRFException;
+
+	/**
+	 * Returns the number of link crfs where structuredDataId = &#63;.
+	 *
+	 * @param structuredDataId the structured data ID
+	 * @return the number of matching link crfs
+	 */
+	public int countByStructuredDataId(long structuredDataId);
+
+	/**
 	 * Returns all the link crfs where groupId = &#63;.
 	 *
 	 * @param groupId the group ID
@@ -1802,238 +1847,6 @@ public interface LinkCRFPersistence extends BasePersistence<LinkCRF> {
 	 * @return the number of matching link crfs
 	 */
 	public int countByC_S_SD(long crfId, long subjectId, long structuredDataId);
-
-	/**
-	 * Returns all the link crfs where structuredDataId = &#63;.
-	 *
-	 * @param structuredDataId the structured data ID
-	 * @return the matching link crfs
-	 */
-	public java.util.List<LinkCRF> findByStructuredDataId(
-		long structuredDataId);
-
-	/**
-	 * Returns a range of all the link crfs where structuredDataId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>LinkCRFModelImpl</code>.
-	 * </p>
-	 *
-	 * @param structuredDataId the structured data ID
-	 * @param start the lower bound of the range of link crfs
-	 * @param end the upper bound of the range of link crfs (not inclusive)
-	 * @return the range of matching link crfs
-	 */
-	public java.util.List<LinkCRF> findByStructuredDataId(
-		long structuredDataId, int start, int end);
-
-	/**
-	 * Returns an ordered range of all the link crfs where structuredDataId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>LinkCRFModelImpl</code>.
-	 * </p>
-	 *
-	 * @param structuredDataId the structured data ID
-	 * @param start the lower bound of the range of link crfs
-	 * @param end the upper bound of the range of link crfs (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching link crfs
-	 */
-	public java.util.List<LinkCRF> findByStructuredDataId(
-		long structuredDataId, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator<LinkCRF>
-			orderByComparator);
-
-	/**
-	 * Returns an ordered range of all the link crfs where structuredDataId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>LinkCRFModelImpl</code>.
-	 * </p>
-	 *
-	 * @param structuredDataId the structured data ID
-	 * @param start the lower bound of the range of link crfs
-	 * @param end the upper bound of the range of link crfs (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @param useFinderCache whether to use the finder cache
-	 * @return the ordered range of matching link crfs
-	 */
-	public java.util.List<LinkCRF> findByStructuredDataId(
-		long structuredDataId, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator<LinkCRF>
-			orderByComparator,
-		boolean useFinderCache);
-
-	/**
-	 * Returns the first link crf in the ordered set where structuredDataId = &#63;.
-	 *
-	 * @param structuredDataId the structured data ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching link crf
-	 * @throws NoSuchLinkCRFException if a matching link crf could not be found
-	 */
-	public LinkCRF findByStructuredDataId_First(
-			long structuredDataId,
-			com.liferay.portal.kernel.util.OrderByComparator<LinkCRF>
-				orderByComparator)
-		throws NoSuchLinkCRFException;
-
-	/**
-	 * Returns the first link crf in the ordered set where structuredDataId = &#63;.
-	 *
-	 * @param structuredDataId the structured data ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching link crf, or <code>null</code> if a matching link crf could not be found
-	 */
-	public LinkCRF fetchByStructuredDataId_First(
-		long structuredDataId,
-		com.liferay.portal.kernel.util.OrderByComparator<LinkCRF>
-			orderByComparator);
-
-	/**
-	 * Returns the last link crf in the ordered set where structuredDataId = &#63;.
-	 *
-	 * @param structuredDataId the structured data ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching link crf
-	 * @throws NoSuchLinkCRFException if a matching link crf could not be found
-	 */
-	public LinkCRF findByStructuredDataId_Last(
-			long structuredDataId,
-			com.liferay.portal.kernel.util.OrderByComparator<LinkCRF>
-				orderByComparator)
-		throws NoSuchLinkCRFException;
-
-	/**
-	 * Returns the last link crf in the ordered set where structuredDataId = &#63;.
-	 *
-	 * @param structuredDataId the structured data ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching link crf, or <code>null</code> if a matching link crf could not be found
-	 */
-	public LinkCRF fetchByStructuredDataId_Last(
-		long structuredDataId,
-		com.liferay.portal.kernel.util.OrderByComparator<LinkCRF>
-			orderByComparator);
-
-	/**
-	 * Returns the link crfs before and after the current link crf in the ordered set where structuredDataId = &#63;.
-	 *
-	 * @param linkId the primary key of the current link crf
-	 * @param structuredDataId the structured data ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the previous, current, and next link crf
-	 * @throws NoSuchLinkCRFException if a link crf with the primary key could not be found
-	 */
-	public LinkCRF[] findByStructuredDataId_PrevAndNext(
-			long linkId, long structuredDataId,
-			com.liferay.portal.kernel.util.OrderByComparator<LinkCRF>
-				orderByComparator)
-		throws NoSuchLinkCRFException;
-
-	/**
-	 * Removes all the link crfs where structuredDataId = &#63; from the database.
-	 *
-	 * @param structuredDataId the structured data ID
-	 */
-	public void removeByStructuredDataId(long structuredDataId);
-
-	/**
-	 * Returns the number of link crfs where structuredDataId = &#63;.
-	 *
-	 * @param structuredDataId the structured data ID
-	 * @return the number of matching link crfs
-	 */
-	public int countByStructuredDataId(long structuredDataId);
-
-	/**
-	 * Returns the link crf where subjectId = &#63; or throws a <code>NoSuchLinkCRFException</code> if it could not be found.
-	 *
-	 * @param subjectId the subject ID
-	 * @return the matching link crf
-	 * @throws NoSuchLinkCRFException if a matching link crf could not be found
-	 */
-	public LinkCRF findByLinkSId(long subjectId) throws NoSuchLinkCRFException;
-
-	/**
-	 * Returns the link crf where subjectId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
-	 *
-	 * @param subjectId the subject ID
-	 * @return the matching link crf, or <code>null</code> if a matching link crf could not be found
-	 */
-	public LinkCRF fetchByLinkSId(long subjectId);
-
-	/**
-	 * Returns the link crf where subjectId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
-	 *
-	 * @param subjectId the subject ID
-	 * @param useFinderCache whether to use the finder cache
-	 * @return the matching link crf, or <code>null</code> if a matching link crf could not be found
-	 */
-	public LinkCRF fetchByLinkSId(long subjectId, boolean useFinderCache);
-
-	/**
-	 * Removes the link crf where subjectId = &#63; from the database.
-	 *
-	 * @param subjectId the subject ID
-	 * @return the link crf that was removed
-	 */
-	public LinkCRF removeByLinkSId(long subjectId)
-		throws NoSuchLinkCRFException;
-
-	/**
-	 * Returns the number of link crfs where subjectId = &#63;.
-	 *
-	 * @param subjectId the subject ID
-	 * @return the number of matching link crfs
-	 */
-	public int countByLinkSId(long subjectId);
-
-	/**
-	 * Returns the link crf where structuredDataId = &#63; or throws a <code>NoSuchLinkCRFException</code> if it could not be found.
-	 *
-	 * @param structuredDataId the structured data ID
-	 * @return the matching link crf
-	 * @throws NoSuchLinkCRFException if a matching link crf could not be found
-	 */
-	public LinkCRF findByLinkSdId(long structuredDataId)
-		throws NoSuchLinkCRFException;
-
-	/**
-	 * Returns the link crf where structuredDataId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
-	 *
-	 * @param structuredDataId the structured data ID
-	 * @return the matching link crf, or <code>null</code> if a matching link crf could not be found
-	 */
-	public LinkCRF fetchByLinkSdId(long structuredDataId);
-
-	/**
-	 * Returns the link crf where structuredDataId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
-	 *
-	 * @param structuredDataId the structured data ID
-	 * @param useFinderCache whether to use the finder cache
-	 * @return the matching link crf, or <code>null</code> if a matching link crf could not be found
-	 */
-	public LinkCRF fetchByLinkSdId(
-		long structuredDataId, boolean useFinderCache);
-
-	/**
-	 * Removes the link crf where structuredDataId = &#63; from the database.
-	 *
-	 * @param structuredDataId the structured data ID
-	 * @return the link crf that was removed
-	 */
-	public LinkCRF removeByLinkSdId(long structuredDataId)
-		throws NoSuchLinkCRFException;
-
-	/**
-	 * Returns the number of link crfs where structuredDataId = &#63;.
-	 *
-	 * @param structuredDataId the structured data ID
-	 * @return the number of matching link crfs
-	 */
-	public int countByLinkSdId(long structuredDataId);
 
 	/**
 	 * Caches the link crf in the entity cache if it is enabled.

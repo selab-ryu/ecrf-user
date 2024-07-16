@@ -62,24 +62,6 @@ import java.rmi.RemoteException;
  */
 public class CRFSubjectServiceSoap {
 
-	public static java.util.ArrayList<ecrf.user.model.Subject>
-			getCRFSubjectByExGroup(long groupId, long crfId, String exGroup)
-		throws RemoteException {
-
-		try {
-			java.util.ArrayList<ecrf.user.model.Subject> returnValue =
-				CRFSubjectServiceUtil.getCRFSubjectByExGroup(
-					groupId, crfId, exGroup);
-
-			return returnValue;
-		}
-		catch (Exception exception) {
-			_log.error(exception, exception);
-
-			throw new RemoteException(exception.getMessage());
-		}
-	}
-
 	public static java.util.ArrayList<ecrf.user.model.custom.CRFSubjectInfo>
 			getCRFSubjectList(long groupId, long crfId)
 		throws RemoteException {

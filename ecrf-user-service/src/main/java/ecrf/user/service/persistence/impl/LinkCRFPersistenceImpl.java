@@ -1686,6 +1686,228 @@ public class LinkCRFPersistenceImpl
 	private static final String _FINDER_COLUMN_LINKID_LINKID_2 =
 		"linkCRF.linkId = ?";
 
+	private FinderPath _finderPathFetchByStructuredDataId;
+	private FinderPath _finderPathCountByStructuredDataId;
+
+	/**
+	 * Returns the link crf where structuredDataId = &#63; or throws a <code>NoSuchLinkCRFException</code> if it could not be found.
+	 *
+	 * @param structuredDataId the structured data ID
+	 * @return the matching link crf
+	 * @throws NoSuchLinkCRFException if a matching link crf could not be found
+	 */
+	@Override
+	public LinkCRF findByStructuredDataId(long structuredDataId)
+		throws NoSuchLinkCRFException {
+
+		LinkCRF linkCRF = fetchByStructuredDataId(structuredDataId);
+
+		if (linkCRF == null) {
+			StringBundler sb = new StringBundler(4);
+
+			sb.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			sb.append("structuredDataId=");
+			sb.append(structuredDataId);
+
+			sb.append("}");
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(sb.toString());
+			}
+
+			throw new NoSuchLinkCRFException(sb.toString());
+		}
+
+		return linkCRF;
+	}
+
+	/**
+	 * Returns the link crf where structuredDataId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param structuredDataId the structured data ID
+	 * @return the matching link crf, or <code>null</code> if a matching link crf could not be found
+	 */
+	@Override
+	public LinkCRF fetchByStructuredDataId(long structuredDataId) {
+		return fetchByStructuredDataId(structuredDataId, true);
+	}
+
+	/**
+	 * Returns the link crf where structuredDataId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param structuredDataId the structured data ID
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the matching link crf, or <code>null</code> if a matching link crf could not be found
+	 */
+	@Override
+	public LinkCRF fetchByStructuredDataId(
+		long structuredDataId, boolean useFinderCache) {
+
+		Object[] finderArgs = null;
+
+		if (useFinderCache) {
+			finderArgs = new Object[] {structuredDataId};
+		}
+
+		Object result = null;
+
+		if (useFinderCache) {
+			result = finderCache.getResult(
+				_finderPathFetchByStructuredDataId, finderArgs, this);
+		}
+
+		if (result instanceof LinkCRF) {
+			LinkCRF linkCRF = (LinkCRF)result;
+
+			if (structuredDataId != linkCRF.getStructuredDataId()) {
+				result = null;
+			}
+		}
+
+		if (result == null) {
+			StringBundler sb = new StringBundler(3);
+
+			sb.append(_SQL_SELECT_LINKCRF_WHERE);
+
+			sb.append(_FINDER_COLUMN_STRUCTUREDDATAID_STRUCTUREDDATAID_2);
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				queryPos.add(structuredDataId);
+
+				List<LinkCRF> list = query.list();
+
+				if (list.isEmpty()) {
+					if (useFinderCache) {
+						finderCache.putResult(
+							_finderPathFetchByStructuredDataId, finderArgs,
+							list);
+					}
+				}
+				else {
+					if (list.size() > 1) {
+						Collections.sort(list, Collections.reverseOrder());
+
+						if (_log.isWarnEnabled()) {
+							if (!useFinderCache) {
+								finderArgs = new Object[] {structuredDataId};
+							}
+
+							_log.warn(
+								"LinkCRFPersistenceImpl.fetchByStructuredDataId(long, boolean) with parameters (" +
+									StringUtil.merge(finderArgs) +
+										") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+						}
+					}
+
+					LinkCRF linkCRF = list.get(0);
+
+					result = linkCRF;
+
+					cacheResult(linkCRF);
+				}
+			}
+			catch (Exception exception) {
+				if (useFinderCache) {
+					finderCache.removeResult(
+						_finderPathFetchByStructuredDataId, finderArgs);
+				}
+
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		if (result instanceof List<?>) {
+			return null;
+		}
+		else {
+			return (LinkCRF)result;
+		}
+	}
+
+	/**
+	 * Removes the link crf where structuredDataId = &#63; from the database.
+	 *
+	 * @param structuredDataId the structured data ID
+	 * @return the link crf that was removed
+	 */
+	@Override
+	public LinkCRF removeByStructuredDataId(long structuredDataId)
+		throws NoSuchLinkCRFException {
+
+		LinkCRF linkCRF = findByStructuredDataId(structuredDataId);
+
+		return remove(linkCRF);
+	}
+
+	/**
+	 * Returns the number of link crfs where structuredDataId = &#63;.
+	 *
+	 * @param structuredDataId the structured data ID
+	 * @return the number of matching link crfs
+	 */
+	@Override
+	public int countByStructuredDataId(long structuredDataId) {
+		FinderPath finderPath = _finderPathCountByStructuredDataId;
+
+		Object[] finderArgs = new Object[] {structuredDataId};
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler sb = new StringBundler(2);
+
+			sb.append(_SQL_COUNT_LINKCRF_WHERE);
+
+			sb.append(_FINDER_COLUMN_STRUCTUREDDATAID_STRUCTUREDDATAID_2);
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				queryPos.add(structuredDataId);
+
+				count = (Long)query.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception exception) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String
+		_FINDER_COLUMN_STRUCTUREDDATAID_STRUCTUREDDATAID_2 =
+			"linkCRF.structuredDataId = ?";
+
 	private FinderPath _finderPathWithPaginationFindByGroupId;
 	private FinderPath _finderPathWithoutPaginationFindByGroupId;
 	private FinderPath _finderPathCountByGroupId;
@@ -7266,946 +7488,6 @@ public class LinkCRFPersistenceImpl
 	private static final String _FINDER_COLUMN_C_S_SD_STRUCTUREDDATAID_2 =
 		"linkCRF.structuredDataId = ?";
 
-	private FinderPath _finderPathWithPaginationFindByStructuredDataId;
-	private FinderPath _finderPathWithoutPaginationFindByStructuredDataId;
-	private FinderPath _finderPathCountByStructuredDataId;
-
-	/**
-	 * Returns all the link crfs where structuredDataId = &#63;.
-	 *
-	 * @param structuredDataId the structured data ID
-	 * @return the matching link crfs
-	 */
-	@Override
-	public List<LinkCRF> findByStructuredDataId(long structuredDataId) {
-		return findByStructuredDataId(
-			structuredDataId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
-	}
-
-	/**
-	 * Returns a range of all the link crfs where structuredDataId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>LinkCRFModelImpl</code>.
-	 * </p>
-	 *
-	 * @param structuredDataId the structured data ID
-	 * @param start the lower bound of the range of link crfs
-	 * @param end the upper bound of the range of link crfs (not inclusive)
-	 * @return the range of matching link crfs
-	 */
-	@Override
-	public List<LinkCRF> findByStructuredDataId(
-		long structuredDataId, int start, int end) {
-
-		return findByStructuredDataId(structuredDataId, start, end, null);
-	}
-
-	/**
-	 * Returns an ordered range of all the link crfs where structuredDataId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>LinkCRFModelImpl</code>.
-	 * </p>
-	 *
-	 * @param structuredDataId the structured data ID
-	 * @param start the lower bound of the range of link crfs
-	 * @param end the upper bound of the range of link crfs (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching link crfs
-	 */
-	@Override
-	public List<LinkCRF> findByStructuredDataId(
-		long structuredDataId, int start, int end,
-		OrderByComparator<LinkCRF> orderByComparator) {
-
-		return findByStructuredDataId(
-			structuredDataId, start, end, orderByComparator, true);
-	}
-
-	/**
-	 * Returns an ordered range of all the link crfs where structuredDataId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>LinkCRFModelImpl</code>.
-	 * </p>
-	 *
-	 * @param structuredDataId the structured data ID
-	 * @param start the lower bound of the range of link crfs
-	 * @param end the upper bound of the range of link crfs (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @param useFinderCache whether to use the finder cache
-	 * @return the ordered range of matching link crfs
-	 */
-	@Override
-	public List<LinkCRF> findByStructuredDataId(
-		long structuredDataId, int start, int end,
-		OrderByComparator<LinkCRF> orderByComparator, boolean useFinderCache) {
-
-		FinderPath finderPath = null;
-		Object[] finderArgs = null;
-
-		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-			(orderByComparator == null)) {
-
-			if (useFinderCache) {
-				finderPath = _finderPathWithoutPaginationFindByStructuredDataId;
-				finderArgs = new Object[] {structuredDataId};
-			}
-		}
-		else if (useFinderCache) {
-			finderPath = _finderPathWithPaginationFindByStructuredDataId;
-			finderArgs = new Object[] {
-				structuredDataId, start, end, orderByComparator
-			};
-		}
-
-		List<LinkCRF> list = null;
-
-		if (useFinderCache) {
-			list = (List<LinkCRF>)finderCache.getResult(
-				finderPath, finderArgs, this);
-
-			if ((list != null) && !list.isEmpty()) {
-				for (LinkCRF linkCRF : list) {
-					if (structuredDataId != linkCRF.getStructuredDataId()) {
-						list = null;
-
-						break;
-					}
-				}
-			}
-		}
-
-		if (list == null) {
-			StringBundler sb = null;
-
-			if (orderByComparator != null) {
-				sb = new StringBundler(
-					3 + (orderByComparator.getOrderByFields().length * 2));
-			}
-			else {
-				sb = new StringBundler(3);
-			}
-
-			sb.append(_SQL_SELECT_LINKCRF_WHERE);
-
-			sb.append(_FINDER_COLUMN_STRUCTUREDDATAID_STRUCTUREDDATAID_2);
-
-			if (orderByComparator != null) {
-				appendOrderByComparator(
-					sb, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
-			}
-			else {
-				sb.append(LinkCRFModelImpl.ORDER_BY_JPQL);
-			}
-
-			String sql = sb.toString();
-
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				Query query = session.createQuery(sql);
-
-				QueryPos queryPos = QueryPos.getInstance(query);
-
-				queryPos.add(structuredDataId);
-
-				list = (List<LinkCRF>)QueryUtil.list(
-					query, getDialect(), start, end);
-
-				cacheResult(list);
-
-				if (useFinderCache) {
-					finderCache.putResult(finderPath, finderArgs, list);
-				}
-			}
-			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return list;
-	}
-
-	/**
-	 * Returns the first link crf in the ordered set where structuredDataId = &#63;.
-	 *
-	 * @param structuredDataId the structured data ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching link crf
-	 * @throws NoSuchLinkCRFException if a matching link crf could not be found
-	 */
-	@Override
-	public LinkCRF findByStructuredDataId_First(
-			long structuredDataId, OrderByComparator<LinkCRF> orderByComparator)
-		throws NoSuchLinkCRFException {
-
-		LinkCRF linkCRF = fetchByStructuredDataId_First(
-			structuredDataId, orderByComparator);
-
-		if (linkCRF != null) {
-			return linkCRF;
-		}
-
-		StringBundler sb = new StringBundler(4);
-
-		sb.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-		sb.append("structuredDataId=");
-		sb.append(structuredDataId);
-
-		sb.append("}");
-
-		throw new NoSuchLinkCRFException(sb.toString());
-	}
-
-	/**
-	 * Returns the first link crf in the ordered set where structuredDataId = &#63;.
-	 *
-	 * @param structuredDataId the structured data ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching link crf, or <code>null</code> if a matching link crf could not be found
-	 */
-	@Override
-	public LinkCRF fetchByStructuredDataId_First(
-		long structuredDataId, OrderByComparator<LinkCRF> orderByComparator) {
-
-		List<LinkCRF> list = findByStructuredDataId(
-			structuredDataId, 0, 1, orderByComparator);
-
-		if (!list.isEmpty()) {
-			return list.get(0);
-		}
-
-		return null;
-	}
-
-	/**
-	 * Returns the last link crf in the ordered set where structuredDataId = &#63;.
-	 *
-	 * @param structuredDataId the structured data ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching link crf
-	 * @throws NoSuchLinkCRFException if a matching link crf could not be found
-	 */
-	@Override
-	public LinkCRF findByStructuredDataId_Last(
-			long structuredDataId, OrderByComparator<LinkCRF> orderByComparator)
-		throws NoSuchLinkCRFException {
-
-		LinkCRF linkCRF = fetchByStructuredDataId_Last(
-			structuredDataId, orderByComparator);
-
-		if (linkCRF != null) {
-			return linkCRF;
-		}
-
-		StringBundler sb = new StringBundler(4);
-
-		sb.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-		sb.append("structuredDataId=");
-		sb.append(structuredDataId);
-
-		sb.append("}");
-
-		throw new NoSuchLinkCRFException(sb.toString());
-	}
-
-	/**
-	 * Returns the last link crf in the ordered set where structuredDataId = &#63;.
-	 *
-	 * @param structuredDataId the structured data ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching link crf, or <code>null</code> if a matching link crf could not be found
-	 */
-	@Override
-	public LinkCRF fetchByStructuredDataId_Last(
-		long structuredDataId, OrderByComparator<LinkCRF> orderByComparator) {
-
-		int count = countByStructuredDataId(structuredDataId);
-
-		if (count == 0) {
-			return null;
-		}
-
-		List<LinkCRF> list = findByStructuredDataId(
-			structuredDataId, count - 1, count, orderByComparator);
-
-		if (!list.isEmpty()) {
-			return list.get(0);
-		}
-
-		return null;
-	}
-
-	/**
-	 * Returns the link crfs before and after the current link crf in the ordered set where structuredDataId = &#63;.
-	 *
-	 * @param linkId the primary key of the current link crf
-	 * @param structuredDataId the structured data ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the previous, current, and next link crf
-	 * @throws NoSuchLinkCRFException if a link crf with the primary key could not be found
-	 */
-	@Override
-	public LinkCRF[] findByStructuredDataId_PrevAndNext(
-			long linkId, long structuredDataId,
-			OrderByComparator<LinkCRF> orderByComparator)
-		throws NoSuchLinkCRFException {
-
-		LinkCRF linkCRF = findByPrimaryKey(linkId);
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			LinkCRF[] array = new LinkCRFImpl[3];
-
-			array[0] = getByStructuredDataId_PrevAndNext(
-				session, linkCRF, structuredDataId, orderByComparator, true);
-
-			array[1] = linkCRF;
-
-			array[2] = getByStructuredDataId_PrevAndNext(
-				session, linkCRF, structuredDataId, orderByComparator, false);
-
-			return array;
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-	}
-
-	protected LinkCRF getByStructuredDataId_PrevAndNext(
-		Session session, LinkCRF linkCRF, long structuredDataId,
-		OrderByComparator<LinkCRF> orderByComparator, boolean previous) {
-
-		StringBundler sb = null;
-
-		if (orderByComparator != null) {
-			sb = new StringBundler(
-				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
-					(orderByComparator.getOrderByFields().length * 3));
-		}
-		else {
-			sb = new StringBundler(3);
-		}
-
-		sb.append(_SQL_SELECT_LINKCRF_WHERE);
-
-		sb.append(_FINDER_COLUMN_STRUCTUREDDATAID_STRUCTUREDDATAID_2);
-
-		if (orderByComparator != null) {
-			String[] orderByConditionFields =
-				orderByComparator.getOrderByConditionFields();
-
-			if (orderByConditionFields.length > 0) {
-				sb.append(WHERE_AND);
-			}
-
-			for (int i = 0; i < orderByConditionFields.length; i++) {
-				sb.append(_ORDER_BY_ENTITY_ALIAS);
-				sb.append(orderByConditionFields[i]);
-
-				if ((i + 1) < orderByConditionFields.length) {
-					if (orderByComparator.isAscending() ^ previous) {
-						sb.append(WHERE_GREATER_THAN_HAS_NEXT);
-					}
-					else {
-						sb.append(WHERE_LESSER_THAN_HAS_NEXT);
-					}
-				}
-				else {
-					if (orderByComparator.isAscending() ^ previous) {
-						sb.append(WHERE_GREATER_THAN);
-					}
-					else {
-						sb.append(WHERE_LESSER_THAN);
-					}
-				}
-			}
-
-			sb.append(ORDER_BY_CLAUSE);
-
-			String[] orderByFields = orderByComparator.getOrderByFields();
-
-			for (int i = 0; i < orderByFields.length; i++) {
-				sb.append(_ORDER_BY_ENTITY_ALIAS);
-				sb.append(orderByFields[i]);
-
-				if ((i + 1) < orderByFields.length) {
-					if (orderByComparator.isAscending() ^ previous) {
-						sb.append(ORDER_BY_ASC_HAS_NEXT);
-					}
-					else {
-						sb.append(ORDER_BY_DESC_HAS_NEXT);
-					}
-				}
-				else {
-					if (orderByComparator.isAscending() ^ previous) {
-						sb.append(ORDER_BY_ASC);
-					}
-					else {
-						sb.append(ORDER_BY_DESC);
-					}
-				}
-			}
-		}
-		else {
-			sb.append(LinkCRFModelImpl.ORDER_BY_JPQL);
-		}
-
-		String sql = sb.toString();
-
-		Query query = session.createQuery(sql);
-
-		query.setFirstResult(0);
-		query.setMaxResults(2);
-
-		QueryPos queryPos = QueryPos.getInstance(query);
-
-		queryPos.add(structuredDataId);
-
-		if (orderByComparator != null) {
-			for (Object orderByConditionValue :
-					orderByComparator.getOrderByConditionValues(linkCRF)) {
-
-				queryPos.add(orderByConditionValue);
-			}
-		}
-
-		List<LinkCRF> list = query.list();
-
-		if (list.size() == 2) {
-			return list.get(1);
-		}
-		else {
-			return null;
-		}
-	}
-
-	/**
-	 * Removes all the link crfs where structuredDataId = &#63; from the database.
-	 *
-	 * @param structuredDataId the structured data ID
-	 */
-	@Override
-	public void removeByStructuredDataId(long structuredDataId) {
-		for (LinkCRF linkCRF :
-				findByStructuredDataId(
-					structuredDataId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
-					null)) {
-
-			remove(linkCRF);
-		}
-	}
-
-	/**
-	 * Returns the number of link crfs where structuredDataId = &#63;.
-	 *
-	 * @param structuredDataId the structured data ID
-	 * @return the number of matching link crfs
-	 */
-	@Override
-	public int countByStructuredDataId(long structuredDataId) {
-		FinderPath finderPath = _finderPathCountByStructuredDataId;
-
-		Object[] finderArgs = new Object[] {structuredDataId};
-
-		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
-
-		if (count == null) {
-			StringBundler sb = new StringBundler(2);
-
-			sb.append(_SQL_COUNT_LINKCRF_WHERE);
-
-			sb.append(_FINDER_COLUMN_STRUCTUREDDATAID_STRUCTUREDDATAID_2);
-
-			String sql = sb.toString();
-
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				Query query = session.createQuery(sql);
-
-				QueryPos queryPos = QueryPos.getInstance(query);
-
-				queryPos.add(structuredDataId);
-
-				count = (Long)query.uniqueResult();
-
-				finderCache.putResult(finderPath, finderArgs, count);
-			}
-			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return count.intValue();
-	}
-
-	private static final String
-		_FINDER_COLUMN_STRUCTUREDDATAID_STRUCTUREDDATAID_2 =
-			"linkCRF.structuredDataId = ?";
-
-	private FinderPath _finderPathFetchByLinkSId;
-	private FinderPath _finderPathCountByLinkSId;
-
-	/**
-	 * Returns the link crf where subjectId = &#63; or throws a <code>NoSuchLinkCRFException</code> if it could not be found.
-	 *
-	 * @param subjectId the subject ID
-	 * @return the matching link crf
-	 * @throws NoSuchLinkCRFException if a matching link crf could not be found
-	 */
-	@Override
-	public LinkCRF findByLinkSId(long subjectId) throws NoSuchLinkCRFException {
-		LinkCRF linkCRF = fetchByLinkSId(subjectId);
-
-		if (linkCRF == null) {
-			StringBundler sb = new StringBundler(4);
-
-			sb.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-			sb.append("subjectId=");
-			sb.append(subjectId);
-
-			sb.append("}");
-
-			if (_log.isDebugEnabled()) {
-				_log.debug(sb.toString());
-			}
-
-			throw new NoSuchLinkCRFException(sb.toString());
-		}
-
-		return linkCRF;
-	}
-
-	/**
-	 * Returns the link crf where subjectId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
-	 *
-	 * @param subjectId the subject ID
-	 * @return the matching link crf, or <code>null</code> if a matching link crf could not be found
-	 */
-	@Override
-	public LinkCRF fetchByLinkSId(long subjectId) {
-		return fetchByLinkSId(subjectId, true);
-	}
-
-	/**
-	 * Returns the link crf where subjectId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
-	 *
-	 * @param subjectId the subject ID
-	 * @param useFinderCache whether to use the finder cache
-	 * @return the matching link crf, or <code>null</code> if a matching link crf could not be found
-	 */
-	@Override
-	public LinkCRF fetchByLinkSId(long subjectId, boolean useFinderCache) {
-		Object[] finderArgs = null;
-
-		if (useFinderCache) {
-			finderArgs = new Object[] {subjectId};
-		}
-
-		Object result = null;
-
-		if (useFinderCache) {
-			result = finderCache.getResult(
-				_finderPathFetchByLinkSId, finderArgs, this);
-		}
-
-		if (result instanceof LinkCRF) {
-			LinkCRF linkCRF = (LinkCRF)result;
-
-			if (subjectId != linkCRF.getSubjectId()) {
-				result = null;
-			}
-		}
-
-		if (result == null) {
-			StringBundler sb = new StringBundler(3);
-
-			sb.append(_SQL_SELECT_LINKCRF_WHERE);
-
-			sb.append(_FINDER_COLUMN_LINKSID_SUBJECTID_2);
-
-			String sql = sb.toString();
-
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				Query query = session.createQuery(sql);
-
-				QueryPos queryPos = QueryPos.getInstance(query);
-
-				queryPos.add(subjectId);
-
-				List<LinkCRF> list = query.list();
-
-				if (list.isEmpty()) {
-					if (useFinderCache) {
-						finderCache.putResult(
-							_finderPathFetchByLinkSId, finderArgs, list);
-					}
-				}
-				else {
-					if (list.size() > 1) {
-						Collections.sort(list, Collections.reverseOrder());
-
-						if (_log.isWarnEnabled()) {
-							if (!useFinderCache) {
-								finderArgs = new Object[] {subjectId};
-							}
-
-							_log.warn(
-								"LinkCRFPersistenceImpl.fetchByLinkSId(long, boolean) with parameters (" +
-									StringUtil.merge(finderArgs) +
-										") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
-						}
-					}
-
-					LinkCRF linkCRF = list.get(0);
-
-					result = linkCRF;
-
-					cacheResult(linkCRF);
-				}
-			}
-			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(
-						_finderPathFetchByLinkSId, finderArgs);
-				}
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		if (result instanceof List<?>) {
-			return null;
-		}
-		else {
-			return (LinkCRF)result;
-		}
-	}
-
-	/**
-	 * Removes the link crf where subjectId = &#63; from the database.
-	 *
-	 * @param subjectId the subject ID
-	 * @return the link crf that was removed
-	 */
-	@Override
-	public LinkCRF removeByLinkSId(long subjectId)
-		throws NoSuchLinkCRFException {
-
-		LinkCRF linkCRF = findByLinkSId(subjectId);
-
-		return remove(linkCRF);
-	}
-
-	/**
-	 * Returns the number of link crfs where subjectId = &#63;.
-	 *
-	 * @param subjectId the subject ID
-	 * @return the number of matching link crfs
-	 */
-	@Override
-	public int countByLinkSId(long subjectId) {
-		FinderPath finderPath = _finderPathCountByLinkSId;
-
-		Object[] finderArgs = new Object[] {subjectId};
-
-		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
-
-		if (count == null) {
-			StringBundler sb = new StringBundler(2);
-
-			sb.append(_SQL_COUNT_LINKCRF_WHERE);
-
-			sb.append(_FINDER_COLUMN_LINKSID_SUBJECTID_2);
-
-			String sql = sb.toString();
-
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				Query query = session.createQuery(sql);
-
-				QueryPos queryPos = QueryPos.getInstance(query);
-
-				queryPos.add(subjectId);
-
-				count = (Long)query.uniqueResult();
-
-				finderCache.putResult(finderPath, finderArgs, count);
-			}
-			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return count.intValue();
-	}
-
-	private static final String _FINDER_COLUMN_LINKSID_SUBJECTID_2 =
-		"linkCRF.subjectId = ?";
-
-	private FinderPath _finderPathFetchByLinkSdId;
-	private FinderPath _finderPathCountByLinkSdId;
-
-	/**
-	 * Returns the link crf where structuredDataId = &#63; or throws a <code>NoSuchLinkCRFException</code> if it could not be found.
-	 *
-	 * @param structuredDataId the structured data ID
-	 * @return the matching link crf
-	 * @throws NoSuchLinkCRFException if a matching link crf could not be found
-	 */
-	@Override
-	public LinkCRF findByLinkSdId(long structuredDataId)
-		throws NoSuchLinkCRFException {
-
-		LinkCRF linkCRF = fetchByLinkSdId(structuredDataId);
-
-		if (linkCRF == null) {
-			StringBundler sb = new StringBundler(4);
-
-			sb.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-			sb.append("structuredDataId=");
-			sb.append(structuredDataId);
-
-			sb.append("}");
-
-			if (_log.isDebugEnabled()) {
-				_log.debug(sb.toString());
-			}
-
-			throw new NoSuchLinkCRFException(sb.toString());
-		}
-
-		return linkCRF;
-	}
-
-	/**
-	 * Returns the link crf where structuredDataId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
-	 *
-	 * @param structuredDataId the structured data ID
-	 * @return the matching link crf, or <code>null</code> if a matching link crf could not be found
-	 */
-	@Override
-	public LinkCRF fetchByLinkSdId(long structuredDataId) {
-		return fetchByLinkSdId(structuredDataId, true);
-	}
-
-	/**
-	 * Returns the link crf where structuredDataId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
-	 *
-	 * @param structuredDataId the structured data ID
-	 * @param useFinderCache whether to use the finder cache
-	 * @return the matching link crf, or <code>null</code> if a matching link crf could not be found
-	 */
-	@Override
-	public LinkCRF fetchByLinkSdId(
-		long structuredDataId, boolean useFinderCache) {
-
-		Object[] finderArgs = null;
-
-		if (useFinderCache) {
-			finderArgs = new Object[] {structuredDataId};
-		}
-
-		Object result = null;
-
-		if (useFinderCache) {
-			result = finderCache.getResult(
-				_finderPathFetchByLinkSdId, finderArgs, this);
-		}
-
-		if (result instanceof LinkCRF) {
-			LinkCRF linkCRF = (LinkCRF)result;
-
-			if (structuredDataId != linkCRF.getStructuredDataId()) {
-				result = null;
-			}
-		}
-
-		if (result == null) {
-			StringBundler sb = new StringBundler(3);
-
-			sb.append(_SQL_SELECT_LINKCRF_WHERE);
-
-			sb.append(_FINDER_COLUMN_LINKSDID_STRUCTUREDDATAID_2);
-
-			String sql = sb.toString();
-
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				Query query = session.createQuery(sql);
-
-				QueryPos queryPos = QueryPos.getInstance(query);
-
-				queryPos.add(structuredDataId);
-
-				List<LinkCRF> list = query.list();
-
-				if (list.isEmpty()) {
-					if (useFinderCache) {
-						finderCache.putResult(
-							_finderPathFetchByLinkSdId, finderArgs, list);
-					}
-				}
-				else {
-					if (list.size() > 1) {
-						Collections.sort(list, Collections.reverseOrder());
-
-						if (_log.isWarnEnabled()) {
-							if (!useFinderCache) {
-								finderArgs = new Object[] {structuredDataId};
-							}
-
-							_log.warn(
-								"LinkCRFPersistenceImpl.fetchByLinkSdId(long, boolean) with parameters (" +
-									StringUtil.merge(finderArgs) +
-										") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
-						}
-					}
-
-					LinkCRF linkCRF = list.get(0);
-
-					result = linkCRF;
-
-					cacheResult(linkCRF);
-				}
-			}
-			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(
-						_finderPathFetchByLinkSdId, finderArgs);
-				}
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		if (result instanceof List<?>) {
-			return null;
-		}
-		else {
-			return (LinkCRF)result;
-		}
-	}
-
-	/**
-	 * Removes the link crf where structuredDataId = &#63; from the database.
-	 *
-	 * @param structuredDataId the structured data ID
-	 * @return the link crf that was removed
-	 */
-	@Override
-	public LinkCRF removeByLinkSdId(long structuredDataId)
-		throws NoSuchLinkCRFException {
-
-		LinkCRF linkCRF = findByLinkSdId(structuredDataId);
-
-		return remove(linkCRF);
-	}
-
-	/**
-	 * Returns the number of link crfs where structuredDataId = &#63;.
-	 *
-	 * @param structuredDataId the structured data ID
-	 * @return the number of matching link crfs
-	 */
-	@Override
-	public int countByLinkSdId(long structuredDataId) {
-		FinderPath finderPath = _finderPathCountByLinkSdId;
-
-		Object[] finderArgs = new Object[] {structuredDataId};
-
-		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
-
-		if (count == null) {
-			StringBundler sb = new StringBundler(2);
-
-			sb.append(_SQL_COUNT_LINKCRF_WHERE);
-
-			sb.append(_FINDER_COLUMN_LINKSDID_STRUCTUREDDATAID_2);
-
-			String sql = sb.toString();
-
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				Query query = session.createQuery(sql);
-
-				QueryPos queryPos = QueryPos.getInstance(query);
-
-				queryPos.add(structuredDataId);
-
-				count = (Long)query.uniqueResult();
-
-				finderCache.putResult(finderPath, finderArgs, count);
-			}
-			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return count.intValue();
-	}
-
-	private static final String _FINDER_COLUMN_LINKSDID_STRUCTUREDDATAID_2 =
-		"linkCRF.structuredDataId = ?";
-
 	public LinkCRFPersistenceImpl() {
 		Map<String, String> dbColumnNames = new HashMap<String, String>();
 
@@ -8239,6 +7521,10 @@ public class LinkCRFPersistenceImpl
 			linkCRF);
 
 		finderCache.putResult(
+			_finderPathFetchByStructuredDataId,
+			new Object[] {linkCRF.getStructuredDataId()}, linkCRF);
+
+		finderCache.putResult(
 			_finderPathFetchByG_S_SD,
 			new Object[] {
 				linkCRF.getGroupId(), linkCRF.getCrfId(),
@@ -8261,14 +7547,6 @@ public class LinkCRFPersistenceImpl
 				linkCRF.getStructuredDataId()
 			},
 			linkCRF);
-
-		finderCache.putResult(
-			_finderPathFetchByLinkSId, new Object[] {linkCRF.getSubjectId()},
-			linkCRF);
-
-		finderCache.putResult(
-			_finderPathFetchByLinkSdId,
-			new Object[] {linkCRF.getStructuredDataId()}, linkCRF);
 
 		linkCRF.resetOriginalValues();
 	}
@@ -8377,6 +7655,13 @@ public class LinkCRFPersistenceImpl
 		finderCache.putResult(
 			_finderPathFetchByLinkId, args, linkCRFModelImpl, false);
 
+		args = new Object[] {linkCRFModelImpl.getStructuredDataId()};
+
+		finderCache.putResult(
+			_finderPathCountByStructuredDataId, args, Long.valueOf(1), false);
+		finderCache.putResult(
+			_finderPathFetchByStructuredDataId, args, linkCRFModelImpl, false);
+
 		args = new Object[] {
 			linkCRFModelImpl.getGroupId(), linkCRFModelImpl.getCrfId(),
 			linkCRFModelImpl.getStructuredDataId()
@@ -8406,20 +7691,6 @@ public class LinkCRFPersistenceImpl
 			_finderPathCountByC_S_SD, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByC_S_SD, args, linkCRFModelImpl, false);
-
-		args = new Object[] {linkCRFModelImpl.getSubjectId()};
-
-		finderCache.putResult(
-			_finderPathCountByLinkSId, args, Long.valueOf(1), false);
-		finderCache.putResult(
-			_finderPathFetchByLinkSId, args, linkCRFModelImpl, false);
-
-		args = new Object[] {linkCRFModelImpl.getStructuredDataId()};
-
-		finderCache.putResult(
-			_finderPathCountByLinkSdId, args, Long.valueOf(1), false);
-		finderCache.putResult(
-			_finderPathFetchByLinkSdId, args, linkCRFModelImpl, false);
 	}
 
 	protected void clearUniqueFindersCache(
@@ -8460,6 +7731,26 @@ public class LinkCRFPersistenceImpl
 
 			finderCache.removeResult(_finderPathCountByLinkId, args);
 			finderCache.removeResult(_finderPathFetchByLinkId, args);
+		}
+
+		if (clearCurrent) {
+			Object[] args = new Object[] {
+				linkCRFModelImpl.getStructuredDataId()
+			};
+
+			finderCache.removeResult(_finderPathCountByStructuredDataId, args);
+			finderCache.removeResult(_finderPathFetchByStructuredDataId, args);
+		}
+
+		if ((linkCRFModelImpl.getColumnBitmask() &
+			 _finderPathFetchByStructuredDataId.getColumnBitmask()) != 0) {
+
+			Object[] args = new Object[] {
+				linkCRFModelImpl.getOriginalStructuredDataId()
+			};
+
+			finderCache.removeResult(_finderPathCountByStructuredDataId, args);
+			finderCache.removeResult(_finderPathFetchByStructuredDataId, args);
 		}
 
 		if (clearCurrent) {
@@ -8531,44 +7822,6 @@ public class LinkCRFPersistenceImpl
 
 			finderCache.removeResult(_finderPathCountByC_S_SD, args);
 			finderCache.removeResult(_finderPathFetchByC_S_SD, args);
-		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {linkCRFModelImpl.getSubjectId()};
-
-			finderCache.removeResult(_finderPathCountByLinkSId, args);
-			finderCache.removeResult(_finderPathFetchByLinkSId, args);
-		}
-
-		if ((linkCRFModelImpl.getColumnBitmask() &
-			 _finderPathFetchByLinkSId.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				linkCRFModelImpl.getOriginalSubjectId()
-			};
-
-			finderCache.removeResult(_finderPathCountByLinkSId, args);
-			finderCache.removeResult(_finderPathFetchByLinkSId, args);
-		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				linkCRFModelImpl.getStructuredDataId()
-			};
-
-			finderCache.removeResult(_finderPathCountByLinkSdId, args);
-			finderCache.removeResult(_finderPathFetchByLinkSdId, args);
-		}
-
-		if ((linkCRFModelImpl.getColumnBitmask() &
-			 _finderPathFetchByLinkSdId.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				linkCRFModelImpl.getOriginalStructuredDataId()
-			};
-
-			finderCache.removeResult(_finderPathCountByLinkSdId, args);
-			finderCache.removeResult(_finderPathFetchByLinkSdId, args);
 		}
 	}
 
@@ -8814,12 +8067,6 @@ public class LinkCRFPersistenceImpl
 			finderCache.removeResult(
 				_finderPathWithoutPaginationFindByC_S, args);
 
-			args = new Object[] {linkCRFModelImpl.getStructuredDataId()};
-
-			finderCache.removeResult(_finderPathCountByStructuredDataId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByStructuredDataId, args);
-
 			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
 			finderCache.removeResult(
 				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
@@ -8993,27 +8240,6 @@ public class LinkCRFPersistenceImpl
 				finderCache.removeResult(_finderPathCountByC_S, args);
 				finderCache.removeResult(
 					_finderPathWithoutPaginationFindByC_S, args);
-			}
-
-			if ((linkCRFModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByStructuredDataId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					linkCRFModelImpl.getOriginalStructuredDataId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByStructuredDataId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByStructuredDataId, args);
-
-				args = new Object[] {linkCRFModelImpl.getStructuredDataId()};
-
-				finderCache.removeResult(
-					_finderPathCountByStructuredDataId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByStructuredDataId, args);
 			}
 		}
 
@@ -9382,6 +8608,17 @@ public class LinkCRFPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByLinkId",
 			new String[] {Long.class.getName()});
 
+		_finderPathFetchByStructuredDataId = new FinderPath(
+			entityCacheEnabled, finderCacheEnabled, LinkCRFImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByStructuredDataId",
+			new String[] {Long.class.getName()},
+			LinkCRFModelImpl.STRUCTUREDDATAID_COLUMN_BITMASK);
+
+		_finderPathCountByStructuredDataId = new FinderPath(
+			entityCacheEnabled, finderCacheEnabled, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByStructuredDataId", new String[] {Long.class.getName()});
+
 		_finderPathWithPaginationFindByGroupId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, LinkCRFImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
@@ -9576,49 +8813,6 @@ public class LinkCRFPersistenceImpl
 			new String[] {
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			});
-
-		_finderPathWithPaginationFindByStructuredDataId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, LinkCRFImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByStructuredDataId",
-			new String[] {
-				Long.class.getName(), Integer.class.getName(),
-				Integer.class.getName(), OrderByComparator.class.getName()
-			});
-
-		_finderPathWithoutPaginationFindByStructuredDataId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, LinkCRFImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByStructuredDataId",
-			new String[] {Long.class.getName()},
-			LinkCRFModelImpl.STRUCTUREDDATAID_COLUMN_BITMASK |
-			LinkCRFModelImpl.SUBJECTID_COLUMN_BITMASK |
-			LinkCRFModelImpl.CREATEDATE_COLUMN_BITMASK);
-
-		_finderPathCountByStructuredDataId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByStructuredDataId", new String[] {Long.class.getName()});
-
-		_finderPathFetchByLinkSId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, LinkCRFImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByLinkSId",
-			new String[] {Long.class.getName()},
-			LinkCRFModelImpl.SUBJECTID_COLUMN_BITMASK);
-
-		_finderPathCountByLinkSId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByLinkSId",
-			new String[] {Long.class.getName()});
-
-		_finderPathFetchByLinkSdId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, LinkCRFImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByLinkSdId",
-			new String[] {Long.class.getName()},
-			LinkCRFModelImpl.STRUCTUREDDATAID_COLUMN_BITMASK);
-
-		_finderPathCountByLinkSdId = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByLinkSdId",
-			new String[] {Long.class.getName()});
 
 		_setLinkCRFUtilPersistence(this);
 	}

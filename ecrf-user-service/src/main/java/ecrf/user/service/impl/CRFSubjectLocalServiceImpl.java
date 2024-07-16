@@ -53,7 +53,7 @@ public class CRFSubjectLocalServiceImpl extends CRFSubjectLocalServiceBaseImpl {
 	public CRFSubject addCRFSubject(
 			long crfId, long subjectId,
 			ServiceContext sc) throws PortalException {
-		_log.info("Service : Add CRF-Subject");
+		//_log.info("Service : Add CRF-Subject");
 		
 		long crfSubjectId = super.counterLocalService.increment();
 		CRFSubject crfSubject = super.crfSubjectLocalService.createCRFSubject(crfSubjectId);
@@ -76,6 +76,7 @@ public class CRFSubjectLocalServiceImpl extends CRFSubjectLocalServiceBaseImpl {
 		// set entity fields
 		crfSubject.setCrfId(crfId);
 		crfSubject.setSubjectId(crfSubjectId);
+		crfSubject.setUpdateLock(false);
 		
 		crfSubject.setExpandoBridgeAttributes(sc);
 		
@@ -91,7 +92,7 @@ public class CRFSubjectLocalServiceImpl extends CRFSubjectLocalServiceBaseImpl {
 	}
 	
 	public void updateCRFSubjects(long crfId, ArrayList<CRFSubject> crfSubjectList, ServiceContext sc) throws PortalException {
-		_log.info("Service : Update CRF-Subject List by infoList");
+		//_log.info("Service : Update CRF-Subject List by infoList");
 		
 		long groupId = sc.getScopeGroupId();
 		long userId = sc.getUserId();
@@ -99,8 +100,8 @@ public class CRFSubjectLocalServiceImpl extends CRFSubjectLocalServiceBaseImpl {
 		
 		Date now = new Date();
 		
-		_log.info("group : " + groupId);
-		_log.info("user : " + userId);
+		//_log.info("group : " + groupId);
+		//_log.info("user : " + userId);
 		
 		// get crf-subjects from db
 		ArrayList<CRFSubject> wholeCRFSubjectList = new ArrayList<CRFSubject>();
@@ -108,7 +109,7 @@ public class CRFSubjectLocalServiceImpl extends CRFSubjectLocalServiceBaseImpl {
 		
 		// loop crf-subject
 		for(CRFSubject crfSubject : crfSubjectList) {
-			_log.info(crfSubject.toString());
+			//_log.info(crfSubject.toString());
 			 
 			long subjectId = crfSubject.getSubjectId();
 			

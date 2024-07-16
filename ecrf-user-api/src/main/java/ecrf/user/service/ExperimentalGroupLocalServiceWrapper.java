@@ -366,6 +366,11 @@ public class ExperimentalGroupLocalServiceWrapper
 	}
 
 	@Override
+	public ecrf.user.model.ExperimentalGroup getExpGroupById(long expGroupId) {
+		return _experimentalGroupLocalService.getExpGroupById(expGroupId);
+	}
+
+	@Override
 	public java.util.List<ecrf.user.model.ExperimentalGroup> getExpGroupByName(
 		String name) {
 
