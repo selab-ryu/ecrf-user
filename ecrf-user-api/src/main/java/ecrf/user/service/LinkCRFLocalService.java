@@ -314,11 +314,7 @@ public interface LinkCRFLocalService
 		OrderByComparator<LinkCRF> comparator);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public LinkCRF getLinkCRFBySdId(long structuredDataId)
-		throws PortalException;
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public LinkCRF getLinkCRFBySId(long subjectId) throws PortalException;
+	public LinkCRF getLinkCRFByStructuredDataId(long structuredDataId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<LinkCRF> getLinkCRFBySubjectId(long subjectId);

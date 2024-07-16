@@ -380,6 +380,10 @@
 		<finder name="LinkId" return-type="LinkCRF">
 			<finder-column name="linkId" />
 		</finder>
+		
+				<finder name="StructuredDataId" return-type="LinkCRF">
+			<finder-column name="structuredDataId" />
+		</finder>
 				
 		<finder name="GroupId" return-type="Collection">
 			<finder-column name="groupId" />
@@ -421,17 +425,7 @@
 			<finder-column name="subjectId" />
 			<finder-column name="structuredDataId" />
 		</finder>
-		
-		<finder name="StructuredDataId" return-type="Collection">
-			<finder-column name="structuredDataId" />
-		</finder>
-		<finder name="LinkSId" return-type="LinkCRF">
-			<finder-column name="subjectId" />
-		</finder>
-		<finder name="LinkSdId" return-type="LinkCRF">
-			<finder-column name="structuredDataId" />
-		</finder>
-		
+				
 		<!-- References -->
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />

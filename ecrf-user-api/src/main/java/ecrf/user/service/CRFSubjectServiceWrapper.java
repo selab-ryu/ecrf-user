@@ -38,14 +38,6 @@ public class CRFSubjectServiceWrapper
 	}
 
 	@Override
-	public java.util.ArrayList<ecrf.user.model.Subject> getCRFSubjectByExGroup(
-		long groupId, long crfId, String exGroup) {
-
-		return _crfSubjectService.getCRFSubjectByExGroup(
-			groupId, crfId, exGroup);
-	}
-
-	@Override
 	public java.util.ArrayList<ecrf.user.model.custom.CRFSubjectInfo>
 		getCRFSubjectList(long groupId, long crfId) {
 

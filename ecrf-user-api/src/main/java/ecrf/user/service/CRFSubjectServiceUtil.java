@@ -39,13 +39,6 @@ public class CRFSubjectServiceUtil {
 		return getService().getAllCRFSubjectInfoList(groupId, crfId);
 	}
 
-	public static java.util.ArrayList<ecrf.user.model.Subject>
-		getCRFSubjectByExGroup(
-			long groupId, long crfId, java.lang.String exGroup) {
-
-		return getService().getCRFSubjectByExGroup(groupId, crfId, exGroup);
-	}
-
 	public static java.util.ArrayList<ecrf.user.model.custom.CRFSubjectInfo>
 		getCRFSubjectList(long groupId, long crfId) {
 

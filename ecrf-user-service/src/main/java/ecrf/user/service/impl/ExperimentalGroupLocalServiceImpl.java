@@ -133,6 +133,10 @@ public class ExperimentalGroupLocalServiceImpl extends ExperimentalGroupLocalSer
 		return super.experimentalGroupPersistence.findByName(name);
 	}
 	
+	public ExperimentalGroup getExpGroupById(long expGroupId) {
+		return super.experimentalGroupPersistence.fetchByExperimentalGroupId(expGroupId);
+	}
+	
 	public ExperimentalGroup getExpGroupByG_N(long groupId, String name) {
 		try {
 			return super.experimentalGroupPersistence.findByG_N(groupId, name);

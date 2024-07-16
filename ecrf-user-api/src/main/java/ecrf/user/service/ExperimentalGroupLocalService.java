@@ -294,6 +294,9 @@ public interface ExperimentalGroupLocalService
 	public List<ExperimentalGroup> getExpGroupByGroupId(long groupId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public ExperimentalGroup getExpGroupById(long expGroupId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<ExperimentalGroup> getExpGroupByName(String name);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
