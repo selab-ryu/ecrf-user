@@ -303,6 +303,116 @@ public class CRFAutoqueryLocalServiceImpl extends CRFAutoqueryLocalServiceBaseIm
 					}
 				}
 			}
+		}else if(dataType.getDataTypeName().equals("develop_crf")) {
+			for(int i = 0; i < crfForm.length(); i++) {
+				String queryTermName = "";
+				String queryValue = "";
+				int queryType = 0;
+	
+				String compareValue = "";
+				String minValue = "";
+				String maxValue = "";
+				boolean isString = true;
+				if(crfForm.getJSONObject(i).getString("termType").equals("Numeric")) {
+					queryTermName = crfForm.getJSONObject(i).getString("termName");
+					
+					if(answerForm.has(queryTermName)) {
+						queryValue = answerForm.getString(queryTermName).trim();
+					}
+					
+					if(queryValue.equals("")) {
+						isString = false;
+					}
+					
+					if(queryValue.equals("-1")) {
+						isString = false;
+					}
+					
+					if(queryValue.equals("NA")) {
+						isString = false;
+					}
+					
+					if(queryValue.isEmpty()) {
+						isString = false;
+					}
+					int pointCount = 0;
+					for(int k = 0; k < queryValue.length(); k++) {
+						if(queryValue.charAt(k) == '.') {
+							pointCount++;
+						}
+					}
+					if(pointCount > 1) {
+						isString = false;
+					}
+					
+					try {
+						float testFloat = Float.parseFloat(queryValue);
+						_log.info(testFloat);
+						isString = true;
+					}catch(NumberFormatException nfe) {
+						isString = false;
+					}
+					
+					if(isString) {
+						if(crfForm.getJSONObject(i).has("minValue")) {
+							//only min
+							minValue = crfForm.getJSONObject(i).getString("minValue");
+							if(crfForm.getJSONObject(i).has("maxValue")) {
+								// min max both
+								maxValue = crfForm.getJSONObject(i).getString("maxValue");
+							}
+						} else if(crfForm.getJSONObject(i).has("maxValue")) {
+							//only max
+							maxValue = crfForm.getJSONObject(i).getString("maxValue");
+						}
+						
+						if(!minValue.equals("")) {
+							queryType = 1;
+							if(!maxValue.equals("")) {
+								queryType = 3;
+							}
+						}else if(!maxValue.equals("")) {
+							queryType = 2;
+						}
+						
+						switch(queryType) {
+							case 1:
+								// min value compare
+								if(Float.valueOf(minValue) < Float.valueOf(queryValue)) {
+									queryType = 0;
+									if(minValue.contains(".")) {
+										queryType = checkFloatingPoint(minValue, queryValue);
+									}
+								}
+								break;
+							case 2:
+								// max value compare
+								if(Float.valueOf(maxValue) > Float.valueOf(queryValue)) {
+									queryType = 0;
+									if(maxValue.contains(".")) {
+										queryType = checkFloatingPoint(maxValue, queryValue);
+									}
+								}
+								break;
+							case 3:
+								//min max value compare
+								if(Float.valueOf(maxValue) > Float.valueOf(queryValue) && Float.valueOf(minValue) < Float.valueOf(queryValue)) {
+									queryType = 0;
+									if(minValue.contains(".")) {
+										queryType = checkFloatingPoint(minValue, queryValue);
+									}
+								}
+								break;
+							default:
+								break;	
+						}
+						_log.info("QueryUtil : " + sdId + " / " + queryTermName + " / " + minValue + " < " + queryValue + " < " + maxValue + " / " + queryType);
+						if(queryType > 0 && countQueryBySdIdSIdValue(sdId, subjectId, queryTermName, queryValue) < 1) {
+							addCRFAutoquery(sdId, queryTermName, queryValue, "", subjectId, crfId, queryType, "", sc);
+						}
+					}
+				}
+			}			
 		}
 	}
 	
