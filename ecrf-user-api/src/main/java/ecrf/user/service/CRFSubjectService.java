@@ -58,11 +58,6 @@ public interface CRFSubjectService extends BaseService {
 	public ArrayList<CRFSubjectInfo> getAllCRFSubjectInfoList(
 		long groupId, long crfId);
 
-	@JSONWebService(value = "get-subject-list-by-experimental-group")
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public ArrayList<Subject> getCRFSubjectByExGroup(
-		long groupId, long crfId, String exGroup);
-
 	@JSONWebService(value = "get-crf-subject-list")
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ArrayList<CRFSubjectInfo> getCRFSubjectList(

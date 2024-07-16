@@ -22,6 +22,7 @@ import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.Validator;
 import com.sx.icecap.service.DataTypeLocalService;
 import com.sx.icecap.service.StructuredDataLocalService;
 
@@ -113,14 +114,6 @@ public class LinkCRFLocalServiceImpl extends LinkCRFLocalServiceBaseImpl {
 		return linkCRF;
 	}
 	
-	public LinkCRF getLinkCRFBySId(long subjectId) throws PortalException {
-		return super.linkCRFPersistence.findByLinkSId(subjectId);
-	}
-	
-	public LinkCRF getLinkCRFBySdId(long structuredDataId) throws PortalException {
-		return super.linkCRFPersistence.findByLinkSdId(structuredDataId);
-	}
-	
 	public LinkCRF deleteLinkCRF(long linkId) throws PortalException {
 		LinkCRF linkCRF = super.linkCRFPersistence.remove(linkId);
 		
@@ -191,7 +184,7 @@ public class LinkCRFLocalServiceImpl extends LinkCRFLocalServiceBaseImpl {
 	}
 	
 	public int countLinkBySubjectId(long subjectId){
-		return super.linkCRFPersistence.countByLinkSId(subjectId);
+		return super.linkCRFPersistence.countBySubjectId(subjectId);
 	}
 	public List<LinkCRF> getLinkCRFBySubjectId(long subjectId){
 		return super.linkCRFPersistence.findBySubjectId(subjectId);
@@ -203,8 +196,13 @@ public class LinkCRFLocalServiceImpl extends LinkCRFLocalServiceBaseImpl {
 		return super.linkCRFPersistence.findBySubjectId(subjectId, start, end, comparator);
 	}
 	
+	public LinkCRF getLinkCRFByStructuredDataId(long structuredDataId) {
+		return super.linkCRFPersistence.fetchByStructuredDataId(structuredDataId);
+	}
 	public int countLinkByStructuredDataId(long structuredDataId){
-		return super.linkCRFPersistence.countByLinkSdId(structuredDataId);
+		LinkCRF link = super.linkCRFPersistence.fetchByStructuredDataId(structuredDataId);
+		if(Validator.isNull(link)) return 0;
+		else return 1; 
 	}
 	
 	public List<LinkCRF> getLinkCRFByG_S(long groupId, long subjectId) {

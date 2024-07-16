@@ -52,40 +52,6 @@ import ecrf.user.service.CRFSubjectServiceUtil;
  */
 public class CRFSubjectServiceHttp {
 
-	public static java.util.ArrayList<ecrf.user.model.Subject>
-		getCRFSubjectByExGroup(
-			HttpPrincipal httpPrincipal, long groupId, long crfId,
-			String exGroup) {
-
-		try {
-			MethodKey methodKey = new MethodKey(
-				CRFSubjectServiceUtil.class, "getCRFSubjectByExGroup",
-				_getCRFSubjectByExGroupParameterTypes0);
-
-			MethodHandler methodHandler = new MethodHandler(
-				methodKey, groupId, crfId, exGroup);
-
-			Object returnObj = null;
-
-			try {
-				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
-			}
-			catch (Exception exception) {
-				throw new com.liferay.portal.kernel.exception.SystemException(
-					exception);
-			}
-
-			return (java.util.ArrayList<ecrf.user.model.Subject>)returnObj;
-		}
-		catch (com.liferay.portal.kernel.exception.SystemException
-					systemException) {
-
-			_log.error(systemException, systemException);
-
-			throw systemException;
-		}
-	}
-
 	public static java.util.ArrayList<ecrf.user.model.custom.CRFSubjectInfo>
 		getCRFSubjectList(
 			HttpPrincipal httpPrincipal, long groupId, long crfId) {
@@ -93,7 +59,7 @@ public class CRFSubjectServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				CRFSubjectServiceUtil.class, "getCRFSubjectList",
-				_getCRFSubjectListParameterTypes1);
+				_getCRFSubjectListParameterTypes0);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, groupId, crfId);
@@ -128,7 +94,7 @@ public class CRFSubjectServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				CRFSubjectServiceUtil.class, "getCRFSubjectList",
-				_getCRFSubjectListParameterTypes2);
+				_getCRFSubjectListParameterTypes1);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, groupId, crfId, isUpdateLock);
@@ -162,7 +128,7 @@ public class CRFSubjectServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				CRFSubjectServiceUtil.class, "getAllCRFSubjectInfoList",
-				_getAllCRFSubjectInfoListParameterTypes3);
+				_getAllCRFSubjectInfoListParameterTypes2);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, groupId, crfId);
@@ -196,7 +162,7 @@ public class CRFSubjectServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				CRFSubjectServiceUtil.class, "getCRFSubjectListNotIncluded",
-				_getCRFSubjectListNotIncludedParameterTypes4);
+				_getCRFSubjectListNotIncludedParameterTypes3);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, groupId, crfId);
@@ -228,7 +194,7 @@ public class CRFSubjectServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				CRFSubjectServiceUtil.class, "getSubjectList",
-				_getSubjectListParameterTypes6);
+				_getSubjectListParameterTypes5);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, groupId);
 
@@ -256,19 +222,17 @@ public class CRFSubjectServiceHttp {
 	private static Log _log = LogFactoryUtil.getLog(
 		CRFSubjectServiceHttp.class);
 
-	private static final Class<?>[] _getCRFSubjectByExGroupParameterTypes0 =
-		new Class[] {long.class, long.class, String.class};
-	private static final Class<?>[] _getCRFSubjectListParameterTypes1 =
+	private static final Class<?>[] _getCRFSubjectListParameterTypes0 =
 		new Class[] {long.class, long.class};
-	private static final Class<?>[] _getCRFSubjectListParameterTypes2 =
+	private static final Class<?>[] _getCRFSubjectListParameterTypes1 =
 		new Class[] {long.class, long.class, boolean.class};
-	private static final Class<?>[] _getAllCRFSubjectInfoListParameterTypes3 =
+	private static final Class<?>[] _getAllCRFSubjectInfoListParameterTypes2 =
 		new Class[] {long.class, long.class};
 	private static final Class<?>[]
-		_getCRFSubjectListNotIncludedParameterTypes4 = new Class[] {
+		_getCRFSubjectListNotIncludedParameterTypes3 = new Class[] {
 			long.class, long.class
 		};
-	private static final Class<?>[] _getSubjectListParameterTypes6 =
+	private static final Class<?>[] _getSubjectListParameterTypes5 =
 		new Class[] {long.class};
 
 }

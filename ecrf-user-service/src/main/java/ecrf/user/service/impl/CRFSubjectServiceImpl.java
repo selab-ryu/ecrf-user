@@ -16,11 +16,9 @@ package ecrf.user.service.impl;
 
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.jsonwebservice.JSONWebService;
-import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
-import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.util.Validator;
 import com.sx.icecap.model.DataType;
 import com.sx.icecap.service.DataTypeLocalService;
 
@@ -32,10 +30,12 @@ import org.osgi.service.component.annotations.Reference;
 
 import ecrf.user.model.CRF;
 import ecrf.user.model.CRFSubject;
+import ecrf.user.model.ExperimentalGroup;
 import ecrf.user.model.Subject;
 import ecrf.user.model.custom.CRFSubjectInfo;
 import ecrf.user.service.CRFLocalService;
 import ecrf.user.service.CRFSubjectLocalService;
+import ecrf.user.service.ExperimentalGroupLocalService;
 import ecrf.user.service.SubjectLocalService;
 import ecrf.user.service.base.CRFSubjectServiceBaseImpl;
 import ecrf.user.service.persistence.SubjectFinder;
@@ -52,25 +52,7 @@ import ecrf.user.service.persistence.SubjectFinder;
 )
 @JSONWebService("crf-subject")
 public class CRFSubjectServiceImpl extends CRFSubjectServiceBaseImpl {
-	
-	// make api for fetch crf-subject list
-	@JSONWebService("get-subject-list-by-experimental-group")
-	public ArrayList<Subject> getCRFSubjectByExGroup(long groupId, long crfId, String exGroup) {
-		ArrayList<Subject> subjectList = new ArrayList<>();
 		
-		ArrayList<CRFSubject> crfSubjectList = new ArrayList<>();
-		crfSubjectList.addAll(_crfSubjectLocalService.getCRFSubjectByCRFId(groupId, crfId));
-		
-		int crfSubjectListSize = crfSubjectList.size();
-		if(crfSubjectListSize > 0) {
-			for(CRFSubject crfSubject : crfSubjectList) {
-				
-			}
-		}
-		
-		return subjectList;
-	}
-	
 	@JSONWebService("get-crf-subject-list")
 	public ArrayList<CRFSubjectInfo> getCRFSubjectList(long groupId, long crfId) {
 		_log.info("get crf subject list");
@@ -87,7 +69,9 @@ public class CRFSubjectServiceImpl extends CRFSubjectServiceBaseImpl {
 			for(CRFSubject crfSubject : crfSubjectList) {
 				try {
 					long subjectId = crfSubject.getSubjectId();
-					Subject subject = _subjectLocalService.getSubject(subjectId);		
+					
+					Subject subject = _subjectLocalService.getSubject(subjectId);
+					ExperimentalGroup expGroup = _expGroupLocalService.getExpGroupById(subject.getExpGroupId());
 					CRF crf = _crfLocalService.getCRF(crfId);
 					DataType dataType = _dataTypeLocalService.getDataType(crf.getDatatypeId());
 					
@@ -104,6 +88,9 @@ public class CRFSubjectServiceImpl extends CRFSubjectServiceBaseImpl {
 					info.setParticipationStatus(crfSubject.getParticipationStatus());
 					info.setParticipationStartDate(crfSubject.getParticipationStartDate());
 					info.setUpdateLock(crfSubject.isUpdateLock());
+					
+					if(Validator.isNotNull(expGroup))
+						info.setExperimentalGroup(expGroup.getName());
 					
 					crfSubjectInfoList.add(info);
 				} catch(Exception e) {
@@ -131,7 +118,9 @@ public class CRFSubjectServiceImpl extends CRFSubjectServiceBaseImpl {
 			for(CRFSubject crfSubject : crfSubjectList) {
 				try {
 					long subjectId = crfSubject.getSubjectId();
-					Subject subject = _subjectLocalService.getSubject(subjectId);		
+					
+					Subject subject = _subjectLocalService.getSubject(subjectId);
+					ExperimentalGroup expGroup = _expGroupLocalService.getExpGroupById(subject.getExpGroupId());
 					CRF crf = _crfLocalService.getCRF(crfId);
 					DataType dataType = _dataTypeLocalService.getDataType(crf.getDatatypeId());
 					
@@ -148,6 +137,9 @@ public class CRFSubjectServiceImpl extends CRFSubjectServiceBaseImpl {
 					info.setParticipationStatus(crfSubject.getParticipationStatus());
 					info.setParticipationStartDate(crfSubject.getParticipationStartDate());
 					info.setUpdateLock(crfSubject.isUpdateLock());
+					
+					if(Validator.isNotNull(expGroup))
+						info.setExperimentalGroup(expGroup.getName());
 					
 					crfSubjectInfoList.add(info);
 				} catch(Exception e) {
@@ -171,6 +163,8 @@ public class CRFSubjectServiceImpl extends CRFSubjectServiceBaseImpl {
 		try {
 			for(Subject subject : subjectList) {
 				long subjectId = subject.getSubjectId();
+				
+				ExperimentalGroup expGroup = _expGroupLocalService.getExpGroupById(subject.getExpGroupId());
 				CRF crf = _crfLocalService.getCRF(crfId);
 				DataType dataType = _dataTypeLocalService.getDataType(crf.getDatatypeId());
 				
@@ -185,9 +179,12 @@ public class CRFSubjectServiceImpl extends CRFSubjectServiceBaseImpl {
 				info.setSerialId(subject.getSerialId());
 				info.setSubjectBirth(subject.getBirth());
 				info.setSubjectGender(subject.getGender());
+				
+				if(Validator.isNotNull(expGroup))
+					info.setExperimentalGroup(expGroup.getName());
 								
 				crfSubjectInfoList.add(info);
-				_log.info(info.toString());
+				//_log.info(info.toString());
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -246,6 +243,9 @@ public class CRFSubjectServiceImpl extends CRFSubjectServiceBaseImpl {
 	
 	@Reference
 	private SubjectLocalService _subjectLocalService;
+	
+	@Reference
+	private ExperimentalGroupLocalService _expGroupLocalService;
 	
 	@Reference
 	private CRFSubjectLocalService _crfSubjectLocalService;
