@@ -97,7 +97,7 @@ create table EC_CRFSearchLog (
 	userName VARCHAR(75) null,
 	createDate DATE null,
 	modifiedDate DATE null,
-	searchLog VARCHAR(2048) null
+	searchLog TEXT null
 );
 
 create table EC_CRFSubject (
