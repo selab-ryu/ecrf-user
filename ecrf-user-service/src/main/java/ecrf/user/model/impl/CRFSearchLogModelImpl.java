@@ -100,7 +100,7 @@ public class CRFSearchLogModelImpl
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table EC_CRFSearchLog (mvccVersion LONG default 0 not null,uuid_ VARCHAR(75) null,searchLogId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,searchLog VARCHAR(2048) null)";
+		"create table EC_CRFSearchLog (mvccVersion LONG default 0 not null,uuid_ VARCHAR(75) null,searchLogId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,searchLog TEXT null)";
 
 	public static final String TABLE_SQL_DROP = "drop table EC_CRFSearchLog";
 
