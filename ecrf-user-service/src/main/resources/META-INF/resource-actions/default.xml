@@ -5,7 +5,8 @@
 	<model-resource>
 		<model-name>ecrf.user</model-name>
 		<portlet-ref>
-			<portlet-name>ecrf_user_approve_ApprovePortlet</portlet-name>
+			<portlet-name>ecrf_user_dashboard_DashboardPortlet</portlet-name>
+			<portlet-name>ecrf_user_approve_ApprovalPortlet</portlet-name>
 			<portlet-name>ecrf_user_project_ProjectPortlet</portlet-name>
 			<portlet-name>ecrf_user_subject_SubjectPortlet</portlet-name>
 			<portlet-name>ecrf_user_researcher_ResearcherPortlet</portlet-name>
@@ -96,7 +97,7 @@
 	<model-resource>
 		<model-name>com.liferay.portal.kernel.model.Group</model-name>
 	    <portlet-ref>
-	        <portlet-name>ecrf_user_approve_ApprovePortlet</portlet-name>
+	        <portlet-name>ecrf_user_approve_ApprovalPortlet</portlet-name>
 	    </portlet-ref>
 	    <weight>2</weight>
 	    <permissions>

@@ -19,10 +19,12 @@ public class ECRFUserResearcherAttributes {
 	public static final String APPROVE_STATUS = "approveStatus";
 	public static final String RESEARCHER_USER_ID = "researcherUserId";
 	
+	public static final String NOT_CHANGE = "notChange";
+	
 	// user attributes
 	public static final String EMAIL = "email";
 	public static final String PASSWORD1 = "password1";
-	public static final String PASSWORD2 = "password2";
+	public static final String PASSWORD2 = "password2";	
 	public static final String SCREEN_NAME = "screenName";
 	public static final String FIRST_NAME = "firstName";
 	public static final String LAST_NAME = "lastName";
