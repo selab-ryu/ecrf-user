@@ -82,6 +82,18 @@ public class ECRFUserUtil {
 		return builder.toString();
 	}
 	
+	public static String encryptName(String name) {
+		if(nullCheck(name)) {
+			return name;
+		}
+		
+		StringBuilder builder = new StringBuilder();
+		for(int i=0; i<name.length(); i++)
+			builder.append("*");
+		
+		return builder.toString();
+	}
+	
 	public static boolean nullCheck(String str) {
 		return str == null || str.isEmpty(); 
 	}
