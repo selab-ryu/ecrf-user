@@ -24,6 +24,4 @@ public class ECRFUserCRFAttributes {
 	public static final String DEFAULT_UI_LAYOUT = "defaultUILayout";
 	
 	public static final String DATATYPE = "dataType";
-	
-	
 }
