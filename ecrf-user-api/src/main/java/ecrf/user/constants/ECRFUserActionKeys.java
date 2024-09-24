@@ -29,6 +29,7 @@ public class ECRFUserActionKeys {
 	
 	public static final String VIEW_SUBJECT_LIST = "VIEW_SUBJECT_LIST";
 	public static final String VIEW_SUBJECT = "VIEW_SUBJECT";
+	public static final String VIEW_ENCRYPT_SUBJECT = "VIEW_ENCRYPT_SUBJECT";
 	public static final String ADD_SUBJECT = "ADD_SUBJECT";
 	public static final String UPDATE_SUBJECT = "UPDATE_SUBJECT";
 	public static final String DELETE_SUBJECT = "DELETE_SUBJECT";

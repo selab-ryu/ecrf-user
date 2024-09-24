@@ -82,6 +82,18 @@ public class ECRFUserUtil {
 		return builder.toString();
 	}
 	
+	public static String encryptName(String name) {
+		if(nullCheck(name)) {
+			return name;
+		}
+		
+		StringBuilder builder = new StringBuilder();
+		for(int i=0; i<name.length(); i++)
+			builder.append("*");
+		
+		return builder.toString();
+	}
+	
 	public static boolean nullCheck(String str) {
 		return str == null || str.isEmpty(); 
 	}
@@ -166,5 +178,20 @@ public class ECRFUserUtil {
 			}
 		}
 		return subjectIds;
+	}
+	
+	public static String randomizedString(int length, String code) {
+		String mask = "";
+		
+		if (code.indexOf('a') > -1) mask += "abcdefghijklmnopqrstuvwxyz";
+        if (code.indexOf('A') > -1) mask += "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        if (code.indexOf('1') > -1) mask += "0123456789";
+        
+		String result = "";
+		
+		for (int i = length; i > 0; --i){
+            result += mask.charAt((int)Math.floor(Math.random() * mask.length()));
+        } 
+        return result;
 	}
 }
