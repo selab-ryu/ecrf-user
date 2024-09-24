@@ -179,4 +179,19 @@ public class ECRFUserUtil {
 		}
 		return subjectIds;
 	}
+	
+	public static String randomizedString(int length, String code) {
+		String mask = "";
+		
+		if (code.indexOf('a') > -1) mask += "abcdefghijklmnopqrstuvwxyz";
+        if (code.indexOf('A') > -1) mask += "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        if (code.indexOf('1') > -1) mask += "0123456789";
+        
+		String result = "";
+		
+		for (int i = length; i > 0; --i){
+            result += mask.charAt((int)Math.floor(Math.random() * mask.length()));
+        } 
+        return result;
+	}
 }
