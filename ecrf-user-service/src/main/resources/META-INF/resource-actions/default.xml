@@ -36,6 +36,7 @@
 				
 				<action-key>VIEW_SUBJECT_LIST</action-key>
 				<action-key>VIEW_SUBJECT</action-key>
+				<action-key>VIEW_ENCRYPT_SUBJECT</action-key>
 				<action-key>ADD_SUBJECT</action-key>
 				<action-key>UPDATE_SUBJECT</action-key>
 				<action-key>DELETE_SUBJECT</action-key>
