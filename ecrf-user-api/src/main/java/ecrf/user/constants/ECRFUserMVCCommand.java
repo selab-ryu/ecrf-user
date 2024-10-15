@@ -2,10 +2,7 @@ package ecrf.user.constants;
 
 public class ECRFUserMVCCommand {
 	public static final String RENDER_LOGIN_CREATE_ACCOUNT = "/login/create_account";
-	public static final String RENDER_USERS_ADMIN_EDIT_USER = "/users_admin/edit_user";
-	
-	public static final String ACTION_MOVE_OTHER_PAGE = "/action/redirect/other-page";
-	
+	public static final String RENDER_USERS_ADMIN_EDIT_USER = "/users_admin/edit_user";	
 	
 	public static final String ACTION_ADD_RESEARCHER = "/action/researcher/add-researcher";
 	public static final String ACTION_UPDATE_RESEARCHER = "/action/researcher/update-researcher";
@@ -36,6 +33,7 @@ public class ECRFUserMVCCommand {
 	public static final String ACTION_REVIEW_MEMBERSHIP_REQUEST = "/action/approve/review-membership-request";
 	public static final String ACTION_APPROVE_MEMBERSHIP = "/action/approve/approve-membership";
 	public static final String ACTION_REJECT_MEMBERSHIP = "/action/approve/reject-membership";
+	public static final String ACTION_UPDATE_USER_SITE_ROLE = "/action/approve/update-user-site-role";
 	
 	
 	public static final String RENDER_VIEW_SITE = "/render/main/view-site";
