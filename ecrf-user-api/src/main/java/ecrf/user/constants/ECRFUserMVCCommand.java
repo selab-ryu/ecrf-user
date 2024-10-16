@@ -34,6 +34,7 @@ public class ECRFUserMVCCommand {
 	public static final String ACTION_APPROVE_MEMBERSHIP = "/action/approve/approve-membership";
 	public static final String ACTION_REJECT_MEMBERSHIP = "/action/approve/reject-membership";
 	public static final String ACTION_UPDATE_USER_SITE_ROLE = "/action/approve/update-user-site-role";
+	public static final String ACTION_DELETE_MEMBERSHIP = "/action/approve/delete-membership";
 	
 	
 	public static final String RENDER_VIEW_SITE = "/render/main/view-site";

@@ -18,4 +18,6 @@ public class ECRFUserWebKeys {
 	public static final String PORTLET_KEY = "portletKey";
 	
 	public static final String LIST_PATH = "listPath";
+	
+	public static final String USER_DROPDOWN_DEFAULT_EVENT_HANDLER = "USER_DROPDOWN_DEFAULT_EVENT_HANDLER";
 }
