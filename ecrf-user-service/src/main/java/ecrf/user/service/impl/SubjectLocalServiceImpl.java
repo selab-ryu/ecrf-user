@@ -105,6 +105,7 @@ public class SubjectLocalServiceImpl extends SubjectLocalServiceBaseImpl {
 			Subject.class.getName(), subjectId,
 			false, true, true);
 		
+		_log.info("Service : Add Subject End");
 		return subject;
 	}
 	
@@ -147,6 +148,7 @@ public class SubjectLocalServiceImpl extends SubjectLocalServiceBaseImpl {
 				Subject.class.getName(), subject.getSubjectId(),
 				sc.getModelPermissions());
 		
+		_log.info("Service : Update Subject End");
 		return subject;
 	}
 	
@@ -228,7 +230,7 @@ public class SubjectLocalServiceImpl extends SubjectLocalServiceBaseImpl {
 		try {
 			subject = super.subjectPersistence.findBySerialId(serialId);
 		} catch (NoSuchSubjectException e) {
-			_log.error("No such Subject with serialId");
+			_log.info("No such Subject with serialId : " + serialId );
 		}
 		return subject;
 	}
