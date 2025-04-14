@@ -13,6 +13,7 @@ public class ECRFUserCRFDataAttributes {
 	
 	public static final String CRF_ID = ECRFUserCRFAttributes.CRF_ID;
 	
+	public static final String IS_UPDATE = "isUpdate";
 	public static final String IS_AUDIT = "isAudit";
 	public static final String IS_DELETE = "isDelete";
 	

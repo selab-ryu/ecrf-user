@@ -29,6 +29,7 @@ public class ECRFUserJspPaths {
 	public static final String JSP_LIST_RESEARCHER_DELETE = JSP_ROOT_RESEARCHER + "list-researcher-delete.jsp";
 	public static final String JSP_UPDATE_RESEARCHER = JSP_ROOT_RESEARCHER + "update-researcher.jsp";
 	public static final String JSP_VIEW_RESEARCHER = JSP_ROOT_RESEARCHER + "view-researcher.jsp";
+	public static final String JSP_VIEW_PRIVACY_AGREEMENT = JSP_ROOT_RESEARCHER + "privacy-agreement.jsp";
 
 	public static final String JSP_ADMIN_UPDATE_RESEARCHER = JSP_ROOT_RESEARCHER + "admin-update-researcher.jsp";
 	
