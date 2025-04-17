@@ -432,48 +432,54 @@ public interface SubjectPersistence extends BasePersistence<Subject> {
 	public int countBySubjectId(long subjectId);
 
 	/**
-	 * Returns the subject where serialId = &#63; or throws a <code>NoSuchSubjectException</code> if it could not be found.
+	 * Returns the subject where groupId = &#63; and serialId = &#63; or throws a <code>NoSuchSubjectException</code> if it could not be found.
 	 *
+	 * @param groupId the group ID
 	 * @param serialId the serial ID
 	 * @return the matching subject
 	 * @throws NoSuchSubjectException if a matching subject could not be found
 	 */
-	public Subject findBySerialId(String serialId)
+	public Subject findBySerialId(long groupId, String serialId)
 		throws NoSuchSubjectException;
 
 	/**
-	 * Returns the subject where serialId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 * Returns the subject where groupId = &#63; and serialId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
 	 *
+	 * @param groupId the group ID
 	 * @param serialId the serial ID
 	 * @return the matching subject, or <code>null</code> if a matching subject could not be found
 	 */
-	public Subject fetchBySerialId(String serialId);
+	public Subject fetchBySerialId(long groupId, String serialId);
 
 	/**
-	 * Returns the subject where serialId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 * Returns the subject where groupId = &#63; and serialId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
 	 *
+	 * @param groupId the group ID
 	 * @param serialId the serial ID
 	 * @param useFinderCache whether to use the finder cache
 	 * @return the matching subject, or <code>null</code> if a matching subject could not be found
 	 */
-	public Subject fetchBySerialId(String serialId, boolean useFinderCache);
+	public Subject fetchBySerialId(
+		long groupId, String serialId, boolean useFinderCache);
 
 	/**
-	 * Removes the subject where serialId = &#63; from the database.
+	 * Removes the subject where groupId = &#63; and serialId = &#63; from the database.
 	 *
+	 * @param groupId the group ID
 	 * @param serialId the serial ID
 	 * @return the subject that was removed
 	 */
-	public Subject removeBySerialId(String serialId)
+	public Subject removeBySerialId(long groupId, String serialId)
 		throws NoSuchSubjectException;
 
 	/**
-	 * Returns the number of subjects where serialId = &#63;.
+	 * Returns the number of subjects where groupId = &#63; and serialId = &#63;.
 	 *
+	 * @param groupId the group ID
 	 * @param serialId the serial ID
 	 * @return the number of matching subjects
 	 */
-	public int countBySerialId(String serialId);
+	public int countBySerialId(long groupId, String serialId);
 
 	/**
 	 * Returns all the subjects where name = &#63;.

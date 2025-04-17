@@ -113,6 +113,7 @@
 			<finder-column name="subjectId" />
 		</finder>
 		<finder name="SerialId" return-type="Subject" unique="true">
+			<finder-column name="groupId" />
 			<finder-column name="serialId" />
 		</finder>
 		

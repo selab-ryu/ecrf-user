@@ -1677,24 +1677,28 @@ public class SubjectPersistenceImpl
 	private FinderPath _finderPathCountBySerialId;
 
 	/**
-	 * Returns the subject where serialId = &#63; or throws a <code>NoSuchSubjectException</code> if it could not be found.
+	 * Returns the subject where groupId = &#63; and serialId = &#63; or throws a <code>NoSuchSubjectException</code> if it could not be found.
 	 *
+	 * @param groupId the group ID
 	 * @param serialId the serial ID
 	 * @return the matching subject
 	 * @throws NoSuchSubjectException if a matching subject could not be found
 	 */
 	@Override
-	public Subject findBySerialId(String serialId)
+	public Subject findBySerialId(long groupId, String serialId)
 		throws NoSuchSubjectException {
 
-		Subject subject = fetchBySerialId(serialId);
+		Subject subject = fetchBySerialId(groupId, serialId);
 
 		if (subject == null) {
-			StringBundler sb = new StringBundler(4);
+			StringBundler sb = new StringBundler(6);
 
 			sb.append(_NO_SUCH_ENTITY_WITH_KEY);
 
-			sb.append("serialId=");
+			sb.append("groupId=");
+			sb.append(groupId);
+
+			sb.append(", serialId=");
 			sb.append(serialId);
 
 			sb.append("}");
@@ -1710,31 +1714,35 @@ public class SubjectPersistenceImpl
 	}
 
 	/**
-	 * Returns the subject where serialId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 * Returns the subject where groupId = &#63; and serialId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
 	 *
+	 * @param groupId the group ID
 	 * @param serialId the serial ID
 	 * @return the matching subject, or <code>null</code> if a matching subject could not be found
 	 */
 	@Override
-	public Subject fetchBySerialId(String serialId) {
-		return fetchBySerialId(serialId, true);
+	public Subject fetchBySerialId(long groupId, String serialId) {
+		return fetchBySerialId(groupId, serialId, true);
 	}
 
 	/**
-	 * Returns the subject where serialId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 * Returns the subject where groupId = &#63; and serialId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
 	 *
+	 * @param groupId the group ID
 	 * @param serialId the serial ID
 	 * @param useFinderCache whether to use the finder cache
 	 * @return the matching subject, or <code>null</code> if a matching subject could not be found
 	 */
 	@Override
-	public Subject fetchBySerialId(String serialId, boolean useFinderCache) {
+	public Subject fetchBySerialId(
+		long groupId, String serialId, boolean useFinderCache) {
+
 		serialId = Objects.toString(serialId, "");
 
 		Object[] finderArgs = null;
 
 		if (useFinderCache) {
-			finderArgs = new Object[] {serialId};
+			finderArgs = new Object[] {groupId, serialId};
 		}
 
 		Object result = null;
@@ -1747,15 +1755,19 @@ public class SubjectPersistenceImpl
 		if (result instanceof Subject) {
 			Subject subject = (Subject)result;
 
-			if (!Objects.equals(serialId, subject.getSerialId())) {
+			if ((groupId != subject.getGroupId()) ||
+				!Objects.equals(serialId, subject.getSerialId())) {
+
 				result = null;
 			}
 		}
 
 		if (result == null) {
-			StringBundler sb = new StringBundler(3);
+			StringBundler sb = new StringBundler(4);
 
 			sb.append(_SQL_SELECT_SUBJECT_WHERE);
+
+			sb.append(_FINDER_COLUMN_SERIALID_GROUPID_2);
 
 			boolean bindSerialId = false;
 
@@ -1778,6 +1790,8 @@ public class SubjectPersistenceImpl
 				Query query = session.createQuery(sql);
 
 				QueryPos queryPos = QueryPos.getInstance(query);
+
+				queryPos.add(groupId);
 
 				if (bindSerialId) {
 					queryPos.add(serialId);
@@ -1821,40 +1835,44 @@ public class SubjectPersistenceImpl
 	}
 
 	/**
-	 * Removes the subject where serialId = &#63; from the database.
+	 * Removes the subject where groupId = &#63; and serialId = &#63; from the database.
 	 *
+	 * @param groupId the group ID
 	 * @param serialId the serial ID
 	 * @return the subject that was removed
 	 */
 	@Override
-	public Subject removeBySerialId(String serialId)
+	public Subject removeBySerialId(long groupId, String serialId)
 		throws NoSuchSubjectException {
 
-		Subject subject = findBySerialId(serialId);
+		Subject subject = findBySerialId(groupId, serialId);
 
 		return remove(subject);
 	}
 
 	/**
-	 * Returns the number of subjects where serialId = &#63;.
+	 * Returns the number of subjects where groupId = &#63; and serialId = &#63;.
 	 *
+	 * @param groupId the group ID
 	 * @param serialId the serial ID
 	 * @return the number of matching subjects
 	 */
 	@Override
-	public int countBySerialId(String serialId) {
+	public int countBySerialId(long groupId, String serialId) {
 		serialId = Objects.toString(serialId, "");
 
 		FinderPath finderPath = _finderPathCountBySerialId;
 
-		Object[] finderArgs = new Object[] {serialId};
+		Object[] finderArgs = new Object[] {groupId, serialId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
 		if (count == null) {
-			StringBundler sb = new StringBundler(2);
+			StringBundler sb = new StringBundler(3);
 
 			sb.append(_SQL_COUNT_SUBJECT_WHERE);
+
+			sb.append(_FINDER_COLUMN_SERIALID_GROUPID_2);
 
 			boolean bindSerialId = false;
 
@@ -1878,6 +1896,8 @@ public class SubjectPersistenceImpl
 
 				QueryPos queryPos = QueryPos.getInstance(query);
 
+				queryPos.add(groupId);
+
 				if (bindSerialId) {
 					queryPos.add(serialId);
 				}
@@ -1898,6 +1918,9 @@ public class SubjectPersistenceImpl
 
 		return count.intValue();
 	}
+
+	private static final String _FINDER_COLUMN_SERIALID_GROUPID_2 =
+		"subject.groupId = ? AND ";
 
 	private static final String _FINDER_COLUMN_SERIALID_SERIALID_2 =
 		"subject.serialId = ?";
@@ -3338,7 +3361,8 @@ public class SubjectPersistenceImpl
 			subject);
 
 		finderCache.putResult(
-			_finderPathFetchBySerialId, new Object[] {subject.getSerialId()},
+			_finderPathFetchBySerialId,
+			new Object[] {subject.getGroupId(), subject.getSerialId()},
 			subject);
 
 		subject.resetOriginalValues();
@@ -3448,7 +3472,9 @@ public class SubjectPersistenceImpl
 		finderCache.putResult(
 			_finderPathFetchBySubjectId, args, subjectModelImpl, false);
 
-		args = new Object[] {subjectModelImpl.getSerialId()};
+		args = new Object[] {
+			subjectModelImpl.getGroupId(), subjectModelImpl.getSerialId()
+		};
 
 		finderCache.putResult(
 			_finderPathCountBySerialId, args, Long.valueOf(1), false);
@@ -3499,7 +3525,9 @@ public class SubjectPersistenceImpl
 		}
 
 		if (clearCurrent) {
-			Object[] args = new Object[] {subjectModelImpl.getSerialId()};
+			Object[] args = new Object[] {
+				subjectModelImpl.getGroupId(), subjectModelImpl.getSerialId()
+			};
 
 			finderCache.removeResult(_finderPathCountBySerialId, args);
 			finderCache.removeResult(_finderPathFetchBySerialId, args);
@@ -3509,6 +3537,7 @@ public class SubjectPersistenceImpl
 			 _finderPathFetchBySerialId.getColumnBitmask()) != 0) {
 
 			Object[] args = new Object[] {
+				subjectModelImpl.getOriginalGroupId(),
 				subjectModelImpl.getOriginalSerialId()
 			};
 
@@ -4179,13 +4208,14 @@ public class SubjectPersistenceImpl
 		_finderPathFetchBySerialId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SubjectImpl.class,
 			FINDER_CLASS_NAME_ENTITY, "fetchBySerialId",
-			new String[] {String.class.getName()},
+			new String[] {Long.class.getName(), String.class.getName()},
+			SubjectModelImpl.GROUPID_COLUMN_BITMASK |
 			SubjectModelImpl.SERIALID_COLUMN_BITMASK);
 
 		_finderPathCountBySerialId = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countBySerialId",
-			new String[] {String.class.getName()});
+			new String[] {Long.class.getName(), String.class.getName()});
 
 		_finderPathWithPaginationFindBySubjectName = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SubjectImpl.class,
