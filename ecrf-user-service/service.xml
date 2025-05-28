@@ -35,6 +35,10 @@
 		<column name="position" type="String" />
 		<column name="approveStatus" type="int" />
 		
+		<!-- 0:false / 1:true -->
+		<column name="privacyAgree" type="int" />
+		<column name="termOfUseAgree" type="int" />
+		
 		<!-- Foreign Key -->
 		<column name="researcherUserId" type="long" />
 

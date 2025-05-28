@@ -53,6 +53,8 @@ public class ResearcherSoap implements Serializable {
 		soapModel.setOfficeContact(model.getOfficeContact());
 		soapModel.setPosition(model.getPosition());
 		soapModel.setApproveStatus(model.getApproveStatus());
+		soapModel.setPrivacyAgree(model.getPrivacyAgree());
+		soapModel.setTermOfUseAgree(model.getTermOfUseAgree());
 		soapModel.setResearcherUserId(model.getResearcherUserId());
 
 		return soapModel;
@@ -283,6 +285,22 @@ public class ResearcherSoap implements Serializable {
 		_approveStatus = approveStatus;
 	}
 
+	public int getPrivacyAgree() {
+		return _privacyAgree;
+	}
+
+	public void setPrivacyAgree(int privacyAgree) {
+		_privacyAgree = privacyAgree;
+	}
+
+	public int getTermOfUseAgree() {
+		return _termOfUseAgree;
+	}
+
+	public void setTermOfUseAgree(int termOfUseAgree) {
+		_termOfUseAgree = termOfUseAgree;
+	}
+
 	public long getResearcherUserId() {
 		return _researcherUserId;
 	}
@@ -313,6 +331,8 @@ public class ResearcherSoap implements Serializable {
 	private String _officeContact;
 	private String _position;
 	private int _approveStatus;
+	private int _privacyAgree;
+	private int _termOfUseAgree;
 	private long _researcherUserId;
 
 }

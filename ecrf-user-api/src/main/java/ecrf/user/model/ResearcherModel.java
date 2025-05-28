@@ -436,6 +436,34 @@ public interface ResearcherModel
 	public void setApproveStatus(int approveStatus);
 
 	/**
+	 * Returns the privacy agree of this researcher.
+	 *
+	 * @return the privacy agree of this researcher
+	 */
+	public int getPrivacyAgree();
+
+	/**
+	 * Sets the privacy agree of this researcher.
+	 *
+	 * @param privacyAgree the privacy agree of this researcher
+	 */
+	public void setPrivacyAgree(int privacyAgree);
+
+	/**
+	 * Returns the term of use agree of this researcher.
+	 *
+	 * @return the term of use agree of this researcher
+	 */
+	public int getTermOfUseAgree();
+
+	/**
+	 * Sets the term of use agree of this researcher.
+	 *
+	 * @param termOfUseAgree the term of use agree of this researcher
+	 */
+	public void setTermOfUseAgree(int termOfUseAgree);
+
+	/**
 	 * Returns the researcher user ID of this researcher.
 	 *
 	 * @return the researcher user ID of this researcher

@@ -209,6 +209,8 @@
 		<field name="officeContact" type="String" />
 		<field name="position" type="String" />
 		<field name="approveStatus" type="int" />
+		<field name="privacyAgree" type="int" />
+		<field name="termOfUseAgree" type="int" />
 		<field name="researcherUserId" type="long" />
 	</model>
 	<model name="ecrf.user.model.Subject">

@@ -328,6 +328,21 @@ public class CRFLocalServiceImpl extends CRFLocalServiceBaseImpl {
 		return null;
 	}
 	
+	public CRF getCRFByName(String name) {
+		CRF crf = null;
+		try {
+			List<DataType> dataTypeList = _dataTypeLocalService.getDataTypesByName(name);
+			
+			if(dataTypeList.size() > 0) {
+				crf = getCRFByDataTypeId(dataTypeList.get(0).getDataTypeId());
+			}
+		} catch (Exception e) {
+			_log.error(e.getMessage());
+		}
+		
+		return crf;
+	}
+	
 	@Reference
 	private CRFAutoqueryLocalService _crfAutoQueryLocalService;
 	
