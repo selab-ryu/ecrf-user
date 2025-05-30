@@ -93,6 +93,9 @@ public interface ResearcherLocalService
 	public Researcher changeApproveStatus(long researcherId, int approveStatus)
 		throws PortalException;
 
+	public boolean checkAgreement(long groupId, long researcherId)
+		throws NoSuchResearcherException;
+
 	/**
 	 * Creates a new researcher with the primary key. Does not add the researcher to the database.
 	 *
@@ -329,6 +332,9 @@ public interface ResearcherLocalService
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public boolean hasPIPermission(long userId);
+
+	public void updateAgreemnt(long roupId, long researcherId, boolean state)
+		throws NoSuchResearcherException;
 
 	/**
 	 * Updates the researcher in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
