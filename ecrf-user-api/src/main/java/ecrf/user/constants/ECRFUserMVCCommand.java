@@ -139,4 +139,12 @@ public class ECRFUserMVCCommand {
 	public static final String RENDER_MANAGE_FORM = "/render/crf-form/manage-form";
 	public static final String RENDER_CRF_FORM_PDF_DOWNLOAD = "/render/crf-form/pdf-download";
 	
+	public static String getRenderCommandByMenu(String menu) {
+		String command = "";
+		
+		if(menu.equals("list-crf-data")) command = RENDER_LIST_CRF_DATA;
+		
+		return command; 
+	}
+	
 }
