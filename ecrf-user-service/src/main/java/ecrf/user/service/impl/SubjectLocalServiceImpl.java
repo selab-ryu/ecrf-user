@@ -22,6 +22,7 @@ import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import java.util.ArrayList;
@@ -105,6 +106,7 @@ public class SubjectLocalServiceImpl extends SubjectLocalServiceBaseImpl {
 			Subject.class.getName(), subjectId,
 			false, true, true);
 		
+		_log.info("Service : Add Subject End");
 		return subject;
 	}
 	
@@ -147,6 +149,7 @@ public class SubjectLocalServiceImpl extends SubjectLocalServiceBaseImpl {
 				Subject.class.getName(), subject.getSubjectId(),
 				sc.getModelPermissions());
 		
+		_log.info("Service : Update Subject End");
 		return subject;
 	}
 	
@@ -222,15 +225,19 @@ public class SubjectLocalServiceImpl extends SubjectLocalServiceBaseImpl {
 		return subjectFinder.findBySubjectIds(groupId, subjectIds);
 	}
 	
-	public Subject getSubjectBySerialId(String serialId) {
+	public Subject getSubjectBySerialId(long groupId, String serialId) {
 		Subject subject = null;
 		
 		try {
-			subject = super.subjectPersistence.findBySerialId(serialId);
+			subject = super.subjectPersistence.findBySerialId(groupId, serialId);
 		} catch (NoSuchSubjectException e) {
-			_log.error("No such Subject with serialId");
+			_log.info("No such Subject with serialId : " + serialId );
 		}
 		return subject;
+	}
+	
+	public boolean isDuplicatedSerialId(long groupId, String serialId) {
+		return Validator.isNotNull(getSubjectBySerialId(groupId, serialId));
 	}
 	
 	@Reference

@@ -89,6 +89,7 @@ public class ResearcherModelImpl
 		{"gender", Types.INTEGER}, {"phone", Types.VARCHAR},
 		{"institution", Types.VARCHAR}, {"officeContact", Types.VARCHAR},
 		{"position", Types.VARCHAR}, {"approveStatus", Types.INTEGER},
+		{"privacyAgree", Types.INTEGER}, {"termOfUseAgree", Types.INTEGER},
 		{"researcherUserId", Types.BIGINT}
 	};
 
@@ -118,11 +119,13 @@ public class ResearcherModelImpl
 		TABLE_COLUMNS_MAP.put("officeContact", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("position", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("approveStatus", Types.INTEGER);
+		TABLE_COLUMNS_MAP.put("privacyAgree", Types.INTEGER);
+		TABLE_COLUMNS_MAP.put("termOfUseAgree", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("researcherUserId", Types.BIGINT);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table EC_Researcher (mvccVersion LONG default 0 not null,uuid_ VARCHAR(75) null,researcherId LONG not null primary key,companyId LONG,groupId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,name VARCHAR(75) null,email VARCHAR(75) null,birth DATE null,gender INTEGER,phone VARCHAR(75) null,institution VARCHAR(75) null,officeContact VARCHAR(75) null,position VARCHAR(75) null,approveStatus INTEGER,researcherUserId LONG)";
+		"create table EC_Researcher (mvccVersion LONG default 0 not null,uuid_ VARCHAR(75) null,researcherId LONG not null primary key,companyId LONG,groupId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,name VARCHAR(75) null,email VARCHAR(75) null,birth DATE null,gender INTEGER,phone VARCHAR(75) null,institution VARCHAR(75) null,officeContact VARCHAR(75) null,position VARCHAR(75) null,approveStatus INTEGER,privacyAgree INTEGER,termOfUseAgree INTEGER,researcherUserId LONG)";
 
 	public static final String TABLE_SQL_DROP = "drop table EC_Researcher";
 
@@ -197,6 +200,8 @@ public class ResearcherModelImpl
 		model.setOfficeContact(soapModel.getOfficeContact());
 		model.setPosition(soapModel.getPosition());
 		model.setApproveStatus(soapModel.getApproveStatus());
+		model.setPrivacyAgree(soapModel.getPrivacyAgree());
+		model.setTermOfUseAgree(soapModel.getTermOfUseAgree());
 		model.setResearcherUserId(soapModel.getResearcherUserId());
 
 		return model;
@@ -405,6 +410,16 @@ public class ResearcherModelImpl
 		attributeSetterBiConsumers.put(
 			"approveStatus",
 			(BiConsumer<Researcher, Integer>)Researcher::setApproveStatus);
+		attributeGetterFunctions.put(
+			"privacyAgree", Researcher::getPrivacyAgree);
+		attributeSetterBiConsumers.put(
+			"privacyAgree",
+			(BiConsumer<Researcher, Integer>)Researcher::setPrivacyAgree);
+		attributeGetterFunctions.put(
+			"termOfUseAgree", Researcher::getTermOfUseAgree);
+		attributeSetterBiConsumers.put(
+			"termOfUseAgree",
+			(BiConsumer<Researcher, Integer>)Researcher::setTermOfUseAgree);
 		attributeGetterFunctions.put(
 			"researcherUserId", Researcher::getResearcherUserId);
 		attributeSetterBiConsumers.put(
@@ -804,6 +819,28 @@ public class ResearcherModelImpl
 
 	@JSON
 	@Override
+	public int getPrivacyAgree() {
+		return _privacyAgree;
+	}
+
+	@Override
+	public void setPrivacyAgree(int privacyAgree) {
+		_privacyAgree = privacyAgree;
+	}
+
+	@JSON
+	@Override
+	public int getTermOfUseAgree() {
+		return _termOfUseAgree;
+	}
+
+	@Override
+	public void setTermOfUseAgree(int termOfUseAgree) {
+		_termOfUseAgree = termOfUseAgree;
+	}
+
+	@JSON
+	@Override
 	public long getResearcherUserId() {
 		return _researcherUserId;
 	}
@@ -985,6 +1022,8 @@ public class ResearcherModelImpl
 		researcherImpl.setOfficeContact(getOfficeContact());
 		researcherImpl.setPosition(getPosition());
 		researcherImpl.setApproveStatus(getApproveStatus());
+		researcherImpl.setPrivacyAgree(getPrivacyAgree());
+		researcherImpl.setTermOfUseAgree(getTermOfUseAgree());
 		researcherImpl.setResearcherUserId(getResearcherUserId());
 
 		researcherImpl.resetOriginalValues();
@@ -1214,6 +1253,10 @@ public class ResearcherModelImpl
 
 		researcherCacheModel.approveStatus = getApproveStatus();
 
+		researcherCacheModel.privacyAgree = getPrivacyAgree();
+
+		researcherCacheModel.termOfUseAgree = getTermOfUseAgree();
+
 		researcherCacheModel.researcherUserId = getResearcherUserId();
 
 		return researcherCacheModel;
@@ -1342,6 +1385,8 @@ public class ResearcherModelImpl
 	private String _position;
 	private String _originalPosition;
 	private int _approveStatus;
+	private int _privacyAgree;
+	private int _termOfUseAgree;
 	private long _researcherUserId;
 	private long _originalResearcherUserId;
 	private boolean _setOriginalResearcherUserId;

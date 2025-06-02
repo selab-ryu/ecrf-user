@@ -193,6 +193,8 @@ public class CRFAutoqueryLocalServiceImpl extends CRFAutoqueryLocalServiceBaseIm
 		CRF crf = CRFLocalServiceUtil.getCRF(crfId);
 		DataType dataType = DataTypeLocalServiceUtil.getDataType(crf.getDatatypeId());
 		
+		_log.info("crf / datatype / sd : " + crfId + " / " + dataType.getDataTypeId() + " / " + sdId );
+		
 		if(dataType.getDataTypeName().equals("er_crf")) {
 			for(int i = 0; i < crfForm.length(); i++) {
 				String queryTermName = "";
@@ -237,7 +239,7 @@ public class CRFAutoqueryLocalServiceImpl extends CRFAutoqueryLocalServiceBaseIm
 					
 					try {
 						float testFloat = Float.parseFloat(queryValue);
-						_log.info(testFloat);
+						//_log.info(testFloat);
 						isString = true;
 					}catch(NumberFormatException nfe) {
 						isString = false;
@@ -347,7 +349,7 @@ public class CRFAutoqueryLocalServiceImpl extends CRFAutoqueryLocalServiceBaseIm
 					
 					try {
 						float testFloat = Float.parseFloat(queryValue);
-						_log.info(testFloat);
+						//_log.info(testFloat);
 						isString = true;
 					}catch(NumberFormatException nfe) {
 						isString = false;

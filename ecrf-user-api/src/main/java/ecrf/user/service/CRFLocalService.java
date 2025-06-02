@@ -239,6 +239,9 @@ public interface CRFLocalService
 	public List<CRF> getCRFByGroupId(
 		long groupId, int start, int end, OrderByComparator comparator);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public CRF getCRFByName(String name);
+
 	/**
 	 * Returns the crf matching the UUID and group.
 	 *

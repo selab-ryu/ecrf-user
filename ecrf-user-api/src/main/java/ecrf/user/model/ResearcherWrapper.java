@@ -65,6 +65,8 @@ public class ResearcherWrapper
 		attributes.put("officeContact", getOfficeContact());
 		attributes.put("position", getPosition());
 		attributes.put("approveStatus", getApproveStatus());
+		attributes.put("privacyAgree", getPrivacyAgree());
+		attributes.put("termOfUseAgree", getTermOfUseAgree());
 		attributes.put("researcherUserId", getResearcherUserId());
 
 		return attributes;
@@ -202,6 +204,18 @@ public class ResearcherWrapper
 
 		if (approveStatus != null) {
 			setApproveStatus(approveStatus);
+		}
+
+		Integer privacyAgree = (Integer)attributes.get("privacyAgree");
+
+		if (privacyAgree != null) {
+			setPrivacyAgree(privacyAgree);
+		}
+
+		Integer termOfUseAgree = (Integer)attributes.get("termOfUseAgree");
+
+		if (termOfUseAgree != null) {
+			setTermOfUseAgree(termOfUseAgree);
 		}
 
 		Long researcherUserId = (Long)attributes.get("researcherUserId");
@@ -362,6 +376,16 @@ public class ResearcherWrapper
 	}
 
 	/**
+	 * Returns the privacy agree of this researcher.
+	 *
+	 * @return the privacy agree of this researcher
+	 */
+	@Override
+	public int getPrivacyAgree() {
+		return model.getPrivacyAgree();
+	}
+
+	/**
 	 * Returns the researcher ID of this researcher.
 	 *
 	 * @return the researcher ID of this researcher
@@ -439,6 +463,16 @@ public class ResearcherWrapper
 	@Override
 	public Date getStatusDate() {
 		return model.getStatusDate();
+	}
+
+	/**
+	 * Returns the term of use agree of this researcher.
+	 *
+	 * @return the term of use agree of this researcher
+	 */
+	@Override
+	public int getTermOfUseAgree() {
+		return model.getTermOfUseAgree();
 	}
 
 	/**
@@ -717,6 +751,16 @@ public class ResearcherWrapper
 	}
 
 	/**
+	 * Sets the privacy agree of this researcher.
+	 *
+	 * @param privacyAgree the privacy agree of this researcher
+	 */
+	@Override
+	public void setPrivacyAgree(int privacyAgree) {
+		model.setPrivacyAgree(privacyAgree);
+	}
+
+	/**
 	 * Sets the researcher ID of this researcher.
 	 *
 	 * @param researcherId the researcher ID of this researcher
@@ -794,6 +838,16 @@ public class ResearcherWrapper
 	@Override
 	public void setStatusDate(Date statusDate) {
 		model.setStatusDate(statusDate);
+	}
+
+	/**
+	 * Sets the term of use agree of this researcher.
+	 *
+	 * @param termOfUseAgree the term of use agree of this researcher
+	 */
+	@Override
+	public void setTermOfUseAgree(int termOfUseAgree) {
+		model.setTermOfUseAgree(termOfUseAgree);
 	}
 
 	/**

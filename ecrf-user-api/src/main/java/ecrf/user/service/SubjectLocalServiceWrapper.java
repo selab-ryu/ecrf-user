@@ -309,8 +309,10 @@ public class SubjectLocalServiceWrapper
 	}
 
 	@Override
-	public ecrf.user.model.Subject getSubjectBySerialId(String serialId) {
-		return _subjectLocalService.getSubjectBySerialId(serialId);
+	public ecrf.user.model.Subject getSubjectBySerialId(
+		long groupId, String serialId) {
+
+		return _subjectLocalService.getSubjectBySerialId(groupId, serialId);
 	}
 
 	/**
@@ -391,6 +393,11 @@ public class SubjectLocalServiceWrapper
 	@Override
 	public int getSubjectsCount() {
 		return _subjectLocalService.getSubjectsCount();
+	}
+
+	@Override
+	public boolean isDuplicatedSerialId(long groupId, String serialId) {
+		return _subjectLocalService.isDuplicatedSerialId(groupId, serialId);
 	}
 
 	@Override

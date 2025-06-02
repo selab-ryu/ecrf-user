@@ -198,6 +198,8 @@ create table EC_Researcher (
 	officeContact VARCHAR(75) null,
 	position VARCHAR(75) null,
 	approveStatus INTEGER,
+	privacyAgree INTEGER,
+	termOfUseAgree INTEGER,
 	researcherUserId LONG
 );
 
