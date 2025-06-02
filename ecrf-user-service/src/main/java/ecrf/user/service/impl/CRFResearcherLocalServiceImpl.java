@@ -19,6 +19,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.ResourceConstants;
+import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
@@ -235,7 +236,27 @@ public class CRFResearcherLocalServiceImpl
 				if(Validator.isNotNull(cr)) isIn = true;
 			}
 		} catch (Exception e) {
-			_log.error(e.getMessage());
+			try {
+				User user = userLocalService.getUser(userId);
+				
+				boolean isAdmin = false;
+				
+				//check user roles
+				if(user != null) {
+					List<Role> roleList = user.getRoles();
+					for(int i=0; i<roleList.size(); i++) {
+						Role role = roleList.get(i);
+						if(role.getName().equals("Administrator")) isAdmin = true;
+					}
+				}
+				
+				if(!isAdmin) {
+					_log.error(e.getMessage());
+				}
+			} catch (PortalException pe) {
+				_log.error(pe.getMessage());
+			}
+			
 			return false;
 		}
 		

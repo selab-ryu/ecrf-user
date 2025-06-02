@@ -265,6 +265,10 @@ public class CRFLocalServiceUtil {
 		return getService().getCRFByGroupId(groupId, start, end, comparator);
 	}
 
+	public static CRF getCRFByName(String name) {
+		return getService().getCRFByName(name);
+	}
+
 	/**
 	 * Returns the crf matching the UUID and group.
 	 *

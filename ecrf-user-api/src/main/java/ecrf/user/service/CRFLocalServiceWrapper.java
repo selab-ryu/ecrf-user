@@ -288,6 +288,11 @@ public class CRFLocalServiceWrapper
 			groupId, start, end, comparator);
 	}
 
+	@Override
+	public ecrf.user.model.CRF getCRFByName(String name) {
+		return _crfLocalService.getCRFByName(name);
+	}
+
 	/**
 	 * Returns the crf matching the UUID and group.
 	 *

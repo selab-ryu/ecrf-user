@@ -320,4 +320,32 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 		}
 		return hasPermission;
 	}
+	
+	public boolean checkAgreement(long groupId, long researcherId) throws NoSuchResearcherException {
+		boolean agree = false;
+		Researcher researcher = super.researcherPersistence.findByPrimaryKey(researcherId);
+		
+		int termAgree = researcher.getTermOfUseAgree();
+		int privacyAgree = researcher.getPrivacyAgree();
+		
+		if(termAgree+privacyAgree == 2) {
+			agree = true;
+		}
+		
+		return agree;
+	}
+	
+	public void updateAgreemnt(long roupId, long researcherId, boolean state) throws NoSuchResearcherException {
+		Researcher researcher = super.researcherPersistence.findByPrimaryKey(researcherId);
+		
+		if(state) {
+			researcher.setTermOfUseAgree(1);
+			researcher.setPrivacyAgree(1);
+		} else {
+			researcher.setTermOfUseAgree(0);
+			researcher.setPrivacyAgree(0);
+		}
+		
+		super.researcherPersistence.update(researcher);
+	}
 }

@@ -80,6 +80,13 @@ public class ResearcherLocalServiceWrapper
 			researcherId, approveStatus);
 	}
 
+	@Override
+	public boolean checkAgreement(long groupId, long researcherId)
+		throws ecrf.user.exception.NoSuchResearcherException {
+
+		return _researcherLocalService.checkAgreement(groupId, researcherId);
+	}
+
 	/**
 	 * Creates a new researcher with the primary key. Does not add the researcher to the database.
 	 *
@@ -421,6 +428,13 @@ public class ResearcherLocalServiceWrapper
 	@Override
 	public boolean hasPIPermission(long userId) {
 		return _researcherLocalService.hasPIPermission(userId);
+	}
+
+	@Override
+	public void updateAgreemnt(long roupId, long researcherId, boolean state)
+		throws ecrf.user.exception.NoSuchResearcherException {
+
+		_researcherLocalService.updateAgreemnt(roupId, researcherId, state);
 	}
 
 	/**

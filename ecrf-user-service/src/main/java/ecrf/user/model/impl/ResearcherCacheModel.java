@@ -78,7 +78,7 @@ public class ResearcherCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(47);
+		StringBundler sb = new StringBundler(51);
 
 		sb.append("{mvccVersion=");
 		sb.append(mvccVersion);
@@ -124,6 +124,10 @@ public class ResearcherCacheModel
 		sb.append(position);
 		sb.append(", approveStatus=");
 		sb.append(approveStatus);
+		sb.append(", privacyAgree=");
+		sb.append(privacyAgree);
+		sb.append(", termOfUseAgree=");
+		sb.append(termOfUseAgree);
 		sb.append(", researcherUserId=");
 		sb.append(researcherUserId);
 		sb.append("}");
@@ -239,6 +243,8 @@ public class ResearcherCacheModel
 		}
 
 		researcherImpl.setApproveStatus(approveStatus);
+		researcherImpl.setPrivacyAgree(privacyAgree);
+		researcherImpl.setTermOfUseAgree(termOfUseAgree);
 		researcherImpl.setResearcherUserId(researcherUserId);
 
 		researcherImpl.resetOriginalValues();
@@ -278,6 +284,10 @@ public class ResearcherCacheModel
 		position = objectInput.readUTF();
 
 		approveStatus = objectInput.readInt();
+
+		privacyAgree = objectInput.readInt();
+
+		termOfUseAgree = objectInput.readInt();
 
 		researcherUserId = objectInput.readLong();
 	}
@@ -372,6 +382,10 @@ public class ResearcherCacheModel
 
 		objectOutput.writeInt(approveStatus);
 
+		objectOutput.writeInt(privacyAgree);
+
+		objectOutput.writeInt(termOfUseAgree);
+
 		objectOutput.writeLong(researcherUserId);
 	}
 
@@ -397,6 +411,8 @@ public class ResearcherCacheModel
 	public String officeContact;
 	public String position;
 	public int approveStatus;
+	public int privacyAgree;
+	public int termOfUseAgree;
 	public long researcherUserId;
 
 }

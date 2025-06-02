@@ -86,6 +86,12 @@ public class ResearcherLocalServiceUtil {
 		return getService().changeApproveStatus(researcherId, approveStatus);
 	}
 
+	public static boolean checkAgreement(long groupId, long researcherId)
+		throws ecrf.user.exception.NoSuchResearcherException {
+
+		return getService().checkAgreement(groupId, researcherId);
+	}
+
 	/**
 	 * Creates a new researcher with the primary key. Does not add the researcher to the database.
 	 *
@@ -379,6 +385,13 @@ public class ResearcherLocalServiceUtil {
 
 	public static boolean hasPIPermission(long userId) {
 		return getService().hasPIPermission(userId);
+	}
+
+	public static void updateAgreemnt(
+			long roupId, long researcherId, boolean state)
+		throws ecrf.user.exception.NoSuchResearcherException {
+
+		getService().updateAgreemnt(roupId, researcherId, state);
 	}
 
 	/**

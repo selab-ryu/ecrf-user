@@ -253,7 +253,7 @@ public interface SubjectLocalService
 	public List<Subject> getSubjectByIds(long groupId, long[] subjectIds);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public Subject getSubjectBySerialId(String serialId);
+	public Subject getSubjectBySerialId(long groupId, String serialId);
 
 	/**
 	 * Returns the subject matching the UUID and group.
@@ -314,6 +314,9 @@ public interface SubjectLocalService
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getSubjectsCount();
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public boolean isDuplicatedSerialId(long groupId, String serialId);
 
 	public Subject updateSubject(
 			long subjectId, String name, int birthYear, int birthMonth,

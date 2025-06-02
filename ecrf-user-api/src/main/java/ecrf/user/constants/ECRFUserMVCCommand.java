@@ -11,7 +11,7 @@ public class ECRFUserMVCCommand {
 	public static final String RENDER_LIST_RESEARCHER = "/render/researcher/list-researcher";
 	public static final String RENDER_UPDATE_RESEARCHER = "/render/researcher/update-researcher";
 	public static final String RENDER_ADD_RESEARCHER = "/render/researcher/add-researcher";
-	
+	public static final String RENDER_VIEW_PRIVACY_AGREEMENT = "/render/researcher/view-privacy-agreement";
 	
 	public static final String RENDER_VIEW_PROJECT = "/render/project/view-project";
 	public static final String RENDER_ADD_PROJECT = "/render/project/add-project";
@@ -42,6 +42,12 @@ public class ECRFUserMVCCommand {
 	public static final String ACTION_REQUEST_MEMBERSHIP = "/action/main/request-membership";
 	public static final String ACTION_ADD_MEMBERSHIP_REQUEST = "/action/main/add-membership-request";
 	
+	
+	public static final String ACTION_REDIRECT_UPDATE_CRF = "/action/dashboard/redirect-update-crf";
+	public static final String ACTION_REDIRECT_CRF_FORM = "/action/dashboard/redirect-crf-form";
+	public static final String ACTION_REDIRECT_CRF_DATA_LIST = "/action/dashboard/redirect-list-crf-data";
+	public static final String RESOURCE_GET_TRIMESTER_DATA = "/resource/dashboard/get-trimester-data";
+	
 	public static final String RENDER_VIEW_SUBJECT = "/render/subject/view-subject";
 	public static final String RENDER_ADD_SUBJECT = "/render/subject/add-subject";
 	public static final String RENDER_UPDATE_SUBJECT = "/render/subject/update-subject";
@@ -51,6 +57,8 @@ public class ECRFUserMVCCommand {
 	public static final String ACTION_UPDATE_SUBJECT = "/action/subject/update-subject";
 	public static final String ACTION_DELETE_SUBJECT = "/action/subject/delete-subject";
 	public static final String ACTION_DELETE_ALL_SUBJECT = "/action/subject/delete-all-subject";
+	
+	public static final String RESOURCE_CHECK_SERIAL_ID = "/resource/subject/check-serial-id";
 	
 	public static final String ACTION_ADD_SUBJECTS_FILE = "/action/subject/add-subjects-file";
 	public static final String RENDER_DEBUG_PAGE = "/render/debug-page";
@@ -90,7 +98,7 @@ public class ECRFUserMVCCommand {
 	public static final String RENDER_UPDATE_CRF_DATA = "/render/crf-data/update-crf-data";
 	public static final String RENDER_VIEW_CRF_DATA = "/render/crf-data/view-crf-data";
 	public static final String RENDER_CRF_VIEWER = "/render/crf-data/crf-viewer";
-	
+		
 	public static final String ACTION_ADD_CRF_DATA = "/action/crf-data/add-crf-data";
 	public static final String ACTION_UPDATE_CRF_DATA = "/action/crf-data/update-crf-data";
 	public static final String ACTION_DELETE_CRF_DATA = "/action/crf-data/delete-crf-data";
@@ -130,5 +138,13 @@ public class ECRFUserMVCCommand {
 	
 	public static final String RENDER_MANAGE_FORM = "/render/crf-form/manage-form";
 	public static final String RENDER_CRF_FORM_PDF_DOWNLOAD = "/render/crf-form/pdf-download";
+	
+	public static String getRenderCommandByMenu(String menu) {
+		String command = "";
+		
+		if(menu.equals("list-crf-data")) command = RENDER_LIST_CRF_DATA;
+		
+		return command; 
+	}
 	
 }

@@ -281,8 +281,8 @@ public class SubjectLocalServiceUtil {
 		return getService().getSubjectByIds(groupId, subjectIds);
 	}
 
-	public static Subject getSubjectBySerialId(String serialId) {
-		return getService().getSubjectBySerialId(serialId);
+	public static Subject getSubjectBySerialId(long groupId, String serialId) {
+		return getService().getSubjectBySerialId(groupId, serialId);
 	}
 
 	/**
@@ -352,6 +352,10 @@ public class SubjectLocalServiceUtil {
 	 */
 	public static int getSubjectsCount() {
 		return getService().getSubjectsCount();
+	}
+
+	public static boolean isDuplicatedSerialId(long groupId, String serialId) {
+		return getService().isDuplicatedSerialId(groupId, serialId);
 	}
 
 	public static Subject updateSubject(
