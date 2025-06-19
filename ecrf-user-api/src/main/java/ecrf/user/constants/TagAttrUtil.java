@@ -79,5 +79,79 @@ public class TagAttrUtil {
 		return result;
 	}
 	
+	public static String inactive_notMove(boolean isActive, int type) {
+		String result = "";
+		switch(type) {
+			case TYPE_MENU:
+				result = " inactive sidebar-not-move";
+				break;
+			case TYPE_ICON:
+				result = "-inactive sidebar-not-move";
+				break;
+			default:
+				result = " inactive sidebar-not-move";
+		}
+		
+		if(isActive) {
+			result = "";
+		}
+		
+		return result;
+	}
 	
+	public static String active(String menu, String target, int type) {
+		String result = "";
+		
+		if(menu.equals(target)) {
+			switch(type) {
+			case TYPE_MENU:
+				result = " active";
+				break;
+			case TYPE_ICON:
+				result = "-active";
+				break;
+			default:
+				result = " active";
+			}
+		}
+		
+		return result;
+	}
+	
+	public static String active(String menu, int type, String... targets) {
+		String result = "";
+		boolean isMatch = false;
+		
+		for(String target : targets)
+			if(menu.equals(target)) isMatch = true;
+		
+		if(isMatch) {
+			switch(type) {
+				case TYPE_MENU:
+					result = " active";
+					break;
+				case TYPE_ICON:
+					result = "-active";
+					break;
+				default:
+					result = " active";
+			}
+		}
+		
+		return result;
+	}
+	
+	public static String checkMenuState(String menu, String target, boolean inactive) {
+		String result = "";
+		
+		if(menu.equals(target)) {
+			result = " active";
+		} else {
+			if(inactive) {
+				result = " inactive sidebar-not-move";
+			}
+		}
+		
+		return result;
+	}
 }

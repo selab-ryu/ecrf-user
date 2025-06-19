@@ -21,10 +21,13 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Contact;
 import com.liferay.portal.kernel.model.ResourceConstants;
+import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.ContactLocalService;
+import com.liferay.portal.kernel.service.RoleLocalService;
+import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
@@ -62,6 +65,9 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 		
 	@Reference
 	private ContactLocalService _contactLocalService;
+	
+	@Reference
+	private RoleLocalService _roleLocalService;
 	
 	@Indexable(type=IndexableType.REINDEX)
 	public Researcher addResarcherWithUser(
@@ -302,7 +308,7 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 		return siteResearchers;
 	}
 	
-	public Researcher getResearcherByUserId(long userId) throws NoSuchResearcherException {
+	public Researcher getResearcherByUserId(long userId) throws NoSuchResearcherException {		
 		return super.researcherPersistence.findByResearcherUserId(userId);
 	}
 	
@@ -321,7 +327,7 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 		return hasPermission;
 	}
 	
-	public boolean checkAgreement(long groupId, long researcherId) throws NoSuchResearcherException {
+	public boolean checkAgreement(long researcherId) throws NoSuchResearcherException {
 		boolean agree = false;
 		Researcher researcher = super.researcherPersistence.findByPrimaryKey(researcherId);
 		
@@ -335,7 +341,7 @@ public class ResearcherLocalServiceImpl extends ResearcherLocalServiceBaseImpl {
 		return agree;
 	}
 	
-	public void updateAgreemnt(long roupId, long researcherId, boolean state) throws NoSuchResearcherException {
+	public void updateAgreemnt(long researcherId, boolean state) throws NoSuchResearcherException {
 		Researcher researcher = super.researcherPersistence.findByPrimaryKey(researcherId);
 		
 		if(state) {

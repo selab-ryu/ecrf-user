@@ -93,7 +93,7 @@ public interface ResearcherLocalService
 	public Researcher changeApproveStatus(long researcherId, int approveStatus)
 		throws PortalException;
 
-	public boolean checkAgreement(long groupId, long researcherId)
+	public boolean checkAgreement(long researcherId)
 		throws NoSuchResearcherException;
 
 	/**
@@ -333,7 +333,7 @@ public interface ResearcherLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public boolean hasPIPermission(long userId);
 
-	public void updateAgreemnt(long roupId, long researcherId, boolean state)
+	public void updateAgreemnt(long researcherId, boolean state)
 		throws NoSuchResearcherException;
 
 	/**

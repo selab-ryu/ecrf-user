@@ -52,4 +52,6 @@ public class ECRFUserMenuConstants {
     public static final String LIST_QUERY = "list-query";
     public static final String ADD_QUERY = "add-query";
     public static final String VALIDATE_QUERY = "validate-query";
+    
+    public static final String LOGIN = "login";
 }
