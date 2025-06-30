@@ -86,7 +86,7 @@ public class TagAttrUtil {
 				result = " inactive sidebar-not-move";
 				break;
 			case TYPE_ICON:
-				result = " inactive sidebar-not-move";
+        result = " inactive sidebar-not-move";
 				break;
 			default:
 				result = " inactive sidebar-not-move";
@@ -108,7 +108,7 @@ public class TagAttrUtil {
 				result = " active";
 				break;
 			case TYPE_ICON:
-				result = " active";
+        result = " active";
 				break;
 			default:
 				result = " active";
