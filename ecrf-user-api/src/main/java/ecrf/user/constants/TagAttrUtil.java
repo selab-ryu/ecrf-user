@@ -54,7 +54,6 @@ public class TagAttrUtil {
 		return result;
 	}
 	
-	// if false then return ' inactive'
 	public static String inactive(boolean isActive) {
 		return isActive ? "" : " inactive";
 	}
