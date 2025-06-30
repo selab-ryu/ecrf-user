@@ -1,8 +1,14 @@
 package ecrf.user.constants;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+
 public class ECRFUserMVCCommand {
 	public static final String RENDER_LOGIN_CREATE_ACCOUNT = "/login/create_account";
 	public static final String RENDER_USERS_ADMIN_EDIT_USER = "/users_admin/edit_user";	
+	public static final String ACTION_AGREEMENT = "/action/account/agreement";
+	
+	public static final String ACTION_LOGIN = "/login/login";
 	
 	public static final String ACTION_ADD_RESEARCHER = "/action/researcher/add-researcher";
 	public static final String ACTION_UPDATE_RESEARCHER = "/action/researcher/update-researcher";
@@ -12,6 +18,7 @@ public class ECRFUserMVCCommand {
 	public static final String RENDER_UPDATE_RESEARCHER = "/render/researcher/update-researcher";
 	public static final String RENDER_ADD_RESEARCHER = "/render/researcher/add-researcher";
 	public static final String RENDER_VIEW_PRIVACY_AGREEMENT = "/render/researcher/view-privacy-agreement";
+	public static final String RENDER_VIEW_AGREEMENT = "/render/researcher/view-agreement";
 	
 	public static final String RENDER_VIEW_PROJECT = "/render/project/view-project";
 	public static final String RENDER_ADD_PROJECT = "/render/project/add-project";
@@ -142,9 +149,30 @@ public class ECRFUserMVCCommand {
 	public static String getRenderCommandByMenu(String menu) {
 		String command = "";
 		
-		if(menu.equals("list-crf-data")) command = RENDER_LIST_CRF_DATA;
+		_log.info(menu);
+		
+		if(menu.equals(ECRFUserMenuConstants.UPDATE_CRF)) command = RENDER_UPDATE_CRF;
+		
+		if(menu.equals(ECRFUserMenuConstants.MANAGE_FORM)) command = RENDER_MANAGE_FORM;
+		
+		if(menu.equals(ECRFUserMenuConstants.LIST_CRF_DATA)) command = RENDER_LIST_CRF_DATA;
+		if(menu.equals(ECRFUserMenuConstants.ADD_CRF_DATA)) command = RENDER_LIST_CRF_DATA;
+		if(menu.equals(ECRFUserMenuConstants.UPDATE_CRF_DATA)) command = RENDER_LIST_CRF_DATA;
+		if(menu.equals(ECRFUserMenuConstants.VIEW_CRF_DATA)) command = RENDER_LIST_CRF_DATA;
+		
+		if(menu.equals(ECRFUserMenuConstants.LIST_HISTORY)) command = RENDER_LIST_CRF_DATA_HISTORY;
+		
+		if(menu.equals(ECRFUserMenuConstants.EXCEL_DOWNLOAD)) command = RENDER_CRF_DATA_EXCEL_DOWNLOAD;
+		
+		if(menu.equals(ECRFUserMenuConstants.SEARCH_CRF_DATA)) command = RENDER_SEARCH_CRF_DATA;
+		
+		if(menu.equals(ECRFUserMenuConstants.LIST_QUERY)) command = RENDER_LIST_CRF_QUERY;
+		if(menu.equals(ECRFUserMenuConstants.VALIDATE_QUERY)) command = RENDER_LIST_CRF_QUERY;
+		
+		_log.info(command);
 		
 		return command; 
 	}
 	
+	private static Log _log = LogFactoryUtil.getLog(ECRFUserMVCCommand.class);
 }

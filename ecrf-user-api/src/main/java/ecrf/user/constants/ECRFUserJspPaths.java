@@ -32,7 +32,7 @@ public class ECRFUserJspPaths {
 	public static final String JSP_VIEW_PRIVACY_AGREEMENT = JSP_ROOT_RESEARCHER + "privacy-agreement.jsp";
 
 	public static final String JSP_ADMIN_UPDATE_RESEARCHER = JSP_ROOT_RESEARCHER + "admin-update-researcher.jsp";
-	
+		
 	public static final String JSP_ROOT_SUBJECT = "/html/subject/";
 	public static final String JSP_LIST_SUBJECT = JSP_ROOT_SUBJECT + "list-subject.jsp";
 	public static final String JSP_LIST_SUBJECT_UPDATE = JSP_ROOT_SUBJECT + "list-subject-update.jsp";
@@ -102,4 +102,7 @@ public class ECRFUserJspPaths {
 	
 	public static final String JSP_ROOT_MY_INFO = "/html/my-info/";
 	public static final String JSP_UPDATE_INFO = JSP_ROOT_MY_INFO + "update-info.jsp";
+	
+	public static final String JSP_ROOT_POLICY = "/html/policy/";
+	public static final String JSP_VIEW_CHECK_AGREEMENT = JSP_ROOT_POLICY + "check-agreement.jsp";
 }
