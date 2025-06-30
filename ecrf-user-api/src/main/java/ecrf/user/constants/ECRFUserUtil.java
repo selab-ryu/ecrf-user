@@ -194,4 +194,15 @@ public class ECRFUserUtil {
         } 
         return result;
 	}
+	
+	public static String getLogMsg(String msg, String del, Object... var) {
+		String log = msg;
+		
+		for(Object obj : var) {
+			log += obj.toString();
+			log += del;
+		}
+		
+		return log;
+	}
 }

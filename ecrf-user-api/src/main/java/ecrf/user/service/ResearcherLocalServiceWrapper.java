@@ -81,10 +81,10 @@ public class ResearcherLocalServiceWrapper
 	}
 
 	@Override
-	public boolean checkAgreement(long groupId, long researcherId)
+	public boolean checkAgreement(long researcherId)
 		throws ecrf.user.exception.NoSuchResearcherException {
 
-		return _researcherLocalService.checkAgreement(groupId, researcherId);
+		return _researcherLocalService.checkAgreement(researcherId);
 	}
 
 	/**
@@ -431,10 +431,10 @@ public class ResearcherLocalServiceWrapper
 	}
 
 	@Override
-	public void updateAgreemnt(long roupId, long researcherId, boolean state)
+	public void updateAgreemnt(long researcherId, boolean state)
 		throws ecrf.user.exception.NoSuchResearcherException {
 
-		_researcherLocalService.updateAgreemnt(roupId, researcherId, state);
+		_researcherLocalService.updateAgreemnt(researcherId, state);
 	}
 
 	/**

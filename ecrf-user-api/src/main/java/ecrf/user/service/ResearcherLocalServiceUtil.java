@@ -86,10 +86,10 @@ public class ResearcherLocalServiceUtil {
 		return getService().changeApproveStatus(researcherId, approveStatus);
 	}
 
-	public static boolean checkAgreement(long groupId, long researcherId)
+	public static boolean checkAgreement(long researcherId)
 		throws ecrf.user.exception.NoSuchResearcherException {
 
-		return getService().checkAgreement(groupId, researcherId);
+		return getService().checkAgreement(researcherId);
 	}
 
 	/**
@@ -387,11 +387,10 @@ public class ResearcherLocalServiceUtil {
 		return getService().hasPIPermission(userId);
 	}
 
-	public static void updateAgreemnt(
-			long roupId, long researcherId, boolean state)
+	public static void updateAgreemnt(long researcherId, boolean state)
 		throws ecrf.user.exception.NoSuchResearcherException {
 
-		getService().updateAgreemnt(roupId, researcherId, state);
+		getService().updateAgreemnt(researcherId, state);
 	}
 
 	/**
