@@ -91,6 +91,11 @@ public class ECRFUserJspPaths {
 	public static final String JSP_DIALOG_CRF_DATA_AUDIT = JSP_ROOT_CRF_DATA_DIALOG + "dialog-audit.jsp";
 	public static final String JSP_DIALOG_CRF_DATA_GRAPH = JSP_ROOT_CRF_DATA_DIALOG + "dialog-graph.jsp";
 	
+	public static final String JSP_ROOT_TEETH = "/html/crf-data/teeth/";
+	public static final String JSP_LIST_TEETH_DATA = JSP_ROOT_TEETH + "list-teeth-data.jsp";
+	public static final String JSP_VIEW_TEETH_DATA = JSP_ROOT_TEETH + "view-teeth-data.jsp";
+	
+	
 	public static final String JSP_ROOT_CRF_FORM = "/html/crf-form/";
 	public static final String JSP_MANAGE_FORM = JSP_ROOT_CRF_FORM + "manage-form.jsp";
 	public static final String JSP_PDF_DOWNLOAD = JSP_ROOT_CRF_FORM + "pdf-download.jsp";

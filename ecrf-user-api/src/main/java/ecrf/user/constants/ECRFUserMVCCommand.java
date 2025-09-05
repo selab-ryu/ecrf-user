@@ -131,6 +131,13 @@ public class ECRFUserMVCCommand {
 	public static final String RENDER_SEARCH_CRF_DATA = "/render/crf-data/search-crf-data";
 	public static final String ACTION_REDIRECT_EXCEL_DOWNLOAD = "/action/crf-data/excel-redirect";
 	
+	public static final String RENDER_LIST_TEETH_DATA = "/render/crf-data/list-teeth-data";
+	public static final String RENDER_VIEW_TEETH_DATA = "/render/crf-data/view-teeth-data";
+	
+	public static final String ACTION_ADD_TEETH_TREATMENT = "/action/crf-data/add-teeth-treatment";
+	public static final String ACTION_UPDATE_TEETH_TREATMENT = "/action/crf-data/update-teeth-treatment";
+	public static final String ACTION_DELETE_TEETH_TREATMENT = "/action/crf-data/delete-teeth-treatment";
+	
 	public static final String RENDER_LIST_CRF_QUERY = "/render/crf-query/query-list";
 	public static final String RENDER_UPDATE_CRF_QUERY = "/render/crf-query/query-edit";
 	
@@ -149,7 +156,7 @@ public class ECRFUserMVCCommand {
 	public static String getRenderCommandByMenu(String menu) {
 		String command = "";
 		
-		_log.info(menu);
+		//_log.info(menu);
 		
 		if(menu.equals(ECRFUserMenuConstants.UPDATE_CRF)) command = RENDER_UPDATE_CRF;
 		
@@ -169,7 +176,9 @@ public class ECRFUserMVCCommand {
 		if(menu.equals(ECRFUserMenuConstants.LIST_QUERY)) command = RENDER_LIST_CRF_QUERY;
 		if(menu.equals(ECRFUserMenuConstants.VALIDATE_QUERY)) command = RENDER_LIST_CRF_QUERY;
 		
-		_log.info(command);
+		if(menu.equals(ECRFUserMenuConstants.LIST_TEETH_DATA)) command = RENDER_LIST_TEETH_DATA;
+		if(menu.equals(ECRFUserMenuConstants.VIEW_TEETH_DATA)) command = RENDER_LIST_TEETH_DATA;
+		//_log.info(command);
 		
 		return command; 
 	}
