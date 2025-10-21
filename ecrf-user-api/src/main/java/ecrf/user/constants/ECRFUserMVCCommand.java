@@ -117,6 +117,10 @@ public class ECRFUserMVCCommand {
 	
 	public static final String RENDER_DIALOG_AUDIT = "/render/crf-data/dialog-audit";
 	
+	public static final String RESOURCE_ADD_TREATMENT = "resource/teeth/add-treatment";
+	public static final String RESOURCE_EDIT_TREATMENT = "/resource/teeth/edit-treatment";
+	public static final String RESOURCE_DELETE_TREATMENT = "/resource/teeth/delete-treatment";
+	
 	public static final String RENDER_DIALOG_CRF = "/render/crf-data/crf-data-selector";
 	public static final String RENDER_DIALOG_HISTORY = "/render/crf-data/dialog-history";
 	public static final String RENDER_DIALOG_CRF_DATA_GRAPH = "/render/crf-data/dialog-graph";
@@ -125,6 +129,7 @@ public class ECRFUserMVCCommand {
 	public static final String RENDER_LIST_CRF_DATA_HISTORY = "/render/crf-data/list-history";
 	public static final String RENDER_VIEW_CRF_DATA_HISTORY = "/render/crf-data/view-history";
 	
+	public static final String ACTION_LOAD_CRF_DATA = "/action/crf-data/load-crf-data";
 	public static final String ACTION_DELETE_ALL_CRF_HISTORY = "/action/crf-data/delete-all-history";
 	
 	public static final String RENDER_CRF_DATA_EXCEL_DOWNLOAD = "/render/crf-data/excel-download";
