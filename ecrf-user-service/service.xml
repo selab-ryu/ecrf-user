@@ -386,7 +386,7 @@
 			<finder-column name="linkId" />
 		</finder>
 		
-				<finder name="StructuredDataId" return-type="LinkCRF">
+		<finder name="StructuredDataId" return-type="LinkCRF">
 			<finder-column name="structuredDataId" />
 		</finder>
 				

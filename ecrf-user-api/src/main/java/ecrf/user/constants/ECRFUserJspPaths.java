@@ -21,6 +21,8 @@ public class ECRFUserJspPaths {
 	public static final String JSP_ROOT_MAIN = "/html/main/";
 	public static final String JSP_VIEW_SITE = JSP_ROOT_MAIN + "view-site.jsp";
 	public static final String JSP_REQUEST_MEMBERSHIP = JSP_ROOT_MAIN + "request-membership.jsp";
+	public static final String JSP_REQUEST_SELF_SITE = JSP_ROOT_MAIN + "request-self-site.jsp";
+	
 
 	
 	public static final String JSP_ROOT_RESEARCHER = "/html/researcher/";
