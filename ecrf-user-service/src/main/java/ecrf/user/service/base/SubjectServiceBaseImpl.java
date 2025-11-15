@@ -38,6 +38,7 @@ import ecrf.user.service.persistence.LinkCRFPersistence;
 import ecrf.user.service.persistence.ProjectPersistence;
 import ecrf.user.service.persistence.ResearcherFinder;
 import ecrf.user.service.persistence.ResearcherPersistence;
+import ecrf.user.service.persistence.SelfSiteRequestPersistence;
 import ecrf.user.service.persistence.SubjectFinder;
 import ecrf.user.service.persistence.SubjectPersistence;
 
@@ -174,6 +175,9 @@ public abstract class SubjectServiceBaseImpl
 
 	@Reference
 	protected ResearcherFinder researcherFinder;
+
+	@Reference
+	protected SelfSiteRequestPersistence selfSiteRequestPersistence;
 
 	@Reference
 	protected ecrf.user.service.SubjectLocalService subjectLocalService;

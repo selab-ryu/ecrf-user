@@ -47,9 +47,10 @@ public class ECRFUserMVCCommand {
 	public static final String RENDER_VIEW_SITE = "/render/main/view-site";
 	public static final String RENDER_REQUEST_MEMBERSHIP = "/render/main/request-membership";
 	public static final String RENDER_REQUEST_SELF_SITE = "/render/main/request-self-site";
+	public static final String RENDER_LIST_SELF_SITE_REQUEST = "/render/main/list-self-site-request";
 	public static final String ACTION_REQUEST_MEMBERSHIP = "/action/main/request-membership";
 	public static final String ACTION_ADD_MEMBERSHIP_REQUEST = "/action/main/add-membership-request";
-	
+	public static final String ACTION_ADD_SELF_SITE_REQUEST = "/action/main/add-self-site-request";
 	
 	public static final String ACTION_REDIRECT_UPDATE_CRF = "/action/dashboard/redirect-update-crf";
 	public static final String ACTION_REDIRECT_CRF_FORM = "/action/dashboard/redirect-crf-form";

@@ -714,4 +714,38 @@
 		<reference entity="WorkflowInstanceLink" package-path="com.liferay.portal" />
 	</entity>
 	
+	<entity name="SelfSiteRequest" local-service="true" remote-service="true" uuid="true">
+
+		<!-- PK fields -->
+		<column name="selfSiteRequestId" primary="true" type="long"/>
+
+		<!-- Group instance -->
+		<column name="groupId" type="long"/>
+
+		<!-- Audit fields -->
+		<column name="companyId" type="long"/>
+		<column name="userId" type="long"/>
+		<column name="userName" type="String"/>
+		<column name="createDate" type="Date"/>
+		<column name="modifiedDate" type="Date"/>
+		
+		<column name="email" type="String"/>
+		<column name="lastName" type="String"/>
+		<column name="firstName" type="String"/>
+		<column name="phone" type="String"/>
+		<column name="projectTitle" type="String"/>
+		<column name="projectDescription" type="String"/>
+		
+		<!-- Order -->
+		<order>
+			<order-column name="selfSiteRequestId" order-by="desc" />
+			<order-column name="createDate" order-by="desc" />
+		</order>
+		
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
+		
+	</entity>
+
 </service-builder>
