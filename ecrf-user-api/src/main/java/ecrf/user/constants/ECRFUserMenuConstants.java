@@ -47,6 +47,8 @@ public class ECRFUserMenuConstants {
     public static final String LIST_HISTORY = "list-history";
     public static final String EXCEL_DOWNLOAD = "excel-download";
     public static final String SEARCH_CRF_DATA = "search-crf-data";
+    public static final String LIST_TEETH_DATA = "list-teeth-data";
+    public static final String VIEW_TEETH_DATA = "view-teeth-data";
     
     public static final String CRF_QUERY = "crf-query";
     public static final String LIST_QUERY = "list-query";

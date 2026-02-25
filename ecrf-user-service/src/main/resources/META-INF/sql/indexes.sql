@@ -63,6 +63,10 @@ create index IX_6B1E9B55 on EC_Researcher (status);
 create index IX_8AC15FA3 on EC_Researcher (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_4B5372E5 on EC_Researcher (uuid_[$COLUMN_LENGTH:75$], groupId);
 
+create index IX_8AD38829 on EC_SelfSiteRequest (groupId);
+create index IX_33C0ED55 on EC_SelfSiteRequest (uuid_[$COLUMN_LENGTH:75$], companyId);
+create unique index IX_69DEC517 on EC_SelfSiteRequest (uuid_[$COLUMN_LENGTH:75$], groupId);
+
 create unique index IX_BB115A7C on EC_Subject (groupId, serialId[$COLUMN_LENGTH:75$]);
 create index IX_E216A70 on EC_Subject (name[$COLUMN_LENGTH:75$]);
 create index IX_CEC21B25 on EC_Subject (uuid_[$COLUMN_LENGTH:75$], companyId);

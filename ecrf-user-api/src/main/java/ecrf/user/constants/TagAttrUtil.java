@@ -108,7 +108,7 @@ public class TagAttrUtil {
 				result = " active";
 				break;
 			case TYPE_ICON:
-        result = " active";
+				result = " active";
 				break;
 			default:
 				result = " active";
