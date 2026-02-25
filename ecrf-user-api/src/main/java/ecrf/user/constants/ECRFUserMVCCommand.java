@@ -46,9 +46,11 @@ public class ECRFUserMVCCommand {
 	
 	public static final String RENDER_VIEW_SITE = "/render/main/view-site";
 	public static final String RENDER_REQUEST_MEMBERSHIP = "/render/main/request-membership";
+	public static final String RENDER_REQUEST_SELF_SITE = "/render/main/request-self-site";
+	public static final String RENDER_LIST_SELF_SITE_REQUEST = "/render/main/list-self-site-request";
 	public static final String ACTION_REQUEST_MEMBERSHIP = "/action/main/request-membership";
 	public static final String ACTION_ADD_MEMBERSHIP_REQUEST = "/action/main/add-membership-request";
-	
+	public static final String ACTION_ADD_SELF_SITE_REQUEST = "/action/main/add-self-site-request";
 	
 	public static final String ACTION_REDIRECT_UPDATE_CRF = "/action/dashboard/redirect-update-crf";
 	public static final String ACTION_REDIRECT_CRF_FORM = "/action/dashboard/redirect-crf-form";
@@ -117,6 +119,10 @@ public class ECRFUserMVCCommand {
 	
 	public static final String RENDER_DIALOG_AUDIT = "/render/crf-data/dialog-audit";
 	
+	public static final String RESOURCE_ADD_TREATMENT = "resource/teeth/add-treatment";
+	public static final String RESOURCE_EDIT_TREATMENT = "/resource/teeth/edit-treatment";
+	public static final String RESOURCE_DELETE_TREATMENT = "/resource/teeth/delete-treatment";
+	
 	public static final String RENDER_DIALOG_CRF = "/render/crf-data/crf-data-selector";
 	public static final String RENDER_DIALOG_HISTORY = "/render/crf-data/dialog-history";
 	public static final String RENDER_DIALOG_CRF_DATA_GRAPH = "/render/crf-data/dialog-graph";
@@ -125,11 +131,19 @@ public class ECRFUserMVCCommand {
 	public static final String RENDER_LIST_CRF_DATA_HISTORY = "/render/crf-data/list-history";
 	public static final String RENDER_VIEW_CRF_DATA_HISTORY = "/render/crf-data/view-history";
 	
+	public static final String ACTION_LOAD_CRF_DATA = "/action/crf-data/load-crf-data";
 	public static final String ACTION_DELETE_ALL_CRF_HISTORY = "/action/crf-data/delete-all-history";
 	
 	public static final String RENDER_CRF_DATA_EXCEL_DOWNLOAD = "/render/crf-data/excel-download";
 	public static final String RENDER_SEARCH_CRF_DATA = "/render/crf-data/search-crf-data";
 	public static final String ACTION_REDIRECT_EXCEL_DOWNLOAD = "/action/crf-data/excel-redirect";
+	
+	public static final String RENDER_LIST_TEETH_DATA = "/render/crf-data/list-teeth-data";
+	public static final String RENDER_VIEW_TEETH_DATA = "/render/crf-data/view-teeth-data";
+	
+	public static final String ACTION_ADD_TEETH_TREATMENT = "/action/crf-data/add-teeth-treatment";
+	public static final String ACTION_UPDATE_TEETH_TREATMENT = "/action/crf-data/update-teeth-treatment";
+	public static final String ACTION_DELETE_TEETH_TREATMENT = "/action/crf-data/delete-teeth-treatment";
 	
 	public static final String RENDER_LIST_CRF_QUERY = "/render/crf-query/query-list";
 	public static final String RENDER_UPDATE_CRF_QUERY = "/render/crf-query/query-edit";
@@ -149,7 +163,7 @@ public class ECRFUserMVCCommand {
 	public static String getRenderCommandByMenu(String menu) {
 		String command = "";
 		
-		_log.info(menu);
+		//_log.info(menu);
 		
 		if(menu.equals(ECRFUserMenuConstants.UPDATE_CRF)) command = RENDER_UPDATE_CRF;
 		
@@ -169,7 +183,9 @@ public class ECRFUserMVCCommand {
 		if(menu.equals(ECRFUserMenuConstants.LIST_QUERY)) command = RENDER_LIST_CRF_QUERY;
 		if(menu.equals(ECRFUserMenuConstants.VALIDATE_QUERY)) command = RENDER_LIST_CRF_QUERY;
 		
-		_log.info(command);
+		if(menu.equals(ECRFUserMenuConstants.LIST_TEETH_DATA)) command = RENDER_LIST_TEETH_DATA;
+		if(menu.equals(ECRFUserMenuConstants.VIEW_TEETH_DATA)) command = RENDER_LIST_TEETH_DATA;
+		//_log.info(command);
 		
 		return command; 
 	}

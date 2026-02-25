@@ -21,7 +21,9 @@ public class ECRFUserJspPaths {
 	public static final String JSP_ROOT_MAIN = "/html/main/";
 	public static final String JSP_VIEW_SITE = JSP_ROOT_MAIN + "view-site.jsp";
 	public static final String JSP_REQUEST_MEMBERSHIP = JSP_ROOT_MAIN + "request-membership.jsp";
-
+	public static final String JSP_REQUEST_SELF_SITE = JSP_ROOT_MAIN + "request-self-site.jsp";
+	public static final String JSP_LIST_SELF_SITE_REQUEST = JSP_ROOT_MAIN + "list-self-site-request.jsp";
+	
 	
 	public static final String JSP_ROOT_RESEARCHER = "/html/researcher/";
 	public static final String JSP_LIST_RESEARCHER = JSP_ROOT_RESEARCHER + "list-researcher.jsp";
@@ -90,6 +92,11 @@ public class ECRFUserJspPaths {
 	public static final String JSP_DIALOG_CRF_DATA_VERSION = JSP_ROOT_CRF_DATA_DIALOG + "crf-data-selector.jsp";
 	public static final String JSP_DIALOG_CRF_DATA_AUDIT = JSP_ROOT_CRF_DATA_DIALOG + "dialog-audit.jsp";
 	public static final String JSP_DIALOG_CRF_DATA_GRAPH = JSP_ROOT_CRF_DATA_DIALOG + "dialog-graph.jsp";
+	
+	public static final String JSP_ROOT_TEETH = "/html/crf-data/teeth/";
+	public static final String JSP_LIST_TEETH_DATA = JSP_ROOT_TEETH + "list-teeth-data.jsp";
+	public static final String JSP_VIEW_TEETH_DATA = JSP_ROOT_TEETH + "view-teeth-data.jsp";
+	
 	
 	public static final String JSP_ROOT_CRF_FORM = "/html/crf-form/";
 	public static final String JSP_MANAGE_FORM = JSP_ROOT_CRF_FORM + "manage-form.jsp";
